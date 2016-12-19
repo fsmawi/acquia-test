@@ -31,4 +31,6 @@ target-hooks:
         dir: '${docroot}'
         command: 'echo ''No post-setup build configured.'''
 import: null
-
+disable-targets:
+  tests:
+    security-updates: true
