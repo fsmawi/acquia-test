@@ -5,6 +5,10 @@ import {DebugElement} from '@angular/core';
 
 import {JobsDetailComponent} from './jobs-detail.component';
 import {MaterialModule} from '@angular/material';
+import {MomentModule} from 'angular2-moment';
+import {PipelinesService} from '../../core/services/pipelines.service';
+import {ErrorService} from '../../core/services/error.service';
+import {RouterTestingModule} from '@angular/router/testing';
 
 describe('JobsDetailComponent', () => {
   let component: JobsDetailComponent;
@@ -13,7 +17,8 @@ describe('JobsDetailComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [JobsDetailComponent],
-      imports: [MaterialModule.forRoot()]
+      imports: [MaterialModule.forRoot(), MomentModule, RouterTestingModule],
+      providers: [PipelinesService, ErrorService]
     })
       .compileComponents();
   }));

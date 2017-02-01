@@ -1,40 +1,63 @@
-<md-card>
-  <h1><a routerLink="/jobs/app-id">
-    <md-icon>chevron_left</md-icon>
-  </a>&nbsp;Job 1
-  </h1>
-  <h2><em>In Progress</em></h2>
-  <md-progress-bar mode="indeterminate"></md-progress-bar>
-  <div id="logs">
-    <div class="item" *ngFor="let log of logs">
-      <table class="full-width">
-        <tr>
-          <td>
-            <div class="chevron">
-              <button class="drop" md-button (click)="selectedLog = selectedLog == log ? null : log">
-                <md-icon>expand_more</md-icon>
-              </button>
+<md-progress-bar *ngIf="loadingJob && !job" mode="indeterminate">
+</md-progress-bar>
+
+<div *ngIf="job">
+  <md-card [class]="job.isFailed ? 'bg-danger' : job.isSucceeded ? 'bg-success' : 'bg-primary'">
+    <div class="flex-container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start center"
+         fxLayoutAlign.xs="start start">
+
+      <div id="back" class="flex-item" fxFlex="5%" fxHide.xs="TRUE">
+        <button md-icon-button routerLink="/jobs/app-id">
+          <md-icon class="white">chevron_left</md-icon>
+        </button>
+      </div>
+
+      <div id="metaData" class="flex-item meta" fxFlex="95%" fxFlex.xs="50%">
+        <div class="flex-container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center center"
+             fxLayoutAlign.xs="center start">
+
+          <div id="metaBuildInfo" class="flex-item" fxFlex="60%" fxFlex.xs="100%">
+            <i class="header"> Branch </i> <br/>
+            <i class="value"> {{job.branch}} </i> <br/>
+            <i class="header"> Commit </i> <br/>
+            <i class="value"> {{job.commit ? job.commit : 'Information not available'}} </i><br/>
+            <i class="header"> Status </i> <br/>
+            <i class="value"> {{job.message}} </i> <br/>
+          </div>
+
+          <div id="metaBuildTimeInfo" class="flex-item" fxFlex="40%" fxFlex.xs="100%">
+            <div class="flex-container" fxLayout="row" fxLayout.xs="row" fxLayoutAlign="center center"
+                 fxLayoutAlign.xs="start center">
+              <div id="metaTime" class="flex-item" fxFlex="80%" fxFlex.xs="100%">
+                <i class="header"> Duration </i> <br/>
+                <i class="value"> {{job.duration | amDuration:'seconds'}} </i> <br/>
+                <i class="header"> Started at </i> <br/>
+                <i class="value"> {{job.started_at | amDateFormat:'LL HH:mmA'}} </i><br/>
+                <i class="header" *ngIf="job.isFinished"> Finished at </i> <br/>
+                <i class="value" *ngIf="job.isFinished"> {{job.finished_at | amDateFormat:'LL HH:mmA'}} </i><br/>
+              </div>
+
+              <div class="flex-item" fxFlex="20%" fxHide.xs="TRUE">
+                <i class="material-icons md-48 white">{{job.isFailed ? 'error_outline' : job.isSucceeded ? 'done' :
+                  'timelapse'}}</i>
+              </div>
             </div>
-          </td>
-          <td>
-            <div class="log">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</div>
-          </td>
-        </tr>
-      </table>
-      <div class="log-detail" *ngIf="selectedLog == log">
-        <pre>
-Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-Amet aperiam aspernatur consectetur consequatur, cumque delectus enim,
-eum fugiat laborum libero modi molestias nemo quidem quod rerum veritatis
-vitae! Beatae doloremque eos esse eveniet excepturi in itaque nihil numquam
-provident quos ratione recusandae, repellendus rerum sequi voluptatem?
-Debitis dolor esse ipsa nostrum similique temporibus voluptatum?
-Aperiam asperiores commodi deleniti, dolorem doloribus, fugit illum,
-laborum necessitatibus non obcaecati quidem recusandae rem ullam voluptas voluptates.
-Accusantium alias culpa cum debitis delectus dolorem esse exercitationem
-facilis harum id illum incidunt ipsam magnam, minus mollitia nesciunt,
-nostrum numquam obcaecati recusandae repellendus repudiandae veniam voluptas. Veritatis?</pre>
+          </div>
+        </div>
       </div>
     </div>
+  </md-card>
+  <md-progress-bar *ngIf="job.isUnfinished" mode="indeterminate"></md-progress-bar>
+  <div id="logs" *ngIf="logs && logs.length > 0">
+    <div class="log-detail">
+      <pre><i *ngFor="let log of logs">{{ log.timestamp | amDateFormat:'YYYY-MM-DD HH:mm:ss' }} [{{ log.level }}] {{log.message}} <br/></i>
+      </pre>
+    </div>
   </div>
-</md-card>
+  <md-card *ngIf="!logs || logs.length == 0" class="flex-container logs-empty bg-white" fxLayout="column"
+           fxLayoutAlign="center center" fxLayoutAlign.xs="start center">
+    <i class="material-icons md-48 gray"> warning</i>
+    <i class="logs-empty-text gray"> There are no logs yet for this job.
+      <br/> This page will update when the logs are available.</i>
+  </md-card>
+</div>

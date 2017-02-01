@@ -7,11 +7,11 @@
     "ng": "ng",
     "start": "echo PLEASE START MERVER at 3000 ie. npm run mock PATH_TO_YAML && ng serve --env=mock",
     "lint": "tslint \"src/**/*.ts\" --project src/tsconfig.json --type-check",
-    "test": "ng test",
+    "test": "ng test --watch=false",
     "mock": "merver",
     "mock:jobs": "merver test/api-mock-resources/jobs.yml",
     "mock:no-jobs": "merver test/api-mock-resources/no-jobs.yml",
-    "coverage": "ng test --code-coverage"
+    "coverage": "ng test --code-coverage --watch=false"
   },
   "private": true,
   "dependencies": {
@@ -43,6 +43,7 @@
     "karma-chrome-launcher": "^2.0.0",
     "karma-cli": "^1.0.1",
     "karma-jasmine": "^1.0.2",
+    "karma-phantomjs-launcher": "^1.0.2",
     "karma-remap-istanbul": "^0.2.1",
     "merver": "git+https://github.com/raghunat/merver.git",
     "protractor": "~4.0.13",

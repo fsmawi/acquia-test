@@ -1,6 +1,21 @@
 # PipelinesUx
 
-This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.26.
+## Quick Start
+1. clone the master branch
+2. `npm install`
+3. `npm start`
+4. In another terminal execute `npm run mock:jobs`
+5. In browser, visit http://localhost:4200/jobs/app-id
+
+
+### Errors that may occur in installation:
+`npm install` command may fail with the following error message when using windows:
+
+` MSBUILD : error MSB4132: The tools version "2.0" is unrecognized. Available tools versions are "4.0" `
+
+Set the following option and run npm install again...
+
+`npm config set msvs_version 2012 --global && npm install`
 
 ## Development server
 Run `npm start` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
@@ -15,18 +30,16 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
 
+## Linting
+Run `npm run lint` to lint the typescript code using tslint.
+
 ## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Run `npm test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
 ## Running end-to-end tests
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-Before running the tests make sure you are serving the app via `ng serve`.
-
-## Deploying to GitHub Pages
-
-Run `ng github-pages:deploy` to deploy to GitHub Pages.
+TODO
 
 ## Further help
 

@@ -25,7 +25,8 @@
         "source": "environments/environment.ts",
         "dev": "environments/environment.ts",
         "prod": "environments/environment.prod.ts",
-        "mock": "environments/environment.mock.ts"
+        "mock": "environments/environment.mock.ts",
+        "live-mock": "environments/environment.live-mock.ts"
       }
     }
   ],

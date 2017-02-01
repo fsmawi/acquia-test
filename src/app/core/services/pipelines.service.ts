@@ -20,8 +20,8 @@ export class PipelinesService {
     return this.promiseGetRequest(this.URI + `/ci/jobs/${jobId}`, params).then(r => r.job);
   }
 
-  getLogFile(jobId: string, params) {
-    return this.promiseGetRequest(this.URI + `/ci/jobs/${jobId}/get_logs`, params);
+  getLogFile(jobId: string, params = {}) {
+    return this.promiseGetRequest(this.URI + `/ci/jobs/${jobId}/get_logs`, params).then(r => r.logs);
   }
 
   promiseGetRequest(url, params) {

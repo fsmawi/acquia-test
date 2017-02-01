@@ -4,6 +4,7 @@ import {By} from '@angular/platform-browser';
 import {DebugElement} from '@angular/core';
 
 import {JobStatusComponent} from './job-status.component';
+import {MaterialModule} from '@angular/material';
 
 describe('JobStatusComponent', () => {
   let component: JobStatusComponent;
@@ -11,7 +12,8 @@ describe('JobStatusComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [JobStatusComponent]
+      declarations: [JobStatusComponent],
+      imports: [MaterialModule.forRoot()]
     })
       .compileComponents();
   }));

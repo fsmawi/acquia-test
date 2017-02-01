@@ -4,6 +4,10 @@ import {By} from '@angular/platform-browser';
 import {DebugElement} from '@angular/core';
 
 import {JobListComponent} from './job-list.component';
+import {SharedModule} from '../../shared/shared.module';
+import {MaterialModule} from '@angular/material';
+import {RouterModule} from '@angular/router';
+import {MomentModule} from 'angular2-moment';
 
 describe('JobListComponent', () => {
   let component: JobListComponent;
@@ -11,7 +15,8 @@ describe('JobListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [JobListComponent]
+      declarations: [JobListComponent],
+      imports: [MaterialModule.forRoot(), SharedModule, RouterModule, MomentModule]
     })
       .compileComponents();
   }));

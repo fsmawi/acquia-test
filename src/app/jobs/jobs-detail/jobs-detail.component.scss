@@ -11,8 +11,8 @@
 
 h2 {
   font-weight: lighter;
-  font-size: 14px;
-  color: #636363;
+  font-size: 16px;
+  color: #ffffff;
 }
 
 .chevron {
@@ -34,6 +34,32 @@ h2 {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  padding: 8px;
-  overflow: auto;
+  padding: 16px;
+}
+
+.logs-empty {
+  height: 70vh;
+}
+
+.logs-empty-text {
+  text-align: center;
+}
+
+.header {
+  font-size: smaller;
+  font-style: italic;
+}
+
+.value {
+  font-style: normal;
+  font-weight: lighter;
+  color: white;
+}
+
+.meta {
+  margin-left: 16px
+}
+
+.material-icons.md-48 {
+  font-size: 48px;
 }
