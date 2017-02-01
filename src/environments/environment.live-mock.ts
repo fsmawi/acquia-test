@@ -5,5 +5,7 @@
 
 export const environment = {
   production: true,
-  apiEndpoint: 'https://pipelines-api-mock-server.herokuapp.com'
+  apiEndpoint: 'https://pipelines-api-mock-server.herokuapp.com',
+  n3Key: '', // user supplied, or from cookies
+  n3Secret: '' // user supplied, or from cookies
 };

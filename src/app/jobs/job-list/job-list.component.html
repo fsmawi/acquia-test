@@ -16,7 +16,7 @@
     <td class="center">
       <app-job-status [status]="job.status"></app-job-status>
     </td>
-    <td class="center"><a routerLink="/jobs/{{job.sitename}}/{{job.job_id}}">{{job.job_id | slice:-8}}</a>
+    <td class="center"><a routerLink="/jobs/{{appId}}/{{job.job_id}}">{{job.job_id | slice:-8}}</a>
     </td>
     <td class="center">{{job.branch}}</td>
     <td class="hidden-sm-down">{{job.message}}</td>

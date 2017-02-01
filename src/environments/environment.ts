@@ -5,5 +5,7 @@
 
 export const environment = {
   production: false,
-  apiEndpoint: ''
+  apiEndpoint: '',
+  n3Key: '', // user supplied, or from cookies
+  n3Secret: '' // user supplied, or from cookies
 };

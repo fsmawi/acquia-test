@@ -18,6 +18,11 @@ export class JobsDetailComponent implements OnInit, OnDestroy {
   job: Job;
 
   /**
+   * The App ID of the current job from the route
+   */
+  appId: string;
+
+  /**
    * The desired Job ID from the route
    */
   jobId: string;
@@ -55,6 +60,7 @@ export class JobsDetailComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.route.params.subscribe(
       (params: Params) => {
+        this.appId = params['app'];
         this.jobId = params['id'];
         this.refresh();
       }
@@ -75,9 +81,9 @@ export class JobsDetailComponent implements OnInit, OnDestroy {
   refresh() {
     this.loadingJob = true;
     let job;
-    this.pipelineService.getJobByJobId(this.jobId)
+    this.pipelineService.getJobByJobId(this.appId, this.jobId)
       .then((j: Job) => job = new Job(j))
-      .then(() => this.pipelineService.getLogFile(this.jobId))
+      .then(() => this.pipelineService.getLogFile(this.appId, this.jobId))
       .then((logs: Array<JobLog>) => this.logs = logs)
       .then(() => this.job = job)
       .catch(e => this.errorHandler.apiError(e))

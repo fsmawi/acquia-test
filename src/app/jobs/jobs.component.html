@@ -15,8 +15,9 @@
   <md-tab-group>
     <md-tab label="Activity">
       <div class="content">
-        <md-progress-bar mode="indeterminate" *ngIf="loadingJobs" style="margin: 24px 0 24px 0;"></md-progress-bar>
-        <div id="loading-message" class="center" *ngIf="loadingJobs">
+        <md-progress-bar mode="indeterminate" *ngIf="loadingJobs && !jobs.length"
+                         style="margin: 24px 0 24px 0;"></md-progress-bar>
+        <div id="loading-message" class="center" *ngIf="loadingJobs && !jobs.length">
           <h2>Loading pipelines jobs</h2>
         </div>
 
@@ -27,7 +28,7 @@
         </div>
 
         <!--List of Jobs-->
-        <app-job-list [jobs]="jobs" *ngIf="!loadingJobs && jobs && jobs.length"></app-job-list>
+        <app-job-list [appId]="appId" [jobs]="jobs" *ngIf="jobs.length"></app-job-list>
       </div>
     </md-tab>
     <!--<md-tab label="Summary">-->
