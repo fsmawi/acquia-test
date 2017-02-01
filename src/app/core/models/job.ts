@@ -4,14 +4,6 @@
 export class Job {
 
   /**
-   * Creates a Job object
-   * @param obj {any} Base object to use
-   */
-  constructor(obj: any) {
-    Object.assign(this, obj);
-  }
-
-  /**
    * A Job's unique ID
    */
   job_id: string;
@@ -90,6 +82,14 @@ export class Job {
    STATUS_RUNNING ||= 'running'.freeze
    STATUS_PAUSED ||= 'paused'.freeze
    * */
+
+  /**
+   * Creates a Job object
+   * @param obj {any} Base object to use
+   */
+  constructor(obj: any) {
+    Object.assign(this, obj);
+  }
 
   /**
    * Returns a user friendly message about the job status

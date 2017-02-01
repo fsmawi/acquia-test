@@ -4,10 +4,10 @@ import {JobsRoutingModule} from './jobs-routing.module';
 import {JobsComponent} from './jobs.component';
 import {JobsDetailComponent} from './jobs-detail/jobs-detail.component';
 import {MaterialModule} from '@angular/material';
-import {MomentModule} from "angular2-moment";
+import {MomentModule} from 'angular2-moment';
 import {JobListComponent} from './job-list/job-list.component';
-import {SharedModule} from "../shared/shared.module";
-import {FlexLayoutModule} from "@angular/flex-layout";
+import {SharedModule} from '../shared/shared.module';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
 @NgModule({
   imports: [
