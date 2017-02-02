@@ -1,0 +1,78 @@
+stage 'Build'
+
+node {
+  try {
+    notifyBuild('STARTED')
+    
+    //stage 'install nodejs'
+    // sh 'curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash -'
+    // sh 'sudo apt-get install -y nodejs'
+     
+    stage 'Checkout'
+      checkout scm // get VCS
+      //git branch: 'master', credentialsId: '6354573c-281e-4b39-8a24-929f44e4965b', url: 'git@github.com:raghunat/pipelines-ui.git'
+
+    stage 'Install' // install all dependencies
+      sh 'npm install'
+
+    stage 'Lint' // adheres to code formatting and practices
+      sh 'npm run lint'
+
+    stage 'Run Unit Tests' // test services, produces coverage output
+      sh 'npm test'
+
+    //stage 'Run End To End Tests' // Selenium scripts
+    //  sh "npm run ${env.STAGE}-functional-test"
+
+    //stage 'Deploy' // use the hash as a semantic version
+    //  sh "npm run ${env.STAGE}-deploy ${env.GIT_COMMIT}"
+
+    //stage 'Rebase' // Only necessary for release, hotfix, and master, will rebase branches down to dev.
+    //  sh "npm run ${env.STAGE}-rebase"
+
+  } catch (e) {
+    // If there was an exception thrown, the build failed
+    currentBuild.result = "FAILED"
+    throw e
+  } finally {
+    // Success or failure, always send notifications
+    notifyBuild(currentBuild.result)
+  }
+}
+
+def notifyBuild(String buildStatus = 'STARTED') {
+  // build status of null means successful
+  buildStatus =  buildStatus ?: 'SUCCESSFUL'
+
+  // Default values
+  def colorName = 'RED'
+  def colorCode = '#FF0000'
+  def subject = "${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
+  def summary = "${subject} (${env.BUILD_URL})"
+  def details = """<p>STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
+    <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>"""
+
+  // Override default values based on build status
+  if (buildStatus == 'STARTED') {
+    color = 'YELLOW'
+    colorCode = '#FFFF00'
+  } else if (buildStatus == 'SUCCESSFUL') {
+    color = 'GREEN'
+    colorCode = '#00FF00'
+  } else {
+    color = 'RED'
+    colorCode = '#FF0000'
+  }
+
+  // Send notifications
+  //slackSend (color: colorCode, message: summary)
+  
+  // send to HipChat
+  //  hipchatSend (color: color, notify: true, message: summary)
+
+  //emailext (
+  //    subject: subject,
+  //    body: details,
+  //    recipientProviders: [[$class: 'DevelopersRecipientProvider']]
+   // )
+}
