@@ -1,0 +1,16 @@
+////
+/// Functions that are deprecated in favor of other functions.
+///
+/// @group core
+////
+
+// To be removed in v0.1.0
+// ----------------------------------------------------------------------------
+
+@function color-get($family, $variant, $palette: $palette) {
+
+  @warn 'color-get() has been deprecated in favor of get-color() and will be removed in version 0.1.0 of elemental-core.';
+
+  @return get-color($family, $variant, $palette);
+
+}

@@ -1,0 +1,63 @@
+////
+/// Units for unified spacing.
+///
+/// @group core
+////
+
+/// The base unit for determining vertical rhythm.
+///
+/// @type Number (rem)
+$rhythm-unit: px-to-relative(rhythm-unit()) !default;
+
+// Spacing
+// ----------------------------------------------------------------------------
+
+/// The amount of top spacing for a block item using the default font size. This
+/// is typically applied via a padding attribute.
+///
+/// @type Number (rem)
+$spacing-top: rhythm-top() !default;
+
+/// The amount of bottom spacing for a block item using the default font size.
+/// This is typically applied via a margin attribute.
+///
+/// @type Number (rem)
+$spacing-bottom: rhythm-bottom() !default;
+
+/// The amount of horizontal space between columns of content.
+///
+/// @type Number (rem)
+$spacing-horizontal: rem-whole-pixel($line-height-base * 1rem) !default;
+
+/// Horizontal space between inline blocks of content.
+///
+/// @type Number (rem)
+$spacing-horizontal-small: $rhythm-unit !default;
+
+/// Horizontal space between inline blocks of content.
+///
+/// @type Number (rem)
+$spacing-horizontal-extra-small: rem-whole-pixel($spacing-horizontal / 4) !default;
+
+// Border widths
+// ----------------------------------------------------------------------------
+
+/// Default border width
+///
+/// @type Number (rem)
+$border-width-base: rem-whole-pixel(.08rem) !default;
+
+/// Medium border width
+///
+/// @type Number (rem)
+$border-width-medium: rem-whole-pixel($rhythm-unit / 4) !default;
+
+/// Default border radius
+///
+/// @type Number (rem)
+$border-radius-base: rem-whole-pixel(.2rem) !default;
+
+/// Small border radius
+///
+/// @type Number (rem)
+$border-radius-small: rem-whole-pixel(.05rem) !default;

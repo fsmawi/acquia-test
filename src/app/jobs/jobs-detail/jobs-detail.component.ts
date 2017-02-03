@@ -97,7 +97,8 @@ export class JobsDetailComponent implements OnInit, OnDestroy {
         if (this.job.isFinished && this.timer) {
           clearInterval(this.timer);
           this.timer = null;
-        }})
+        }
+      })
       .catch(e => this.errorHandler.apiError(e))
       .then(() => this.loadingJob = false);
   }

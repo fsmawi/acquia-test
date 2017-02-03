@@ -1,0 +1,627 @@
+////
+/// Define the core color palette
+///
+/// @group core
+////
+
+// Default color settings
+// ---------------------------------------------------------------------------
+
+/// The root neutral color to expand into a palette.
+$color-neutral-base: #888888 !default;
+
+/// The root backer_green color to expand into a palette.
+$color-backer_green-base: #39ff14 !default;
+
+/// Map of colors available to the framework. This is the default palette map
+/// fed to the get-color() function.
+///
+/// The color variants are grouped into families. The variants are numbered and
+/// that number is determined by brightness. It should be similar in level to
+/// the corresponding neutral shade.
+///
+/// @prop {Map} monotone
+///   A family that holds true version of white and black.
+/// @prop {Color} monotone.0 [#ffffff]
+///   True white.
+/// @prop {Color} monotone.13 [#000000]
+///   True black.
+/// @prop {Map} neutral
+///   Varying shades of gray.
+/// @prop {Color} neutral.0 [#f5f5f5]
+/// @prop {Color} neutral.1 [#eeeeee]
+/// @prop {Color} neutral.2 [#dddddd]
+/// @prop {Color} neutral.3 [#cccccc]
+/// @prop {Color} neutral.4 [#bbbbbb]
+/// @prop {Color} neutral.5 [#aaaaaa]
+/// @prop {Color} neutral.6 [#999999]
+/// @prop {Color} neutral.7 [#888888]
+/// @prop {Color} neutral.8 [#777777]
+/// @prop {Color} neutral.9 [#666666]
+/// @prop {Color} neutral.10 [#555555]
+/// @prop {Color} neutral.11 [#444444]
+/// @prop {Color} neutral.12 [#333333]
+/// @prop {Color} neutral.13 [#222222]
+/// @prop {Map} brand_primary
+///   The primary brand color.
+/// @prop {Color} brand_primary.0 [#e8f7ff]
+/// @prop {Color} brand_primary.1 [#d6edf9]
+/// @prop {Color} brand_primary.3 [#9bdaf7]
+/// @prop {Color} brand_primary.5 [#56c1f8]
+/// @prop {Color} brand_primary.7 [#29aae1]
+/// @prop {Color} brand_primary.9 [#018dc7]
+/// @prop {Color} brand_primary.10 [#0e68a7]
+/// @prop {Color} brand_primary.11 [#004f86]
+/// @prop {Color} brand_primary.12 [#002d64]
+/// @prop {Map} brand_secondary
+/// @prop {Color} brand_secondary.1 [#fff2de]
+/// @prop {Color} brand_secondary.2 [#ffdbbb]
+/// @prop {Color} brand_secondary.3 [#ffb78c]
+/// @prop {Color} brand_secondary.6 [#ff8f3c]
+/// @prop {Color} brand_secondary.7 [#f5671c]
+/// @prop {Color} brand_secondary.9 [#d24f00]
+/// @prop {Color} brand_secondary.10 [#a33600]
+/// @prop {Color} brand_secondary.11 [#7c2000]
+/// @prop {Map} brand_tertiary
+/// @prop {Color} brand_tertiary.0 [#fbe9fc]
+/// @prop {Color} brand_tertiary.1 [#f7c3ff]
+/// @prop {Color} brand_tertiary.2 [#e68ef8]
+/// @prop {Color} brand_tertiary.4 [#d963f1]
+/// @prop {Color} brand_tertiary.7 [#ca3bd5]
+/// @prop {Color} brand_tertiary.9 [#9920af]
+/// @prop {Color} brand_tertiary.11 [#661078]
+/// @prop {Color} brand_tertiary.12 [#480e51]
+/// @prop {Map} state_success
+///   Colors for showing an action has been completed successfully.
+/// @prop {Color} state_success.1 [#ecf7dd]
+/// @prop {Color} state_success.2 [#dff8bc]
+/// @prop {Color} state_success.3 [#cdef91]
+/// @prop {Color} state_success.5 [#b0e164]
+/// @prop {Color} state_success.7 [#90cd44]
+/// @prop {Color} state_success.9 [#5bae19]
+/// @prop {Color} state_success.11 [#3a8002]
+/// @prop {Color} state_success.12 [#266600]
+/// @prop {Map} state_danger
+///   Colors for showing there is a breaking error.
+/// @prop {Color} state_danger.0 [#fee6ea]
+/// @prop {Color} state_danger.1 [#ffd1da]
+/// @prop {Color} state_danger.3 [#ffa3ae]
+/// @prop {Color} state_danger.5 [#fd6873]
+/// @prop {Color} state_danger.7 [#e52b2b]
+/// @prop {Color} state_danger.9 [#c12317]
+/// @prop {Color} state_danger.10 [#941403]
+/// @prop {Color} state_danger.12 [#6f1604]
+/// @prop {Map} state_warning
+///   Colors for showing potential problems.
+/// @prop {Color} state_warning.2 [#faf8e0]
+/// @prop {Color} state_warning.3 [#fff59d]
+/// @prop {Color} state_warning.5 [#ffee58]
+/// @prop {Color} state_warning.7 [#ffdf0b]
+/// @prop {Color} state_warning.8 [#ffc600]
+/// @prop {Color} state_warning.9 [#ffb400]
+/// @prop {Color} state_warning.10 [#fa9900]
+/// @prop {Color} state_warning.11 [#f47901]
+///
+/// @see {function} get-color
+///
+/// @type Map
+$palette: (
+  monotone: (
+    0: #ffffff,
+    13: #000000
+  ),
+  neutral: map-merge(
+      generate-color-variants($color-neutral-base, $lighten-function: lighten, $darken-function: darken),
+      (0: #f5f5f5)
+  ),
+  brand_primary: (
+    0: #e8f7ff,
+    1: #d6edf9,
+    3: #9bdaf7,
+    5: #56c1f8,
+    7: #29aae1,
+    9: #018dc7,
+    10: #0e68a7,
+    11: #004f86,
+    12: #002d64
+  ),
+  brand_secondary: (
+    1: #fff2de,
+    2: #ffdbbb,
+    3: #ffb78c,
+    6: #ff8f3c,
+    7: #f5671c,
+    9: #d24f00,
+    10: #a33600,
+    11: #7c2000
+  ),
+  brand_tertiary: (
+    0: #fbe9fc,
+    1: #f7c3ff,
+    2: #e68ef8,
+    4: #d963f1,
+    7: #ca3bd5,
+    9: #9920af,
+    11: #661078,
+    12: #480e51
+  ),
+  state_success: (
+    1: #ecf7dd,
+    2: #dff8bc,
+    3: #cdef91,
+    5: #b0e164,
+    7: #90cd44,
+    9: #5bae19,
+    11: #3a8002,
+    12: #266600
+  ),
+  state_danger: (
+    0: #fee6ea,
+    1: #ffd1da,
+    3: #ffa3ae,
+    5: #fd6873,
+    7: #e52b2b,
+    9: #c12317,
+    10: #941403,
+    12: #6f1604
+  ),
+  state_warning: (
+    2: #faf8e0,
+    3: #fff59d,
+    5: #ffee58,
+    7: #ffdf0b,
+    8: #ffc600,
+    9: #ffb400,
+    10: #fa9900,
+    11: #f47901
+  ),
+  backer_green: generate-color-variants($color-backer_green-base)
+) !default;
+
+// Monotone color shortcuts.
+// ---------------------------------------------------------------------------
+
+/// An alias of get-color(monotone, 0).
+///
+/// @type Color
+$color-monotone-0: get-color(monotone, 0) !default;
+
+/// An alias of get-color(monotone, 13).
+///
+/// @type Color
+$color-monotone-13: get-color(monotone, 13) !default;
+
+// Neutral color shortcuts.
+// ---------------------------------------------------------------------------
+
+/// An alias of get-color(neutral, 0).
+///
+/// @type Color
+$color-neutral-0: get-color(neutral, 0) !default;
+
+/// An alias of get-color(neutral, 1).
+///
+/// @type Color
+$color-neutral-1: get-color(neutral, 1) !default;
+
+/// An alias of get-color(neutral, 2).
+///
+/// @type Color
+$color-neutral-2: get-color(neutral, 2) !default;
+
+/// An alias of get-color(neutral, 3).
+///
+/// @type Color
+$color-neutral-3: get-color(neutral, 3) !default;
+
+/// An alias of get-color(neutral, 4).
+///
+/// @type Color
+$color-neutral-4: get-color(neutral, 4) !default;
+
+/// An alias of get-color(neutral, 5).
+///
+/// @type Color
+$color-neutral-5: get-color(neutral, 5) !default;
+
+/// An alias of get-color(neutral, 6).
+///
+/// @type Color
+$color-neutral-6: get-color(neutral, 6) !default;
+
+/// An alias of get-color(neutral, 7).
+///
+/// @type Color
+$color-neutral-7: get-color(neutral, 7) !default;
+
+/// An alias of get-color(neutral, 8).
+///
+/// @type Color
+$color-neutral-8: get-color(neutral, 8) !default;
+
+/// An alias of get-color(neutral, 9).
+///
+/// @type Color
+$color-neutral-9: get-color(neutral, 9) !default;
+
+/// An alias of get-color(neutral, 10).
+///
+/// @type Color
+$color-neutral-10: get-color(neutral, 10) !default;
+
+/// An alias of get-color(neutral, 11).
+///
+/// @type Color
+$color-neutral-11: get-color(neutral, 11) !default;
+
+/// An alias of get-color(neutral, 12).
+///
+/// @type Color
+$color-neutral-12: get-color(neutral, 12) !default;
+
+/// An alias of get-color(neutral, 13).
+///
+/// @type Color
+$color-neutral-13: get-color(neutral, 13) !default;
+
+// Primary brand color shortcuts.
+// ---------------------------------------------------------------------------
+
+/// An alias of get-color(brand_primary, 1).
+///
+/// @type Color
+$color-brand-primary-1: get-color(brand_primary, 1) !default;
+
+/// An alias of get-color(brand_primary, 3).
+///
+/// @type Color
+$color-brand-primary-3: get-color(brand_primary, 3) !default;
+
+/// An alias of get-color(brand_primary, 5).
+///
+/// @type Color
+$color-brand-primary-5: get-color(brand_primary, 5) !default;
+
+/// An alias of get-color(brand_primary, 7).
+///
+/// @type Color
+$color-brand-primary-7: get-color(brand_primary, 7) !default;
+
+/// An alias of get-color(brand_primary, 9).
+///
+/// @type Color
+$color-brand-primary-9: get-color(brand_primary, 9) !default;
+
+/// An alias of get-color(brand_primary, 10).
+///
+/// @type Color
+$color-brand-primary-10: get-color(brand_primary, 10) !default;
+
+/// An alias of get-color(brand_primary, 11).
+///
+/// @type Color
+$color-brand-primary-11: get-color(brand_primary, 11) !default;
+
+/// An alias of get-color(brand_primary, 12).
+///
+/// @type Color
+$color-brand-primary-12: get-color(brand_primary, 12) !default;
+
+// Secondary brand color shortcuts.
+// ---------------------------------------------------------------------------
+
+/// An alias of get-color(brand_secondary, 1).
+///
+/// @type Color
+$color-brand-secondary-1: get-color(brand_secondary, 1) !default;
+
+/// An alias of get-color(brand_secondary, 2).
+///
+/// @type Color
+$color-brand-secondary-2: get-color(brand_secondary, 2) !default;
+
+/// An alias of get-color(brand_secondary, 3).
+///
+/// @type Color
+$color-brand-secondary-3: get-color(brand_secondary, 3) !default;
+
+/// An alias of get-color(brand_secondary, 6).
+///
+/// @type Color
+$color-brand-secondary-6: get-color(brand_secondary, 6) !default;
+
+/// An alias of get-color(brand_secondary, 7).
+///
+/// @type Color
+$color-brand-secondary-7: get-color(brand_secondary, 7) !default;
+
+/// An alias of get-color(brand_secondary, 9).
+///
+/// @type Color
+$color-brand-secondary-9: get-color(brand_secondary, 9) !default;
+
+/// An alias of get-color(brand_secondary, 10).
+///
+/// @type Color
+$color-brand-secondary-10: get-color(brand_secondary, 10) !default;
+
+/// An alias of get-color(brand_secondary, 11).
+///
+/// @type Color
+$color-brand-secondary-11: get-color(brand_secondary, 11) !default;
+
+// Tertiary brand color shortcuts.
+// ---------------------------------------------------------------------------
+
+/// An alias of get-color(brand_tertiary, 1).
+///
+/// @type Color
+$color-brand-tertiary-1: get-color(brand_tertiary, 1) !default;
+
+/// An alias of get-color(brand_tertiary, 2).
+///
+/// @type Color
+$color-brand-tertiary-2: get-color(brand_tertiary, 2) !default;
+
+/// An alias of get-color(brand_tertiary, 4).
+///
+/// @type Color
+$color-brand-tertiary-4: get-color(brand_tertiary, 4) !default;
+
+/// An alias of get-color(brand_tertiary, 7).
+///
+/// @type Color
+$color-brand-tertiary-7: get-color(brand_tertiary, 7) !default;
+
+/// An alias of get-color(brand_tertiary, 9).
+///
+/// @type Color
+$color-brand-tertiary-9: get-color(brand_tertiary, 9) !default;
+
+/// An alias of get-color(brand_tertiary, 11).
+///
+/// @type Color
+$color-brand-tertiary-11: get-color(brand_tertiary, 11) !default;
+
+/// An alias of get-color(brand_tertiary, 12).
+///
+/// @type Color
+$color-brand-tertiary-12: get-color(brand_tertiary, 12) !default;
+
+// Success variants
+// ---------------------------------------------------------------------------
+
+/// An alias of get-color(state-success, 1).
+///
+/// @type Color
+$color-state-success-1: get-color(state_success, 1) !default;
+
+/// An alias of get-color(state-success, 2).
+///
+/// @type Color
+$color-state-success-2: get-color(state_success, 2) !default;
+
+/// An alias of get-color(state-success, 3).
+///
+/// @type Color
+$color-state-success-3: get-color(state_success, 3) !default;
+
+/// An alias of get-color(state-success, 5).
+///
+/// @type Color
+$color-state-success-5: get-color(state_success, 5) !default;
+
+/// An alias of get-color(state-success, 7).
+///
+/// @type Color
+$color-state-success-7: get-color(state_success, 7) !default;
+
+/// An alias of get-color(state-success, 9).
+///
+/// @type Color
+$color-state-success-9: get-color(state_success, 9) !default;
+
+/// An alias of get-color(state-success, 11).
+///
+/// @type Color
+$color-state-success-11: get-color(state_success, 11) !default;
+
+/// An alias of get-color(state-success, 12).
+///
+/// @type Color
+$color-state-success-12: get-color(state_success, 12) !default;
+
+// Danger variants
+// ---------------------------------------------------------------------------
+
+/// An alias of get-color(state-danger, 1).
+///
+/// @type Color
+$color-state-danger-1: get-color(state_danger, 1) !default;
+
+/// An alias of get-color(state-danger, 3).
+///
+/// @type Color
+$color-state-danger-3: get-color(state_danger, 3) !default;
+
+/// An alias of get-color(state-danger, 5).
+///
+/// @type Color
+$color-state-danger-5: get-color(state_danger, 5) !default;
+
+/// An alias of get-color(state-danger, 7).
+///
+/// @type Color
+$color-state-danger-7: get-color(state_danger, 7) !default;
+
+/// An alias of get-color(state-danger, 9).
+///
+/// @type Color
+$color-state-danger-9: get-color(state_danger, 9) !default;
+
+/// An alias of get-color(state-danger, 10).
+///
+/// @type Color
+$color-state-danger-10: get-color(state_danger, 10) !default;
+
+/// An alias of get-color(state-danger, 12).
+///
+/// @type Color
+$color-state-danger-12: get-color(state_danger, 12) !default;
+
+// Warning variants
+// ---------------------------------------------------------------------------
+
+/// An alias of get-color(state-warning, 2).
+///
+/// @type Color
+$color-state-warning-2: get-color(state_warning, 2) !default;
+
+/// An alias of get-color(state-warning, 3).
+///
+/// @type Color
+$color-state-warning-3: get-color(state_warning, 3) !default;
+
+/// An alias of get-color(state-warning, 5).
+///
+/// @type Color
+$color-state-warning-5: get-color(state_warning, 5) !default;
+
+/// An alias of get-color(state-warning, 7).
+///
+/// @type Color
+$color-state-warning-7: get-color(state_warning, 7) !default;
+
+/// An alias of get-color(state-warning, 8).
+///
+/// @type Color
+$color-state-warning-8: get-color(state_warning, 8) !default;
+
+/// An alias of get-color(state-warning, 9).
+///
+/// @type Color
+$color-state-warning-9: get-color(state_warning, 9) !default;
+
+/// An alias of get-color(state-warning, 10).
+///
+/// @type Color
+$color-state-warning-10: get-color(state_warning, 10) !default;
+
+/// An alias of get-color(state-warning, 11).
+///
+/// @type Color
+$color-state-warning-11: get-color(state_warning, 11) !default;
+
+// Text colors
+// ---------------------------------------------------------------------------
+
+/// The default text color.
+///
+/// @type Color ($color-neutral-13)
+$text-color-base: $color-neutral-13;
+
+/// Text color for less important elements.
+///
+/// @type Color ($color-meutral-11)
+$text-color-base-muted: $color-neutral-9;
+
+/// A reverse text color.
+///
+/// @type Color ($color-meutral-0)
+$text-color-reverse: $color-neutral-0;
+
+/// Reverse text color for less important elements.
+///
+/// @type Color ($color-meutral-2)
+$text-color-reverse-muted: $color-neutral-2;
+
+/// Link colors
+// ---------------------------------------------------------------------------
+
+/// A map of default colors for anchor elements.
+///
+/// @prop {Color} default [$color-brand-primary-7]
+/// @prop {Color} hover [$color-brand-primary-9]
+/// @prop {Color} visited [$color-brand-primary-5]
+///
+/// @type Map
+$link-color: (
+  default: get-color(brand_primary, 11),
+  hover: get-color(brand_primary, 10),
+  visited: get-color(brand_primary, 12)
+) !default;
+
+/// The default color for an anchor element.
+///
+/// @see $link-color
+///
+/// @type Color
+$link-color-base: map-get($link-color, default) !default;
+
+/// The hover color for an anchor element.
+///
+/// @see $link-color
+///
+/// @type Color
+$link-color-hover: map-get($link-color, hover) !default;
+
+/// The visited color for an anchor element.
+///
+/// @see $link-color
+///
+/// @type Color
+$link-color-visited: map-get($link-color, visited) !default;
+
+/// A map of reverse colors for anchor elements.
+///
+/// @prop {Color} default [$color-neutral-3]
+/// @prop {Color} hover [$color-neutral-0]
+/// @prop {Color} visited [$color-neutral-5]
+///
+/// @type Map
+$link-color-reverse: (
+  default: $color-neutral-3,
+  hover: $color-neutral-0,
+  visited: $color-neutral-5
+) !default;
+
+/// The default reverse color for an anchor element.
+///
+/// @see $link-color-reverse
+///
+/// @type Color
+$link-color-reverse: map-get($link-color-reverse, default) !default;
+
+/// The hover reverse color for an anchor element.
+///
+/// @see $link-color-reverse
+///
+/// @type Color
+$link-color-reverse-hover: map-get($link-color-reverse, hover) !default;
+
+/// The visited reverse color for an anchor element.
+///
+/// @see $link-color-reverse
+///
+/// @type Color
+$link-color-reverse-visited: map-get($link-color-reverse, visited) !default;
+
+// Border colors
+// ----------------------------------------------------------------------------
+
+/// The default border color for an element.
+///
+/// @alias color-neutral-5
+///
+/// @type Color
+$border-color: $color-neutral-3 !default;
+
+/// The reverse border color for an element.
+///
+/// @alias color-neutral-5
+///
+/// @type Color
+$border-color-reverse: $color-neutral-1 !default;
+
+/// Shadow color
+$shadow-color: $color-monotone-13 !default;

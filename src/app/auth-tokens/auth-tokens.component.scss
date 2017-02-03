@@ -17,3 +17,9 @@
   -o-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 }
+
+#auth-token-form {
+  input {
+    margin-bottom: 18px;
+  }
+}

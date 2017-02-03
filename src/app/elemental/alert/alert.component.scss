@@ -1,0 +1,32 @@
+@import "../../../assets/scss/elemental-core.scss";
+
+.el-alert {
+  border: 1px solid black;
+  padding: 24px;
+  margin-bottom: 1.5rem;
+
+  .state-icon {
+    display: inline-block;
+    padding: 8px;
+  }
+}
+
+.el-alert__success {
+  background-color: $color-state-success-1;
+  border-color: $color-state-success-9;
+}
+
+.el-alert__warning {
+  background-color: $color-state-warning-2;
+  border-color: $color-state-warning-9;
+}
+
+.el-alert__info {
+  background-color: $color-brand-primary-1;
+  border-color: $color-brand-primary-9;
+}
+
+.el-alert__danger {
+  background-color: $color-state-danger-1;
+  border-color: $color-state-danger-7;
+}

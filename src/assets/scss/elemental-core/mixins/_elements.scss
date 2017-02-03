@@ -1,0 +1,68 @@
+////
+/// Apply styles to specific html elements.
+///
+/// @group core
+////
+
+/// Generate styles for a single header element.
+///
+/// @param {Number (rem)} $size [$text-size-base]
+///   The value of the font-size style.
+/// @param {String (light | normal | bold)} weight [normal]
+///   The value of the font-weight style,
+/// @param {Color | null} color [null]
+///   The value of the color style.
+/// @param {Map} type [$type-default]
+/// @param {String} webfont [null]
+@mixin header(
+  $size: $text-size-base,
+  $weight: normal,
+  $color: null,
+  $base-font: $typeface-default,
+  $below: 1,
+  $webfont: null
+) {
+
+  @include set-baseline((
+  size: $size,
+  typeface: $base-font,
+  below: $below,
+  force-rhythm: true
+  )
+  ...)
+;
+
+  @if $weight != null {
+    font-weight: get-typeface($base-font, $weight);
+  }
+
+  @if type-of($color) == color {
+    color: $color;
+  }
+
+}
+
+/// A wrapper for styling placeholder text.
+///
+/// @content Make placeholder styles supported by multiple browsers.
+@mixin placeholder {
+  // scss-lint:disable VendorPrefix, PseudoElement
+  // Vendor prefixes are a necessary evil for placeholder elements.
+  // Additionally, because of the client specific nature, pseudo elements are
+  // also not consistent.
+  &::-webkit-input-placeholder {
+    @content;
+  }
+
+  &:-moz-placeholder {
+    @content;
+  }
+
+  &::-moz-placeholder {
+    @content;
+  }
+
+  &:-ms-input-placeholder {
+    @content;
+  }
+}

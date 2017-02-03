@@ -1,3 +1,5 @@
+@import "../../../assets/scss/elemental-core.scss";
+
 :host {
   position: absolute;
   width: 100%;
@@ -7,6 +9,18 @@
   box-sizing: border-box;
   padding: 24px;
   background-color: #eee;
+  overflow: scroll;
+}
+
+.primary-row {
+  margin-top: -0.75rem;
+  margin-right: -0.75rem;
+  margin-bottom: 0.75rem;
+  margin-left: -0.75rem;
+  padding: 0.75rem 0.75rem 0;
+  border-bottom: 0.0625rem solid $color-neutral-3;
+  background-color: $color-neutral-0;
+  font-size: 22px;
 }
 
 md-card {
@@ -40,11 +54,10 @@ h2 {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  padding: 16px;
 }
 
 .empty {
-  height: 70vh;
+  height: 40vh;
 }
 
 .logs-empty-text {
@@ -72,7 +85,7 @@ h2 {
 }
 
 .info {
-  margin-bottom : 8px;
+  margin-bottom: 8px;
 }
 
 .material-icons.md-48 {

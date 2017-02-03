@@ -5,6 +5,7 @@ import {DebugElement} from '@angular/core';
 
 import {JobStatusComponent} from './job-status.component';
 import {MaterialModule} from '@angular/material';
+import {ElementalModule} from '../../elemental/elemental.module';
 
 describe('JobStatusComponent', () => {
   let component: JobStatusComponent;
@@ -13,7 +14,7 @@ describe('JobStatusComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [JobStatusComponent],
-      imports: [MaterialModule.forRoot()]
+      imports: [MaterialModule.forRoot(), ElementalModule]
     })
       .compileComponents();
   }));

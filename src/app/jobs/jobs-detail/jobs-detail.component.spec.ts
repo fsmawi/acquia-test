@@ -9,6 +9,7 @@ import {MomentModule} from 'angular2-moment';
 import {PipelinesService} from '../../core/services/pipelines.service';
 import {ErrorService} from '../../core/services/error.service';
 import {RouterTestingModule} from '@angular/router/testing';
+import {ElementalModule} from '../../elemental/elemental.module';
 
 describe('JobsDetailComponent', () => {
   let component: JobsDetailComponent;
@@ -17,7 +18,7 @@ describe('JobsDetailComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [JobsDetailComponent],
-      imports: [MaterialModule.forRoot(), MomentModule, RouterTestingModule],
+      imports: [MaterialModule.forRoot(), MomentModule, RouterTestingModule, ElementalModule],
       providers: [PipelinesService, ErrorService]
     })
       .compileComponents();

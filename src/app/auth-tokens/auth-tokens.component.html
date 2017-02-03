@@ -10,16 +10,15 @@
   <hr>
   <br>
 
-  <form class="auth-token-form" (ngSubmit)="login()" #tokenForm="ngForm">
-    <md-input-container class="full-width">
-      <input md-input placeholder="Application ID" [(ngModel)]="appId" name="AppId">
-    </md-input-container>
-    <md-input-container class="full-width">
-      <input md-input placeholder="N3 Access Key" [(ngModel)]="n3Key" name="N3AccessKey">
-    </md-input-container>
-    <md-input-container class="full-width">
-      <input md-input placeholder="N3 Secret" [(ngModel)]="n3Secret" type="password" name="N3Secret">
-    </md-input-container>
+  <form id="auth-token-form" (ngSubmit)="login()" #tokenForm="ngForm">
+    <input class="full-width" placeholder="Application ID" [(ngModel)]="appId" name="AppId" type="text" required>
+    <br>
+    <input class="full-width" placeholder="N3 Access Key" [(ngModel)]="n3Key" name="N3AccessKey" type="text" required>
+    <br>
+    <input class="full-width" placeholder="N3 Secret" [(ngModel)]="n3Secret" type="password" name="N3Secret" required>
+    <br>
+    <input class="full-width" placeholder="Beta Access Code" [(ngModel)]="accessCode" type="password"
+           name="BetaAccessCode" required>
     <br><br>
     <div class="center">
       <button md-raised-button color="primary" type="submit">Sign In</button>

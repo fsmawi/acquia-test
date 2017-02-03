@@ -1,0 +1,81 @@
+////
+/// Functions to quickly get data.
+///
+/// @group webfont
+////
+
+/// Get a webfont, or webfont property.
+///
+/// @param {String} name
+///   The key of the webfont in the `$webfonts` global variable.
+/// @param {String} property
+///   Optionally specify a specific property to get from the webfont.
+@function get-typeface($name, $property: null) {
+  @if map-has-key($typefaces, $name) == false {
+    @error 'The typeface #{$name} is not defined.'
+  }
+
+  $typeface: map-get($typefaces, $name);
+
+  @if $property == null {
+    @return $typeface;
+  }
+
+  @if map-has-key($typeface, $property) == false {
+    @error 'The property of "#{$property}" is not defined in the #{$name} typeface.';
+  }
+
+  $value: map-get($typeface, $property);
+
+  @if $property == font-family and map-has-key($typeface, fallback) {
+    $value: #{$value}, #{get-typeface(map-get($typeface, fallback), font-family)};
+  }
+
+  @return $value;
+}
+
+/// Get a color from a palette map.
+///
+/// @param {String} $family - The name of the color family.
+/// @param {Number (integer)} $variant - The variation within the family.
+/// @param {Map} $palette [$palette]
+///   A map of color families keyed by a string that contain a map of variant
+///   colors mapped by integers.
+///
+/// @return {Color}
+///   The color value that most closely matches the family and variant query.
+@function get-color($family, $variant, $palette: $palette) {
+  @if map-has-key($palette, $family) {
+    @if map-has-key(map-get($palette, $family), $variant) {
+      @return map-get(map-get($palette, $family), $variant);
+    } @else {
+      $colors: map-get($palette, $family);
+      $color-keys: map-keys($colors);
+      $first: nth($color-keys, 1);
+      $last: nth($color-keys, length($color-keys));
+      $counter: 1;
+      $level: $counter;
+      $closest: null;
+
+      @while $closest == null and (($counter + $variant) < $last or ($variant - $counter) > $first) {
+        @if map-has-key($colors, ($counter + $variant)) {
+          $level: $counter + $variant;
+          $closest: map-get($colors, $level);
+        } @else if map-has-key($colors, ($variant - $counter)) {
+          $level: $variant - $counter;
+          $closest: map-get($colors, $level);
+        }
+
+        $counter: $counter + 1;
+      }
+
+      @warn 'There is not a level #{$variant} variant in the #{$family} color family. Level #{$level} will be used instead.';
+
+      @return $closest;
+    }
+  } @else {
+    $default: color-get(brand_primary, 7);
+    @warn 'The "#{$family}" color family is not defined. Returning #{$default} instead.';
+    @return $default;
+  }
+}

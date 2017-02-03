@@ -1,0 +1,89 @@
+////
+/// Unit functions
+///
+/// @group core
+////
+
+/// Remove unit declaration from a dimension.
+///
+/// @param {Number} $value [0] - The dimension to remove units from.
+///
+/// @example scss - Usage
+/// $base-font-size: 16px;
+/// .bad--example__too-tall {
+///   line-height: remove-units($base-font-size) * 1.5; // 16 * 1.5 = 24
+/// }
+///
+/// @example css - CSS Output
+/// .bad--example__too-tall {
+///   line-height: 24;
+/// }
+///
+/// @return {Number (unitless)} $value - Unitless version of $value.
+@function remove-units($value: 0) {
+  @if not unitless($value) {
+    // Dividing a value by a value with the same unit removes the unit
+    // designation.
+    @return $value / ($value * 0 + 1);
+  }
+
+  @return $value;
+}
+
+/// Convert pixel units to relative units based on the $base-font-size variable.
+///
+/// @param {Number} $pixels - The pixel value to convert.
+/// @param {Number} $factor [1rem]
+///   The multiplier value with intended relative unit type.
+/// @param {Number} $base [$text-size-root] - The base font size in pixels.
+///
+/// @example scss - Usage
+/// div {
+///   // The most basic and recommended example.
+///   font-size: px-to-relative(32px);
+///   // Compensate for a different text size.
+///   padding: px-to-relative(20px, 1.2em);
+///   // Use em units where they work more reliably.
+///   @media (min-width: px-to-relative(320px, 1em)) {
+///     // Use a different base size.
+///     font-size: px-to-relative(16px, $base: 10px);
+///   }
+/// }
+///
+/// @return {Number (rem | em)}
+///   Converted pixel value translated to use relative units.
+@function px-to-relative($pixels, $factor: 1rem, $base: $text-size-root) {
+  @if unit($pixels) == px or type-of($pixels) == number {
+    $pixels: round($pixels);
+
+    // Make sure the numbers are unitless and then find the relative value.
+    @return remove-units($pixels) / remove-units($base) * $factor;
+  } @else {
+    @error '"#{$pixels}" is not a pixel unit.'
+  }
+}
+
+/// Round a rem unit if it equates to a fraction of a pixel.
+///
+/// @param {Number (rem)} $value
+///  An rem value number to be verified that it equates to a whole pixel value.
+///
+/// @example scss - Usage
+/// $padding: rem-whole-pixel(4rem / 3);
+///
+/// @return {Number (rem)}
+///  If $value is not an rem unit value, the same value will be returned. If it
+///  is an rem unit value, the number will be rounded to the nearest value that
+///  matches a whole pixel value.
+@function rem-whole-pixel($value) {
+  $new: $value;
+  $unit: unit($value);
+
+  @if $unit != rem {
+    @warn '$value must be a rem unit value.'
+  } @else {
+    $new: px-to-relative(round(remove-units($value) * $text-size-root));
+  }
+
+  @return $new;
+}

@@ -1,104 +1,102 @@
-<div id="jobDetails">
-  <md-card [class]="!job ? 'bg-primary' : job.isFailed ? 'bg-danger' : job.isSucceeded ? 'bg-success' : 'bg-primary'">
-    <div class="flex-container"
-         fxLayout="row"
-         fxLayoutAlign="center center"
-         fxLayoutAlign.xs="start start"
-         *ngIf="job">
+<div id="jobDetails" style="overflow: auto">
+  <h1 class="ui-core-set-head-title"> Pipelines Log </h1>
+  <!--e-button text="Connection Info"></e-button-->
+  <e-button text="< Back to Job List" routerLink="/jobs/{{appId}}"></e-button>
+  <!--<h3 class="ui-core-set-head-title"> Pipelines Log File Details</h3>-->
+  <e-alert *ngIf="job" [icon]="false"
+           [type]="!job ? 'info' : job.isFailed ? 'danger' : job.isSucceeded ? 'success' : 'info'">
+    {{job.message}}
+  </e-alert>
+  <e-card *ngIf="job">
+    <e-card-header>
+      <div class="flex-container"
+           fxLayout="row"
+           fxLayoutAlign="start center">
 
-      <div id="back"
-           class="flex-item"
-           fxFlex="5%"
-           fxHide.xs="TRUE">
+        <e-data class="flex-item"
+                fxFlex="50%">
+          <e-data-label>Job</e-data-label>
+          <e-data-value>{{job.job_id}}</e-data-value>
+        </e-data>
+        <e-data class="flex-item"
+                fxFlex="50%">
+          <e-data-label>Branch</e-data-label>
+          <e-data-value>{{job.branch}}</e-data-value>
+        </e-data>
+      </div>
+    </e-card-header>
 
-        <button md-icon-button routerLink="/jobs/{{appId}}">
-          <md-icon class="white">chevron_left</md-icon>
-        </button>
-
+    <e-card-content>
+      <div class="flex-container primary-row"
+           fxLayout="row"
+           fxLayoutAlign="start center">
+        <e-data class="flex-item"
+                fxFlex="25%"
+                fxFlex.xs="33%">
+          <e-data-label>Duration</e-data-label>
+          <e-data-value>{{job.duration | amDuration:'seconds'}}</e-data-value>
+        </e-data>
+        <e-data class="flex-item"
+                fxFlex="25%"
+                fxFlex.xs="33%">
+          <e-data-label>Started at</e-data-label>
+          <e-data-value>{{(job.started_at | amFromUnix) | amDateFormat:'LLL'}}</e-data-value>
+        </e-data>
+        <e-data class="flex-item"
+                fxFlex="25%"
+                fxFlex.xs="33%">
+          <e-data-label>Finished at</e-data-label>
+          <e-data-value>{{(job.finished_at | amFromUnix) | amDateFormat:'LLL'}}</e-data-value>
+        </e-data>
       </div>
 
-      <div id="metaData" class="flex-item" fxFlex="95%" fxFlex.xs="100%">
-
-        <div class="flex-container"
-             fxLayout="row"
-             fxLayout.xs="column"
-             fxLayoutAlign="center center"
-             fxLayoutAlign.xs="center start">
-          <div id="metaBuildInfo"
-               class="flex-item meta"
-               fxFlex="50%"
-               fxFlex.xs="">
-            <div class="info">
-              <i class="header"> Branch </i> <br/>
-              <i class="value"> {{job.branch}} </i> <br/>
-            </div>
-            <div class="info">
-              <i class="header"> Commit </i> <br/>
-              <i class="value"> {{job.commit ? job.commit : 'Information not available'}} </i><br/>
-            </div>
-            <div class="info">
-              <i class="header"> Status </i> <br/>
-              <i class="value"> {{job.message}} </i> <br/>
-            </div>
-          </div>
-          <div id="metaBuildTimeInfo"
-               class="flex-item meta"
-               fxFlex="50%"
-               fxFlex.xs="">
-            <div class="flex-container"
-                 fxLayout="row"
-                 fxLayout.xs="row"
-                 fxLayoutAlign="center center"
-                 fxLayoutAlign.xs="start center">
-
-              <div id="metaTime"
-                   class="flex-item"
-                   fxFlex="80%"
-                   fxFlex.xs="100%">
-
-                <div class="info">
-                  <i class="header"> Duration </i> <br/>
-                  <i class="value"> {{job.duration | amDuration:'seconds'}} </i> <br/>
-                </div>
-                <div class="info">
-                  <i class="header"> Started at </i> <br/>
-                  <i class="value"> {{(job.started_at | amFromUnix) | amDateFormat:'LLL'}} </i><br/>
-                </div>
-                <div class="info">
-                  <i class="header" *ngIf="job.isFinished"> Finished at </i> <br/>
-                  <i class="value" *ngIf="job.isFinished"> {{(job.finished_at | amFromUnix) | amDateFormat:'LLL'}} </i><br/>
-                </div>
-              </div>
-              <div class="flex-item" fxFlex="20%" fxHide.xs="TRUE">
-                <i class="material-icons md-48 white">{{job.isFailed ? 'error_outline' : job.isSucceeded ? 'done' : 'timelapse'}}</i>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div class="flex-container"
+           fxLayout="row"
+           fxLayoutAlign="start center">
+        <e-data class="flex-item"
+                fxFlex="25%"
+                fxFlex.xs="33%">
+          <e-data-label>Commit</e-data-label>
+          <e-data-value>{{job.commit ? job.commit : 'Not available'}}</e-data-value>
+        </e-data>
+        <e-data class="flex-item"
+                fxFlex="25%"
+                fxFlex.xs="33%">
+          <e-data-label>Requested by</e-data-label>
+          <e-data-value>{{job.requested_by}}</e-data-value>
+        </e-data>
+        <e-data class="flex-item"
+                fxFlex="25%"
+                fxFlex.xs="33%">
+          <e-data-label>Requested at</e-data-label>
+          <e-data-value>{{(job.requested_at | amFromUnix) | amDateFormat:'LLL'}}</e-data-value>
+        </e-data>
       </div>
+    </e-card-content>
+    <md-progress-bar mode="indeterminate" *ngIf="job && job.isUnfinished"></md-progress-bar>
+  </e-card>
 
-    </div>
-  </md-card>
-  <md-progress-bar *ngIf="job && job.isUnfinished" mode="indeterminate"></md-progress-bar>
+
   <div id="logs" *ngIf="logs && logs.length > 0">
     <div class="log-detail">
       <pre><i *ngFor="let log of logs">{{ log.timestamp | amDateFormat:'YYYY-MM-DD HH:mm:ss' }} [{{ log.level }}] {{log.message}} <br/></i>
       </pre>
     </div>
   </div>
-  <md-card *ngIf="job && (!logs || logs.length == 0)" class="flex-container empty bg-white" fxLayout="column" fxLayoutAlign="center center" fxLayoutAlign.xs="start center">
+  <md-card *ngIf="job && (!logs || logs.length == 0)" class="flex-container empty bg-white" fxLayout="column"
+           fxLayoutAlign="center center" fxLayoutAlign.xs="start center">
     <i class="material-icons md-48 gray"> warning</i>
-    <i class="logs-empty-text gray"  *ngIf="!job.isFinished">
+    <i class="logs-empty-text gray" *ngIf="!job.isFinished">
       There are no logs yet for this job. <br/>
       This page will update when the logs are available.
     </i>
-    <i class="logs-empty-text gray"  *ngIf="job.isFinished">
+    <i class="logs-empty-text gray" *ngIf="job.isFinished">
       There are no logs for this job.
     </i>
   </md-card>
   <md-card *ngIf="!job" class="flex-container empty bg-white" fxLayout="column" fxLayoutAlign="start center">
     <md-progress-bar mode="indeterminate"></md-progress-bar>
-    <i class="details-empty-text gray" >
+    <i class="details-empty-text gray">
       Loading job details...
     </i>
   </md-card>

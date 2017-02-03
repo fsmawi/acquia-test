@@ -1,0 +1,7 @@
+<div class="el-alert el-alert__{{type}}">
+  <div class="state-icon" *ngIf="icon">
+    <e-sprite-icon type="state__{{type}}"></e-sprite-icon>
+  </div>
+  <b style="text-transform: capitalize">{{type}}!</b>
+  <ng-content></ng-content>
+</div>

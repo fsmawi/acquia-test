@@ -11,7 +11,6 @@
 $elemental-primary: md-palette($md-light-blue);
 $elemental-accent: md-palette($md-purple, A200, A100, A400);
 
-
 // The warn palette is optional (defaults to red).
 $elemental-warn: md-palette($md-yellow);
 
@@ -75,22 +74,35 @@ md-spinner[color="danger"] {
 
 .danger {
   color: $elemental-danger;
+  svg {
+    fill: $elemental-danger;
+  }
 }
 
 .error {
   color: $elemental-danger;
+  svg {
+    fill: $elemental-danger;
+  }
 }
 
 .success {
   color: $elemental-success;
+  svg {
+    fill: $elemental-success;
+  }
 }
 
 .warning {
   color: $elemental-warning;
+  svg {
+    fill: $elemental-warning;
+  }
 }
 
 .primary {
   color: md-color($elemental-primary, A400);
+  fill: md-color($elemental-primary, A400);
 }
 
 // Basic helper styles
@@ -102,7 +114,7 @@ md-spinner[color="danger"] {
   background-color: #000;
 }
 
-.bg-gray{
+.bg-gray {
   color: #a9a9a9;
 }
 
@@ -205,3 +217,4 @@ md-spinner[color="danger"] {
 .hidden-xl-down {
   display: none !important;
 }
+

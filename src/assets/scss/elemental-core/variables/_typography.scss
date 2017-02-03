@@ -1,0 +1,187 @@
+////
+/// Variables for setting base type styles.
+///
+/// @group core
+////
+
+// Type definitions
+// ----------------------------------------------------------------------------
+
+$typefaces: () !global;
+
+/// Serif type definitions.
+///
+/// @prop {String} font-family [("Lucida Bright", Lucidabright, "Lucida Serif", Lucida, "DejaVu Serif", "Bitstream Vera Serif", "Liberation Serif", Georgia, serif)]
+///   Font family names to use.
+/// @prop {Number} light [200]
+///   The font-weight value for a light version of the font.
+/// @prop {Number} normal [400]
+///   The font-weight value for a normal version of the font.
+/// @prop {Number} bold [600]
+///   The font-weight value for a bold version of the font.
+/// @prop {Number} cap-height [.77]
+///   The factor of the family's total line-height from the baseline to the top
+///   of the tallest letter.
+///
+/// @type Map
+$type-serif: (
+  font-family: ('Lucida Bright', Lucidabright, 'Lucida Serif', Lucida, 'DejaVu Serif', 'Bitstream Vera Serif', 'Liberation Serif', Georgia, serif),
+  light: 200,
+  normal: 400,
+  bold: 600,
+  cap-height: .77,
+) !default;
+
+/// Sans serif type definitions.
+///
+/// @prop {String} font-family [("Helvetica Neue", helvetica, "Segoe UI", segoe, "Ubuntu", "Droid Sans", "Arial", sans-serif)]
+///   Font family names to use.
+/// @prop {Number} light [200]
+///   The font-weight value for a light version of the font.
+/// @prop {Number} normal [400]
+///   The font-weight value for a normal version of the font.
+/// @prop {Number} bold [600]
+///   The font-weight value for a bold version of the font.
+/// @prop {Number} cap-height [.76]
+///   The factor of the family's total line-height from the baseline to the top
+///   of the tallest letter.
+///
+/// @type Map
+$type-sans-serif: (
+  font-family: ('Helvetica Neue', helvetica, arial, 'liberation sans', sans-serif),
+  light: 200,
+  normal: 400,
+  bold: 600,
+  cap-height: .76
+) !default;
+
+/// Monospace type definitions.
+///
+/// @prop {String} font-family [(Menlo, Monaco, Consolas, "Courier New", monospace)]
+///   Font family names to use.
+/// @prop {Number} light [200]
+///   The font-weight value for a light version of the font.
+/// @prop {Number} normal [400]
+///   The font-weight value for a normal version of the font.
+/// @prop {Number} bold [600]
+///   The font-weight value for a bold version of the font.
+/// @prop {Number} cap-height [.78]
+///   The factor of the family's total line-height from the baseline to the top
+///   of the tallest letter.
+///
+/// @type Map
+$type-monospace: (
+  font-family: (Menlo, Monaco, Consolas, "Courier New", monospace),
+  light: 200,
+  normal: 400,
+  bold: 600,
+  cap-height: .78,
+) !default;
+
+$typefaces: map-merge($typefaces, (
+  serif: $type-serif,
+  sans-serif: $type-sans-serif,
+  monospace: $type-monospace
+));
+
+$typeface-default: sans-serif !default;
+
+/// The defaut type of font to use.
+///
+/// @alias type-sans-serif
+///
+/// @type Map
+$type-default: $type-sans-serif !default;
+
+// Type sizes
+// ----------------------------------------------------------------------------
+
+/// The base font size in rem units.
+///
+/// @type Number (rem)
+$text-size-base: px-to-relative($text-size-root) !default;
+
+/// Font size of the h1 element.
+///
+/// @type Number (px)
+$text-size-h1: $text-size-gargantuan !default;
+
+/// Font size of the h2 element.
+///
+/// @type Number (px)
+$text-size-h2: $text-size-giant !default;
+
+/// Font size of the h3 element.
+///
+/// @type Number (px)
+$text-size-h3: $text-size-extra-large !default;
+
+/// Font size of the h4 element.
+///
+/// @type Number (px)
+$text-size-h4: $text-size-large !default;
+
+/// Font size of the h5 element.
+///
+/// @alias text-size-large
+///
+/// @type Number (px)
+$text-size-h5: $text-size-root !default;
+
+/// Font size of the h6 element.
+///
+/// @alias text-size-root
+///
+/// @type Number (px)
+$text-size-h6: $text-size-small !default;
+
+/// Assemble all the header styles into a map for easy feeding into a mixin.
+///
+/// @prop {Map} 1
+///   Style settings for the h1 element.
+/// @prop {Number (px)} 1.size [$text-size-h1]
+/// @prop {String} 1.weight [light]
+/// @prop {Map} 2
+///   Style settings for the h2 element.
+/// @prop {Number (px)} 2.size [$text-size-h1]
+/// @prop {String} 2.weight [light]
+/// @prop {Map} 3
+///   Style settings for the h3 element.
+/// @prop {Number (px)} 3.size [$text-size-h1]
+/// @prop {String} 3.weight [light]
+/// @prop {Map} 4
+///   Style settings for the h4 element.
+/// @prop {Number (px)} 4.size [$text-size-h1]
+/// @prop {Map} 5
+///   Style settings for the h5 element.
+/// @prop {Number (px)} 5.size [$text-size-h1]
+/// @prop {Map} 6
+///   Style settings for the h6 element.
+/// @prop {Number (px)} 6.size [$text-size-h1]
+/// @prop {String} 6.weight [light]
+///
+/// @type Map
+$headers: (
+  1: (
+    size: $text-size-h1,
+    weight: light,
+  ),
+  2: (
+    size: $text-size-h2,
+    weight: light,
+  ),
+  3: (
+    size: $text-size-h3,
+    weight: light,
+  ),
+  4: (
+    size: $text-size-h4,
+  ),
+  5: (
+    size: $text-size-h5,
+  ),
+  6: (
+    size: $text-size-h6,
+    weight: bold,
+  )
+) !default;

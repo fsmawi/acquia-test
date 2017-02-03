@@ -1,0 +1,206 @@
+////
+/// Color functions.
+///
+/// @group core
+////
+
+/// Merge two colors together creating a darker variant.
+///
+/// @param {Color} $color1 - Base color.
+/// @param {Color} $color2 - Modifying color.
+///
+/// @return {Color}
+///   Resulting value by multiplying individual rgb values and then dividing by
+///   255.
+@function multiply($color1, $color2) {
+  $red: red($color1) * red($color2) / 255;
+  $green: green($color1) * green($color2) / 255;
+  $blue: blue($color1) * blue($color2) / 255;
+  $color: rgb($red, $green, $blue);
+
+  @return $color;
+}
+
+/// Merge two colors together creating a lighter variant.
+///
+/// @param {Color} $color1 - Base color.
+/// @param {Color} $color2 - Modifying color.
+///
+/// @return {Color}
+///   Resulting value by dividing individual rgb values and then multiplying by
+///   255.
+@function screen($color1, $color2) {
+  $red: red($color1) / red($color2) * 255;
+  $green: green($color1) / green($color2) * 255;
+  $blue: blue($color1) / blue($color2) * 255;
+  $color: rgb($red, $green, $blue);
+
+  @return $color;
+}
+
+/// Add percentage of white to a color
+///
+/// @param {Color} $color
+///   The base color to add white to.
+/// @param {Number (percentage)} $percent
+///   The amount of white to add to $color.
+///
+/// @return {Color} $color mixed with a $percent of white.
+@function tint($color, $percent) {
+  /// scss-lint:disable ColorVariable
+  /// This function depends on the color white. It is not configurable.
+  @return mix(#ffffff, $color, $percent);
+}
+
+/// Add percentage of black to a color
+///
+/// @param {Color} $color
+///   The base color to add black to.
+/// @param {Number (percentage)} $percent
+///   The amount of black to add to $color.
+///
+/// @return {Color} $color mixed with a $percent of black.
+@function shade($color, $percent) {
+  /// scss-lint:disable ColorVariable
+  /// This function depends on the color black. It is not configurable.
+  @return mix(#000000, $color, $percent);
+}
+
+/// Calculate brightness of a given color.
+///
+/// @param {Color} $color - The color value to find the brightness for.
+///
+/// @return {Number} The brightness level of a color.
+@function brightness($color) {
+  @return ((red($color) * .299) + (green($color) * .587) + (blue($color) * .114)) / 255 * 100%;
+}
+
+/// Compares contrast of a given color to the light/dark arguments and returns
+/// whichever is most "contrasty"
+///
+/// @param {Color} $color
+///   The base color used to determine the contrasting color.
+/// @param {Color} $dark [$color-neutral-13]
+///   The dark color value to be compared to color.
+/// @param {Color} $light [$color-neutral-0]
+///   The light color to be compared to color.
+///
+/// @return {Color}
+///   The value of $dark or $light; whichever has the most contrast to $color.
+@function color-contrast($color, $dark: $color-neutral-13, $light: $color-neutral-0) {
+  @if $color == null {
+    @return null;
+  } @else {
+    $color-brightness: brightness($color);
+    $light-text-brightness: brightness($light);
+    $dark-text-brightness: brightness($dark);
+
+    @return if(abs($color-brightness - $light-text-brightness) > abs($color-brightness - $dark-text-brightness), $light, $dark);
+  }
+}
+
+/// Make a bolder version of a color. This is similar to sass' darken function,
+/// but attempts to make colors pop more with a hue shift.
+///
+/// This is the default darken function of the generate-color-variants function.
+///
+/// @param {Color} $color - Base color to change.
+/// @param {Number (unitless)} $factor [$color-variant-factor]
+///   Effect the amount of emboldening.
+/// @param {Number (deg)} $hue [$color-hue-factor]
+///   How much to effect the hue.
+///
+/// @return {Color} - An emboldened version of $color.
+///
+/// @see {function} generate-color-variants
+@function embolden($color, $factor: $color-variant-factor, $hue: $color-hue-factor) {
+  $darken: darken($color, $factor);
+  $brightness: brightness($darken);
+  $saturate: if($brightness >= 50%, ((100% - $brightness) / 2), ($brightness / 2));
+
+  $deg: hue($color);
+  @if $deg > 270 and $deg < 360 {
+    $hue: $hue;
+  } @else if $deg > 0 and $deg < 90 {
+    $hue: -$hue;
+  } @else if $deg > 90 and $deg < 180 {
+    $hue: $hue;
+  } @else if $deg > 180 and $deg < 270 {
+    $hue: -$hue;
+  }
+
+  $hue-change: (ceil($factor / 6) * $hue) * ($saturate / 100%);
+
+  @return saturate(adjust-hue($darken, $hue-change), $saturate);
+}
+
+/// Make a subdued version of a color. This is similar to sass' lighten
+/// function, but attempts to make colors pop more with a hue shift.
+///
+/// This is the default darken function of the generate-color-variants function.
+///
+/// @param {Color} $color - Base color to change.
+/// @param {Number (unitless)} $factor [$color-variant-factor]
+///   Effect the amount of subdueing.
+/// @param {Number (deg)} $hue [$color-hue-factor]
+///   How much to effect the hue.
+///
+/// @return {Color} - An subdued version of $color.
+///
+/// @see {function} generate-color-variants
+@function subdue($color, $factor: $color-variant-factor, $hue: $color-hue-factor) {
+  $lighten: lighten($color, $factor);
+  $brightness: brightness($lighten);
+  $saturate: if($brightness >= 50%, ((100% - $brightness) / 2), ($brightness / 2));
+
+  $deg: hue($color);
+  @if $deg > 270 and $deg < 360 {
+    $hue: -$hue;
+  } @else if $deg > 0 and $deg < 90 {
+    $hue: $hue;
+  } @else if $deg > 90 and $deg < 180 {
+    $hue: -$hue;
+  } @else if $deg > 180 and $deg < 270 {
+    $hue: $hue;
+  }
+
+  $hue-change: (ceil($factor / 6) * $hue) * ($saturate / 100%);
+
+  @return saturate(adjust-hue($lighten, $hue-change), $saturate);
+}
+
+/// Generate a family of color variants from a single color.
+///
+/// @param {Color} $color - The base color to generate the variants from.
+/// @param {List} $variants [(6, 6)]
+///   A list of 2 integers to determine the number of variants to be made. The
+///   first value is the number of lighter variants to make, and the second is
+///   number of darker variants to make.
+/// @param {String} $lighten-function [subdue]
+///   The name of the lightening function to use for creating lighter variants.
+/// @param {String} $darken-function [embolden]
+///   The name of the darkening function to use for creating darker variants.
+///
+/// @return {Map}
+@function generate-color-variants($color, $variants: (6, 6), $lighten-function: subdue, $darken-function: embolden) {
+  $counter: 1;
+  $colors: ();
+  $lighten: nth($variants, 1);
+  $darken: nth($variants, 2);
+  $total: $lighten + $darken;
+
+  @while $counter <= $lighten {
+    $colors: map-merge($colors, ($counter: call($lighten-function, $color, ($color-variant-factor * ($lighten - $counter + 1)))));
+    $counter: $counter + 1;
+  }
+
+  $colors: map-merge($colors, (($lighten + 1): $color));
+
+  $counter: 1;
+  @while $counter <= $darken {
+    $colors: map-merge($colors, (($counter + $lighten + 1): call($darken-function, $color, ($color-variant-factor * $counter))));
+    $counter: $counter + 1;
+  }
+
+  @return $colors;
+}

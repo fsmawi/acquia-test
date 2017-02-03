@@ -8,6 +8,7 @@ import {MomentModule} from 'angular2-moment';
 import {JobListComponent} from './job-list/job-list.component';
 import {SharedModule} from '../shared/shared.module';
 import {FlexLayoutModule} from '@angular/flex-layout';
+import {ElementalModule} from '../elemental/elemental.module';
 
 @NgModule({
   imports: [
@@ -16,7 +17,8 @@ import {FlexLayoutModule} from '@angular/flex-layout';
     MaterialModule.forRoot(),
     FlexLayoutModule.forRoot(),
     MomentModule,
-    SharedModule
+    SharedModule,
+    ElementalModule
   ],
   declarations: [JobsComponent, JobsDetailComponent, JobListComponent]
 })
