@@ -62,17 +62,24 @@ export class JobsDetailComponent implements OnInit, OnDestroy {
       (params: Params) => {
         this.appId = params['app'];
         this.jobId = params['id'];
+        if (this.timer) {
+          clearInterval(this.timer);
+        }
+        this.timer = setInterval(() => {
+          this.refresh.call(this);
+        }, 5000);
         this.refresh();
       }
     );
-    this.timer = setInterval(() => this.refresh.call(this), 2000);
   }
 
   /**
    * When navigating or destroying the component, stop the refresh interval
    */
   ngOnDestroy() {
-    clearTimeout(this.timer);
+    if (this.timer) {
+      clearInterval(this.timer);
+    }
   }
 
   /**
@@ -86,6 +93,11 @@ export class JobsDetailComponent implements OnInit, OnDestroy {
       .then(() => this.pipelineService.getLogFile(this.appId, this.jobId))
       .then((logs: Array<JobLog>) => this.logs = logs)
       .then(() => this.job = job)
+      .then(() => {
+        if (this.job.isFinished && this.timer) {
+          clearInterval(this.timer);
+          this.timer = null;
+        }})
       .catch(e => this.errorHandler.apiError(e))
       .then(() => this.loadingJob = false);
   }
