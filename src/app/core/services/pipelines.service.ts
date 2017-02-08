@@ -42,6 +42,31 @@ export class PipelinesService {
   }
 
   /**
+   * Attach a Github repository
+   * @param token
+   * @param repositoy
+   * @param applications
+   */
+  attachGithubRepository(token: string, repositoy: string, applications = []) {
+    return this.promisePostRequest(this.URI + `/ci/github/init`, {
+                  github_token: token,
+                  repo: repositoy,
+                  applications: applications
+                }, {});
+  }
+
+  /**
+   * Get a presigned redirecting URL
+   * @param appId
+   */
+  getPresignedUrl(appId: string) {
+    return this.promisePostRequest(environment.apiEndpoint + `/redirect/create`, {
+                  application_id: appId,
+                  url: environment.URL + `/auth/github/code/${appId}`
+                }, {});
+  }
+
+  /**
    * Gets the logs from a job
    * @param appId
    * @param jobId
@@ -76,5 +101,16 @@ export class PipelinesService {
 
     // Make Call
     return this.http.get(url, reqOptions).map(r => r.json()).toPromise();
+  }
+
+  /**
+   * Helper to make post requests
+   * @param url
+   * @param params
+   * @param headers
+   * @returns {Promise<HttpRequest>}
+   */
+  promisePostRequest(url, params, headers): Promise<any> {
+    return this.http.post(url, params, headers).map(r => r.json()).toPromise();
   }
 }

@@ -7,6 +7,7 @@ const routes: Routes = [
   {path: '', redirectTo: '/auth/tokens', pathMatch: 'full'},
   // End
   {path: 'jobs', loadChildren: 'app/jobs/jobs.module#JobsModule', canActivate: [AuthGuard]},
+  {path: 'auth/github', loadChildren: 'app/auth-github/auth-github.module#AuthGithubModule'},
   {path: 'auth/tokens', loadChildren: 'app/auth-tokens/auth-tokens.module#AuthTokensModule'}
 ];
 

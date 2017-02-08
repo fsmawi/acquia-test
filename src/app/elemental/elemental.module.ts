@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {CardComponent} from './card/card.component';
 import {CardHeaderComponent} from './card-header/card-header.component';
+import {CardFooterComponent} from './card-footer/card-footer.component';
 import {CardContentComponent} from './card-content/card-content.component';
 import {DataComponent} from './data/data.component';
 import {DataLabelComponent} from './data-label/data-label.component';
@@ -18,6 +19,7 @@ import {ButtonComponent} from './button/button.component';
   declarations: [
     CardComponent,
     CardHeaderComponent,
+    CardFooterComponent,
     CardContentComponent,
     DataComponent,
     DataLabelComponent,
@@ -30,6 +32,7 @@ import {ButtonComponent} from './button/button.component';
   exports: [
     CardComponent,
     CardHeaderComponent,
+    CardFooterComponent,
     CardContentComponent,
     DataComponent,
     DataLabelComponent,

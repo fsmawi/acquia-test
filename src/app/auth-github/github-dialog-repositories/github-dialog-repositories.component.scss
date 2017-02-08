@@ -1,0 +1,15 @@
+.el-select-list__options {
+  height: 200px;
+  max-height: 200px;
+  overflow: overlay;
+}
+
+/deep/ md-dialog-container {
+  padding: 0;
+  width: 520px;
+  height: auto;
+
+  section.el-card {
+    margin-bottom: 0;
+  }
+}

@@ -1,0 +1,12 @@
+<md-progress-bar *ngIf="!loading" mode="indeterminate"></md-progress-bar>
+<h1>Pipelines</h1>
+<p>Pipelines Environments provide out-of-the-box, GitHub or Acquia git driven feature branch workflow support on Acquia Cloud.</p>
+<h2>Connect with Github</h2>
+<p>Attach a remote Github repository containing your build assets to enable automatic Pipelines builds with new commits and pull requests.</p>
+<div class="github-connect">
+  <e-button text="Connect to Github" type="primary" (click)="authenticate()" *ngIf="connect" [disabled]="authorized"></e-button>
+  <span *ngIf="authorized">Your github is connected</span>
+</div>
+<div class="github-connect" *ngIf="authorized">
+  <e-button text="Select Github repository" type="primary" (click)="selectRepository()"></e-button>
+</div>

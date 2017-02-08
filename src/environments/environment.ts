@@ -7,5 +7,17 @@ export const environment = {
   production: false,
   apiEndpoint: '',
   n3Key: '', // user supplied, or from cookies
-  n3Secret: '' // user supplied, or from cookies
+  n3Secret: '', // user supplied, or from cookies
+  URL: '',
+  auth: { // authentication parameters
+    github: {
+      oauthEndpoint: '',
+      oauthTokenEndpoint: '',
+      apiEndpoint: '',
+      clientId: '',
+      clientSecret: '',
+      redirectUrl: '',
+      scopes: ''
+    }
+  }
 };

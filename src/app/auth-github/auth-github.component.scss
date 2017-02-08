@@ -1,0 +1,20 @@
+.github-connect {
+
+  margin-bottom: 30px;
+
+  /deep/ .disabled button {
+    background-color: rgba(0, 0, 0, 0.12);
+    border-color: rgba(0, 0, 0, 0.12);
+    color: rgba(0, 0, 0, 0.38);
+  }
+
+  /deep/ button {
+    width: 215px;
+    margin-right: 10px;
+  }
+
+  span {
+    font-size: 20px;
+    font-weight: bold;
+  }
+}

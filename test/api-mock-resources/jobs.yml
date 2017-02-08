@@ -652,3 +652,16 @@ routes:
           timestamp: 1456263980
           level: ERROR
           message: Problem while loading the components.
+  /api/v1/ci/github/init:
+    POST:
+      response:
+        success: true
+        deploy_key_url: 'key_url'
+        webhook_url: 'webhook_url'
+  /redirect/create:
+    POST:
+      response:
+        redirect_url: http://localhost:3000/callback/kf54sd5454fs
+redirections:
+  /callback/kf54sd5454fs/auth/github/code/123:
+    redirect_to: http://localhost:4200/auth/github/code/123

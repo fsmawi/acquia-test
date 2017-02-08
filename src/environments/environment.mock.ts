@@ -7,5 +7,17 @@ export const environment = {
   production: false,
   apiEndpoint: 'http://localhost:3000',
   n3Key: '', // user supplied, or from cookies
-  n3Secret: '' // user supplied, or from cookies
+  n3Secret: '', // user supplied, or from cookies
+  URL: 'http://localhost:4200',
+  auth: { // authentication parameters
+    github: {
+      oauthEndpoint: 'https://github.com/login/oauth/authorize',
+      oauthTokenEndpoint: 'https://github.com/login/oauth/access_token',
+      apiEndpoint: 'https://api.github.com',
+      clientId: '0feb9b9b388fd7d05d2c',
+      clientSecret: '42d64969ab4a28fc363124675d9fc193d17345c1',
+      redirectUrl: 'http://localhost:3000/callback',
+      scopes: 'user,repo'
+    }
+  }
 };

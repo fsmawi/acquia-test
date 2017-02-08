@@ -13,6 +13,9 @@ export class ButtonComponent implements OnInit {
   @Input()
   type = 'primary';
 
+  @Input()
+  disabled: boolean;
+
   constructor() {
   }
 
