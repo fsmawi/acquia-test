@@ -23,7 +23,7 @@ events:
             - ng build -prod --progress --output-path=/tmp/build
             - npm run lint
             - npm test
-      # Put the build and .htaccess into docroot.
+      # Put the build, index.php, and .htaccess into docroot.
       - copy_dist:
           script:
             - set -x
@@ -31,6 +31,7 @@ events:
             - mkdir ./docroot
             - cp -r /tmp/build/* ./docroot
             - cp .htaccess ./docroot
+            - cp index.php ./docroot
 
       # Deploy the build to an ODE.
       #

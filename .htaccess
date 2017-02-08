@@ -4,8 +4,12 @@ Options -Indexes
 # Follow symbolic links in this directory.
 Options +FollowSymLinks
 
-# Set the default handler.
-DirectoryIndex index.html
+# Set the default handler. We're using index.php so it can require HTTP
+# Authorization.  Cloud does not support AuthUserFile because it requires
+# an absolute path which is not available.
+DirectoryIndex index.php
+# When we no longer need HTTP Authorization, use this instead.
+# DirectoryIndex index.html
 
 <IfModule mod_rewrite.c>
   RewriteEngine on
@@ -60,4 +64,9 @@ DirectoryIndex index.html
   # ExpiresDefault A1209600
   # For now, no caching.
   ExpiresDefault A0
+
+  <FilesMatch \.php$>
+    # Never cache PHP scripts.
+    ExpiresActive Off
+  </FilesMatch>
 </IfModule>

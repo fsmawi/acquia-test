@@ -48,11 +48,6 @@ export class AuthTokensComponent implements OnInit {
     environment.n3Key = this.n3Key;
     environment.n3Secret = this.n3Secret;
 
-    // HACK: Psuedo Basic Auth for Internal Demos
-    if (this.accessCode !== 'pipelines2017') {
-      return alert('Your beta access code is not correct. Please reach out to your manager for the correct code.');
-    }
-
     this.router.navigateByUrl(`/jobs/${this.appId}`);
   }
 }
