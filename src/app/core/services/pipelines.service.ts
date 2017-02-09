@@ -78,6 +78,44 @@ export class PipelinesService {
   }
 
   /**
+   * Stops a job
+   * @param appId
+   * @param jobId
+   * @param buildstepsEndpoint
+   * @param buildstepsUser
+   * @param buildstepsPass
+   * @returns {Promise<HttpResponse>}
+   */
+  stopJob(appId: string,
+          jobId: string,
+          buildstepsEndpoint: string = undefined,
+          buildstepsUser: string = undefined,
+          buildstepsPass: string = undefined) {
+    return this.promisePostRequest(this.URI + `/ci/jobs/${jobId}/terminate`, {
+      applications: [appId],
+      buildsteps_endpoint: buildstepsEndpoint,
+      buildsteps_user: buildstepsUser,
+      buildsteps_pass: buildstepsPass
+    });
+  }
+
+  /**
+   * Starts a pipelines job
+   * @param appId
+   * @param pipelineId
+   * @param options
+   * @returns {Promise<HttpRequest>}
+   */
+  startJob(appId: string, pipelineId: string, options = {}) {
+    // Default Options
+    Object.assign(options, {
+      applications: [appId]
+    });
+
+    return this.promisePostRequest(this.URI + `/ci/pipelines/${pipelineId}/start`, options);
+  }
+
+  /**
    * Helper to make get requests. Adds Pipeline creds if supplied.
    * @param url
    * @param params
@@ -85,6 +123,32 @@ export class PipelinesService {
    */
   promiseGetRequest(url, params = {}) {
     // Create Request Options Object
+    const reqOptions = this.generateReqOptions(params);
+
+    // Make Call
+    return this.http.get(url, reqOptions).map(r => r.json()).toPromise();
+  }
+
+  /**
+   * Helper to make post requests. Adds Pipeline creds if supplied.
+   * @param url
+   * @param body
+   * @param params
+   * @returns {Promise<HttpRequest>}
+   */
+  promisePostRequest(url, body = {}, params = {}) {
+    const reqOptions = this.generateReqOptions(params);
+
+    // Make Call
+    return this.http.post(url, body, reqOptions).map(r => r.json()).toPromise();
+  }
+
+  /**
+   * Generate common headers and params.
+   * @param params
+   * @returns {RequestOptions}
+   */
+  generateReqOptions(params) {
     const reqOptions = new RequestOptions();
 
     // use token auth if needed
@@ -99,8 +163,7 @@ export class PipelinesService {
     reqOptions.search = reqOptions.search || new URLSearchParams();
     Object.keys(params).forEach(k => reqOptions.search.append(k, params[k]));
 
-    // Make Call
-    return this.http.get(url, reqOptions).map(r => r.json()).toPromise();
+    return reqOptions;
   }
 
   /**

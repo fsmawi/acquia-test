@@ -26,10 +26,11 @@
     <td class="center hidden-sm-down" *ngIf="job.finished_at">{{job.finishedAt | amTimeAgo}}</td>
     <td class="center hidden-sm-down" *ngIf="!job.finished_at">-</td>
     <td class="center">
-      <button md-button *ngIf="job.isFailed">
-        <md-icon color="primary">refresh</md-icon>
-      </button>
-      <button md-button *ngIf="job.isUnfinished">
+      <!-- TODO Refresh is not available in the API yet -->
+      <!--<button md-button *ngIf="job.isFailed" (click)="restartJob(job)">-->
+      <!--<md-icon color="primary">refresh</md-icon>-->
+      <!--</button>-->
+      <button md-button *ngIf="job.isUnfinished" (click)="stopJob(job)">
         <md-icon color="primary">stop</md-icon>
       </button>
     </td>
