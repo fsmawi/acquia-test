@@ -1,3 +1,4 @@
+
 version: 1.0.0
 
 variables:
@@ -10,19 +11,25 @@ events:
   build:
     steps:
       # Install npm and the ng CLI tool.
-      - node:
+      - install:
           script:
-            - nvm install node
-            - nvm use node
-            - npm i -g angular-cli
+            - nvm install v6.9.5 # lts/boron
+            - nvm use 6.9.5
+            - npm install
+
       # Install dependencies and build the app into a temp directory.
+      - lint:
+          script:
+            - npm run lint
+      - test:
+          script:
+            - npm test
+            - npm run integration
+            - npm run e2e
       - build:
           script:
-            - set -x
-            - npm install
-            - ng build -prod --progress --output-path=/tmp/build
-            - npm run lint
-            - npm test
+            - npm run pipelines:build:$PIPELINE_VCS_PATH
+
       # Put the build, index.php, and .htaccess into docroot.
       - copy_dist:
           script:
@@ -43,6 +50,11 @@ events:
             - composer install
             - PIPELINES_EVENT=build php cloud-ode.php
 
+      # Acceptance Testing only on production builds
+      - acceptance:
+          script:
+            - \[ $PIPELINE_VCS_PATH == "production" \] && npm run integration:acceptance || echo "Integration Acceptance only in Production"
+            - \[ $PIPELINE_VCS_PATH == "production" \] && npm run e2e:acceptance || echo "E2E Acceptance only in Production"
   merge:
     steps:
       # Delete ODEs when the source branch is merged.

@@ -11,7 +11,14 @@
     "mock": "merver",
     "mock:jobs": "merver test/api-mock-resources/jobs.yml",
     "mock:no-jobs": "merver test/api-mock-resources/no-jobs.yml",
-    "coverage": "ng test --code-coverage --watch=false"
+    "coverage": "ng test --code-coverage --watch=false",
+    "integration": "echo TODO",
+    "integration:acceptance": "echo TODO",
+    "e2e": "echo TODO",
+    "e2e:acceptance": "echo TODO",
+    "pipelines:build:master": "ng build --aot --env=live-mock --output-path=/tmp/build",
+    "pipelines:build:staging": "ng build --aot --env=live-mock --output-path=/tmp/build",
+    "pipelines:build:production": "ng build --prod --aot --progress --output-path=/tmp/build"
   },
   "private": true,
   "dependencies": {
