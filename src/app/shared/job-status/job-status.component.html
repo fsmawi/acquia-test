@@ -4,7 +4,7 @@
   <md-icon *ngSwitchCase="'queued'" class="primary">timer</md-icon>
   <md-spinner class="status-spinner" *ngSwitchCase="'starting'" color="primary"></md-spinner>
   <md-spinner class="status-spinner" *ngSwitchCase="'started'" color="primary"></md-spinner>
-  <md-spinner class="status-spinner" *ngSwitchCase="'running'" color="primary"></md-spinner>
+  <e-progress type="indeterminate" variant="arrows" *ngSwitchCase="'running'"></e-progress>
   <md-spinner class="status-spinner" *ngSwitchCase="'terminating'" color="danger"></md-spinner>
   <e-svg-icon *ngSwitchDefault class="danger" type="state__danger">remove_circle</e-svg-icon>
 </div>

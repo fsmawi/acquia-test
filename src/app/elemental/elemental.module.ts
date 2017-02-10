@@ -11,6 +11,7 @@ import {AlertComponent} from './alert/alert.component';
 import {SpriteIconComponent} from './sprite-icon/sprite-icon.component';
 import {SvgIconComponent} from './svg-icon/svg-icon.component';
 import {ButtonComponent} from './button/button.component';
+import {ProgressComponent} from './progress/progress.component';
 
 @NgModule({
   imports: [
@@ -27,7 +28,8 @@ import {ButtonComponent} from './button/button.component';
     AlertComponent,
     SpriteIconComponent,
     SvgIconComponent,
-    ButtonComponent
+    ButtonComponent,
+    ProgressComponent
   ],
   exports: [
     CardComponent,
@@ -40,7 +42,8 @@ import {ButtonComponent} from './button/button.component';
     AlertComponent,
     SpriteIconComponent,
     SvgIconComponent,
-    ButtonComponent
+    ButtonComponent,
+    ProgressComponent
   ],
 })
 export class ElementalModule {
