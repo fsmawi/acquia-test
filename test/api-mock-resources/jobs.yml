@@ -1,6 +1,6 @@
 ---
 routes:
-  /api/v1/ci/jobs:  
+  /api/v1/ci/jobs:
     GET:
       responses:
       - response:

@@ -1,10 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import {GithubService} from '../core/services/github.service';
-import {PipelinesService} from '../core/services/pipelines.service';
-import {ErrorService} from '../core/services/error.service';
-import {ActivatedRoute, Router, Params} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { GithubService } from '../core/services/github.service';
+import { PipelinesService } from '../core/services/pipelines.service';
+import { ErrorService } from '../core/services/error.service';
+import { ActivatedRoute, Router, Params } from '@angular/router';
 import { MdDialog, MdDialogRef } from '@angular/material';
 import { GithubDialogRepositoriesComponent } from './github-dialog-repositories/github-dialog-repositories.component';
+import { FlashMessageService } from '../core/services/flash-message.service';
 
 @Component({
   selector: 'app-auth-github',
@@ -50,6 +51,7 @@ export class AuthGithubComponent implements OnInit {
    * @param router
    * @param errorHandler
    * @param pipelines
+   * @param flashMessage
    * @param dialog
    */
   constructor(private route: ActivatedRoute,
@@ -57,6 +59,7 @@ export class AuthGithubComponent implements OnInit {
               private router: Router,
               private errorHandler: ErrorService,
               private pipelines: PipelinesService,
+              private flashMessage: FlashMessageService,
               private dialog: MdDialog) {
   }
 
@@ -67,6 +70,22 @@ export class AuthGithubComponent implements OnInit {
     if (!this.authorized) {
       this.auth.authenticate();
     }
+  }
+
+  /**
+   * Get presigned URL
+   */
+  getPresignedUrl() {
+    this.pipelines.getPresignedUrl(this.appId)
+      .then(url => {
+        this.connect = true;
+        this.auth.setRedirectUrl(url.redirect_url + `/auth/github/code/${this.appId}`);
+      })
+      .catch((e) => {
+        this.errorHandler.apiError(e);
+        this.flashMessage.showError('Something went wrong.', e);
+      })
+      .then(() => this.loading = true);
   }
 
   /**
@@ -82,7 +101,8 @@ export class AuthGithubComponent implements OnInit {
           })
           .catch((e) => {
             this.errorHandler.apiError(e);
-            this.back();
+            this.flashMessage.showError('Github authentication failed.', e);
+            this.router.navigate(['auth/github', this.appId]);
           })
           .then(() => this.loading = true);
       });
@@ -95,7 +115,7 @@ export class AuthGithubComponent implements OnInit {
 
     let dialogRef: MdDialogRef<GithubDialogRepositoriesComponent>;
 
-    dialogRef = this.dialog.open(GithubDialogRepositoriesComponent, {width: '600px', height: '500px'});
+    dialogRef = this.dialog.open(GithubDialogRepositoriesComponent);
 
     dialogRef.componentInstance.accessToken = this.token;
 
@@ -113,7 +133,10 @@ export class AuthGithubComponent implements OnInit {
   attachRepository(repository) {
     this.pipelines.attachGithubRepository(this.token, repository.full_name, [this.appId])
       .then((r) => this.displayJobs())
-      .catch(e => this.errorHandler.apiError(e));
+      .catch(e => {
+        this.errorHandler.apiError(e);
+        this.flashMessage.showError('Can\'t attach repository.', e);
+      });
   }
 
   /**
@@ -124,38 +147,24 @@ export class AuthGithubComponent implements OnInit {
   }
 
   /**
-   * Navigate back to Connexion page
-   */
-  back() {
-    this.router.navigate(['auth/github', this.appId]);
-  }
-
-  /**
    * On component initialize, initiate redirect url
    */
   ngOnInit() {
     this.connect = false;
     this.authorized = false;
     this.loading = false;
-    this.route.params
-      .subscribe((params) => {
-        this.appId = params['app-id'];
+    this.route.params.subscribe((params) => {
 
-        //  Connection screen
-        if (this.route.snapshot.data['type'] !== 'code') {
-           // Get presigned URL
-          this.pipelines.getPresignedUrl(this.appId)
-              .then(url => {
-                this.connect = true;
-                this.auth.setRedirectUrl(url.redirect_url + `/auth/github/code/${this.appId}`);
-              })
-              .catch(e => this.errorHandler.apiError(e))
-              .then(() => this.loading = true);
-        } else {
-          this.connect = true; // already connected if in code sceen
-           // Get authorization code from query parameters
-          this.login();
-        }
-      });
+      this.appId = params['app-id'];
+
+      //  Connection screen
+      if (this.route.snapshot.data['type'] !== 'code') {
+        this.getPresignedUrl();
+      } else {
+        this.connect = true; // already connected if in auth/github/code route
+         // Get authorization code from query parameters
+        this.login();
+      }
+    });
   }
 }

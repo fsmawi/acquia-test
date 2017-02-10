@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MdDialogRef } from '@angular/material';
 import { GithubService } from '../../core/services/github.service';
 import { RepositoryFilterPipe } from './repository-filter.pipe';
-import {ErrorService} from '../../core/services/error.service';
+import { ErrorService } from '../../core/services/error.service';
 
 @Component({
   selector: 'app-github-dialog-repositories',

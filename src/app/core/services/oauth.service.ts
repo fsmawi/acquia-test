@@ -47,6 +47,10 @@ export class OauthService extends HttpService {
    */
   scopes = '';
 
+  /**
+   * Initiate service
+   * @param http
+   */
   constructor(protected http: Http) {
     super(http);
   }

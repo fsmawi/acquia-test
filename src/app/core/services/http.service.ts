@@ -6,14 +6,19 @@ import 'rxjs/add/operator/toPromise';
 @Injectable()
 export class HttpService {
 
+  /**
+   * Initiate the service
+   * @param http
+   */
   constructor(protected http: Http) { }
 
   /**
    * Helper to make get requests.
    * @param url
    * @param params
+   * @return {Promise<any>}
    */
-  promiseGetRequest(url, params) {
+  promiseGetRequest(url, params): Promise<any> {
     return this.http.get(url, params).map(r => r.json()).toPromise();
   }
 

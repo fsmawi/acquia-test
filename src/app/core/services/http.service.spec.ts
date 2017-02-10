@@ -2,7 +2,7 @@
 
 import { TestBed, async, inject } from '@angular/core/testing';
 import { HttpService } from './http.service';
-import {HttpModule} from '@angular/http';
+import { HttpModule } from '@angular/http';
 
 describe('HttpService', () => {
   beforeEach(() => {

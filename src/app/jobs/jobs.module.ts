@@ -15,7 +15,7 @@ import {ElementalModule} from '../elemental/elemental.module';
     CommonModule,
     JobsRoutingModule,
     MaterialModule.forRoot(),
-    FlexLayoutModule.forRoot(),
+    FlexLayoutModule,
     MomentModule,
     SharedModule,
     ElementalModule

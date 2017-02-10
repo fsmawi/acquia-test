@@ -136,7 +136,7 @@ export class PipelinesService {
    * @param params
    * @returns {Promise<HttpRequest>}
    */
-  promisePostRequest(url, body = {}, params = {}) {
+  promisePostRequest(url, body = {}, params = {}): Promise<any> {
     const reqOptions = this.generateReqOptions(params);
 
     // Make Call
