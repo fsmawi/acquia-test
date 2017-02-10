@@ -1,0 +1,7 @@
+extends: google
+rules:
+  max-len: ["error", 140]
+  new-cap: off
+  space-before-function-paren: ["error", "always"]
+parserOptions:
+  ecmaVersion: 6
