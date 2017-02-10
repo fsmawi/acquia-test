@@ -1,0 +1,13 @@
+<div id="errorContainer" class="flex-container"
+     fxLayout="column"
+     fxLayoutAlign="start center">
+  <div id="errorMessage" class="flex-item">
+    <h2 class="ui-cloud__cmp__base-error__title">{{errorCode}} : {{errorTitle}} </h2>
+  </div>
+  <div id="errorRedirect" class="flex-item">
+    <p class="ui-cloud__cmp__base-error__preamble">
+    {{this.errorMessage}} <br/>
+    We recommend going back to the <a routerLink={{tagLink}}> {{tagMessage}} </a>.
+    </p>
+  </div>
+</div>

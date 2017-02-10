@@ -1,0 +1,19 @@
+@import "../../assets/scss/elemental-core.scss";
+
+:host {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 24px;
+}
+
+#errorContainer {
+  background: $color-neutral-1 url("../../assets/access-404.png") no-repeat center 150px;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+
+#errorRedirect {
+  color: $color-neutral-9;
+}

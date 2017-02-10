@@ -80,9 +80,31 @@ export class JobsComponent implements OnInit, OnDestroy {
   refresh() {
     this.loadingJobs = true;
     this.pipelines.getJobsByAppId(this.appId)
-      .then(jobs => this.jobs = jobs)
+      .then(jobs => {
+        // Assign the returned jobs if the initial jobs array is empty.
+        // This is to avoid the reversal of the list as
+        // every new order is inserted using unshift.
+        if (this.jobs.length === 0) {
+          this.jobs = jobs;
+        }else {
+          jobs.forEach(newJob => {
+            // Find if the new job is an existing one
+            const oldJob = this.jobs.find(job => job.job_id === newJob.job_id);
+            if (oldJob) {
+              Object.assign(oldJob, newJob);
+            }else {
+              // Append/insert the new record at the top of the list.
+              this.jobs.unshift(newJob);
+            }
+          });
+        }
+      })
       .then(() => this.lastJob = this.jobs[0])
-      .catch(e => this.errorHandler.apiError(e))
+      .catch(e =>
+          this.errorHandler
+              .apiError(e)
+              .showError('Homepage', '/auth/tokens')
+      )
       .then(() => this.loadingJobs = false);
   }
 }

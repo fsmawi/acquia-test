@@ -99,7 +99,10 @@ export class JobsDetailComponent implements OnInit, OnDestroy {
           this.timer = null;
         }
       })
-      .catch(e => this.errorHandler.apiError(e))
+      .catch(e =>
+          this.errorHandler
+              .apiError(e)
+              .showError('Job list', '/jobs/' + this.appId))
       .then(() => this.loadingJob = false);
   }
 }

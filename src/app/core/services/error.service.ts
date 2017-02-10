@@ -1,4 +1,6 @@
 import {Injectable} from '@angular/core';
+import {Router} from '@angular/router';
+import {Response} from '@angular/http';
 import {environment} from '../../../environments/environment';
 
 declare const Bugsnag;
@@ -6,15 +8,79 @@ declare const Bugsnag;
 @Injectable()
 export class ErrorService {
 
-  constructor() {
-  }
+  /**
+   * Error to be stored
+   */
+  error: Response;
 
-  apiError(e: Error) {
-    // TODO
-    console.error(e);
+  /**
+   * Error messages to be shown wrt status codes
+   */
+  errorMessages = {
+    '400': `Looks like poor API manners. We cannot make your request at this time.`,
+    '401': `You are unauthorized to perform that action. Reach out to your manager or Acquia to request access.`,
+    '403': `You are unauthorized to perform that action. Reach out to your manager or Acquia to request access.`,
+    '404': `Yikes! We can’t find the page you're looking for.`,
+    '500': `Oops! Looks like we messed up. Give us a moment to fix it.`,
+    '501': `Oops! Looks like we messed up. Give us a moment to fix it.`,
+    '503': `Oops! Looks like we messed up. Give us a moment to fix it.`
+  };
+
+  /**
+   * Builds the component
+   * @param router
+   */
+  constructor(private router: Router) {
   }
 
   /**
+   * Handles the error and stores
+   * @param e
+   * @returns {ErrorService}
+   */
+  apiError(e) {
+    this.error = e;
+    return this;
+  }
+
+  /**
+   * Show/handle error according the returned status code
+   * @param tagMessage
+   * @param tagLink
+   *
+   */
+  showError(tagMessage = '', tagLink = '') {
+    // Show error screen for 400s
+    if (this.error.status === 400 ||
+      this.error.status === 403 ||
+      this.error.status === 404) {
+      this.showErrorScreen(tagMessage, tagLink);
+    } else {
+      // TO DO
+      // Handle 500s
+    }
+  }
+
+  /**
+   * Show error screen with respect to the status code
+   * @param tagMessage
+   * @param tagLink
+   */
+  showErrorScreen(tagMessage = '', tagLink = '') {
+    this.router.navigate(
+      ['/error'],
+      {
+        queryParams: {
+          errorCode: this.error.status,
+          errorTitle: this.error.statusText,
+          errorMessage: this.errorMessages[this.error.status],
+          tagMessage: tagMessage,
+          tagLink: tagLink
+        }
+      });
+  }
+
+  /*
    * Reports an error to bugsnag
    * @param e Error to report
    * @param name Error label name

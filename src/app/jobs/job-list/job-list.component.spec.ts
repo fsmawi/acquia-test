@@ -10,6 +10,7 @@ import {RouterModule} from '@angular/router';
 import {MomentModule} from 'angular2-moment';
 import {PipelinesService} from '../../core/services/pipelines.service';
 import {ErrorService} from '../../core/services/error.service';
+import {RouterTestingModule} from '@angular/router/testing/router_testing_module';
 
 describe('JobListComponent', () => {
   let component: JobListComponent;
@@ -18,7 +19,7 @@ describe('JobListComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [JobListComponent],
-      imports: [MaterialModule.forRoot(), SharedModule, RouterModule, MomentModule],
+      imports: [MaterialModule.forRoot(), SharedModule, RouterTestingModule, MomentModule],
       providers: [PipelinesService, ErrorService]
     })
       .compileComponents();

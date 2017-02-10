@@ -49,10 +49,10 @@ export class PipelinesService {
    */
   attachGithubRepository(token: string, repositoy: string, applications = []) {
     return this.promisePostRequest(this.URI + `/ci/github/init`, {
-                  github_token: token,
-                  repo: repositoy,
-                  applications: applications
-                }, {});
+      github_token: token,
+      repo: repositoy,
+      applications: applications
+    }, {});
   }
 
   /**
@@ -61,9 +61,9 @@ export class PipelinesService {
    */
   getPresignedUrl(appId: string) {
     return this.promisePostRequest(environment.apiEndpoint + `/redirect/create`, {
-                  application_id: appId,
-                  url: environment.URL + `/auth/github/code/${appId}`
-                }, {});
+      application_id: appId,
+      url: environment.URL + `/auth/github/code/${appId}`
+    }, {});
   }
 
   /**
@@ -164,16 +164,5 @@ export class PipelinesService {
     Object.keys(params).forEach(k => reqOptions.search.append(k, params[k]));
 
     return reqOptions;
-  }
-
-  /**
-   * Helper to make post requests
-   * @param url
-   * @param params
-   * @param headers
-   * @returns {Promise<HttpRequest>}
-   */
-  promisePostRequest(url, params, headers): Promise<any> {
-    return this.http.post(url, params, headers).map(r => r.json()).toPromise();
   }
 }
