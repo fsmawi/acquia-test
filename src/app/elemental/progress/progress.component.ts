@@ -12,8 +12,6 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class ProgressComponent implements OnInit {
 
-  @Input()
-
   /**
    * Returns progress display type
    * @type {string}
@@ -21,6 +19,7 @@ export class ProgressComponent implements OnInit {
    * valid types:
    *  - indeterminate
    */
+  @Input()
   progressType: string;
 
   /**
@@ -30,6 +29,7 @@ export class ProgressComponent implements OnInit {
    * valid variants:
    *  - arrows
    */
+  @Input()
   progressVariant: string;
 
   constructor() { }

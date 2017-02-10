@@ -1,9 +1,10 @@
 /* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {By} from '@angular/platform-browser';
+import {DebugElement} from '@angular/core';
 
-import { ProgressComponent } from './progress.component';
+import {ProgressComponent} from './progress.component';
+import {ElementalModule} from '../elemental.module';
 
 describe('ProgressComponent', () => {
   let component: ProgressComponent;
@@ -11,9 +12,10 @@ describe('ProgressComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ProgressComponent ]
+      declarations: [],
+      imports: [ElementalModule]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

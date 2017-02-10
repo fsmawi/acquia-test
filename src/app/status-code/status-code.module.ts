@@ -7,13 +7,13 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 
 
 @NgModule({
-    imports: [
-        CommonModule,
-        StatusCodeRoutingModule,
-        MaterialModule.forRoot(),
-        FlexLayoutModule.forRoot()
-    ],
-    declarations: [StatusCodeComponent]
+  imports: [
+    CommonModule,
+    StatusCodeRoutingModule,
+    MaterialModule.forRoot(),
+    FlexLayoutModule
+  ],
+  declarations: [StatusCodeComponent]
 })
 export class StatusCodeModule {
 }
