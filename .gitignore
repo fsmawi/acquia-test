@@ -44,3 +44,6 @@ access.log
 
 # Coverage Folders
 coverage
+
+# php vendors
+environments/vendor

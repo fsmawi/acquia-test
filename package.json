@@ -9,6 +9,7 @@
     "lint": "tslint \"src/**/*.ts\" --project src/tsconfig.json --type-check",
     "eslint": "eslint test/**/*.js",
     "test": "ng test --watch=false",
+    "build:server": "cp -r server/ dist/server && cp -r environments/vendor dist/server/vendor",
     "mock": "merver",
     "mock:jobs": "merver test/api-mock-resources/jobs.yml",
     "mock:no-jobs": "merver test/api-mock-resources/no-jobs.yml",

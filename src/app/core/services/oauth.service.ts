@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { HttpService } from './http.service';
-import { Http, Headers} from '@angular/http';
+import {Injectable} from '@angular/core';
+import {HttpService} from './http.service';
+import {Http, Headers} from '@angular/http';
 
 @Injectable()
 export class OauthService extends HttpService {
@@ -73,7 +73,7 @@ export class OauthService extends HttpService {
    * Override the default redirectUrl
    * @param url
    */
-  setRedirectUrl (url) {
+  setRedirectUrl(url) {
     this.redirectUrl = url;
   }
 
@@ -104,8 +104,10 @@ export class OauthService extends HttpService {
     return new Promise((resolve, reject) => {
 
       if (!options['code'] || !options['state']) {
-        reject({error: 'error in temporary access code',
-                error_description: 'error in temporary access code'});
+        reject({
+          error: 'error in temporary access code',
+          error_description: 'error in temporary access code'
+        });
         return;
       }
 
@@ -134,8 +136,11 @@ export class OauthService extends HttpService {
    * @param params
    */
   fetchOauthAccessToken(params) {
-    const headers = new Headers({ 'Accept': 'application/json' });
-    return this.promisePostRequest(this.oauthTokenEndpoint, params, { headers: headers });
+    const headers = new Headers({
+      Accept: 'application/json',
+      'X-Proxy-Url': this.oauthTokenEndpoint
+    });
+    return this.http.post('/server/api/cors-proxy.php', params, {headers: headers}).map(r => r.json()).toPromise();
   }
 
   /**

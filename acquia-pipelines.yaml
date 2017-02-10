@@ -34,11 +34,14 @@ events:
       - copy_dist:
           script:
             - set -x
+            - cd environments && composer install && cd ..
             - rm -rf ./docroot
             - mkdir ./docroot
             - cp -r /tmp/build/* ./docroot
             - cp .htaccess ./docroot
             - cp index.php ./docroot
+            - cp -r server ./docroot
+            - cp -r environments/vendor ./docroot/server/vendor
 
       # Deploy the build to an ODE.
       #
