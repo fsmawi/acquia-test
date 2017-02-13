@@ -18,7 +18,7 @@ export class HttpService {
    * @param params
    * @return {Promise<any>}
    */
-  promiseGetRequest(url, params): Promise<any> {
+  promiseGetRequest(url, params) {
     return this.http.get(url, params).map(r => r.json()).toPromise();
   }
 

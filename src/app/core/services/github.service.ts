@@ -29,7 +29,6 @@ export class GithubService extends OauthService {
   getRepositories(token: string)  {
     const headers = new Headers();
     headers.set('Authorization', 'token ' + token);
-    return this.promiseGetRequest(this.apiEndpoint + `/user/repos`, {headers}).then(r => r);
+    return this.promiseGetRequest(this.apiEndpoint + `/user/repos`, {headers});
   }
-
 }

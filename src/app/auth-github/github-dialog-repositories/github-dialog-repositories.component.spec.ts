@@ -1,35 +1,78 @@
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import { DebugElement, NgModule } from '@angular/core';
+import { MdDialogModule, MdDialog, OverlayContainer, MaterialModule } from '@angular/material';
+import { HttpModule, BaseRequestOptions, Http, ResponseOptions, Response, RequestMethod } from '@angular/http';
+import { MockBackend } from '@angular/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { ElementalModule } from '../../elemental/elemental.module';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 import { GithubDialogRepositoriesComponent } from './github-dialog-repositories.component';
-import { MaterialModule } from '@angular/material';
-import { MdDialogRef, MdDialogModule } from '@angular/material';
 import { GithubService } from '../../core/services/github.service';
 import { RepositoryFilterPipe } from './repository-filter.pipe';
-import {ErrorService } from '../../core/services/error.service';
+import { ErrorService } from '../../core/services/error.service';
+
+@NgModule({
+  declarations: [GithubDialogRepositoriesComponent, RepositoryFilterPipe],
+  exports: [GithubDialogRepositoriesComponent],
+  entryComponents: [GithubDialogRepositoriesComponent],
+  imports: [MdDialogModule.forRoot(), ElementalModule, CommonModule, FormsModule, MaterialModule],
+})
+class DialogTestModule { }
 
 describe('GithubDialogRepositoriesComponent', () => {
   let component: GithubDialogRepositoriesComponent;
-  let fixture: ComponentFixture<GithubDialogRepositoriesComponent>;
+  let dialog: MdDialog;
+  let overlayContainerElement: HTMLElement;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GithubDialogRepositoriesComponent ],
-      providers: [GithubService, ErrorService, MdDialogRef, RepositoryFilterPipe],
-      imports: [MaterialModule.forRoot(), MdDialogModule.forRoot()]
+      imports: [DialogTestModule, RouterTestingModule],
+      providers: [
+        GithubService,
+        ErrorService,
+        MockBackend,
+        BaseRequestOptions,
+        {
+          provide: Http,
+          useFactory: (mockBackend, options) => {
+            return new Http(mockBackend, options);
+          },
+          deps: [MockBackend, BaseRequestOptions]
+        },
+        RepositoryFilterPipe,
+        {
+          provide: OverlayContainer, useFactory: () => {
+            overlayContainerElement = document.createElement('div');
+            return { getContainerElement: () => overlayContainerElement };
+          }
+        }
+      ],
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(GithubDialogRepositoriesComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    dialog = TestBed.get(MdDialog);
+    const dialogRef = dialog.open(GithubDialogRepositoriesComponent);
+
+    component = dialogRef.componentInstance;
   });
 
-  // it('should create', () => {
-  //   expect(component).toBeTruthy();
-  // });
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('should set a repository object', () => {
+    const option = {
+      full_name: 'repo1',
+      url: 'http://test.com'
+    };
+
+    component.toggleOption(option);
+    expect(component.repository).toEqual(option);
+  });
 });

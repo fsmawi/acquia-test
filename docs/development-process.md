@@ -50,6 +50,8 @@
   - Squash your commits if desired
       - `git checkout`
       - `git rebase -i master`
+  - All UI code must pass build before pushing to remote
+      - `ng build --aot`
   - Push to remote
       - `git push --set-upstream origin MS-1111` (use your ticket number)
 12. Submitting your PR

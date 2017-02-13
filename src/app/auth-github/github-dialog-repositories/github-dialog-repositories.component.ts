@@ -48,7 +48,7 @@ export class GithubDialogRepositoriesComponent implements OnInit {
    * @param errorHandler
    */
   constructor(public dialogRef: MdDialogRef<GithubDialogRepositoriesComponent>,
-              private auth: GithubService,
+              public auth: GithubService,
               private errorHandler: ErrorService) {
   }
 
