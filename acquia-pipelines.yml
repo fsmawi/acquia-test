@@ -17,8 +17,8 @@ events:
             type: script
             script:
               - rm -rf blted8
-              -  composer create-project acquia/blt-project:~8 blted8 --no-interaction 
-              - cd blted8 
-              - ./vendor/bin/blt local:setup 
+              - composer create-project acquia/blt-project:~8 blted8 --no-interaction
+              - cd blted8
+              - ./vendor/bin/blt local:setup
               - ./vendor/bin/blt validate
               - ./vendor/bin/blt tests
