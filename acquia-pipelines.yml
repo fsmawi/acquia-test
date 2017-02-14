@@ -12,7 +12,7 @@ events:
               - sudo /etc/init.d/mysql start
               - mysql -u root -proot -e "CREATE DATABASE drupal" -v
 
-        # Install project level packages and set project level configuration.
+        # Install most recent stable version of BLT and run BLT tests
         - build:
             type: script
             script:
