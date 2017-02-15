@@ -1,7 +1,4 @@
-<e-alert *ngIf="lastJob" [icon]="false"
-         [type]="!lastJob ? 'info' : lastJob.isFailed ? 'danger' : lastJob.isSucceeded ? 'success' : 'info'">
-  Job <a routerLink="/jobs/{{appId}}/{{lastJob.job_id}}">{{lastJob.job_id | slice: -8}}</a>: {{lastJob.message}}
-</e-alert>
+<app-job-summary *ngIf="lastJob && appId" [isProgressBarRequired]="false" [appId]="appId" [job]="lastJob"></app-job-summary>
 <e-card>
   <e-card-header>Activity</e-card-header>
   <e-card-content>

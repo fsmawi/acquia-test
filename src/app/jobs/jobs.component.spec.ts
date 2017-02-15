@@ -12,6 +12,7 @@ import {SharedModule} from '../shared/shared.module';
 import {ElementalModule} from '../elemental/elemental.module';
 import {MomentModule} from 'angular2-moment';
 import {JobListComponent} from './job-list/job-list.component';
+import {JobSummaryComponent} from './job-summary/job-summary.component';
 import {Job} from '../core/models/job';
 
 
@@ -53,7 +54,7 @@ describe('JobsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [JobsComponent, JobListComponent],
+      declarations: [JobsComponent, JobListComponent, JobSummaryComponent],
       providers: [
         { provide: PipelinesService, useClass: MockPipelinesService },
         ErrorService],

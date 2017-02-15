@@ -1,0 +1,44 @@
+<e-card *ngIf="job" xmlns="http://www.w3.org/1999/html">
+  <div class="job-info job__{{(!job ? 'info' : job.isFailed ? 'danger' : job.isSucceeded ? 'success' : 'info')}}">
+    Job
+    <a *ngIf="isJobNavigationRequired" routerLink="/jobs/{{appId}}/{{job.job_id}}">
+      {{job.job_id| slice:0:8}}</a>
+    {{isJobNavigationRequired ? ': ' : (' ' + (job.job_id | slice:0:8) + ' : ')}}
+    {{job.message}}
+  </div>
+  <e-card-content>
+    <div id="job-details-1"
+         class="flex-container"
+         fxLayout="row"
+         fxLayoutWrap="wrap"
+         fxLayoutAlign="start start">
+      <e-data class="flex-item"
+              fxFlex="25%"
+              fxFlex.xs="50%">
+        <e-data-label>Branch</e-data-label>
+        <e-data-value>
+          {{job.branch}}
+        </e-data-value>
+      </e-data>
+      <e-data class="flex-item"
+              fxFlex="25%"
+              fxFlex.xs="50%">
+        <e-data-label>Commit</e-data-label>
+        <e-data-value>{{job.commit ? job.commit : 'Not available'}}</e-data-value>
+      </e-data>
+      <e-data class="flex-item"
+              fxFlex="25%"
+              fxFlex.xs="50%">
+        <e-data-label>Duration</e-data-label>
+        <e-data-value>{{job.duration | amDuration:'seconds'}}</e-data-value>
+      </e-data>
+      <e-data class="flex-item"
+              fxFlex="25%"
+              fxFlex.xs="50%">
+        <e-data-label>Started at</e-data-label>
+        <e-data-value>{{(job.started_at | amFromUnix) | amDateFormat:'MM/DD/YY hh:mmA'}}</e-data-value>
+      </e-data>
+    </div>
+  </e-card-content>
+  <md-progress-bar mode="indeterminate" *ngIf="isProgressBarRequired && job && job.isUnfinished"></md-progress-bar>
+</e-card>

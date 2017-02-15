@@ -1,0 +1,23 @@
+@import "../../../assets/scss/elemental-core";
+
+.job-info {
+  padding: 0.5rem 0.75rem;
+}
+
+.job__success {
+  background-color: $color-state-success-1;
+}
+
+.job__warning {
+  background-color: $color-state-warning-2;
+}
+
+.job__info {
+  background-color: $color-brand-primary-1;
+}
+
+.job__danger {
+  background-color: $color-state-danger-1;
+}
+
+

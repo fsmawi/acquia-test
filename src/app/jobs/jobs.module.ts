@@ -9,6 +9,7 @@ import {JobListComponent} from './job-list/job-list.component';
 import {SharedModule} from '../shared/shared.module';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {ElementalModule} from '../elemental/elemental.module';
+import {JobSummaryComponent} from './job-summary/job-summary.component';
 
 @NgModule({
   imports: [
@@ -20,7 +21,7 @@ import {ElementalModule} from '../elemental/elemental.module';
     SharedModule,
     ElementalModule
   ],
-  declarations: [JobsComponent, JobsDetailComponent, JobListComponent]
+  declarations: [JobsComponent, JobsDetailComponent, JobListComponent, JobSummaryComponent]
 })
 export class JobsModule {
 }

@@ -4,28 +4,28 @@
     <th class="center">Status</th>
     <th class="center">Build</th>
     <th class="center">Branch</th>
-    <th class="hidden-sm-down">Message</th>
-    <th class="hidden-md-down center">Creator</th>
+    <th class="center">Commit</th>
     <th class="hidden-sm-down center">Duration</th>
     <th class="hidden-sm-down center">Completed</th>
-    <th class="center">Actions</th>
+    <th class="hidden-xs-down center">Actions</th>
   </tr>
   </thead>
   <tbody>
   <tr *ngFor="let job of jobs">
     <td class="center">
-      <app-job-status [status]="job.status"></app-job-status>
+      <app-job-status mdTooltip="{{job.message }}"
+                      mdTooltipPosition="right"
+                      [status]="job.status"></app-job-status>
     </td>
-    <td class="center"><a routerLink="/jobs/{{appId}}/{{job.job_id}}">{{job.job_id | slice:-8}}</a>
+    <td class="center"><a routerLink="/jobs/{{appId}}/{{job.job_id}}">{{job.job_id | slice:0:8}}</a>
     </td>
     <td class="center">{{job.branch}}</td>
-    <td class="hidden-sm-down">{{job.message}}</td>
-    <td class="center hidden-md-down">{{job.requested_by}}</td>
+    <td class="center">{{job.commit ? job.commit : '-'}}</td>
     <td class="center hidden-sm-down" *ngIf="job.duration">{{job.duration | amDuration:'seconds'}}</td>
     <td class="center hidden-sm-down" *ngIf="!job.duration">-</td>
-    <td class="center hidden-sm-down" *ngIf="job.finished_at">{{job.finishedAt | amTimeAgo}}</td>
+    <td class="center hidden-sm-down" *ngIf="job.finished_at">{{(job.finished_at | amFromUnix) | amTimeAgo }}</td>
     <td class="center hidden-sm-down" *ngIf="!job.finished_at">-</td>
-    <td class="center">
+    <td class="center hidden-xs-down">
       <!-- TODO Refresh is not available in the API yet -->
       <!--<button md-button *ngIf="job.isFailed" (click)="restartJob(job)">-->
       <!--<md-icon color="primary">refresh</md-icon>-->
