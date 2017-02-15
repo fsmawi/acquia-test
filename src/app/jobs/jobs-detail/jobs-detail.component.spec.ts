@@ -12,6 +12,7 @@ import {RouterTestingModule} from '@angular/router/testing';
 import {ElementalModule} from '../../elemental/elemental.module';
 import {Job} from '../../core/models/job';
 import {JobLog} from '../../core/models/job-log';
+import {JobSummaryComponent} from '../job-summary/job-summary.component';
 
 
 class MockPipelinesService {
@@ -52,7 +53,7 @@ describe('JobsDetailComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [JobsDetailComponent],
+      declarations: [JobsDetailComponent, JobSummaryComponent],
       imports: [MaterialModule.forRoot(), MomentModule, RouterTestingModule, ElementalModule],
       providers: [
         { provide: PipelinesService, useClass: MockPipelinesService },
@@ -76,7 +77,6 @@ describe('JobsDetailComponent', () => {
     tick();
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('#jobDetails h1').innerText).toEqual('Pipelines Log');
-    expect(compiled.querySelector('.el-alert')).toBeTruthy();
+    expect(compiled.querySelector('#jobDetails h3').innerText).toContain('Jobs');
   })));
 });
