@@ -16,6 +16,7 @@ events:
         - build:
             type: script
             script:
+              - sudo /etc/init.d/mysql start
               - rm -rf blted8
               - composer create-project acquia/blt-project:~8 blted8 --no-interaction
               - cd blted8
