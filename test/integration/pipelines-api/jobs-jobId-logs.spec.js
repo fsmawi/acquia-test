@@ -5,7 +5,7 @@ const expect = require('chai').expect;
 describe('Pipelines API /api/v1/ci/jobs/:jobId/logs', function() {
   const params = '?' + qs.stringify({applications: 'fbcd8f1f-4620-4bd6-9b60-f8d9d0f74fd0'});
   const API_URL = process.env.PIPELINES_API_URI;
-  const N3_TOKEN =  process.env.N3_TOKEN;
+  const N3_TOKEN =  process.env.N3_KEY;
   const N3_SECRET =  process.env.N3_SECRET;
   const N3_ENDPOINT = 'https://cloud.acquia.com';
   this.timeout(10000) // give every test this amount of timeout

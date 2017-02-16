@@ -3,7 +3,7 @@ const expect = require('chai').expect;
 const qs = require('querystring');
 
 describe('Pipelines API /api/v1/ci/jobs', function () {
-  const token = process.env.N3_TOKEN;
+  const token = process.env.N3_KEY;
   const secret = process.env.N3_SECRET;
   const endpoint = 'https://cloud.acquia.com';
   const route = '/api/v1/ci/jobs';
@@ -19,7 +19,6 @@ describe('Pipelines API /api/v1/ci/jobs', function () {
       .expect(200)
       .expect('Content-Type', /json/)
       .then((res) => {
-        console.log(res.body[0]);
         expect(res.body).to.be.a('Array');
         expect(res.body[0]).to.be.a('Object');
         expect(res.body[0].branch).to.exist;
