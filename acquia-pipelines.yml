@@ -3,19 +3,14 @@ version: 1.0.0
 events:
   build:
     steps:
-        # Install global packages and set global configuration.
-        - setup-environment:
+        # Install most recent stable version of BLT and run BLT tests
+        - build:
             type: script
             script:
               - git config --global user.name "Acquia Cloud"
               - git config --global user.email "noreply@acquia.com"
               - sudo /etc/init.d/mysql start
               - mysql -u root -proot -e "CREATE DATABASE drupal" -v
-
-        # Install most recent stable version of BLT and run BLT tests
-        - build:
-            type: script
-            script:
               - rm -rf blted8
               - composer create-project acquia/blt-project:~8 blted8 --no-interaction
               - cd blted8
