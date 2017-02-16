@@ -39,13 +39,14 @@ describe('HttpService', () => {
   }));
 
   it('should perform a get request', inject([HttpService, MockBackend], (service: HttpService, mockBackend: MockBackend) => {
+    const query = '?param1=value1&param2=value2&param3=value3';
     mockBackend.connections.subscribe((connection) => {
       expect(connection.request.method).toBe(RequestMethod.Get);
-      expect(connection.request.url).toBe(url);
+      expect(connection.request.url).toBe(url + query);
       connection.mockRespond(new Response(new ResponseOptions(options)));
     });
 
-    service.promiseGetRequest(url, params).then(res => {
+    service.promiseGetRequest(url, params, {}).then(res => {
       expect(res.success).toEqual(true);
     });
   }));

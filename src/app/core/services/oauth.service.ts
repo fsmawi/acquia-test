@@ -1,9 +1,16 @@
 import {Injectable} from '@angular/core';
 import {HttpService} from './http.service';
 import {Http, Headers} from '@angular/http';
+import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class OauthService extends HttpService {
+
+  /**
+   * Github environment parameters
+   * @type Object
+   */
+  AUTH = environment.auth.github;
 
   /**
    * Authorisation endpoint
@@ -140,7 +147,7 @@ export class OauthService extends HttpService {
       Accept: 'application/json',
       'X-Proxy-Url': this.oauthTokenEndpoint
     });
-    return this.http.post('/server/api/cors-proxy.php', params, {headers: headers}).map(r => r.json()).toPromise();
+    return this.http.post(this.AUTH.oauthTokenEndpoint, params, {headers: headers}).map(r => r.json()).toPromise();
   }
 
   /**

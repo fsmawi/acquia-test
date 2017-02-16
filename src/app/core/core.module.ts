@@ -8,7 +8,7 @@ import {ErrorService} from './services/error.service';
 import {AuthGuard} from './services/auth-guard.service';
 import {AuthService} from './services/auth.service';
 import {FlashMessageComponent} from './components/flash-message/flash-message.component';
-import { FlashMessageService} from './services/flash-message.service';
+import {FlashMessageService} from './services/flash-message.service';
 import {ElementalModule} from '../elemental/elemental.module';
 
 @NgModule({

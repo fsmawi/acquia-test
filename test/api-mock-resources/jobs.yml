@@ -7,7 +7,7 @@ routes:
         -
           branch: master
           commit: ~
-          duration: 1462297582
+          duration: 1462297583
           exit_message: "Failed to complete the build because there is no .acquia.yml build file."
           finished_at: 1462297582
           job_id: 2cb7d930-7da3-480c-82de-db719d50f0d9
@@ -162,7 +162,7 @@ routes:
         -
           branch: master
           commit: ~
-          duration: 1462297582
+          duration: 1462297583
           exit_message: "New job "
           finished_at: 1462297582
           job_id: 2cb7d930-7da3-480c-82de-db719d50f0d912

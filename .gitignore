@@ -47,3 +47,4 @@ coverage
 
 # php vendors
 environments/vendor
+server/vendor

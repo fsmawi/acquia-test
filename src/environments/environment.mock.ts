@@ -8,6 +8,7 @@ export const environment = {
   apiEndpoint: 'http://localhost:3000',
   n3Key: '', // user supplied, or from cookies
   n3Secret: '', // user supplied, or from cookies
+  headers: {},
   URL: 'http://localhost:4200',
   auth: { // authentication parameters
     github: {

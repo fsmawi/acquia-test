@@ -5,14 +5,15 @@
 
 export const environment = {
   production: true,
-  apiEndpoint: 'https://pipelines-api-mock-server.herokuapp.com',
+  apiEndpoint: '/mock/api',
   n3Key: '', // user supplied, or from cookies
   n3Secret: '', // user supplied, or from cookies
+  headers: {},
   URL: '',
   auth: { // authentication parameters
     github: {
       oauthEndpoint: '',
-      oauthTokenEndpoint: '',
+      oauthTokenEndpoint: '/server/api/cors-proxy.php',
       apiEndpoint: '',
       clientId: '',
       clientSecret: '',

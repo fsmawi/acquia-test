@@ -1,0 +1,15 @@
+<md-card id="mock-api-card">
+
+  <h1 class="center">API header configuration</h1>
+  <br>
+
+  <form id="mock-api-form" (ngSubmit)="save()">
+    <input class="full-width" placeholder="Header ID" [(ngModel)]="headerId" name="headerId" type="text" required>
+    <br>
+    <input class="full-width" placeholder="Header Value" [(ngModel)]="headerValue" name="headerValue" type="text" required>
+    <br><br>
+    <div class="center">
+      <button md-raised-button color="primary" type="submit">Save</button>
+    </div>
+  </form>
+</md-card>
