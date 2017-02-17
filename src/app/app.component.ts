@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {AmplitudeService} from './core/services/amplitude.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,6 @@ import {Component} from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'app works!';
+  constructor(private amp: AmplitudeService) {
+  }
 }

@@ -15,5 +15,6 @@ export const environment = {
       redirectUrl: '',
       scopes: ''
     }
-  }
+  },
+  amplitudeAPIKey: '59e1dbd5afbc7c7c22c2a144fd7b5732'
 };

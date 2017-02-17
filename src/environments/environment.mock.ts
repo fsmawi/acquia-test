@@ -20,5 +20,6 @@ export const environment = {
       redirectUrl: 'http://localhost:3000/callback',
       scopes: 'user,repo'
     }
-  }
+  },
+  amplitudeAPIKey: ''
 };
