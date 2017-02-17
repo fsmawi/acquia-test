@@ -3,26 +3,45 @@ let page = require('./page');
 let LoginPage = Object.create(page, {
 
   // page elements
+  /**
+   * App ID input element
+   */
   appId: {
     get: function () {
       return this.browser.element('input[name="AppId"]');
     },
   },
+
+  /**
+   * API Token input element
+   */
   apiToken: {
     get: function () {
       return this.browser.element('input[name="N3AccessKey"]');
     },
   },
+
+  /**
+   * API Secret Input element
+   */
   apiSecret: {
     get: function () {
       return this.browser.element('input[name="N3Secret"]');
     },
   },
+
+  /**
+   * Access Code input element
+   */
   betaAccessCode: {
     get: function () {
       return this.browser.element('input[name="BetaAccessCode"]');
     },
   },
+
+  /**
+   * Sign in input element
+   */
   signIn: {
     get: function () {
       return this.browser.element('.md-primary');
@@ -39,6 +58,7 @@ let LoginPage = Object.create(page, {
       return page.setValue(this.appId, appIdValue);
     },
   },
+
   /**
    * @param {String} apiTokenValue
    * * sets the value for n3Token text field
@@ -48,6 +68,7 @@ let LoginPage = Object.create(page, {
       return page.setValue(this.apiToken, apiTokenValue);
     },
   },
+
   /**
    * @param {String} apiSecretValue
    * * sets the value for n3Secret text field
@@ -57,6 +78,7 @@ let LoginPage = Object.create(page, {
       return page.setValue(this.apiSecret, apiSecretValue);
     },
   },
+
   /**
    * @param {String} betaAccessCodeValue
    * sets the value for betaAccessCode text field
@@ -66,6 +88,7 @@ let LoginPage = Object.create(page, {
       return page.setValue(this.betaAccessCode, betaAccessCodeValue);
     },
   },
+
   /**
    * clicks on signIn button
    */
@@ -74,6 +97,5 @@ let LoginPage = Object.create(page, {
       return this.signIn.submitForm();
     },
   },
-
 });
 module.exports = LoginPage;

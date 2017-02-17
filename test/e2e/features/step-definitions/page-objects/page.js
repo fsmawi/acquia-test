@@ -10,6 +10,7 @@ class Page {
     this.title = 'Base Page';
     this.browser = null;
   }
+
   /**
    * @param {object} browser propogated from steps js file
    * This sets the browser object to be used for all subsequent actions
@@ -17,6 +18,7 @@ class Page {
   setBrowser(browser) {
     this.browser = browser;
   }
+
   /**
    * @return {object} browser object
    * get the browser object
@@ -24,6 +26,7 @@ class Page {
   getBrowser() {
     return this.browser;
   }
+
   /**
    * @param {string} path subpath of the application baseurl
    * @return {object} browser object
@@ -32,6 +35,7 @@ class Page {
   openSubUrl(path) {
     return this.browser.url('/' + path);
   }
+
   /**
    * @param {string} path application baseurl
    * @return {object} browser object
@@ -40,6 +44,7 @@ class Page {
   open(path) {
     return this.browser.url(path);
   }
+
   /**
    * @param {object} element whose value is to set
    * @param {string} value to set
@@ -50,6 +55,21 @@ class Page {
     element.waitForVisible(3000);
     element.clearElement();
     return element.setValue(value).pause(1000);
+  }
+
+  /**
+   * @param {String} jobsYmlFile yml file
+   * @param {String} URL for mock header
+   * @return {browser} object
+   * set yaml file from which app reads the jobs to display
+   */
+  setJobsYmlFile(jobsYmlFile, URL) {
+    // This log message is intentional to make sure that which URL we are browsing
+    console.log('navigating to URL: ', URL);
+    return this.browser.url(URL).pause(10000)
+      .waitForVisible('input[name="headerValue"]')
+      .setValue('input[name="headerValue"]', jobsYmlFile)
+      .submitForm('.md-primary');
   }
 }
 module.exports = new Page();

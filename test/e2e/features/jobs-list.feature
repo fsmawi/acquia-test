@@ -3,65 +3,89 @@ Feature: Pipelines Jobs List
   I want to have a list of jobs that updates realtime so that I can monitor my application builds
 
   Background:
-		Given I have navigated to "/auth/tokens"
-		 When I enter APP_ID "d16ebf9e-2cb0-59d4-1d91-4c6a1f360af8"
-			And API_TOKEN "env:n3token"
-			And API_SECRET "env:n3secret"
-			And I Click on "SignIn" Button
-		 Then I should see the jobs-list page with an alert
+    Given I have navigated to "/auth/tokens"
+    When I enter APP_ID "d16ebf9e-2cb0-59d4-1d91-4c6a1f360af8"
+    And API_TOKEN "env:n3token"
+    And API_SECRET "env:n3secret"
+    And I Click on "SignIn" Button
+    Then I should see the jobs-list page with an alert
 
+  @JobList_CheckAlertLastJob
   Scenario: Check the last job is displayed as an alert
+    Given jobs yml file "jobs.yml"
     When on the jobs-list page
-	  Then I can see the last job status displays as an alert with a status and message
+    Then I can see the last job status displays as an alert with a status and message
 
+  @JobList_CheckAlertJobLink
   Scenario: Check the joblink navigates to activity table
+    Given jobs yml file "jobs.yml"
     When on the jobs-list page
-     And I click on the job link in the alert
+    And I click on the job link in the alert
     Then I should navigate to the job-detail page
 
-	Scenario: Check that the activity card is visible
-	  When on the jobs-list page
-		Then I should see an activity card with title "Activity"
+  @JobList_CheckActivityCard
+  Scenario: Check that the activity card is visible
+    Given jobs yml file "jobs.yml"
+    When on the jobs-list page
+    Then I should see an activity card with title "Activity"
 
-	Scenario: Check that the activity card should show the appropriate headers
-	  When on the jobs-list page
-		Then I should see the appropriate headers for the activity card
-
-  @pending
-	Scenario: Check that a job in a failed state should be able to be restarted from the activity card
-	  When on the jobs-list page
-		 And I click on the "Restart" button in the "Actions" column
-		Then I should see a new job after 10 seconds with the same branch
+  @JobList_CheckActivityTableHeaders
+  Scenario: Check that the activity card should show the appropriate headers
+    Given jobs yml file "jobs.yml"
+    When on the jobs-list page
+    Then I should see the appropriate headers for the activity card
 
   @pending
+  @JobList_RestartJob
+  Scenario: Check that a job in a failed state should be able to be restarted from the activity card
+    Given jobs yml file "jobs.yml"
+    When on the jobs-list page
+    And I click on the "Restart" button in the "Actions" column
+    Then I should see a new job after 10 seconds with the same branch
+
+  @pending
+  @JobList_StopJob
   Scenario: Check that a job in progress should be able to be stopped from the activity card
-		When on the jobs-list page
-		 And I click on the "Stop" button in the "Actions" column
-		Then I should see the job status as stopped
+    Given jobs yml file "jobs.yml"
+    When on the jobs-list page
+    And I click on the "Stop" button in the "Actions" column
+    Then I should see the job status as "Job is paused"
 
+  @JobList_CheckActivityTable
   Scenario: Validate the activity card contains job table information
+    Given jobs yml file "jobs.yml"
     When on the jobs-list page
     Then I should see jobs-list table inside "Activity" card
 
+  @JobList_CheckDetailLink
   Scenario: A job in the activity card should link to the detail page for that job
+    Given jobs yml file "jobs.yml"
     When on the jobs-list page
-     And I click on the jobs link in the "Build" column
+    And I click on the jobs link in the "Build" column
     Then I should navigate to the job-detail page
 
+  @JobList_CheckStatusIcons
   Scenario Outline: Each job should display a different icon based on it's status in the activity card
+    Given jobs yml file "jobs.yml"
     When on the jobs-list page
-    Then I should see the "Status" column icon as <statusIcon> for a job has the status <statusMessage> in the "Message" column
+    Then I should see the "Status" column icon as <statusIcon> for a job with id "<jobId>"
 
     Examples:
-    |  statusMessage        |  statusIcon                         |
-    |  Failed               |  state__danger                      |
-    |  Job is running       |  status-spinner with color primary  |
-    |  Job is terminating   |  status-spinner with color danger   |
-    |  Job is queued        |  timer                              |
-    |  Job has succeeded    |  state__success--circle             |
+      | jobId    | statusIcon             |
+      | 2cb7d930 | state__danger          |
+      | ad9aacb4 | spin-reverse           |
+      | 8f0c38d5 | timer                  |
+      | 34b06147 | state__success--circle |
 
-  @pending
+  @JobList_CheckNoJobsDisplayed
   Scenario: Check the message when no jobs exist
-    When on the jobs-list page
-     And there are no jobs
+    Given jobs yml file "no-jobs.yml"
+    When on the jobs-list page with no jobs
     Then I should see the message as "You have no jobs for this application" inside the "Activity" card
+
+  @JobList_CheckSummaryTable
+  Scenario: Check the job summary table displaying at the top of jobs-list page with details of last run job
+    Given jobs yml file "jobs.yml"
+    When on the jobs-list page
+    Then I should see last run job details as a summary table
+
