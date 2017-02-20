@@ -1,14 +1,7 @@
+@JobDetail
 Feature: Pipelines Job Details
   As an Acquia Pipelines user
   I want to have the details of the job that updates realtime so that I can monitor my application build
-
-  Background:
-    Given I have navigated to "/auth/tokens"
-    When I enter APP_ID "d16ebf9e-2cb0-59d4-1d91-4c6a1f360af8"
-    And API_TOKEN "env:n3token"
-    And API_SECRET "env:n3secret"
-    And I Click on "SignIn" Button
-    Then I should see the jobs-list page with an alert
 
   @JobDetail_CheckDifferentAlertStatuses
   Scenario Outline: Check the navigation to job details screen for jobs with different status messages
@@ -24,6 +17,7 @@ Feature: Pipelines Job Details
       | spin-reverse           |
       | state__success--circle |
 
+  @pending
   @JobDetail_AlertSummary
   Scenario: Check the status of the job is displayed as an alert
     Given jobs yml file "jobs.yml"
@@ -31,6 +25,7 @@ Feature: Pipelines Job Details
     And I click on any job id in the "Build" column from the list of jobs displayed
     Then I can see an alert showing the status of the job and message
 
+  @pending
   @JobDetail_BackButton
   Scenario: Check the 'Jobs' button is displayed and working
     Given jobs yml file "jobs.yml"
@@ -55,6 +50,7 @@ Feature: Pipelines Job Details
     And I click on the job with jobid "34b06147"
     Then I should see the logs for the job
 
+  @pending
   @JobDetail_CheckInProgressBar
   Scenario: Check the progress bar is displayed when the job is unfinished
     Given jobs yml file "jobs.yml"
@@ -68,3 +64,4 @@ Feature: Pipelines Job Details
     When on the jobs-list page
     And I click on the job "8f0c38d5" that does not have logs
     Then I should be shown appropriate message about the empty logs
+

@@ -87,6 +87,7 @@ class CloudODE {
 
                 // Wait for environment to be ready.
                 print "Waiting for environment {$env->label} ({$env->name}) to be ready...\n";
+
                 $this->api->poll("environments/{$env->id}", function ($env, $count) {
                     print "tick $count: {$env->status}\n";
                     return $env->status == 'normal';
@@ -100,6 +101,11 @@ class CloudODE {
                 // @todo: Wait until the branch is actually deployed.
                 // Currently not sure how to do that.
             }
+
+            // Write the new ODE url to the host
+            $newHost = "http://pipelinesui$env->name.network.acquia-sites.com";
+            print "Writing new ODE URI to ~/ode.url : $newHost\n";
+            exec("echo $newHost > ~/ode.url");
         }
         catch (CloudAPI\Exception $e) {
             print "Cloud API error: " . $e->getMessage();

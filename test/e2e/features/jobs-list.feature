@@ -1,14 +1,7 @@
+@JobList
 Feature: Pipelines Jobs List
   As an Acquia Pipelines user
   I want to have a list of jobs that updates realtime so that I can monitor my application builds
-
-  Background:
-    Given I have navigated to "/auth/tokens"
-    When I enter APP_ID "d16ebf9e-2cb0-59d4-1d91-4c6a1f360af8"
-    And API_TOKEN "env:n3token"
-    And API_SECRET "env:n3secret"
-    And I Click on "SignIn" Button
-    Then I should see the jobs-list page with an alert
 
   @JobList_CheckAlertLastJob
   Scenario: Check the last job is displayed as an alert
@@ -16,6 +9,7 @@ Feature: Pipelines Jobs List
     When on the jobs-list page
     Then I can see the last job status displays as an alert with a status and message
 
+  @pending
   @JobList_CheckAlertJobLink
   Scenario: Check the joblink navigates to activity table
     Given jobs yml file "jobs.yml"
@@ -57,6 +51,7 @@ Feature: Pipelines Jobs List
     When on the jobs-list page
     Then I should see jobs-list table inside "Activity" card
 
+  @pending
   @JobList_CheckDetailLink
   Scenario: A job in the activity card should link to the detail page for that job
     Given jobs yml file "jobs.yml"

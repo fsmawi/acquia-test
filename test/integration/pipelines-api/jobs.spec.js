@@ -41,9 +41,7 @@ describe('Pipelines API /api/v1/ci/jobs', function () {
     return supertest(process.env.PIPELINES_API_URI)
       .get(route + params)
       .expect(403)
-      .then((res) => {
-        expect(res.text).to.contain('Missing mandatory parameters: n3_endpoint, n3_key, n3_secret');
-      });
+      .then((res) => expect(res.text).to.contain('Missing mandatory parameters: n3_endpoint'));
   });
 
   it('should return 403 (not 404) when application ID dont exists', () => {
@@ -54,8 +52,6 @@ describe('Pipelines API /api/v1/ci/jobs', function () {
       .set('X-ACQUIA-PIPELINES-N3-SECRET', secret)
       .set('X-ACQUIA-PIPELINES-N3-ENDPOINT', endpoint)
       .expect(403)
-      .then((res) => {
-        expect(res.text).to.contain('Error authorizing request: Expected([200, 201, 202, 203, 204, 205, 206]) <=> Actual(400 Bad Request)');
-      });
+      .then((res) => expect(res.text).to.contain('Error authorizing request: Expected([200, 201, 202, 203, 204, 205, 206, 302]) <=> Actual(400 Bad Request)'));
   });
 });

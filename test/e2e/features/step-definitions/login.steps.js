@@ -22,6 +22,7 @@ module.exports = function () {
   });
 
   this.Given(/^jobs yml file "([^"]*)"$/, function (jobsYmlFile) {
+    page.setBrowser(this.browser);
     let URL = CONSTANTS.PIPELINES_URL;
     if (process.env.PIPELINES_URL) {
       URL = process.env.PIPELINES_URL;
