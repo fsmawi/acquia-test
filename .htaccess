@@ -35,7 +35,9 @@ DirectoryIndex index.php
   # Avoid loops.
   RewriteCond %{REQUEST_URI} !\#
   # Rewrite everything else via external redirect, and without escaping #.
-  RewriteRule ^(.*)$ /\#/$1 [R,L,NE]
+  # Force SSL, since on Acquia Cloud, SSL is terminated on the balancers and
+  # Apache thinks the request was over HTTP.
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}/\#/$1 [R,L,NE]
 
   # Rules to correctly serve gzip compressed CSS and JS files.
   # Requires both mod_rewrite and mod_headers to be enabled.
