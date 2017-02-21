@@ -14,6 +14,11 @@ DirectoryIndex index.php
 <IfModule mod_rewrite.c>
   RewriteEngine on
 
+  # Force HTTPs
+  RewriteCond %{HTTPS} off
+  RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R,L]
+
+  # Catch mock api endpoint requests
   RewriteRule ^mock/api/(.*)$ server/api/mock.php?q=$1 [QSA,NC]
 
   # Block access to "hidden" directories whose names begin with a period.
