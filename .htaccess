@@ -15,8 +15,15 @@ DirectoryIndex index.php
   RewriteEngine on
 
   # Force HTTPs
-  RewriteCond %{HTTPS} off
-  RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R,L]
+  # If we receive a forwarded http request from a proxy...
+  RewriteCond %{HTTP:X-Forwarded-Proto} =http [OR]
+
+  # ...or just a plain old http request directly from the client
+  RewriteCond %{HTTP:X-Forwarded-Proto} =""
+  RewriteCond %{HTTPS} !=on
+
+  # Redirect to https version
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
   # Catch mock api endpoint requests
   RewriteRule ^mock/api/(.*)$ server/api/mock.php?q=$1 [QSA,NC]
