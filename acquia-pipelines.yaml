@@ -47,9 +47,9 @@ events:
             - 'cd environments'
             - 'composer install'
             - 'PIPELINES_EVENT=build php cloud-ode.php'
-      - acceptance:
-          script:
-            # Disable e2e until proper merging steps are provided
+      # Disable e2e until proper merging steps are provided
+      # - acceptance:
+          # script:
             # - 'PIPELINES_ODE_URL=`cat ~/ode.url` && echo ODE URI is $PIPELINES_ODE_URL for e2e/integration tests'
             # - '\[ $PIPELINE_VCS_PATH == "production" \] && npm run integration:acceptance || echo "Integration Acceptance only in Production"'
             # - '\[ $PIPELINE_VCS_PATH == "production" \] && npm run e2e:acceptance || npm run e2e:ode'
