@@ -152,13 +152,7 @@ export class PipelinesService {
     const reqOptions = new RequestOptions();
     reqOptions.headers = reqOptions.headers || new Headers();
 
-    // use token auth if needed
-    if (environment.n3Secret && environment.n3Key) {
-      reqOptions.headers.append('X-ACQUIA-PIPELINES-N3-ENDPOINT', 'https://cloud.acquia.com');
-      reqOptions.headers.append('X-ACQUIA-PIPELINES-N3-KEY', environment.n3Key);
-      reqOptions.headers.append('X-ACQUIA-PIPELINES-N3-SECRET', environment.n3Secret);
-    }
-
+    // All request headers
     if (environment.headers) {
       Object.keys(environment.headers).forEach(k => reqOptions.headers.append(k, environment.headers[k]));
     }
@@ -166,6 +160,9 @@ export class PipelinesService {
     // add query params
     reqOptions.search = reqOptions.search || new URLSearchParams();
     Object.keys(params).forEach(k => reqOptions.search.append(k, params[k]));
+
+    // Add cookie headers
+    reqOptions.withCredentials = environment.production;
 
     return reqOptions;
   }

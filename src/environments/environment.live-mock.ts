@@ -21,5 +21,6 @@ export const environment = {
       scopes: ''
     }
   },
-  amplitudeAPIKey: ''
+  amplitudeAPIKey: '',
+  authRedirect: ''
 };

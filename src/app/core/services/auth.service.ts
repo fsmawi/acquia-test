@@ -1,15 +1,28 @@
 import {Injectable} from '@angular/core';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/delay';
+import 'rxjs/add/operator/toPromise';
+import 'rxjs/add/operator/map';
 import {environment} from '../../../environments/environment';
+import {Http} from '@angular/http';
 
 @Injectable()
 export class AuthService {
 
-  // HACK TODO: Provide actual credential login using cookie strategy
+  /**
+   * Builds the service
+   * @param http
+   */
+  constructor(private http: Http) {
+  }
 
-  get isLoggedIn(): boolean {
-    return environment.n3Key && environment.n3Secret ? true : false;
+  /**
+   * Checks for Bakery Authentication existence
+   * @returns {Promise<boolean>}
+   */
+  isLoggedIn(): Promise<boolean> {
+    return this.http.get(environment.apiEndpoint + '/api/v1/auth/bakery', {withCredentials: environment.production})
+      .map(r => r.json())
+      .toPromise()
+      .then(res => Promise.resolve(res.authenticated))
+      .catch(e => Promise.resolve(e.authenticated));
   };
 }

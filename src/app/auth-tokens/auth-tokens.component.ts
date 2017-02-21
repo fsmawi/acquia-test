@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {environment} from '../../environments/environment';
+import {defaultIfEmpty} from 'rxjs/operator/defaultIfEmpty';
 
 @Component({
   selector: 'app-auth-tokens',
@@ -47,7 +48,9 @@ export class AuthTokensComponent implements OnInit {
   login() {
     environment.n3Key = this.n3Key;
     environment.n3Secret = this.n3Secret;
-
+    if (!environment.production) {
+      document.cookie = 'CHOCOLATECHIPSSL=123456;'; // mock one
+    }
     this.router.navigateByUrl(`/jobs/${this.appId}`);
   }
 }
