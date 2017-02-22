@@ -5,20 +5,36 @@
   </div>
 
   <h1 class="center">Log into Pipelines</h1>
-  <h2 class="gray center">With N3 tokens</h2>
+  <h2 class="gray center">via Single Sign On</h2>
 
+  <br>
   <hr>
   <br>
 
-  <form id="auth-token-form" (ngSubmit)="login()" #tokenForm="ngForm">
-    <input class="full-width" placeholder="Application ID" [(ngModel)]="appId" name="AppId" type="text" required>
-    <br>
-    <input class="full-width" placeholder="N3 Access Key" [(ngModel)]="n3Key" name="N3AccessKey" type="text" required>
-    <br>
-    <input class="full-width" placeholder="N3 Secret" [(ngModel)]="n3Secret" type="password" name="N3Secret" required>
-    <br><br>
+  <h3>Pipelines UI uses the same authentication that cloud.acquia.com uses.</h3>
+
+  <section id="instructions" *ngIf="!loading">
+    <h4>To sign in:</h4>
+    <ol>
+      <li>Log into <a href="https://cloud.acquia.com" target="_blank">cloud.acquia.com
+        <e-svg-icon *ngIf="loggedIn" class="success" type="state__success--circle">check_circle</e-svg-icon>
+      </a>
+      </li>
+      <li>Refresh this page
+        <e-svg-icon *ngIf="loggedIn" class="success" type="state__success--circle">check_circle</e-svg-icon>
+      </li>
+      <li>Enter your application id</li>
+    </ol>
+  </section>
+
+  <form id="auth-token-form" (ngSubmit)="login()" #tokenForm="ngForm" *ngIf="!loading">
+    <input class="full-width" placeholder="Application ID" [(ngModel)]="appId" name="AppId" type="text" required
+           [disabled]="loading">
     <div class="center">
       <button md-raised-button color="primary" type="submit">Sign In</button>
     </div>
   </form>
+
+  <!-- Loading indicator -->
+  <md-progress-spinner style="margin: 76px auto;" *ngIf="loading" mode="indeterminate"></md-progress-spinner>
 </md-card>

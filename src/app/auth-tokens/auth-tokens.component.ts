@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {environment} from '../../environments/environment';
 import {defaultIfEmpty} from 'rxjs/operator/defaultIfEmpty';
+import {AuthService} from '../core/services/auth.service';
 
 @Component({
   selector: 'app-auth-tokens',
@@ -31,26 +32,46 @@ export class AuthTokensComponent implements OnInit {
   accessCode: string;
 
   /**
+   * Log in loading indicator
+   */
+  loading: boolean;
+
+  /**
+   * Logged in flag
+   */
+  loggedIn: boolean;
+
+  /**
    * Builds the component
    */
-  constructor(private router: Router) {
+  constructor(private router: Router, private auth: AuthService) {
   }
 
   /**
    * Runs on Init
    */
   ngOnInit() {
+    this.loading = true;
+    this.auth.isLoggedIn()
+      .then(authenticated => {
+        if (authenticated) {
+          this.loggedIn = true;
+        }
+      })
+      .then(() => this.loading = false);
   }
 
   /**
    * Set the Headers for the Pipelines API Service
    */
   login() {
-    environment.n3Key = this.n3Key;
-    environment.n3Secret = this.n3Secret;
-    if (!environment.production) {
-      document.cookie = 'CHOCOLATECHIPSSL=123456;'; // mock one
-    }
-    this.router.navigateByUrl(`/jobs/${this.appId}`);
+    this.loading = true;
+    this.auth.isLoggedIn().then(authenticated => {
+      if (authenticated) {
+        this.router.navigateByUrl(`/jobs/${this.appId}`);
+      } else {
+        window.top.location.href = '/';
+      }
+    });
   }
 }
