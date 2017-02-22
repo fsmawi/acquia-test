@@ -17,7 +17,6 @@ Feature: Pipelines Job Details
       | spin-reverse           |
       | state__success--circle |
 
-  @pending
   @JobDetail_AlertSummary
   Scenario: Check the status of the job is displayed as an alert
     Given jobs yml file "jobs.yml"
@@ -25,7 +24,6 @@ Feature: Pipelines Job Details
     And I click on any job id in the "Build" column from the list of jobs displayed
     Then I can see an alert showing the status of the job and message
 
-  @pending
   @JobDetail_BackButton
   Scenario: Check the 'Jobs' button is displayed and working
     Given jobs yml file "jobs.yml"
@@ -50,7 +48,6 @@ Feature: Pipelines Job Details
     And I click on the job with jobid "34b06147"
     Then I should see the logs for the job
 
-  @pending
   @JobDetail_CheckInProgressBar
   Scenario: Check the progress bar is displayed when the job is unfinished
     Given jobs yml file "jobs.yml"

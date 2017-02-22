@@ -12,6 +12,7 @@
 - [Development Process](development-process.md)
 - [Home](../)
 - [API Proxy](api-proxy.md)
+- [Integration Testing](integration-testing.md)
 
 
 ## Problem Statement

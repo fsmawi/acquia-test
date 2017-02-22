@@ -9,7 +9,6 @@ Feature: Pipelines Jobs List
     When on the jobs-list page
     Then I can see the last job status displays as an alert with a status and message
 
-  @pending
   @JobList_CheckAlertJobLink
   Scenario: Check the joblink navigates to activity table
     Given jobs yml file "jobs.yml"
@@ -51,7 +50,6 @@ Feature: Pipelines Jobs List
     When on the jobs-list page
     Then I should see jobs-list table inside "Activity" card
 
-  @pending
   @JobList_CheckDetailLink
   Scenario: A job in the activity card should link to the detail page for that job
     Given jobs yml file "jobs.yml"
