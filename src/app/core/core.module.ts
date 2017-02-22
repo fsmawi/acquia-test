@@ -11,6 +11,8 @@ import {FlashMessageComponent} from './components/flash-message/flash-message.co
 import {FlashMessageService} from './services/flash-message.service';
 import {ElementalModule} from '../elemental/elemental.module';
 import {AmplitudeService} from './services/amplitude.service';
+import {AnsiService} from './services/ansi.service';
+
 
 @NgModule({
   imports: [
@@ -25,7 +27,8 @@ import {AmplitudeService} from './services/amplitude.service';
     AuthGuard,
     AuthService,
     FlashMessageService,
-    AmplitudeService
+    AmplitudeService,
+    AnsiService
   ],
   declarations: [FlashMessageComponent],
   exports: [FlashMessageComponent]

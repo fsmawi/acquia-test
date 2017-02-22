@@ -9,7 +9,7 @@
                    [appId]="appId" [job]="job">
   </app-job-summary>
   <e-card id="logs" *ngIf="logs && logs.length > 0">
-      <pre class="logs" ><i *ngFor="let log of logs">{{ log.timestamp | amDateFormat:'YYYY-MM-DD HH:mm:ss' }} [{{ log.level }}] {{log.message}} <br/></i></pre>
+    <pre class="logs"><li *ngFor="let log of logs">{{(log.timestamp | amFromUnix) | amDateFormat:'YYYY-MM-DD HH:mm:ss' }} [{{ log.level }}] <span [innerHTML]="log.message | safe: 'html'"></span></li></pre>
   </e-card>
   <e-card *ngIf="job && (!logs || logs.length == 0)">
     <e-card-content>

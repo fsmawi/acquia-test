@@ -13,7 +13,8 @@ import {ElementalModule} from '../../elemental/elemental.module';
 import {Job} from '../../core/models/job';
 import {JobLog} from '../../core/models/job-log';
 import {JobSummaryComponent} from '../job-summary/job-summary.component';
-
+import {SharedModule} from '../../shared/shared.module';
+import {AnsiService} from '../../core/services/ansi.service';
 
 class MockPipelinesService {
 
@@ -54,9 +55,10 @@ describe('JobsDetailComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [JobsDetailComponent, JobSummaryComponent],
-      imports: [MaterialModule.forRoot(), MomentModule, RouterTestingModule, ElementalModule],
+      imports: [MaterialModule.forRoot(), MomentModule, RouterTestingModule, ElementalModule, SharedModule],
       providers: [
         { provide: PipelinesService, useClass: MockPipelinesService },
+        AnsiService,
         ErrorService]
     })
       .compileComponents();

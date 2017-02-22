@@ -4,6 +4,7 @@ import {Job} from '../../core/models/job';
 import {PipelinesService} from '../../core/services/pipelines.service';
 import {ErrorService} from '../../core/services/error.service';
 import {JobLog} from '../../core/models/job-log';
+import {AnsiService} from '../../core/services/ansi.service';
 
 @Component({
   selector: 'app-jobs-detail',
@@ -51,6 +52,7 @@ export class JobsDetailComponent implements OnInit, OnDestroy {
    */
   constructor(private pipelineService: PipelinesService,
               private route: ActivatedRoute,
+              private ansiService: AnsiService,
               private errorHandler: ErrorService) {
   }
 
@@ -91,7 +93,13 @@ export class JobsDetailComponent implements OnInit, OnDestroy {
     this.pipelineService.getJobByJobId(this.appId, this.jobId)
       .then((j: Job) => job = new Job(j))
       .then(() => this.pipelineService.getLogFile(this.appId, this.jobId))
-      .then((logs: Array<JobLog>) => this.logs = logs)
+      .then((logs: Array<JobLog>) => {
+        this.logs = logs.map(log => {
+          // Converting the ansi values in the log message to valid HTML values
+          log.message = this.ansiService.convert(log.message);
+          return log;
+        });
+      })
       .then(() => this.job = job)
       .then(() => {
         if (this.job.isFinished && this.timer) {
@@ -100,9 +108,9 @@ export class JobsDetailComponent implements OnInit, OnDestroy {
         }
       })
       .catch(e =>
-          this.errorHandler
-              .apiError(e)
-              .showError('Job list', '/jobs/' + this.appId))
+        this.errorHandler
+          .apiError(e)
+          .showError('Job list', '/jobs/' + this.appId))
       .then(() => this.loadingJob = false);
   }
 }
