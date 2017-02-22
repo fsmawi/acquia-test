@@ -30,7 +30,8 @@
               fxFlex="25%"
               fxFlex.xs="50%">
         <e-data-label>Duration</e-data-label>
-        <e-data-value>{{job.duration | amDuration:'seconds'}}</e-data-value>
+        <e-data-value *ngIf="job.isUnfinished">{{calculatedDuration}}</e-data-value>
+        <e-data-value *ngIf="job.isFinished">{{job.duration | amDuration:'seconds'}}</e-data-value>
       </e-data>
       <e-data class="flex-item"
               fxFlex="25%"
