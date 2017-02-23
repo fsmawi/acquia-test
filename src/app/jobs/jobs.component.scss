@@ -25,3 +25,13 @@ md-card {
 .content {
   padding: 24px;
 }
+
+#config-link {
+  float: right;
+  margin-bottom: 10px;
+}
+
+app-job-summary /deep/ section,
+e-card /deep/ section {
+  clear: both;
+}

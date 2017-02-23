@@ -4,6 +4,8 @@ import {TestBed, async, inject} from '@angular/core/testing';
 import {PipelinesService} from './pipelines.service';
 import {HttpModule, BaseRequestOptions, Http, ResponseOptions, Response} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
+import {Pipeline} from '../models/pipeline';
+
 
 describe('PipelinesService', () => {
   beforeEach(() => {
@@ -59,6 +61,35 @@ describe('PipelinesService', () => {
       expect(res.success).toEqual(true);
       expect(res.deploy_key_url).toEqual('key_url');
       expect(res.webhook_url).toEqual('webhook_url');
+    });
+  }));
+
+  it('should get pipelines given an application ID',
+    inject([PipelinesService, MockBackend], (service: PipelinesService, mockBackend: MockBackend) => {
+     const pipeline = new Pipeline({
+      repo_data: {
+        repos: [
+          {
+            name: 'acquia/repo1',
+            link: 'https://github.com/acquia/repo1',
+            type: 'github'
+          },
+          {
+            name: 'acquia/repo2',
+            link: 'https://github.com/acquia/repo2',
+            type: 'github'
+          }
+        ],
+        branches: 'test11,test12'
+      }
+    });
+
+    setupConnections(mockBackend, {
+      body: JSON.stringify([pipeline])
+    });
+
+    service.getPipelineByAppId('someAppId').then(res => {
+      expect(res.url).toEqual('https://github/name/repo');
     });
   }));
 });

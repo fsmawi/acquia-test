@@ -1,0 +1,20 @@
+:host {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+
+  .flex {
+    flex: 1;
+  }
+}
+
+e-svg-icon /deep/ .el-iconography__icon--state__success use {
+  fill: green;
+}
+
+.ui-core__cmp__copy-text__button {
+  cursor: pointer;
+}

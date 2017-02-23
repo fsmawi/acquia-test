@@ -155,13 +155,13 @@ export class AuthGithubComponent implements OnInit {
     this.loading = false;
     this.route.params.subscribe((params) => {
 
-      this.appId = params['app-id'];
+      this.appId = params['app-id']; // TODO: check if application exists
 
-      //  Connection screen
+      // Connection screen
       if (this.route.snapshot.data['type'] !== 'code') {
         this.getPresignedUrl();
       } else {
-        this.connect = true; // already connected if in auth/github/code route
+        this.connect = true; // Already connected if in auth/github/code route
          // Get authorization code from query parameters
         this.login();
       }

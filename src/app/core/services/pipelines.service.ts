@@ -3,6 +3,7 @@ import {Http, RequestOptions, Headers, URLSearchParams} from '@angular/http';
 import {environment} from '../../../environments/environment';
 import 'rxjs/add/operator/toPromise';
 import {Job} from '../models/job';
+import {Pipeline} from '../models/pipeline';
 
 @Injectable()
 export class PipelinesService {
@@ -75,6 +76,19 @@ export class PipelinesService {
    */
   getLogFile(appId: string, jobId: string, params = {}) {
     return this.promiseGetRequest(this.URI + `/ci/jobs/${jobId}/logs?applications=${appId}`, params);
+  }
+
+  /**
+   * Get pipeline for the supplied app id
+   * @param  appId
+   * @returns {Promise<Array<Pipeline>>}
+   */
+  getPipelineByAppId(appId: string) {
+    return this.promiseGetRequest(this.URI + `/ci/pipelines`, {
+      include_repo_data: 1,
+      applications: [appId]
+    })
+    .then(r => r.map(p => new Pipeline(p)));
   }
 
   /**
