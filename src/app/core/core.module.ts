@@ -12,11 +12,13 @@ import {FlashMessageService} from './services/flash-message.service';
 import {ElementalModule} from '../elemental/elemental.module';
 import {AmplitudeService} from './services/amplitude.service';
 import {AnsiService} from './services/ansi.service';
-
+import {ConfirmationModalComponent} from './components/confirmation-modal/confirmation-modal.component';
+import {ConfirmationModalService} from './services/confirmation-modal.service';
+import {MaterialModule} from '@angular/material';
 
 @NgModule({
   imports: [
-    CommonModule, ElementalModule
+    CommonModule, ElementalModule, MaterialModule.forRoot()
   ],
   providers: [
     GithubService,
@@ -28,10 +30,12 @@ import {AnsiService} from './services/ansi.service';
     AuthService,
     FlashMessageService,
     AmplitudeService,
-    AnsiService
+    AnsiService,
+    ConfirmationModalService
   ],
-  declarations: [FlashMessageComponent],
-  exports: [FlashMessageComponent]
+  declarations: [FlashMessageComponent, ConfirmationModalComponent],
+  exports: [FlashMessageComponent, ConfirmationModalComponent],
+  entryComponents: [ConfirmationModalComponent]
 })
 export class CoreModule {
 }

@@ -1,0 +1,12 @@
+#confirmation-modal {
+
+  /deep/ section.el-card {
+    margin-bottom: 0;
+
+    .el-card__content {
+      padding-top: 1.5rem;
+      padding-bottom: 1.5rem;
+    }
+
+  }
+}

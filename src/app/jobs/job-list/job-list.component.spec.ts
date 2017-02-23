@@ -12,6 +12,9 @@ import {PipelinesService} from '../../core/services/pipelines.service';
 import {ErrorService} from '../../core/services/error.service';
 import {RouterTestingModule} from '@angular/router/testing/router_testing_module';
 import {Job} from '../../core/models/job';
+import {ElementalModule} from '../../elemental/elemental.module';
+import {FlashMessageService} from '../../core/services/flash-message.service';
+import {ConfirmationModalService} from '../../core/services/confirmation-modal.service';
 
 class MockPipelinesService {
 
@@ -47,7 +50,22 @@ class MockPipelinesService {
     return Promise.resolve([]);
   }
 
+}
 
+class MockConfirmationModalService {
+  openDialog(title: string, message: string, primaryActionText: string, secondaryActionText = '') {
+    return Promise.resolve(true);
+  }
+}
+
+class MockFlashMessage {
+  showError(message: string, e: any) {
+    return true;
+  }
+
+  showSuccess(message: string, e: any) {
+    return true;
+  }
 }
 
 describe('JobListComponent', () => {
@@ -57,9 +75,11 @@ describe('JobListComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [JobListComponent],
-      imports: [MaterialModule.forRoot(), SharedModule, RouterTestingModule, MomentModule],
+      imports: [MaterialModule.forRoot(), SharedModule, RouterTestingModule, MomentModule, ElementalModule],
       providers: [
         { provide: PipelinesService, useClass: MockPipelinesService },
+        { provide: FlashMessageService, useClass: MockFlashMessage },
+        { provide: ConfirmationModalService, useClass: MockConfirmationModalService },
         ErrorService]
     })
       .compileComponents();

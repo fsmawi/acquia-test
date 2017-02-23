@@ -1,0 +1,17 @@
+<div id="confirmation-modal"
+     *ngIf="modalOpen"
+     (click)="cancelled()"
+     class="el-dialog el-dialog--modal el-dialog--is-active el-dialog__backdrop">
+  <div class="el-dialog__window">
+    <e-card *ngIf="modalOpen" class="el-card--is-dialog">
+      <e-card-header>{{title}}</e-card-header>
+      <e-card-content>
+        {{message}}
+      </e-card-content>
+      <e-card-footer>
+        <e-button text="{{secondaryActionText}}" type="link" (click)="cancelled()"></e-button>
+        <e-button text="{{primaryActionText}}" type="primary" (click)="confirmed()" ></e-button>
+      </e-card-footer>
+    </e-card>
+  </div>
+</div>

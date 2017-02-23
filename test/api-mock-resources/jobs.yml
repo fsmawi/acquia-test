@@ -410,6 +410,9 @@ routes:
         sitename: "enterprise-g1:sfwiptravis"
         started_at: 1456263980
         status: queued
+  /api/v1/ci/jobs/ad9aacb4-11de-44da-b2ac-a478a59f55ca/terminate:
+    POST:
+      response: []
   /api/v1/ci/jobs/ad9aacb4-11de-44da-b2ac-a478a59f55ca/logs:
     GET:
       response: []

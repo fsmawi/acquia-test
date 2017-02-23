@@ -30,9 +30,14 @@
       <!--<button md-button *ngIf="job.isFailed" (click)="restartJob(job)">-->
       <!--<md-icon color="primary">refresh</md-icon>-->
       <!--</button>-->
-      <button md-button *ngIf="job.isUnfinished" (click)="stopJob(job)">
-        <md-icon color="primary">stop</md-icon>
-      </button>
+
+      <e-svg-icon class="danger" type="actions__close--circle"
+                  *ngIf="job.isUnfinished" (click)="stopJob(job)"
+                  mdTooltip="Terminate Job"
+                  style="cursor:pointer"
+                  mdTooltipPosition="left">
+      </e-svg-icon>
+
     </td>
   </tr>
   </tbody>

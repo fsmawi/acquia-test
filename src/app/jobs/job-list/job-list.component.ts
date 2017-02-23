@@ -2,6 +2,8 @@ import {Component, OnInit, Input} from '@angular/core';
 import {Job} from '../../core/models/job';
 import {PipelinesService} from '../../core/services/pipelines.service';
 import {ErrorService} from '../../core/services/error.service';
+import {ConfirmationModalService} from '../../core/services/confirmation-modal.service';
+import {FlashMessageService} from '../../core/services/flash-message.service';
 
 @Component({
   selector: 'app-job-list',
@@ -25,7 +27,10 @@ export class JobListComponent implements OnInit {
   /**
    * Builds the component and injects services if needed
    */
-  constructor(private pipelines: PipelinesService, private errorHandler: ErrorService) {
+  constructor(private pipelines: PipelinesService,
+              private confirmationModalService: ConfirmationModalService,
+              private flashMessageService: FlashMessageService,
+              private errorHandler: ErrorService) {
   }
 
   /**
@@ -52,11 +57,19 @@ export class JobListComponent implements OnInit {
    * @param job
    */
   stopJob(job: Job) {
-    this.pipelines.stopJob(this.appId, job.job_id)
-      .then(() => {
-        // TODO replace with flash service when available
-        alert('Job stopped');
-      })
-      .catch(this.errorHandler.apiError);
+    this.confirmationModalService
+        .openDialog('Terminate Job', 'Are you sure you want to terminate your job?', 'Yes', 'Cancel')
+        .then(result => {
+            if (result) {
+              this.pipelines.stopJob(this.appId, job.job_id)
+                .then((res) => {
+                  this.flashMessageService.showSuccess('Your job is terminating');
+                })
+                .catch(e => {
+                  this.flashMessageService.showError('Error while terminating your job', e);
+                  this.errorHandler.apiError(e);
+                });
+            }
+        });
   }
 }
