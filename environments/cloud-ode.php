@@ -19,7 +19,7 @@ class CloudODE {
         $this->app = getenv('PIPELINE_APPLICATION_ID');
         $this->deploy_path = getenv('PIPELINE_DEPLOY_VCS_PATH');
         $this->event = getenv('PIPELINES_EVENT');
-        if (!isset($this->event)) {
+        if (empty($this->event)) {
             $this->event = 'build';
         }
     }
@@ -29,17 +29,17 @@ class CloudODE {
         $envs = $this->api->get("applications/{$this->app}/environments");
         foreach ($envs->_embedded->items as $env) {
             if ($env->flags->ode == 1 && $env->vcs->path == $this->deploy_path) {
-                print "Deleting environment {$env->label} ({$env->name}).\n";
+                print "Environments: Deleting {$env->label} ({$env->name}).\n";
                 $this->api->delete("environments/{$env->id}");
             }
         }
     }
 
-    // Find the first ODE for which a callback returns true.
-    function find_ode($envs, $callback) {
-        foreach ($envs as $env) {
-            if ($env->flags->ode == 1 && $callback($env)) {
-                return $env;
+    // Find the first element for which a callback returns true, or NULL.
+    function find($array, $callback) {
+        foreach ($array as $elem) {
+            if ($callback($elem)) {
+                return $elem;
             }
         }
         return NULL;
@@ -49,47 +49,58 @@ class CloudODE {
     // to builds by the environment label being the build branch name, since
     // that is the only way we have to identify them.  Method:
     //
-    // - If an ODE for the build does not exist, create it, configure it to
-    // deploy the build branch, and wait for it to be done.
-    // - If an ODE for the build does exist, update with the latest build.
+    // - If an environment deploying the build does not exist, create
+    //   an ODE, configure it to deploy the build branch, and wait for
+    //   it to be done.
+    // - Otherwise, update the existing environment(s) with the latest build.
     //
-    // @todo: We currently have no way to determine when a git push is deployed.
+    // @todo: Use
+    // http://acquia.github.io/network-n3/#applications__uuid__hosting_tasks_get
+    // to determine when a git push is deployed.
     function deploy() {
         $label = $this->deploy_path;
         try {
-            // Find the build environment, if it exists. The label is the only
-            // way we have to identify it.
+            // Find a build environment for this path, if it exists.
             $envs = $this->api->get("applications/{$this->app}/environments");
-            $env = $this->find_ode($envs->_embedded->items, function ($env) use ($label) {
-                return $env->label == $label;
+            $env = $this->find($envs->_embedded->items, function ($env) use ($label) {
+                return $env->vcs->path == $this->deploy_path;
             });
 
             if ($env) {
                 // Deploy the new build.
                 // @todo: No way to know when it is done.
-                print "Updating Cloud environment {$env->label} ({$env->name}).\n";
+                print "Environments: Updating Cloud environment {$env->label} ({$env->name}).\n";
             }
             else {
                 // Create the environment. We cannot select a branch that does
                 // not exist yet.
-                print "Creating Cloud environment...\n";
-                $this->api->post("applications/{$this->app}/environments", [
-                    'label' => $label,
-                    'branch' => 'master',
-                ]);
+                print "Environments: Creating Cloud environment...\n";
+                try {
+                    $this->api->post("applications/{$this->app}/environments", [
+                        'label' => $label,
+                        'branch' => 'master',
+                    ]);
+                }
+                catch (CloudAPI\UnexpectedResponseStatusException $e) {
+                    $result = $e->getResult();
+                    if (strpos($result['message'], 'On-demand environments are not available') !== FALSE) {
+                        print "Environments: {$result['message']}\n";
+                        exit(1);
+                    }
+                    throw $e;
+                }
 
-                // Find the environment we just created, again via label.
+                // Find the environment we just created. The label is the only
+                // we have to identify it.
                 // @todo: Could the POST call return the env id?
                 $envs = $this->api->get("applications/{$this->app}/environments");
-                $env = $this->find_ode($envs->_embedded->items, function ($env) use ($label) {
+                $env = $this->find($envs->_embedded->items, function ($env) use ($label) {
                     return $env->label == $label;
                 });
 
                 // Wait for environment to be ready.
-                print "Waiting for environment {$env->label} ({$env->name}) to be ready...\n";
-
+                print "Environments: Waiting for {$env->name} to be ready...\n";
                 $this->api->poll("environments/{$env->id}", function ($env, $count) {
-                    print "tick $count: {$env->status}\n";
                     return $env->status == 'normal';
                 });
 
@@ -108,12 +119,13 @@ class CloudODE {
             exec("echo $newHost > ~/ode.url");
         }
         catch (CloudAPI\Exception $e) {
-            print "Cloud API error: " . $e->getMessage();
+            print "Environments: Cloud API error: " . $e->getMessage();
             exit(1);
         }
     }
 
     function execute() {
+        print "Environments: Event {$this->event}.\n";
         switch ($this->event) {
         case 'build':
             $this->deploy();

@@ -46,7 +46,7 @@ events:
           script:
             - 'cd environments'
             - 'composer install'
-            - 'PIPELINES_EVENT=build php cloud-ode.php'
+            - 'php cloud-ode.php'
       # Disable e2e until proper merging steps are provided
       # - acceptance:
           # script:
