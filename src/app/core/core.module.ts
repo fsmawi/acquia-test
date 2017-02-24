@@ -1,6 +1,5 @@
 import {NgModule, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {GithubService} from './services/github.service';
 import {PipelinesService} from './services/pipelines.service';
 import {StorageService} from './services/storage.service';
 import {N3Service} from './services/n3.service';
@@ -21,7 +20,6 @@ import {MaterialModule} from '@angular/material';
     CommonModule, ElementalModule, MaterialModule.forRoot()
   ],
   providers: [
-    GithubService,
     PipelinesService,
     StorageService,
     N3Service,

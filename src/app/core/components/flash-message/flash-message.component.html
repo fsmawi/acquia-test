@@ -1,6 +1,6 @@
 <div id="flash-message" class="flash-message {{type}}" *ngIf="isFlashOpen()">
   <a class="close" (click)="closeFlash()">×</a>
-  <i class="material-icons md-48"> {{type}}</i> {{message}} <a ngclass="details" (click)="moreDetails()" *ngIf="details">Show details</a>.
+  <e-svg-icon type="actions__{{icon}}"></e-svg-icon> {{message}} <a ngclass="details" (click)="moreDetails()" *ngIf="details">Show details</a>
 </div>
 <div id="flash-message-dialog" class="flash-message-dialog el-dialog el-dialog--modal el-dialog--is-active" *ngIf="isDetailsOpen()">
   <div class="el-dialog__window">

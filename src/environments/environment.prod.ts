@@ -6,7 +6,7 @@ export const environment = {
   headers: {
     'X-ACQUIA-PIPELINES-N3-ENDPOINT': 'https://cloud.acquia.com'
   },
-  URL: '',
+  URL: 'https://pipelines.acquia.com', // redirect url
   auth: { // authentication parameters
     github: {
       oauthEndpoint: '',

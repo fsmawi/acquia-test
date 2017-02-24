@@ -21,6 +21,12 @@ export class FlashMessageComponent implements OnInit {
   type = '';
 
   /**
+   * Icon
+   * @type {String}
+   */
+  icon = '';
+
+  /**
    * Timer
    * @type {Number}
    */
@@ -67,6 +73,7 @@ export class FlashMessageComponent implements OnInit {
   show(type: string, text: string, details: any = undefined) {
 
     this.type = type;
+    this.icon = type === 'error' ? 'alert--circle' : type;
     this.message = text;
     this.flashOpen = true;
     this.details = details;

@@ -4,6 +4,7 @@ import {environment} from '../../../environments/environment';
 import 'rxjs/add/operator/toPromise';
 import {Job} from '../models/job';
 import {Pipeline} from '../models/pipeline';
+import {Repository} from '../models/repository';
 
 @Injectable()
 export class PipelinesService {
@@ -44,27 +45,14 @@ export class PipelinesService {
 
   /**
    * Attach a Github repository
-   * @param token
    * @param repositoy
-   * @param applications
+   * @param application
    */
-  attachGithubRepository(token: string, repositoy: string, applications = []) {
+  attachGithubRepository(repositoy: string, application: string) {
     return this.promisePostRequest(this.URI + `/ci/github/init`, {
-      github_token: token,
       repo: repositoy,
-      applications: applications
-    }, {});
-  }
-
-  /**
-   * Get a presigned redirecting URL
-   * @param appId
-   */
-  getPresignedUrl(appId: string) {
-    return this.promisePostRequest(environment.apiEndpoint + `/redirect/create`, {
-      application_id: appId,
-      url: environment.URL + `/auth/github/code/${appId}`
-    }, {});
+      applications: [application]
+    });
   }
 
   /**
@@ -88,7 +76,17 @@ export class PipelinesService {
       include_repo_data: 1,
       applications: [appId]
     })
-    .then(r => r.map(p => new Pipeline(p)));
+      .then(r => r.map(p => new Pipeline(p)));
+  }
+
+  /**
+   * Get all connected user's repositories
+   * @param page
+   * @param appId
+   */
+  getRepositoriesByPage(page: number, appId: string) {
+    return this.promiseGetRequest(this.URI + `/ci/github/repos?per_page=100&page=${page}&applications=${appId}`, {})
+      .then(res => res.map(r => new Repository(r)));
   }
 
   /**

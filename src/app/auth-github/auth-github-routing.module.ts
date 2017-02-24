@@ -4,7 +4,7 @@ import { AuthGithubComponent } from './auth-github.component';
 
 const routes: Routes = [
   {path: ':app-id', component: AuthGithubComponent},
-  {path: 'code/:app-id', component: AuthGithubComponent, data: {type: 'code'} }
+  {path: '', redirectTo: '/404', pathMatch: 'full'}
 ];
 
 @NgModule({

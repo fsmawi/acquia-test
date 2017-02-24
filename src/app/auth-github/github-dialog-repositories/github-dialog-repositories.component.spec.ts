@@ -9,11 +9,11 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { ElementalModule } from '../../elemental/elemental.module';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
 import { GithubDialogRepositoriesComponent } from './github-dialog-repositories.component';
-import { GithubService } from '../../core/services/github.service';
+import { PipelinesService } from '../../core/services/pipelines.service';
 import { RepositoryFilterPipe } from './repository-filter.pipe';
 import { ErrorService } from '../../core/services/error.service';
+import { FlashMessageService } from '../../core/services/flash-message.service';
 
 @NgModule({
   declarations: [GithubDialogRepositoriesComponent, RepositoryFilterPipe],
@@ -32,7 +32,8 @@ describe('GithubDialogRepositoriesComponent', () => {
     TestBed.configureTestingModule({
       imports: [DialogTestModule, RouterTestingModule],
       providers: [
-        GithubService,
+        PipelinesService,
+        FlashMessageService,
         ErrorService,
         MockBackend,
         BaseRequestOptions,

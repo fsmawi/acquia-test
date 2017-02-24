@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { MdDialogRef } from '@angular/material';
-import { GithubService } from '../../core/services/github.service';
-import { RepositoryFilterPipe } from './repository-filter.pipe';
-import { ErrorService } from '../../core/services/error.service';
+import {Component, OnInit, Input} from '@angular/core';
+import {MdDialogRef} from '@angular/material';
+import {PipelinesService} from '../../core/services/pipelines.service';
+import {RepositoryFilterPipe} from './repository-filter.pipe';
+import {ErrorService} from '../../core/services/error.service';
+import {FlashMessageService} from '../../core/services/flash-message.service';
+
 
 @Component({
   selector: 'app-github-dialog-repositories',
@@ -24,12 +26,6 @@ export class GithubDialogRepositoriesComponent implements OnInit {
   repository = {};
 
   /**
-   * Github Access token
-   * @type {string}
-   */
-  accessToken: string;
-
-  /**
    * Filter repositories
    * @type {string}
    */
@@ -42,25 +38,60 @@ export class GithubDialogRepositoriesComponent implements OnInit {
   loading = false;
 
   /**
+   * App Id to send with github requests.
+   */
+  @Input()
+  appId: string;
+
+  /**
    * Builds the component
    * @param dialogRef
-   * @param auth
+   * @param pipelinesService
+   * @param flashMessageService
    * @param errorHandler
    */
   constructor(public dialogRef: MdDialogRef<GithubDialogRepositoriesComponent>,
-              public auth: GithubService,
+              public pipelinesService: PipelinesService,
+              public flashMessageService: FlashMessageService,
               private errorHandler: ErrorService) {
+  }
+
+  /**
+   * Get All repositories recursively
+   * @param page = 1
+   */
+  getAllRepositories(page = 1) {
+    this.pipelinesService.getRepositoriesByPage(page, this.appId)
+      .then(result => {
+        this.repositories = this.repositories.concat(result);
+        if (result.length < 100) {
+          this.loading = false;
+        } else {
+          this.getAllRepositories(++page);
+        }
+      })
+      .catch(e => {
+        this.errorHandler.apiError(e);
+        this.dialogRef.close();
+        this.flashMessageService.showError('Unable to get Github repositories.', e);
+      });
   }
 
   /**
    * On component initialize, Get all repositories from github
    */
   ngOnInit() {
-    this.loading = false;
-    this.auth.getRepositories(this.accessToken)
-      .then(result => this.repositories = result)
-      .catch(e => this.errorHandler.apiError(e))
-      .then(() => this.loading = true);
+    this.loading = true;
+    if (this.appId) {
+      this.start();
+    }
+  }
+
+  /**
+   * Gets all the repositories. Can be delayed if an appId is not injected on creation.
+   */
+  start() {
+    this.getAllRepositories();
   }
 
   /**

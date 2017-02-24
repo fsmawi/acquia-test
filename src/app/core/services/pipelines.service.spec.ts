@@ -53,11 +53,10 @@ describe('PipelinesService', () => {
         success: true,
         deploy_key_url: 'key_url',
         webhook_url: 'webhook_url'
-      }),
-      // status: 201
+      })
     });
 
-    service.attachGithubRepository('someToken', 'repoId', ['someAppId']).then(res => {
+    service.attachGithubRepository('repoId', 'someAppId').then(res => {
       expect(res.success).toEqual(true);
       expect(res.deploy_key_url).toEqual('key_url');
       expect(res.webhook_url).toEqual('webhook_url');
