@@ -71,5 +71,38 @@ class Page {
       .setValue('input[name="headerValue"]', jobsYmlFile)
       .submitForm('.md-primary');
   }
-}
+
+  /**
+   * @return {String} value of a property item
+   * @param {String} item a property identifier
+   * find the property in feature properties js file or else in environment variables
+   */
+  getDynamicValue(item) {
+    let placeholder = item.substring(1);
+    let newValue;
+    try {
+      if (item[0] === '*') {
+        /* Priority
+         1. Scenario scope
+         2. Feature scope
+         3. global scope
+         4. Environment scope or value itself
+         */
+        if (global.currentScenario.properties && global.currentScenario.properties[placeholder]) {
+          newValue = global.currentScenario.properties[placeholder];
+        } else if (global.currentFeature.properties && global.currentFeature.properties[placeholder]) {
+          newValue = global.currentFeature.properties[placeholder];
+        } else if (global.currentRun.properties && global.currentRun.properties[placeholder]) {
+          newValue = global.currentRun.properties[placeholder];
+        } else {
+          newValue = process.env[placeholder] || item;
+        }
+        return newValue;
+      }
+    } catch (e) {
+      console.error('Failed to find Dynamic value for property: ' + placeholder, e);
+    }
+    return item;
+  }
+};
 module.exports = new Page();

@@ -1,6 +1,6 @@
 let page = require('./page-objects/page');
 let loginPage = require('./page-objects/login.page');
-let CONSTANTS = require('../../support/constants');
+let CONSTANTS = require('../support/constants');
 
 module.exports = function () {
   this.Given(/^I have navigated to "([^"]*)"$/, function (pagePath) {
