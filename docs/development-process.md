@@ -2,22 +2,25 @@
 
 ## Team Structure
 
-1. Product Owners
-    - Responsible for work delegation and vision for the product
-2. Engineering Managers/Architects
-    - Responsible for design and ownership of engineering talent. Core engineering contributor and technical leader
-3. Engineers
-    - Responsible for implementation of approved architectures
-4. QA Engineers
-    - Responsible for managing technical debt and quality assurance tools/strategies
-5. UX Engineer
-    - Provide UX guidance and review for screens
+1. Product OwnersResponsible for defining business objectives, prioritization,  and vision for the product
+2. Scrum Master
+  - Responsible for managing the scrum process, scheduling meetings, using reports to identify where work needs to be focused and ensuring the flow of work through the system.
+3. Architects
+  - Responsible for translating business objectives into an architecture that can meet the business objectives. Responsible for ensuring the engineering team understands the technical criteria and constraints.
+4. Engineering Managers
+  - Responsible for engineering talent. Core engineering contributor and technical leader. Should manage and report on engineering resources.
+5. Front-end Engineers
+  - Responsible for implementation of approved architectures
+6. QA Engineers
+  - Responsible for managing technical debt and quality assurance tools/strategies
+7. UX Engineer
+  - Provide UX guidance and review for screens
 
 ## Process
 
 ### Workflow
 
-1. Sprint planning creates priority and assigns story/bug/yask in JIRA (MS project)
+1. Sprint planning creates priority and assigns story/bug/task in JIRA (MS project with the "ux" component)
   - Inputs are validated for all tickets: [templates](#input-templates)
   - Click start progress on the JIRA Ticket
 2. Fork the pipelines-ui repo (one time)
@@ -88,7 +91,7 @@ Every UI feature must be approved by Product Ownership before release to the cus
 
 ### Retrospective
 
-At the end of a sprint, the team will retro on sprint performance and process, and generate ideas for kaizen of the team.
+Retrospective is the most important work of the sprint. At the end of a sprint, the team will retro on sprint performance and process, and generate ideas for kaizen of the team.
 
 ## Templates
 
