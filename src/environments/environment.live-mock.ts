@@ -21,6 +21,17 @@ export const environment = {
       scopes: ''
     }
   },
+  lift: {
+    account_id: 'ACQUIAWEB',
+    site_id: 'pipelines-nonprod',
+    liftAssetsURL: 'https://lift3assets.lift.acquia.com/stable',
+    liftDecisionAPIURL: 'https://us-east-1-decisionapi.lift.acquia.com',
+    authEndpoint: 'https://us-east-1-oauth2.lift.acquia.com/authorize',
+    contentReplacementMode: 'trusted',
+    Profiles: {
+      UDFFieldname: ''
+    }
+  },
   amplitudeAPIKey: '',
   authRedirect: ''
 };

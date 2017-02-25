@@ -11,6 +11,7 @@ import {FlashMessageService} from './services/flash-message.service';
 import {ElementalModule} from '../elemental/elemental.module';
 import {AmplitudeService} from './services/amplitude.service';
 import {AnsiService} from './services/ansi.service';
+import {LiftService} from './services/lift.service';
 import {ConfirmationModalComponent} from './components/confirmation-modal/confirmation-modal.component';
 import {ConfirmationModalService} from './services/confirmation-modal.service';
 import {MaterialModule} from '@angular/material';
@@ -29,6 +30,7 @@ import {MaterialModule} from '@angular/material';
     FlashMessageService,
     AmplitudeService,
     AnsiService,
+    LiftService,
     ConfirmationModalService
   ],
   declarations: [FlashMessageComponent, ConfirmationModalComponent],
