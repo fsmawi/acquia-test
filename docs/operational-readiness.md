@@ -16,15 +16,15 @@ Utilizing tried and true DevOps methodology to drive value to the business in a 
 1. Be a high performing team with professional development going from a software engineer to a business service provider. Continuously improving the following Metrics:
 	1. Throughput (deploy frequency): code commit to code deploy as measured through the JIRA control charts and cumulative flow charts.
 	2. Stability: Mean Time to Recover - Rate of agility to respond and resolve to failures
-	3. Change Fail Rate
+	3. Error Change Rate
 2. Striving for engineer personal motivation and positive commitment. The transition from traditional engineering practices within Acquia to DevOps Engineers who will have to own incidents and resolutions must consider the personal impact to the engineers happiness and ability to deliver focused, predictable quality work.
 3. A vertically managable end-to-end process from engineer to product ownership.
 4. The engineering team is comfortable running and deploying the Application, within a defined 2 incidents per on-call schedule.
 
 ## Definitions
 
-- A service level indicator (SLI) is something that is measured, such as service uptime or the duration of a particular operation.
-- A service level objective (SLO) is the value for a service level indicator deemed sufficient to achieve business goals, such as 99% uptime or 100ms/500ms/1000ms at 50%/99%/99.9%.
+- A service level instruments (SLI) is something that is measured, such as service uptime or the duration of a particular operation.
+- A service level objective (SLO) is the value for a service level indicator deemed sufficient to achieve business goals, such as 99.95% (-21.6 Minutes per month) uptime or 100ms/500ms/1000ms at 50%/99%/99.9%.
 - A service level agreement (SLA) is a contractual commitment to customers regarding the ratio of time during which a service will be operating within all of its objectives and the consequences if it is not.
 - Alert/Notification is an automated message to the team during a defined event.
 
@@ -32,7 +32,7 @@ Utilizing tried and true DevOps methodology to drive value to the business in a 
 
 The following criteria define the Pipelines UI as operationally ready. Each item will be accompanied by the story in which it was implemented which must include the implementation architecture, usage, and verification steps.
 
-### Service Level Indicators (SLIs)
+### Service Level Instruments (SLIs)
 
 Indicator|Link|Rationale
 ---------|----|---------
@@ -44,7 +44,7 @@ User Event Tracking|[MS-2369](https://backlog.acquia.com/browse/MS-2369)|User ev
 
 Objective|Link|Rationale
 ---------|----|---------
-Uptime|Todo|Fundamental Service availability, 99.99%
+Uptime|Todo|Fundamental Service availability, 99.95%
 Response Time|Todo|Goal of consistent response times across load
 Central Monitoring|Todo|Centralized monitoring and alerting mechanism to uphold/measure SLOs
 User Flow Graduation|Todo|Desired user flows are measured and metricized
@@ -72,7 +72,7 @@ Feedback System|[MS-2453](https://backlog.acquia.com/browse/MS-2453)|Intuitive g
 Inicident Report System|[MS-2454](https://backlog.acquia.com/browse/MS-2454)|Intuitive gateway for client incident reports
 Incident Notifications|[MS-2454](https://backlog.acquia.com/browse/MS-2454)|Automated incident notifications
 Subscribable Notifications|[MS-2455](https://backlog.acquia.com/browse/MS-2455)|Public subscribable feed for event internal/external monitoring
-API Outage Notifications|[MS-2456](https://backlog.acquia.com/browse/MS-2456)|API outages should be automatically reported to engineering through hipchat
+API Outage Notifications|[MS-2456](https://backlog.acquia.com/browse/MS-2456)|API outages should be automatically reported to engineering through Hipchat
 
 ### Continuous Integration
 
@@ -84,7 +84,7 @@ Continuous End to End Testing|[MS-2464](https://backlog.acquia.com/browse/MS-246
 Continuous coverage check|[MS-2457](https://backlog.acquia.com/browse/MS-2457)|Coverage is checked on every commit for compliance
 Continuous code style check|[MS-2457](https://backlog.acquia.com/browse/MS-2457)|Code style and usages are checked on every commit for compliance
 Continuous acceptance testing|Todo|Acceptance testing is run on deployed customer facing stages
-Dedicated External API|[MS-2464](https://backlog.acquia.com/browse/MS-2464)|Staging environment dedicated to UI Development
+Dedicated External API|[MS-2464](https://backlog.acquia.com/browse/MS-2464)|Staging environment dedicated to UI Development. UX team doesn't want to be limited in their testing by API disruptions to staging
 
 
 ### Continuous Deployment
