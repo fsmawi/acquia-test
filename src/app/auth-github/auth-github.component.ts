@@ -142,7 +142,7 @@ export class AuthGithubComponent implements OnInit {
     this.n3Endpoint = environment.headers['X-ACQUIA-PIPELINES-N3-ENDPOINT'];
     this.route.params.subscribe((params) => {
       this.appId = params['app-id'];
-      this.finishUrl = environment.URL + '/auth/github/' + this.appId;
+      this.finishUrl = environment.authRedirect + '/app/develop/applications/' + this.appId + '/pipelines/github';
 
       this.route.queryParams.subscribe((queryParams) => {
         if (queryParams['success'] !== undefined && queryParams['success'] !== 'undefined') {
