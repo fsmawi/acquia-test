@@ -1,7 +1,7 @@
 .el-select-list__options {
   height: 200px;
   max-height: 200px;
-  overflow: overlay;
+  overflow: auto;
 }
 
 /deep/ md-dialog-container {
