@@ -145,7 +145,7 @@ export class AuthGithubComponent implements OnInit {
       this.finishUrl = environment.URL + '/auth/github/' + this.appId;
 
       this.route.queryParams.subscribe((queryParams) => {
-        if (queryParams['success'] !== undefined) {
+        if (queryParams['success'] !== undefined && queryParams['success'] !== 'undefined') {
           this.checkAuthorization(queryParams);
         }
       });
