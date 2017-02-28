@@ -4,6 +4,7 @@
 // The list of which env maps to which file can be found in `angular-cli.json`.
 
 export const environment = {
+  name: 'live-mock',
   production: true,
   apiEndpoint: '/mock/api',
   n3Key: '', // user supplied, or from cookies

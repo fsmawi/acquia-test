@@ -1,0 +1,57 @@
+---
+routes:
+  /api/v1/auth/bakery:
+      GET:
+        response:
+          authenticated: true
+  /api/v1/ci/jobs:
+    GET:
+      responses:
+      - response:
+        -
+          branch: master
+          commit: ~
+          duration: 1462297583
+          exit_message: "Failed to complete the build because there is no .acquia.yml build file."
+          finished_at: 1462297582
+          job_id: 2cb7d930-7da3-480c-82de-db719d50f0d9
+          output: {}
+          pipeline_id: a40ab6a5-6b30-40e7-abc7-5a7695499f44
+          requested_at: 1462297477
+          requested_by: admin@example.com
+          sitename: "enterprise-g1:sfwiptravis"
+          started_at: 0
+          status: failed_by_system
+  /api/v1/ci/pipelines:
+    GET:
+      response:
+      -
+        pipeline_id: 11279161-f354-4294-875c-3a2e446f81f6
+        sitename: prod:z
+        name: z
+        last_job_id: 3e09dbb5-c58e-49ee-b166-0a94c07ac85a
+        last_branch: test24
+        last_requested: 1487685475
+        last_finished: 1487685475
+        last_status: failed_by_user
+        last_duration: ~
+        applications:
+        - 64742d00-7b57-4d98-bfd8-f2a11308b7d6
+        - 41bdd376-63c9-4a5a-a571-d46de4446873
+        - d16fe943-91be-450b-8689-23c230343a6a
+        - a915f36a-e526-4f2d-9b99-82a4b9f5412b
+        - 1880ad07-a00c-4147-93e7-43e2dbfacdb0
+        - f4c16ba2-05b0-4f45-967e-511bd3390afe
+        - 1c63d1cd-0862-4a98-aaf4-7b639222928e
+        - 08733303-72dd-4c03-90e0-8449ee1f9e6f
+        - 8cb59e80-198d-4cb3-93d8-4e15a20e77c3
+        - d740fe00-935b-43b6-abdd-91ce2522b5f0
+        repo_data:
+          repos:
+          - name: acquia/repo1
+            link: https://github.com/acquia/repo1
+            type: github
+          - name: acquia/repo2
+            link: https://github.com/acquia/repo2
+            type: github
+          branches: test11,test12

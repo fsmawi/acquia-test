@@ -4,6 +4,7 @@
 // The list of which env maps to which file can be found in `angular-cli.json`.
 
 export const environment = {
+  name: 'mock',
   production: false,
   apiEndpoint: 'http://localhost:3000',
   n3Key: '', // user supplied, or from cookies

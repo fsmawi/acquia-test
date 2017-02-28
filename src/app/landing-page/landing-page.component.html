@@ -1,0 +1,14 @@
+<h1 class="page-title">Welcome to Pipelines</h1>
+<section id="landing-page" *ngIf="firstTime">
+  <h2>Acquia Pipelines is a tool for developing, testing, and deploying websites or other applications to
+    Acquia Cloud. It enables you to</h2>
+  <ul id="feature-list">
+    <li *ngFor="let feature of features" id="feature-{{feature.name}}">
+      <p class="feature-text">{{feature.text}}</p>
+    </li>
+  </ul>
+  <div id="action-area">
+    <e-button id="go-button" text="Go!" (click)="end()"></e-button>
+  </div>
+</section>
+<md-progress-spinner id="loader" mode="indeterminate" *ngIf="loading && !firstTime"></md-progress-spinner>

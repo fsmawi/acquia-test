@@ -15,6 +15,7 @@ import {LiftService} from './services/lift.service';
 import {ConfirmationModalComponent} from './components/confirmation-modal/confirmation-modal.component';
 import {ConfirmationModalService} from './services/confirmation-modal.service';
 import {MaterialModule} from '@angular/material';
+import {LocalStorageService} from './services/local-storage.service';
 
 @NgModule({
   imports: [
@@ -31,7 +32,8 @@ import {MaterialModule} from '@angular/material';
     AmplitudeService,
     AnsiService,
     LiftService,
-    ConfirmationModalService
+    ConfirmationModalService,
+    LocalStorageService
   ],
   declarations: [FlashMessageComponent, ConfirmationModalComponent],
   exports: [FlashMessageComponent, ConfirmationModalComponent],

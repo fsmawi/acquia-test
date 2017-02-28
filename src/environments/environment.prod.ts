@@ -1,4 +1,5 @@
 export const environment = {
+  name: 'prod',
   production: true,
   apiEndpoint: 'https://api.pipelines.acquia.com',
   n3Key: '', // user supplied, or from cookies
