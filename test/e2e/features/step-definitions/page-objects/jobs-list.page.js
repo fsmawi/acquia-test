@@ -1,76 +1,14 @@
 let page = require('./page');
+const boostrap = require('../../support/core').bootstrap;
 
 let JobsListPage = Object.create(page, {
-
-  /**
-   * Get a failed job cell
-   */
-  getFailedJobsXpath: {
-    get: function () {
-      return '//td[contains(text(),"Failed")] | //td[contains(text(),"failed")] | //td[contains(text(),"terminating")]';
-    },
-  },
-
-  /**
-   * Get a job link by status
-   */
-  getjobLinkByStatus: {
-    get: function (status) {
-      return this.browser.element('//td[contains(text(),"' + status + '")]');
-    },
-  },
-
-  /**
-   * Get the jobs list table
-   */
-  jobsListTable: {
-    get: function () {
-      return this.browser.element('//app-job-list/table/thead/tr/th[.="Status"]');
-    },
-  },
-
-  /**
-   * Get the job summary item, aka eAlert
-   */
-  eAlert: {
-    get: function () {
-      return this.browser.element('//app-job-summary');
-    },
-  },
 
   /**
    * Get the last job link
    */
   lastJob: {
     get: function () {
-      return this.browser.element('//app-job-list/table/tbody/tr[1]/td[2]/a');
-    },
-  },
-
-  /**
-   * Get the activity card title
-   */
-  activityCardTitle: {
-    get: function () {
-      return this.browser.element('.el-card__title');
-    },
-  },
-
-  /**
-   * Get the active card headers
-   */
-  activityCardHeaders: {
-    get: function () {
-      return this.browser.element('//section[@class="el-card__content"]//table/thead/tr/th');
-    },
-  },
-
-  /**
-   * Get a failed job link
-   */
-  failedJobElement: {
-    get: function () {
-      return this.browser.element(this.getFailedJobsXpath);
+      return '//app-job-list/table/tbody/tr[1]/td[2]/a';
     },
   },
 
@@ -87,25 +25,13 @@ let JobsListPage = Object.create(page, {
   },
 
   /**
-   * @param {string} jobId
-   * @return {string} job status message
-   * It returns the message displayed on jobs-List Page for the given jobId
-   */
-  getJobStatusMessage: {
-    value: function (jobId) {
-      return this.browser.getText('//a[text()="' + jobId + '"]/../following-sibling::td[@class="hidden-sm-down"]');
-    },
-  },
-
-  /**
    * @return last jobId
    * Get the jobId of last run job which is a first row in job-list table
    */
   getLastJobId: {
     value: function () {
-      return this.browser.pause(15000)
-        .waitForVisible('//app-job-list/table/tbody/tr[1]/td[2]/a', 20000)
-        .getText('//app-job-list/table/tbody/tr[1]/td[2]/a');
+      return this.browser._exists(this.lastJob)
+        .getText(this.lastJob);
     },
   },
 
@@ -115,7 +41,7 @@ let JobsListPage = Object.create(page, {
    */
   getAlertMessage: {
     value: function () {
-      return this.browser.pause(20000)
+      return this.browser._exists('//app-job-summary')
         .then(() => this.browser.execute(function () {
           return document.getElementsByTagName('e-card')[0].innerText;
         }));
@@ -123,12 +49,13 @@ let JobsListPage = Object.create(page, {
   },
 
   /**
-   * @return {object}
+   * @return {Promise}
+   * @param {String} selector
    * Find the joblink from the alert text on jobsListPage and click on it
    */
   clickJobLinkFromAlert: {
-    value: function () {
-      return this.eAlert.element('.//div/a').click();
+    value: function (selector) {
+      return this.browser._click(selector);
     },
   },
 
@@ -137,9 +64,8 @@ let JobsListPage = Object.create(page, {
    * assert that jobsListPage is displayed with the alert
    */
   assertJobsListPage: {
-    value: function () {
-      return this.activityCardTitle.waitForVisible(10000)
-        .then((isActivityCardTitleExists) => expect(isActivityCardTitleExists).to.be.true);
+    value: function (jobsListPageIdentifier) {
+      return this.browser._exists(jobsListPageIdentifier);
     },
   },
 
@@ -149,8 +75,8 @@ let JobsListPage = Object.create(page, {
    */
   getActivityCardTitle: {
     value: function () {
-      return this.activityCardTitle.waitForVisible(10000)
-        .then(() => this.activityCardTitle.getText());
+      return this.browser._exists('.el-card__title', { timeout: 10000 })
+        .getText('.el-card__title');
     },
   },
 
@@ -168,15 +94,15 @@ let JobsListPage = Object.create(page, {
   },
 
   /**
-   * @param exxpected activity card title
+   * @param {String} jobsListTable selector
+   * @param {String} activityCardTitle exxpected activity card title
    * @return {AssertionError} on failure
    * check that jobs-list table is inside the Activity e-card
    */
   assertJobListInsideActivityCard: {
-    value: function (activityCardTitle) {
-      return this.browser
-        .isExistingWithTimeout('//e-card[//h4/span[text()="' + activityCardTitle + '"]]//e-card-content//app-job-list', 10000)
-        .then((isJobListInsideActivityCard) => expect(isJobListInsideActivityCard).to.be.true);
+    value: function (jobsListTable, activityCardTitle) {
+      jobsListTable = jobsListTable.replace('{0}', activityCardTitle);
+      return this.browser._exists(jobsListTable);
     },
   },
 
@@ -188,8 +114,7 @@ let JobsListPage = Object.create(page, {
   clickJobLinkInBuildHeader: {
     value: function (rowNumber) {
       let jobLinkXpath = '//table/tbody/tr[' + rowNumber + ']/td[2]/a';
-      return this.browser.waitForVisible(jobLinkXpath)
-        .then(() => this.browser.click(jobLinkXpath));
+      return this.browser._click(jobLinkXpath);
     },
   },
 
@@ -200,8 +125,7 @@ let JobsListPage = Object.create(page, {
   clickJobLinkById: {
     value: function (jobId) {
       let jobLinkXpath = '//a[text()="' + jobId + '"]';
-      return this.browser.waitForVisible(jobLinkXpath)
-        .then(() => this.browser.click(jobLinkXpath));
+      return this.browser._click(jobLinkXpath);
     },
   },
 
@@ -222,8 +146,7 @@ let JobsListPage = Object.create(page, {
       else if (status == 'state__success--circle')
         jobLinkElementXpath = '//td[./app-job-status//e-svg-icon[@type="state__success--circle"]]/following-sibling::td/a';
 
-      return this.browser.element(jobLinkElementXpath).waitForVisible(10000)
-        .then(() => this.browser.element(jobLinkElementXpath).click());
+      return this.browser._click(jobLinkElementXpath, { timeout: 10000 });
     },
   },
 
@@ -249,7 +172,7 @@ let JobsListPage = Object.create(page, {
       let queuedStatusIconXpath = jobIdXpath + '/preceding-sibling::td/app-job-status//md-icon[.="' + statusIcon + '" and @role="img"]';
       let runningJobStatusIconXpath = jobIdXpath + '/preceding-sibling::td/app-job-status//e-progress//e-svg-icon[@animation="spin-reverse"]';
 
-      this.browser.waitForVisible(jobIdXpath).then(() => {
+      this.browser._exists(jobIdXpath).then(() => {
         if (statusIcon == 'state__danger')
           return this.isJobStatusIconMatched(failedOrSucceededJobStatusIconXpath);
         if (statusIcon == 'spin-reverse')
@@ -269,7 +192,7 @@ let JobsListPage = Object.create(page, {
    */
   isJobStatusIconMatched: {
     value: function (jobStatusIconXpath) {
-      return this.browser.waitForVisible(jobStatusIconXpath).then((isFound) => expect(isFound).to.be.true);
+      return this.browser._waitUntil(jobStatusIconXpath);
     },
   },
 
@@ -278,7 +201,7 @@ let JobsListPage = Object.create(page, {
    */
   clickOnFirstAvailableStopButton: {
     value: function () {
-      return this.browser.click('//button[//md-icon[.="stop"]]');
+      return this.browser._click('//button[//md-icon[.="stop"]]');
     },
   },
 
@@ -305,9 +228,7 @@ let JobsListPage = Object.create(page, {
    */
   assertNoJobsStatus: {
     value: function (noJobsStatusMessage) {
-      this.browser.pause(10000)
-        .then(() => this.browser.element('//*[contains(text(),"' + noJobsStatusMessage + '")]').waitForVisible(10000))
-        .then((isNoLogsStatusMessageFound) => expect(isNoLogsStatusMessageFound).to.be.true);
+      this.browser._waitUntil('//*[contains(text(),"' + noJobsStatusMessage + '")]', { timeout: 10000 });
     },
   },
 
@@ -320,7 +241,10 @@ let JobsListPage = Object.create(page, {
       return this.getSummaryTableJobDetails().then((summaryTableJobDetails) => {
         details = summaryTableJobDetails;
         return this.getLastRunJobDetails()
-      }).then((expectedJobDetails) => expect(expectedJobDetails.slice(2, 5)).to.deep.equal(details.slice(0, 3)));
+          .then((expectedJobDetails) => {
+            expect(expectedJobDetails.slice(2, 4)).to.deep.equal(details.slice(0, 2));
+          });
+      });
     },
   },
 

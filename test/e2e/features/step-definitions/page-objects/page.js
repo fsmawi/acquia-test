@@ -63,13 +63,10 @@ class Page {
    * @return {browser} object
    * set yaml file from which app reads the jobs to display
    */
-  setJobsYmlFile(jobsYmlFile, URL) {
+  setJobsYmlFile(jobsYmlFile) {
     // This log message is intentional to make sure that which URL we are browsing
-    console.log('navigating to URL: ', URL);
-    return this.browser.url(URL).pause(10000)
-      .waitForVisible('input[name="headerValue"]')
-      .setValue('input[name="headerValue"]', jobsYmlFile)
-      .submitForm('.md-primary');
+    return this.browser._click(page.getDynamicValue(selector)).keys(page.getDynamicValue(value))
+        .submitForm('.md-primary');
   }
 
   /**

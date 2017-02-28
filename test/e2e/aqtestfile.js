@@ -4,7 +4,7 @@ module.exports = {
 
   // Custom browser specifications.
   browser: {
-    name: 'phantomjs',
+    name: 'chrome',
     width: '1024',
     height: '768',
   },

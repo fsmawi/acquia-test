@@ -71,7 +71,7 @@ exports.bootstrap = function (browser) {
    * @return {Promise}
    * @param {String} value in seconds/milliseconds
    * @param {String} format could be either one of second/seconds/millisecond/milliseconds
-   * @param {}
+   * @param {String} message to append to screenshot file name
    * pause the browser for given {value} milliseconds
    */
   browser._wait = function (value, format, message) {
@@ -124,6 +124,22 @@ exports.bootstrap = function (browser) {
       .then(() => screenshot(createTimeName('exist', selector)))
       .catch(e => {
         return screenshot(createTimeName('exist-error', selector))
+          .then(() => Promise.reject(e));
+      });
+  };
+
+  /**
+   * @param {String} selector
+   * @param {Array} params contains optional timeout parameter
+   * wait until the given selector is visible
+   */
+  browser._waitUntil = function (selector, params) {
+    let options = Object.assign({ timeout: 5000 }, params);
+    return browser.waitForVisible(selector, options.timeout)
+      .then(() => screenshot(createTimeName('waitUntil', selector)))
+      .pause(500)
+      .catch(e => {
+        return screenshot(createTimeName('waitUntil-error', selector))
           .then(() => Promise.reject(e));
       });
   };

@@ -3,24 +3,6 @@ let page = require('./page');
 let JobDetailPage = Object.create(page, {
 
   /**
-   * Top header
-   */
-  jobDetailPageTopHeader: {
-    get: function () {
-      return this.browser.element('//a[text()="Jobs "]');
-    },
-  },
-
-  /**
-   * Back to jobs link
-   */
-  backToJobListButton: {
-    get: function () {
-      return this.browser.element('//a[text()="Jobs "]');
-    },
-  },
-
-  /**
    * Gets the label from an e-data
    */
   jobDetailsDataFieldValue: {
@@ -30,70 +12,34 @@ let JobDetailPage = Object.create(page, {
   },
 
   /**
-   * Gets the logs element
-   */
-  jobLogs: {
-    get: function () {
-      return this.browser.element('e-card#logs');
-    },
-  },
-
-  /**
-   * Gets the Alert element
-   */
-  eAlert: {
-    get: function () {
-      return this.browser.element('e-alert');
-    },
-  },
-
-  /**
-   * progressbar after the job-list content
-   */
-  progressBarElement: {
-    get: function () {
-      return this.browser.element('//e-card//md-progress-bar[@role="progressbar"]');
-    },
-  },
-
-  /**
-   * Returns the no logs element
-   */
-  emptyLogsMessage: {
-    get: function () {
-      return this.browser.element('//i[contains(text(),"There are no logs for this job.")]');
-    },
-  },
-
-  /**
+   * @param {String} jobDetailPage header identifier
    * @return {AssertionError} on failure
    * assert that we are on jobDetailPage by checking its header text 'Pipelines Log' is visible
    */
   assertJobDetailPage: {
-    value: function () {
-      return this.jobDetailPageTopHeader.waitForVisible(10000)
-        .then((isJobDetailPageHeaderExists) => expect(isJobDetailPageHeaderExists).to.be.true);
+    value: function (jobDetailPageIdentifier) {
+      return this.browser._exists(jobDetailPageIdentifier, { timeout: 15000 });
     },
   },
 
   /**
    * @return {AssertionError} on failure
+   * @param {String} progressBarSelector
    * assert the existense of progress bar in job-detail page when the job is not yet finished
    */
   assertProgressBar: {
-    value: function () {
-      return this.progressBarElement.waitForVisible(10000)
-        .then((isProgressBarDisplayed) => expect(isProgressBarDisplayed).to.be.true);
+    value: function (progressBarSelector) {
+      return this.browser._waitUntil(progressBarSelector, { timeout: 10000 });
     },
   },
 
   /**
-   * clicks on Back To JobList button
+   * @param {String} jobsLinkSelector
+   * clicks on Jobs link in job-detail page
    */
   clickOnBackToJobList: {
-    value: function () {
-      this.backToJobListButton.waitForVisible(10000)
-        .then(() => this.backToJobListButton.click());
+    value: function (jobsLinkSelector) {
+      this.browser._click(jobsLinkSelector, { timeout: 10000 });
     },
   },
 
@@ -126,30 +72,19 @@ let JobDetailPage = Object.create(page, {
    * assert that jobLogs view exist
    */
   assertJobLogsExist: {
-    value: function () {
-      return this.jobLogs.waitForVisible(10000).then((isJobLogsExists) => expect(isJobLogsExists).to.be.true);
+    value: function (jobLogs) {
+      return this.browser._waitUntil(jobLogs, { timeout: 10000 });
     },
   },
 
   /**
    * @return {AssertionError} on failure
-   * assert that BackToJobListButton exist
-   */
-  assertBackToJobListButton: {
-    value: function () {
-      return this.backToJobListButton.waitForVisible(10000)
-        .then((isBackToJobListButtonExist) => expect(isBackToJobListButtonExist).to.be.true);
-    },
-  },
-
-  /**
-   * @return {AssertionError} on failure
+   * @param {String} emptyLogsSelector
    * This method checks the logs message indicating empty logs
    */
   assertEmptyLogs: {
-    value: function () {
-      return this.emptyLogsMessage.waitForVisible(10000)
-        .then((isEmptyLogsMsgExists) => expect(isEmptyLogsMsgExists).to.be.true);
+    value: function (emptyLogsSelector) {
+      return this.browser._waitUntil(emptyLogsSelector, { timeout: 10000 });
     },
   },
 });

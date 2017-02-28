@@ -1,25 +1,12 @@
+const boostrap = require('../support/core').bootstrap;
 let jobsListPage = require('./page-objects/jobs-list.page');
 let jobDetailPage = require('./page-objects/job-detail.page');
+let page = require('./page-objects/page');
 
 module.exports = function () {
-  this.Then(/^I should see the jobs\-list page with an alert$/, function () {
-    return jobsListPage.assertJobsListPage();
-  });
-
-  this.When(/^I have given job with jobid "([^"]*)"$/, function (jobId) {
-    return jobsListPage.doesJobExist(jobId);
-  });
-
-  this.Then(/^I will see the status message for jobid "([^"]*)" as "([^"]*)"$/, function (jobId, expectedStatus) {
-    return jobsListPage.getJobStatusMessage(jobId).then((actualStatus) => expect(actualStatus).to.be.equal(expectedStatus));
-  });
-
-  this.When(/^on the jobs\-list page$/, function () {
-    return jobsListPage.assertJobsListPage();
-  });
-
-  this.When(/^on the jobs\-list page with no jobs$/, function () {
-    return jobsListPage.assertJobsListPage();
+  this.When(/^on the \|(.*?)\| page$/, function (jobsListPageIdentifier) {
+    boostrap(this.browser);
+    return jobsListPage.assertJobsListPage(page.getDynamicValue(jobsListPageIdentifier));
   });
 
   this.Then(/^I can see the last job status displays as an alert with a status and message$/, function () {
@@ -51,26 +38,29 @@ module.exports = function () {
   });
 
 
-  this.When(/^I click on the job link in the alert$/, function () {
-    return jobsListPage.clickJobLinkFromAlert();
+  this.When(/^I click on the \|(.*?)\| in the alert$/, function (jobLinkSelector) {
+    boostrap(this.browser);
+    return jobsListPage.clickJobLinkFromAlert(page.getDynamicValue(jobLinkSelector));
   });
 
-  this.Then(/^I should navigate to the job\-detail page$/, function () {
-    return jobDetailPage.assertJobDetailPage();
+  this.Then(/^I should navigate to the \|(.*?)\| page$/, function (jobLinkSelector) {
+    boostrap(this.browser);
+    return jobDetailPage.assertJobDetailPage(page.getDynamicValue(jobLinkSelector));
   });
 
-  this.Then(/^I should see an activity card with title "([^"]*)"$/, function (expectedActivityCardTitle) {
+  this.Then(/^I should see an activity card with title \|(.*?)\|$/, function (expectedActivityCardTitle) {
+    boostrap(this.browser);
     return jobsListPage.getActivityCardTitle()
       .then((actualActivityCardTitle) => expect(expectedActivityCardTitle).to.be.equal(actualActivityCardTitle));
   });
 
   this.Then(/^I should see the appropriate headers for the activity card$/, function () {
     expectedActivityCardHeaders = ['Status', 'Build', 'Branch', 'Commit', 'Duration', 'Completed', 'Actions'];
-    let wait = this.browser.waitUntil(() => {
-      return this.browser.pause(15000).isVisible('section[class="el-card__body"]');
-    }, 60000, 'waited for 1min for the jobs-list table to load but its not loaded');
+    let selector = 'section[class="el-card__body"]';
 
-    return wait.then(() => jobsListPage.getActivityCardHeaders())
+    boostrap(this.browser);
+    return this.browser._waitUntil(selector, { timeout: 30000 })
+      .then(() => jobsListPage.getActivityCardHeaders())
       .then((headers) => expect(headers).to.deep.equal(expectedActivityCardHeaders));
   });
 
@@ -89,16 +79,15 @@ module.exports = function () {
     }
   });
 
-
   this.Then(/^I should see the job status as "([^"]*)"$/, function (jobStatus) {
     return jobsListPage.assertJobStatus(jobStatus);
   });
 
-
-  this.Then(/^I should see jobs\-list table inside "([^"]*)" card$/, function (activityCardTitle) {
-    return jobsListPage.assertJobListInsideActivityCard(activityCardTitle);
+  this.Then(/^I should see \|(.*?)\| inside \|(.*?)\| card$/, function (jobsListTable, activityCardTitle) {
+    boostrap(this.browser);
+    jobsListTable = page.getDynamicValue(jobsListTable);
+    return jobsListPage.assertJobListInsideActivityCard(jobsListTable, activityCardTitle);
   });
-
 
   this.When(/^I click on the jobs link in the "([^"]*)" column$/, function (buildHeader) {
     return jobsListPage.clickJobLinkInBuildHeader(1);
@@ -129,7 +118,7 @@ module.exports = function () {
   });
 
   this.Then(/^I should see last run job details as a summary table$/, function () {
-    return this.browser.pause(10000).then(() => jobsListPage.assertSummaryTableData());
+    return jobsListPage.assertSummaryTableData();
   });
 
   this.When(/^I click on the job "([^"]*)" that does not have logs$/, function (jobId) {
