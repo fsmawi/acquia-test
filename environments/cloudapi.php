@@ -16,22 +16,20 @@ use Acquia\Hmac\Key;
 use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
 
-class QuickCloudAPI {
-    function __construct($key_id, $secret, $opts = []) {
+class QuickAPI {
+    function __construct($endpoint, $opts = []) {
+        $this->endpoint = $endpoint;
         $this->opts = $opts;
-        $key = new Key($key_id, $secret);
-        $middleware = new HmacAuthMiddleware($key);
-        $stack = HandlerStack::create();
-        $stack->push($middleware);
+
+        if (!isset($opts['stack'])) {
+            $opts['stack'] = HandlerStack::create();
+        }
 
         $this->client = new Client([
-            'handler' => $stack,
+            'handler' => $opts['stack'],
             'http_errors' => false,
             'debug' => ($this->opts['debug'] > 1),
         ]);
-        if (!isset($this->opts['endpoint'])) {
-            $this->opts['endpoint'] = "https://cloud.acquia.com/api";
-        }
     }
 
     function debug($msg, $level = 1) {
@@ -42,14 +40,23 @@ class QuickCloudAPI {
 
     function get($path) {
         $this->debug("GET $path");
-        $response = $this->client->get("{$this->opts['endpoint']}/$path");
+        $response = $this->client->get("{$this->endpoint}/$path");
         return $this->do_response($response);
     }
 
     function post($path, $body_params = []) {
         $this->debug("POST $path");
         $this->debug('  ' . json_encode($body_params));
-        $response = $this->client->request('POST', "{$this->opts['endpoint']}/$path", [
+        $response = $this->client->request('POST', "{$this->endpoint}/$path", [
+            'json' => $body_params
+        ]);
+        return $this->do_response($response);
+    }
+
+    function put($path, $body_params = []) {
+        $this->debug("PUT $path");
+        $this->debug('  ' . json_encode($body_params));
+        $response = $this->client->request('PUT', "{$this->endpoint}/$path", [
             'json' => $body_params
         ]);
         return $this->do_response($response);
@@ -57,7 +64,7 @@ class QuickCloudAPI {
 
     function delete($path) {
         $this->debug("DELETE $path");
-        $response = $this->client->request('DELETE', "{$this->opts['endpoint']}/$path");
+        $response = $this->client->request('DELETE', "{$this->endpoint}/$path");
         return $this->do_response($response);
     }
 
@@ -95,6 +102,30 @@ class QuickCloudAPI {
         default:
             throw new UnexpectedResponseStatusException($response);
         }
+    }
+}
+
+class QuickCloudAPI extends QuickAPI {
+    function __construct($key_id, $secret, $opts = []) {
+        $key = new Key($key_id, $secret);
+        $middleware = new HmacAuthMiddleware($key);
+        $stack = HandlerStack::create();
+        $stack->push($middleware);
+        $opts['stack'] = $stack;
+        if (!isset($opts['endpoint'])) {
+            $opts['endpoint'] = "https://cloud.acquia.com/api";
+        }
+        parent::__construct($opts['endpoint'], $opts);
+
+    }
+}
+
+class QuickPipelinesAPI extends QuickAPI {
+    function __construct($opts = []) {
+        if (!isset($opts['endpoint'])) {
+            $opts['endpoint'] = "https://api.pipelines.acquia.com/api/v1";
+        }
+        parent::__construct($opts['endpoint'], $opts);
     }
 }
 
