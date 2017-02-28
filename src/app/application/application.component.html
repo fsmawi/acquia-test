@@ -9,6 +9,7 @@
   <e-card-content *ngIf="!appLoading">
     <a class="el-button" disabled>Connection Info</a>
     <a class="el-button el-button--primary" [routerLink]="['/jobs', appId]">View Jobs</a>
+    <a class="el-button el-button--primary" [routerLink]="['/auth/github', appId]">Re-Authorize</a>
     <h3>Github</h3>
 
     <e-data>
