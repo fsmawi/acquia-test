@@ -15,7 +15,6 @@ import {Job} from '../../core/models/job';
 import {ElementalModule} from '../../elemental/elemental.module';
 import {FlashMessageService} from '../../core/services/flash-message.service';
 import {ConfirmationModalService} from '../../core/services/confirmation-modal.service';
-import {SegmentDirective} from '../../core/directives/segment.directive';
 
 class MockPipelinesService {
 
@@ -75,12 +74,12 @@ describe('JobListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [JobListComponent, SegmentDirective],
+      declarations: [JobListComponent],
       imports: [MaterialModule.forRoot(), SharedModule, RouterTestingModule, MomentModule, ElementalModule],
       providers: [
-        { provide: PipelinesService, useClass: MockPipelinesService },
-        { provide: FlashMessageService, useClass: MockFlashMessage },
-        { provide: ConfirmationModalService, useClass: MockConfirmationModalService },
+        {provide: PipelinesService, useClass: MockPipelinesService},
+        {provide: FlashMessageService, useClass: MockFlashMessage},
+        {provide: ConfirmationModalService, useClass: MockConfirmationModalService},
         ErrorService]
     })
       .compileComponents();

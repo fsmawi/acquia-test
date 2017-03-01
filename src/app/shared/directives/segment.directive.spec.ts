@@ -2,9 +2,9 @@
 
 import {TestBed, async, ComponentFixture} from '@angular/core/testing';
 import {SegmentDirective} from './segment.directive';
-import {SegmentService} from '../services/segment.service';
 import {ElementRef, Component} from '@angular/core';
 import {EventManager, By} from '@angular/platform-browser';
+import {SegmentService} from '../../core/services/segment.service';
 
 class MockSegmentService {
   trackEvent(eventIdentifier: string, eventData: Object) {
@@ -17,7 +17,8 @@ class MockSegmentService {
   template: '<div appSegmentOn="click" ' +
   'segmentEventIdentifier="EventName" [segmentEventData]="{data : \'DATA\'}"></div>'
 })
-class TestComponent {}
+class TestComponent {
+}
 
 describe('SegmentDirective', () => {
   let component: TestComponent;
@@ -36,7 +37,7 @@ describe('SegmentDirective', () => {
         EventManager
       ],
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

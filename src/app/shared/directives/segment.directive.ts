@@ -1,6 +1,6 @@
 import {Directive, Input, AfterContentInit, ElementRef, Injectable} from '@angular/core';
 import {EventManager} from '@angular/platform-browser';
-import {SegmentService} from '../services/segment.service';
+import {SegmentService} from '../../core/services/segment.service';
 
 @Directive({
   selector: '[appSegmentOn]'
