@@ -10,6 +10,7 @@ import { Component, OnInit, Input } from '@angular/core';
   templateUrl: './progress.component.html',
   styleUrls: ['./progress.component.scss']
 })
+
 export class ProgressComponent implements OnInit {
 
   /**
@@ -28,9 +29,24 @@ export class ProgressComponent implements OnInit {
    *
    * valid variants:
    *  - arrows
+   *  - dots
    */
   @Input()
   progressVariant: string;
+
+  /**
+   * Returns progress display size.
+   * @type {string}
+   *
+   * Valid sizes
+   *  - small
+   *  - medium
+   *  - large
+   *  - giant
+   *  - gargantuan
+   */
+  @Input()
+  progressSize = 'gargantuan';
 
   constructor() { }
 

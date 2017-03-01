@@ -1,12 +1,6 @@
-<e-card>
+<e-card *ngIf="!appLoading">
   <e-card-header>Pipelines Github Connection Information</e-card-header>
-  <e-card-content *ngIf="appLoading">
-    <md-progress-bar mode="indeterminate" *ngIf="appLoading" style="margin: 24px 0 24px 0;"></md-progress-bar>
-    <div id="loading-message" class="center" *ngIf="appLoading">
-      <h2>Loading Github Connection Information</h2>
-    </div>
-  </e-card-content>
-  <e-card-content *ngIf="!appLoading">
+  <e-card-content>
     <a class="el-button" disabled>Connection Info</a>
     <a class="el-button el-button--primary" [routerLink]="['/jobs', appId]">View Jobs</a>
     <a class="el-button el-button--primary" [routerLink]="['/auth/github', appId]">Re-Authorize</a>
@@ -52,3 +46,8 @@
 
   </e-card-content>
 </e-card>
+
+<e-progress *ngIf="appLoading"
+  progressType="indeterminate"
+  progressVariant="dots">
+</e-progress>

@@ -1,7 +1,10 @@
 <e-card>
   <e-card-header>Choose a repository to attach</e-card-header>
   <e-card-content>
-    <md-progress-bar mode="indeterminate" *ngIf="loading"></md-progress-bar>
+    <e-progress *ngIf="loading"
+      progressType="indeterminate"
+      progressVariant="dots"
+      progressSize="medium"></e-progress>
     <div class="el-form-leg__item">
       <label class="el-form-leg__item__label">
         <span>Repositories({{repositories.length}})</span>

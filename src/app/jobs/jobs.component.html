@@ -1,23 +1,25 @@
-<a id="config-link" routerLink="/application/{{appId}}">View Connection Info</a>
+<div *ngIf="isInitialized">
+  <a id="config-link" routerLink="/application/{{appId}}">View Connection Info</a>
 
-<md-progress-bar mode="indeterminate" *ngIf="loadingJobs && !jobs.length"
-                 style="margin: 24px 0 24px 0;"></md-progress-bar>
-<div id="loading-message" class="center" *ngIf="loadingJobs && !jobs.length">
-  <h2>Loading pipelines jobs</h2>
+  <app-job-summary *ngIf="lastJob && appId" [isProgressBarRequired]="false" [appId]="appId" [job]="lastJob"></app-job-summary>
+
+  <e-card *ngIf="isInitialized">
+    <e-card-header>Activity</e-card-header>
+    <e-card-content>
+
+      <!-- No Jobs? -->
+      <div id="no-jobs" class="center" *ngIf="!loadingJobs && jobs && !jobs.length">
+        <img src="/assets/pipelines-logos/pipelines_300x300.png" alt="No jobs for this application">
+        <h3>You have no jobs for this application</h3>
+      </div>
+
+      <!--List of Jobs-->
+      <app-job-list [appId]="appId" [jobs]="jobs" *ngIf="jobs.length"></app-job-list>
+    </e-card-content>
+  </e-card>
 </div>
 
-<app-job-summary *ngIf="lastJob && appId" [isProgressBarRequired]="false" [appId]="appId" [job]="lastJob"></app-job-summary>
-<e-card *ngIf="isInitialized">
-  <e-card-header>Activity</e-card-header>
-  <e-card-content>
-
-    <!-- No Jobs? -->
-    <div id="no-jobs" class="center" *ngIf="!loadingJobs && jobs && !jobs.length">
-      <img src="/assets/pipelines-logos/pipelines_300x300.png" alt="No jobs for this application">
-      <h3>You have no jobs for this application</h3>
-    </div>
-
-    <!--List of Jobs-->
-    <app-job-list [appId]="appId" [jobs]="jobs" *ngIf="jobs.length"></app-job-list>
-  </e-card-content>
-</e-card>
+<e-progress *ngIf="loadingJobs && !jobs.length"
+  progressType="indeterminate"
+  progressVariant="dots">
+</e-progress>

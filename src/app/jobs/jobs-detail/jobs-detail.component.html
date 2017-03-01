@@ -1,4 +1,4 @@
-<div id="jobDetails" style="overflow: auto">
+<div *ngIf="job" id="jobDetails" style="overflow: auto">
   <a id="config-link" routerLink="/application/{{appId}}">View Connection Info</a>
   <h3 class="ui-core-set-head-title">
     <a routerLink="/jobs/{{appId}}">Jobs </a>
@@ -29,16 +29,8 @@
       </div>
     </e-card-content>
   </e-card>
-  <e-card *ngIf="!job">
-    <e-card-content>
-      <div class="flex-container empty bg-white"
-           fxLayout="column"
-           fxLayoutAlign="start center">
-        <md-progress-bar mode="indeterminate"></md-progress-bar>
-        <i class="details-empty-text gray">
-          Loading job details &hellip;
-        </i>
-      </div>
-    </e-card-content>
-  </e-card>
 </div>
+
+<e-progress *ngIf="!job"
+  progressType="indeterminate"
+  progressVariant="dots"></e-progress>
