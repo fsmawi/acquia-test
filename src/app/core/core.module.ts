@@ -16,6 +16,8 @@ import {ConfirmationModalComponent} from './components/confirmation-modal/confir
 import {ConfirmationModalService} from './services/confirmation-modal.service';
 import {MaterialModule} from '@angular/material';
 import {LocalStorageService} from './services/local-storage.service';
+import {SegmentDirective} from './directives/segment.directive';
+import {SegmentService} from './services/segment.service';
 
 @NgModule({
   imports: [
@@ -33,10 +35,11 @@ import {LocalStorageService} from './services/local-storage.service';
     AnsiService,
     LiftService,
     ConfirmationModalService,
-    LocalStorageService
+    LocalStorageService,
+    SegmentService
   ],
-  declarations: [FlashMessageComponent, ConfirmationModalComponent],
-  exports: [FlashMessageComponent, ConfirmationModalComponent],
+  declarations: [FlashMessageComponent, ConfirmationModalComponent, SegmentDirective],
+  exports: [FlashMessageComponent, ConfirmationModalComponent, SegmentDirective],
   entryComponents: [ConfirmationModalComponent]
 })
 export class CoreModule {

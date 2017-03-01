@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {AmplitudeService} from './core/services/amplitude.service';
 import {LiftService} from './core/services/lift.service';
+import {SegmentService} from './core/services/segment.service';
 
 @Component({
   selector: 'app-root',
@@ -9,6 +10,7 @@ import {LiftService} from './core/services/lift.service';
 })
 export class AppComponent {
   constructor(private amp: AmplitudeService,
+              private segmentService: SegmentService,
               private liftService: LiftService) {}
 
 }
