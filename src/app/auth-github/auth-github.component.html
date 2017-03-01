@@ -5,7 +5,7 @@
 <p>Attach a remote Github repository containing your build assets to enable automatic Pipelines builds with new commits
   and pull requests.</p>
 <div class="github-connect" id="connect-app">
-  <form id="auth-form" action="{{oauthUrl}}" method="POST" target="_top">
+  <form id="auth-form" action="{{oauthUrl}}?applications={{appId}}" method="POST" target="_top">
     <input type="hidden" name="finish_url" value="{{finishUrl}}">
     <input type="hidden" name="n3_endpoint" value="{{n3Endpoint}}">
     <input type="hidden" name="applications" value="{{appId}}">
