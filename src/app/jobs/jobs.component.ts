@@ -39,6 +39,11 @@ export class JobsComponent implements OnInit, OnDestroy {
   interval: any;
 
   /**
+   * Indicator for data loaded and display initialized
+   */
+  isInitialized = false;
+
+  /**
    * Build the component and inject services if needed
    * @param pipelines
    * @param errorHandler
@@ -105,6 +110,15 @@ export class JobsComponent implements OnInit, OnDestroy {
               .apiError(e)
               .showError('Homepage', '/auth/tokens')
       )
-      .then(() => this.loadingJobs = false);
+      .then(() => {
+        this.loadingJobs = false;
+
+        // One time binding for tracking display initialization of card that
+        // contains job data
+        if (!this.isInitialized) {
+          this.isInitialized = true;
+        }
+      }
+    );
   }
 }
