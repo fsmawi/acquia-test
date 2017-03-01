@@ -7,6 +7,18 @@ import {CoreModule} from './core/core.module';
 
 describe('AppComponent', () => {
   beforeEach(() => {
+    global['analyticsMock'] = true;
+    global['analytics'] = {
+      load: (key: string) => {
+        return true;
+      },
+      page: () => {
+        return true;
+      },
+      track: (eventName: string, eventData: Object) => {
+        return true;
+      }
+    };
     global['ampMock'] = {
       getInstance: () => {
         return {

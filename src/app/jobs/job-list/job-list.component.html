@@ -17,7 +17,11 @@
                       mdTooltipPosition="right"
                       [status]="job.status"></app-job-status>
     </td>
-    <td class="center"><a routerLink="/jobs/{{appId}}/{{job.job_id}}">{{job.job_id | slice:0:8}}</a>
+    <td class="center">
+      <a appSegmentOn="click"
+         [segmentEventData]="{job_id: job.job_id, status: job.status}"
+         segmentEventIdentifier="ClickJobListDetailLink"
+         routerLink="/jobs/{{appId}}/{{job.job_id}}">{{job.job_id | slice:0:8}}</a>
     </td>
     <td class="center">{{job.branch}}</td>
     <td class="center">{{job.commit ? job.commit : '-'}}</td>

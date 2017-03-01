@@ -31,5 +31,6 @@ export const environment = {
     }
   },
   amplitudeAPIKey: '59e1dbd5afbc7c7c22c2a144fd7b5732',
+  segmentWriteKey: 'A5xBlvdjiF2RN5JRzMBsFXRNt97Vx2Uq',
   authRedirect: 'https://cloud.acquia.com'
 };

@@ -52,6 +52,7 @@ describe('Pipelines API /api/v1/ci/jobs', function () {
       .set('X-ACQUIA-PIPELINES-N3-SECRET', secret)
       .set('X-ACQUIA-PIPELINES-N3-ENDPOINT', endpoint)
       .expect(403)
-      .then((res) => expect(res.text).to.contain('Error authorizing request: Expected([200, 201, 202, 203, 204, 205, 206, 302]) <=> Actual(400 Bad Request)'));
+      .then((res) => expect(res.text).to
+        .contain('Error authorizing request: Expected([200, 201, 202, 203, 204, 205, 206, 302]) <=> Actual(400 Bad Request)'));
   });
 });

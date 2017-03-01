@@ -14,6 +14,7 @@ import {MomentModule} from 'angular2-moment';
 import {JobListComponent} from './job-list/job-list.component';
 import {JobSummaryComponent} from './job-summary/job-summary.component';
 import {Job} from '../core/models/job';
+import {CoreModule} from '../core/core.module';
 
 
 class MockPipelinesService {
@@ -58,7 +59,8 @@ describe('JobsComponent', () => {
       providers: [
         { provide: PipelinesService, useClass: MockPipelinesService },
         ErrorService],
-      imports: [MaterialModule.forRoot(), RouterTestingModule, MomentModule, SharedModule, ElementalModule]
+      imports: [MaterialModule.forRoot(), RouterTestingModule, CoreModule,
+        MomentModule, SharedModule, ElementalModule]
     })
       .compileComponents();
   }));
