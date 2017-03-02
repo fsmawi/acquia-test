@@ -144,6 +144,22 @@ exports.bootstrap = function (browser) {
       });
   };
 
+  /**
+   * @param {String} selector
+   * Find the iframe with given selector and switch the frame
+   */
+  browser._switchFrame = function (selector) {
+    return browser.element(selector)
+      .then(el => {
+        return browser.frame(el.value);
+      })
+      .catch(e => {
+        return screenshot(createTimeName('switchFrame-error', selector))
+          .then(() => Promise.reject(e));
+      });
+
+  }
+
   browser._frameworkAttached = true;
   return browser;
 };
