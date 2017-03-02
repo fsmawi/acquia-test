@@ -14,6 +14,7 @@
 - [API Proxy](api-proxy.md)
 - [Runbooks](runbook.md)
 - [Integration Testing](integration-testing.md)
+- [E2E Testing](e2e-testing.md)
 
 
 ## Problem Statement
