@@ -54,7 +54,7 @@ User Flow Graduation|Todo|Desired user flows are measured and metricized
 Agreement|Link|Rationale
 ---------|----|---------
 Feedback Response|[MS-2373](https://backlog.acquia.com/browse/MS-2373)|Triage of feedback from clients
-On Call Assignments|[MS-2374](https://backlog.acquia.com/browse/MS-2374)|Deployment/24 hour debugging engineer for incident response
+On Call Assignments|[MS-2374](https://backlog.acquia.com/browse/MS-2374) [PPO-1558](https://backlog.acquia.com/browse/PPO-1558)|Deployment/24 hour debugging engineer for incident response
 
 ### Scalability Requirements
 
