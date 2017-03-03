@@ -36,8 +36,8 @@ The following criteria define the Pipelines UI as operationally ready. Each item
 
 Indicator|Link|Rationale
 ---------|----|---------
-Uptime|[MS-2370](https://backlog.acquia.com/browse/MS-2370)|The UI should have an uptime metric
-Response Time|[MS-2371](https://backlog.acquia.com/browse/MS-2371)|The UI should have a response time metric
+Uptime|[MS-2370](https://backlog.acquia.com/browse/MS-2370) [Dashboard](https://my.pingdom.com/reports/uptime#daterange=7days&tab=uptime_tab&check=2569062)|The UI should have an uptime metric
+Response Time|[MS-2371](https://backlog.acquia.com/browse/MS-2371) [Dashboard](https://my.pingdom.com/reports/rbc/2569095)|The UI should have a response time metric
 User Event Tracking|[MS-2369](https://backlog.acquia.com/browse/MS-2369)|User events should be tracked for analysis aligned business goals
 
 ### Service Level Objectives (SLOs)
