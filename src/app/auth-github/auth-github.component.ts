@@ -52,6 +52,18 @@ export class AuthGithubComponent implements OnInit {
   loading: boolean;
 
   /**
+   * Form is submited
+   * @type {Boolean}
+   */
+  formSubmited = false;
+
+  /**
+   * Application attached
+   * @type {Boolean}
+   */
+  appAttached = false;
+
+  /**
    * Builds the component
    * @param route
    * @param router
@@ -76,19 +88,20 @@ export class AuthGithubComponent implements OnInit {
    */
   selectRepository() {
 
-    let dialogRef: MdDialogRef<GithubDialogRepositoriesComponent>;
+    if (!this.appAttached) {
+      let dialogRef: MdDialogRef<GithubDialogRepositoriesComponent>;
 
-    dialogRef = this.dialog.open(GithubDialogRepositoriesComponent);
+      dialogRef = this.dialog.open(GithubDialogRepositoriesComponent);
 
-    // pass the app id and start the repo listing
-    dialogRef.componentInstance.appId = this.appId;
-    dialogRef.componentInstance.start();
+      // pass the app id and start the repo listing
+      dialogRef.componentInstance.appId = this.appId;
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result !== undefined && Object.keys(result).length !== 0) {
-        this.attachRepository(result);
-      }
-    });
+      dialogRef.afterClosed().subscribe(result => {
+        if (result !== undefined && Object.keys(result).length !== 0) {
+          this.attachRepository(result);
+        }
+      });
+    }
   }
 
   /**
@@ -99,7 +112,10 @@ export class AuthGithubComponent implements OnInit {
     this.loading = true;
     this.pipelines.attachGithubRepository(repository.full_name, this.appId)
       .then(() => this.segment.trackEvent('SuccessfulGithubConnection', {appId: this.appId}))
-      .then((r) => this.displayApplication())
+      .then((r) => {
+        this.appAttached = true;
+        this.displayApplication();
+      })
       .catch(e => {
         this.errorHandler.apiError(e);
         this.errorHandler.reportError(e, 'AttachGithubFailed', {appId: this.appId}, 'error');
@@ -119,7 +135,8 @@ export class AuthGithubComponent implements OnInit {
    * Authenticate on github
    */
   authenticate() {
-    if (!this.authorized) {
+    if (!this.authorized && !this.formSubmited) {
+      this.formSubmited = true;
       const form = <HTMLFormElement>document.getElementById('auth-form');
       form.submit();
     }
@@ -146,6 +163,8 @@ export class AuthGithubComponent implements OnInit {
    */
   ngOnInit() {
     this.authorized = false;
+    this.formSubmited = false;
+    this.appAttached = false;
     this.oauthUrl = environment.apiEndpoint + '/api/v1/ci/github/oauth';
     this.n3Endpoint = environment.headers['X-ACQUIA-PIPELINES-N3-ENDPOINT'];
     this.route.params.subscribe((params) => {

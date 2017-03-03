@@ -8,8 +8,11 @@
   padding: 0;
   width: 520px;
   height: auto;
+  overflow: visible;
+  background: transparent;
 
   section.el-card {
     margin-bottom: 0;
+    min-width: 0%; // Fixes el-card with small devices
   }
 }
