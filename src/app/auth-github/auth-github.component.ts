@@ -1,11 +1,13 @@
 import {Component, OnInit} from '@angular/core';
-import {PipelinesService} from '../core/services/pipelines.service';
-import {ErrorService} from '../core/services/error.service';
 import {ActivatedRoute, Router, Params} from '@angular/router';
 import {MdDialog, MdDialogRef} from '@angular/material';
-import {GithubDialogRepositoriesComponent} from './github-dialog-repositories/github-dialog-repositories.component';
+
+import {PipelinesService} from '../core/services/pipelines.service';
+import {ErrorService} from '../core/services/error.service';
 import {FlashMessageService} from '../core/services/flash-message.service';
+import {SegmentService} from '../core/services/segment.service';
 import {environment} from '../../environments/environment';
+import {GithubDialogRepositoriesComponent} from './github-dialog-repositories/github-dialog-repositories.component';
 
 @Component({
   selector: 'app-auth-github',
@@ -56,14 +58,17 @@ export class AuthGithubComponent implements OnInit {
    * @param errorHandler
    * @param pipelines
    * @param flashMessage
+   * @param segment
    * @param dialog
    */
-  constructor(private route: ActivatedRoute,
-              private router: Router,
-              private errorHandler: ErrorService,
-              private pipelines: PipelinesService,
-              private flashMessage: FlashMessageService,
-              private dialog: MdDialog) {
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private errorHandler: ErrorService,
+    private pipelines: PipelinesService,
+    private flashMessage: FlashMessageService,
+    private segment: SegmentService,
+    private dialog: MdDialog) {
   }
 
   /**
@@ -93,9 +98,11 @@ export class AuthGithubComponent implements OnInit {
   attachRepository(repository) {
     this.loading = true;
     this.pipelines.attachGithubRepository(repository.full_name, this.appId)
+      .then(() => this.segment.trackEvent('SuccessfulGithubConnection', {appId: this.appId}))
       .then((r) => this.displayApplication())
       .catch(e => {
         this.errorHandler.apiError(e);
+        this.errorHandler.reportError(e, 'AttachGithubFailed', {appId: this.appId}, 'error');
         this.flashMessage.showError('Unable to attach repository to this application.', e);
       })
       .then(() => this.loading = false);
@@ -128,6 +135,7 @@ export class AuthGithubComponent implements OnInit {
       this.authorized = true;
     } else if (params['reason'] !== undefined && params['reason'] !== '') {
       this.flashMessage.showError(decodeURIComponent(params['reason']));
+      this.errorHandler.reportError(new Error(params['reason']), 'AuthGithubAPIFailed', {appId: this.appId}, 'error');
     } else {
       this.flashMessage.showError('Sorry, we could not connect to github at this time.');
     }

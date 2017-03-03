@@ -1,17 +1,19 @@
 /* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed, fakeAsync, tick, inject } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
-import { AuthGithubComponent } from './auth-github.component';
-import { MaterialModule } from '@angular/material';
-import { PipelinesService } from '../core/services/pipelines.service';
-import { ErrorService } from '../core/services/error.service';
-import { RouterTestingModule } from '@angular/router/testing';
-import { ElementalModule } from '../elemental/elemental.module';
-import { FlashMessageService } from '../core/services/flash-message.service';
-import { MockBackend } from '@angular/http/testing';
-import { HttpModule, BaseRequestOptions, Http, ResponseOptions, Response } from '@angular/http';
-import { Router } from '@angular/router';
+import {async, ComponentFixture, TestBed, fakeAsync, tick, inject} from '@angular/core/testing';
+import {By} from '@angular/platform-browser';
+import {DebugElement} from '@angular/core';
+import {RouterTestingModule} from '@angular/router/testing';
+import {MaterialModule} from '@angular/material';
+import {MockBackend} from '@angular/http/testing';
+import {HttpModule, BaseRequestOptions, Http, ResponseOptions, Response} from '@angular/http';
+import {Router} from '@angular/router';
+
+import {AuthGithubComponent} from './auth-github.component';
+import {PipelinesService} from '../core/services/pipelines.service';
+import {ErrorService} from '../core/services/error.service';
+import {FlashMessageService} from '../core/services/flash-message.service';
+import {SegmentService} from '../core/services/segment.service';
+import {ElementalModule} from '../elemental/elemental.module';
 
 class MockFlashMessage {
   showError(message: string, e: any) {
@@ -36,14 +38,15 @@ describe('AuthGithubComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AuthGithubComponent ],
+      declarations: [AuthGithubComponent],
       providers: [
         PipelinesService,
         ErrorService,
         FlashMessageService,
         MockBackend,
         BaseRequestOptions,
-        { provide: FlashMessageService, useClass: MockFlashMessage },
+        SegmentService,
+        {provide: FlashMessageService, useClass: MockFlashMessage},
         {
           provide: Http,
           useFactory: (mockBackend, options) => {
@@ -54,7 +57,7 @@ describe('AuthGithubComponent', () => {
       ],
       imports: [MaterialModule.forRoot(), RouterTestingModule, ElementalModule]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -71,16 +74,16 @@ describe('AuthGithubComponent', () => {
   it('should show error when faild to attach repository',
     fakeAsync(inject([FlashMessageService, MockBackend], (flashMessage, mockBackend) => {
 
-    setupConnections(mockBackend, {
-      body: JSON.stringify({})
-    });
+      setupConnections(mockBackend, {
+        body: JSON.stringify({})
+      });
 
-    spyOn(flashMessage, 'showError');
+      spyOn(flashMessage, 'showError');
 
-    component.attachRepository({});
-    tick();
-    expect(flashMessage.showError).toHaveBeenCalled();
-  })));
+      component.attachRepository({});
+      tick();
+      expect(flashMessage.showError).toHaveBeenCalled();
+    })));
 
   it('should show success when connected to github', inject([FlashMessageService], (flashMessage) => {
 
@@ -98,10 +101,10 @@ describe('AuthGithubComponent', () => {
 
     const params = {
       success: 'false',
-       reason: 'some reason'
-     };
+      reason: 'some reason'
+    };
 
-     spyOn(flashMessage, 'showError');
+    spyOn(flashMessage, 'showError');
 
     component.checkAuthorization(params);
     expect(flashMessage.showError).toHaveBeenCalledWith('some reason');
@@ -112,9 +115,9 @@ describe('AuthGithubComponent', () => {
 
     const params = {
       success: 'false'
-     };
+    };
 
-     spyOn(flashMessage, 'showError');
+    spyOn(flashMessage, 'showError');
 
     component.checkAuthorization(params);
     expect(flashMessage.showError).toHaveBeenCalledWith('Sorry, we could not connect to github at this time.');

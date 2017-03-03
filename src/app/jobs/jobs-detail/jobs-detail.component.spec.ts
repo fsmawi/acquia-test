@@ -2,19 +2,21 @@
 import {async, ComponentFixture, TestBed, inject, fakeAsync, tick} from '@angular/core/testing';
 import {By} from '@angular/platform-browser';
 import {DebugElement} from '@angular/core';
-
-import {JobsDetailComponent} from './jobs-detail.component';
 import {MaterialModule} from '@angular/material';
+import {RouterTestingModule} from '@angular/router/testing';
+
 import {MomentModule} from 'angular2-moment';
+
 import {PipelinesService} from '../../core/services/pipelines.service';
 import {ErrorService} from '../../core/services/error.service';
-import {RouterTestingModule} from '@angular/router/testing';
-import {ElementalModule} from '../../elemental/elemental.module';
 import {Job} from '../../core/models/job';
 import {JobLog} from '../../core/models/job-log';
+import {AnsiService} from '../../core/services/ansi.service';
+import {SegmentService} from '../../core/services/segment.service';
+import {ElementalModule} from '../../elemental/elemental.module';
+import {JobsDetailComponent} from './jobs-detail.component';
 import {JobSummaryComponent} from '../job-summary/job-summary.component';
 import {SharedModule} from '../../shared/shared.module';
-import {AnsiService} from '../../core/services/ansi.service';
 
 class MockPipelinesService {
 
@@ -43,6 +45,7 @@ class MockPipelinesService {
   getJobByJobId(appId: string, jobId: string, params = {}) {
     return Promise.resolve(this.job);
   }
+
   getLogFile(appId: string, jobId: string, params = {}) {
     return Promise.resolve([this.log]);
   }
@@ -54,12 +57,23 @@ describe('JobsDetailComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [JobsDetailComponent, JobSummaryComponent],
-      imports: [MaterialModule.forRoot(), MomentModule, RouterTestingModule, ElementalModule, SharedModule],
+      declarations: [
+        JobsDetailComponent,
+        JobSummaryComponent
+      ],
+      imports: [
+        MaterialModule.forRoot(),
+        MomentModule,
+        RouterTestingModule,
+        ElementalModule,
+        SharedModule
+      ],
       providers: [
-        { provide: PipelinesService, useClass: MockPipelinesService },
+        {provide: PipelinesService, useClass: MockPipelinesService},
         AnsiService,
-        ErrorService]
+        ErrorService,
+        SegmentService
+      ]
     })
       .compileComponents();
   }));

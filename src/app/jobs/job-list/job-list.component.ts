@@ -4,6 +4,7 @@ import {PipelinesService} from '../../core/services/pipelines.service';
 import {ErrorService} from '../../core/services/error.service';
 import {ConfirmationModalService} from '../../core/services/confirmation-modal.service';
 import {FlashMessageService} from '../../core/services/flash-message.service';
+import {SegmentService} from '../../core/services/segment.service';
 
 @Component({
   selector: 'app-job-list',
@@ -30,6 +31,7 @@ export class JobListComponent implements OnInit {
   constructor(private pipelines: PipelinesService,
               private confirmationModalService: ConfirmationModalService,
               private flashMessageService: FlashMessageService,
+              private segment: SegmentService,
               private errorHandler: ErrorService) {
   }
 
@@ -58,18 +60,19 @@ export class JobListComponent implements OnInit {
    */
   stopJob(job: Job) {
     this.confirmationModalService
-        .openDialog('Terminate Job', 'Are you sure you want to terminate your job?', 'Yes', 'Cancel')
-        .then(result => {
-            if (result) {
-              this.pipelines.stopJob(this.appId, job.job_id)
-                .then((res) => {
-                  this.flashMessageService.showSuccess('Your job is terminating');
-                })
-                .catch(e => {
-                  this.flashMessageService.showError('Error while terminating your job', e);
-                  this.errorHandler.apiError(e);
-                });
-            }
-        });
+      .openDialog('Terminate Job', 'Are you sure you want to terminate your job?', 'Yes', 'Cancel')
+      .then(result => {
+        if (result) {
+          this.pipelines.stopJob(this.appId, job.job_id)
+            .then((res) => {
+              this.flashMessageService.showSuccess('Your job is terminating');
+              this.segment.trackEvent('TerminateJobFromUI', {appId: this.appId, jobId: job.job_id});
+            })
+            .catch(e => {
+              this.flashMessageService.showError('Error while terminating your job', e);
+              this.errorHandler.apiError(e);
+            });
+        }
+      });
   }
 }

@@ -1,5 +1,6 @@
 import {Component, OnInit, Input} from '@angular/core';
 import {ActivatedRoute, Params} from '@angular/router';
+import {SegmentService} from '../core/services/segment.service';
 
 @Component({
   selector: 'app-api-error',
@@ -31,8 +32,10 @@ export class StatusCodeComponent implements OnInit {
   /**
    * Build the component and inject services if needed
    * @param route
+   * @param segment
    */
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute, private segment: SegmentService) {
+  }
 
   /**
    * Initialize and setup error handler
@@ -41,14 +44,16 @@ export class StatusCodeComponent implements OnInit {
     // Get the required params from the url
     // Assign if exists or fallback to the defaults
     this.route.queryParams.subscribe(
-     (params: Params) => {
-      this.errorCode = params['errorCode'] ? params['errorCode'] : '404';
-      this.errorTitle = params['errorTitle'] ? params['errorTitle'] : 'Not Found';
-      this.errorMessage = params['errorMessage'] ? params['errorMessage'] :
-                          `Yikes! We can’t find the page you're looking for.`;
-      this.tagMessage = params['tagMessage'] ? params['tagMessage'] : 'Homepage';
-      this.tagLink = params['tagLink'] ? params['tagLink'] : '/auth/tokens';
-    });
+      (params: Params) => {
+        this.errorCode = params['errorCode'] ? params['errorCode'] : '404';
+        this.errorTitle = params['errorTitle'] ? params['errorTitle'] : 'Not Found';
+        this.errorMessage = params['errorMessage'] ? params['errorMessage'] :
+          `Yikes! We can’t find the page you're looking for.`;
+        this.tagMessage = params['tagMessage'] ? params['tagMessage'] : 'Homepage';
+        this.tagLink = params['tagLink'] ? params['tagLink'] : '/auth/tokens';
 
- }
+        this.segment.page(`${this.errorCode}${this.errorTitle}View`);
+      });
+
+  }
 }

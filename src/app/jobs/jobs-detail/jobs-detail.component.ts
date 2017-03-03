@@ -5,6 +5,7 @@ import {PipelinesService} from '../../core/services/pipelines.service';
 import {ErrorService} from '../../core/services/error.service';
 import {JobLog} from '../../core/models/job-log';
 import {AnsiService} from '../../core/services/ansi.service';
+import {SegmentService} from '../../core/services/segment.service';
 
 @Component({
   selector: 'app-jobs-detail',
@@ -48,12 +49,16 @@ export class JobsDetailComponent implements OnInit, OnDestroy {
    * Builds the component
    * @param pipelineService
    * @param route
+   * @param ansiService
    * @param errorHandler
+   * @param segment
    */
-  constructor(private pipelineService: PipelinesService,
-              private route: ActivatedRoute,
-              private ansiService: AnsiService,
-              private errorHandler: ErrorService) {
+  constructor(
+    private pipelineService: PipelinesService,
+    private route: ActivatedRoute,
+    private ansiService: AnsiService,
+    private errorHandler: ErrorService,
+    private segment: SegmentService) {
   }
 
   /**
@@ -73,6 +78,9 @@ export class JobsDetailComponent implements OnInit, OnDestroy {
         this.refresh();
       }
     );
+
+    // Track page view
+    this.segment.page('JobDetailView');
   }
 
   /**

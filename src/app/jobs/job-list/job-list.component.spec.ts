@@ -2,19 +2,21 @@
 import {async, ComponentFixture, TestBed, fakeAsync, tick} from '@angular/core/testing';
 import {By} from '@angular/platform-browser';
 import {DebugElement} from '@angular/core';
-
-import {JobListComponent} from './job-list.component';
-import {SharedModule} from '../../shared/shared.module';
 import {MaterialModule} from '@angular/material';
 import {RouterModule} from '@angular/router';
+import {RouterTestingModule} from '@angular/router/testing/router_testing_module';
+
 import {MomentModule} from 'angular2-moment';
+
 import {PipelinesService} from '../../core/services/pipelines.service';
 import {ErrorService} from '../../core/services/error.service';
-import {RouterTestingModule} from '@angular/router/testing/router_testing_module';
 import {Job} from '../../core/models/job';
-import {ElementalModule} from '../../elemental/elemental.module';
 import {FlashMessageService} from '../../core/services/flash-message.service';
 import {ConfirmationModalService} from '../../core/services/confirmation-modal.service';
+import {SegmentService} from '../../core/services/segment.service';
+import {ElementalModule} from '../../elemental/elemental.module';
+import {JobListComponent} from './job-list.component';
+import {SharedModule} from '../../shared/shared.module';
 
 class MockPipelinesService {
 
@@ -34,11 +36,12 @@ class MockPipelinesService {
     exit_message: ''
   });
 
-  stopJob(appId: string,
-          jobId: string,
-          buildstepsEndpoint: string = undefined,
-          buildstepsUser: string = undefined,
-          buildstepsPass: string = undefined) {
+  stopJob(
+    appId: string,
+    jobId: string,
+    buildstepsEndpoint: string = undefined,
+    buildstepsUser: string = undefined,
+    buildstepsPass: string = undefined) {
     return Promise.resolve([]);
   }
 
@@ -74,12 +77,21 @@ describe('JobListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [JobListComponent],
-      imports: [MaterialModule.forRoot(), SharedModule, RouterTestingModule, MomentModule, ElementalModule],
+      declarations: [
+        JobListComponent
+      ],
+      imports: [
+        MaterialModule.forRoot(),
+        SharedModule,
+        RouterTestingModule,
+        MomentModule,
+        ElementalModule
+      ],
       providers: [
         {provide: PipelinesService, useClass: MockPipelinesService},
         {provide: FlashMessageService, useClass: MockFlashMessage},
         {provide: ConfirmationModalService, useClass: MockConfirmationModalService},
+        SegmentService,
         ErrorService]
     })
       .compileComponents();

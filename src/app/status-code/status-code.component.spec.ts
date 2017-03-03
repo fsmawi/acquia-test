@@ -1,12 +1,13 @@
 /* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {By} from '@angular/platform-browser';
+import {DebugElement} from '@angular/core';
 import {MaterialModule} from '@angular/material';
 import {FormsModule} from '@angular/forms';
 import {RouterTestingModule} from '@angular/router/testing';
 
-import { StatusCodeComponent } from './status-code.component';
+import {StatusCodeComponent} from './status-code.component';
+import {SegmentService} from '../core/services/segment.service';
 
 describe('StatusCodeComponent', () => {
   let component: StatusCodeComponent;
@@ -14,11 +15,19 @@ describe('StatusCodeComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ StatusCodeComponent ],
-      imports: [MaterialModule.forRoot(), FormsModule, RouterTestingModule],
-      providers: []
+      declarations: [
+        StatusCodeComponent
+      ],
+      imports: [
+        MaterialModule.forRoot(),
+        FormsModule,
+        RouterTestingModule
+      ],
+      providers: [
+        SegmentService
+      ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

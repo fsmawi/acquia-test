@@ -1,10 +1,11 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ApplicationRoutingModule } from './application-routing.module';
-import { ApplicationComponent } from './application.component';
-import { MaterialModule } from '@angular/material';
-import { ElementalModule } from '../elemental/elemental.module';
+import {CommonModule} from '@angular/common';
+import {NgModule} from '@angular/core';
+import {MaterialModule} from '@angular/material';
 
+import {ApplicationComponent} from './application.component';
+import {ApplicationRoutingModule} from './application-routing.module';
+import {ElementalModule} from '../elemental/elemental.module';
+import {SharedModule} from '../shared/shared.module';
 
 
 @NgModule({
@@ -12,8 +13,10 @@ import { ElementalModule } from '../elemental/elemental.module';
     CommonModule,
     ApplicationRoutingModule,
     MaterialModule.forRoot(),
-    ElementalModule
+    ElementalModule,
+    SharedModule
   ],
   declarations: [ApplicationComponent]
 })
-export class ApplicationModule { }
+export class ApplicationModule {
+}

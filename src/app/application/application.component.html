@@ -3,7 +3,10 @@
   <e-card-content>
     <a class="el-button" disabled>Connection Info</a>
     <a class="el-button el-button--primary" [routerLink]="['/jobs', appId]">View Jobs</a>
-    <a class="el-button el-button--primary" [routerLink]="['/auth/github', appId]">Re-Authorize</a>
+    <a class="el-button el-button--primary" [routerLink]="['/auth/github', appId]"
+       appSegmentOn="click"
+       [segmentEventData]="{appId: appId}"
+       segmentEventIdentifier="ClickReAuthGithub">Re-Authorize</a>
     <h3>Github</h3>
 
     <e-data>
@@ -48,6 +51,6 @@
 </e-card>
 
 <e-progress *ngIf="appLoading"
-  progressType="indeterminate"
-  progressVariant="dots">
+            progressType="indeterminate"
+            progressVariant="dots">
 </e-progress>

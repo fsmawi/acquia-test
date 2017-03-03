@@ -37,4 +37,14 @@ export class SegmentService {
     }
   }
 
+  /**
+   * Tracks a page view
+   * @param name
+   * @returns {any|boolean}
+   */
+  page(name: string) {
+    if (environment.production || analyticsMock) {
+      return analytics.page(name);
+    }
+  }
 }

@@ -1,8 +1,10 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+
 import {PipelinesService} from '../core/services/pipelines.service';
 import {ErrorService} from '../core/services/error.service';
 import {Job} from '../core/models/job';
-import {ActivatedRoute} from '@angular/router';
+import {SegmentService} from '../core/services/segment.service';
 
 @Component({
   selector: 'app-jobs',
@@ -48,8 +50,13 @@ export class JobsComponent implements OnInit, OnDestroy {
    * @param pipelines
    * @param errorHandler
    * @param route
+   * @param segment
    */
-  constructor(private pipelines: PipelinesService, private errorHandler: ErrorService, private route: ActivatedRoute) {
+  constructor(
+    private pipelines: PipelinesService,
+    private errorHandler: ErrorService,
+    private route: ActivatedRoute,
+    private segment: SegmentService) {
   }
 
   /**
@@ -68,6 +75,9 @@ export class JobsComponent implements OnInit, OnDestroy {
       // run right away
       this.refresh();
     });
+
+    // Track page view
+    this.segment.page('JobListView');
   }
 
   /**
@@ -91,13 +101,13 @@ export class JobsComponent implements OnInit, OnDestroy {
         // every new order is inserted using unshift.
         if (this.jobs.length === 0) {
           this.jobs = jobs;
-        }else {
+        } else {
           jobs.forEach(newJob => {
             // Find if the new job is an existing one
             const oldJob = this.jobs.find(job => job.job_id === newJob.job_id);
             if (oldJob) {
               Object.assign(oldJob, newJob);
-            }else {
+            } else {
               // Append/insert the new record at the top of the list.
               this.jobs.unshift(newJob);
             }
@@ -106,19 +116,19 @@ export class JobsComponent implements OnInit, OnDestroy {
       })
       .then(() => this.lastJob = this.jobs[0])
       .catch(e =>
-          this.errorHandler
-              .apiError(e)
-              .showError('Homepage', '/auth/tokens')
+        this.errorHandler
+          .apiError(e)
+          .showError('Homepage', '/auth/tokens')
       )
       .then(() => {
-        this.loadingJobs = false;
+          this.loadingJobs = false;
 
-        // One time binding for tracking display initialization of card that
-        // contains job data
-        if (!this.isInitialized) {
-          this.isInitialized = true;
+          // One time binding for tracking display initialization of card that
+          // contains job data
+          if (!this.isInitialized) {
+            this.isInitialized = true;
+          }
         }
-      }
-    );
+      );
   }
 }
