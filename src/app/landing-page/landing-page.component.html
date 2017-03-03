@@ -1,5 +1,5 @@
 <h1 class="page-title">Welcome to Pipelines</h1>
-<section id="landing-page" *ngIf="firstTime">
+<section id="landing-page" *ngIf="!loading">
   <h2>Acquia Pipelines is a tool for developing, testing, and deploying websites or other applications to
     Acquia Cloud. It enables you to</h2>
   <ul id="feature-list">
@@ -7,8 +7,27 @@
       <p class="feature-text">{{feature.text}}</p>
     </li>
   </ul>
+
+  <h3> Requirements </h3>
+  <ul id="requirements">
+    <li *ngFor="let requirement of requirements" id="know-more-{{requirement.name}}">
+      <p class="requirement-text">{{requirement.text}}</p>
+    </li>
+  </ul>
+  <h3> Know more </h3>
+  <ul id="know-more">
+    <li *ngFor="let more of knowMore" id="requirements-{{more.name}}">
+      <p class="more-text">{{more.text}}</p>
+      <ul id="know-more-{{more.name}}" style="list-style: circle">
+        <li *ngFor="let resource of more.resources">
+          <a target="_blank" href="{{resource.url}}"> {{resource.title}} </a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+
   <div id="action-area">
-    <e-button id="go-button" text="Go!" (click)="end()"></e-button>
+    <e-button id="go-button" text="Go!" (click)="go()"></e-button>
   </div>
 </section>
-<md-progress-spinner id="loader" mode="indeterminate" *ngIf="loading && !firstTime"></md-progress-spinner>
+<md-progress-spinner id="loader" mode="indeterminate" *ngIf="loading"></md-progress-spinner>

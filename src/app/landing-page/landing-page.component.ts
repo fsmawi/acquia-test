@@ -67,10 +67,71 @@ export class LandingPageComponent implements OnInit {
   ];
 
   /**
-   * View flag to determine to show the list or not on load
-   * @type {boolean}
+   * Array of requirements to list
+   * @type {object}
    */
-  firstTime = true;
+  requirements: Array<{index: number, name: string, alt: string, text: string}> = [
+    {
+      index: 0,
+      name: 'existing',
+      alt: 'Should be an existing Acquia cloud customer.',
+      text: 'You should be an existing Acquia cloud customer.'
+    },
+    {
+      index: 1,
+      name: 'agreement',
+      alt: 'You need to have agreed to a beta agreement.',
+      text: 'You need to have agreed to a beta agreement by signing a standard Acquia MSA or ' +
+      'have signed an agreement directly.'
+    },
+    {
+      index: 2,
+      name: 'zendesk',
+      alt: 'You need to have requested access to the beta program by filing a Zendesk ticket.',
+      text: 'You need to have requested access to the beta program by filing a Zendesk ticket ' +
+      'with the subject line: Pipelines Beta Access.'
+    }
+  ];
+
+  /**
+   * Array of know more items with links to resources
+   * @type {object}
+   */
+  knowMore: Array<{index: number, name: string, alt: string, text: string,
+                   resources: [{title: string, url: string}]}> = [
+    {
+      index: 0,
+      name: 'documentation',
+      alt: 'Documentation',
+      text: 'Documentation',
+      resources: [{title : 'Pipelines - Docs', url : 'https://docs.acquia.com/pipelines'}]
+    },
+    {
+      index: 1,
+      name: 'tutorials',
+      alt: 'Tutorials',
+      text: 'Tutorials',
+      resources: [{ title: 'Training' , url: 'https://training.acquia.com'}]
+    },
+    {
+      index: 2,
+      name: 'videos',
+      alt: 'Videos',
+      text: 'Videos',
+      resources: [
+        { title : 'Interview with Barry Jaspan part 1', url: 'https://player.vimeo.com/video/176784983'},
+        { title : 'Interview with Barry Jaspan part 2', url: 'https://player.vimeo.com/video/176784984'},
+        { title : 'Pipelines Technical Demo', url: 'https://player.vimeo.com/video/176784984'},
+        { title : 'Pipelines 101 A', url: 'https://player.vimeo.com/video/184398691'},
+        { title : 'Pipelines 101 B', url: 'https://player.vimeo.com/video/184398694'},
+        { title : 'Pipelines 201', url: 'https://player.vimeo.com/video/184398693'},
+        { title : 'Pipelines 301', url: 'https://player.vimeo.com/video/184398695'},
+        { title : 'Pipelines 401', url: 'https://player.vimeo.com/video/184398697'},
+        { title : 'Pipelines 501', url: 'https://player.vimeo.com/video/184399322'},
+        { title : 'Pipelines 601', url: 'https://player.vimeo.com/video/184398701'}
+      ]
+    }
+  ];
 
   /**
    * Flag to see if the app has pipelines enabled
@@ -107,36 +168,18 @@ export class LandingPageComponent implements OnInit {
     // get the appId if specified
     this.appId = this.route.snapshot.params['app-id'];
 
-    // check if they have seen it already
-    if (this.localStorage.get('landing-intro')) {
-      this.firstTime = false;
-      this.end();
-    } else {
-      this.firstTime = true;
-    }
-
-    // Checks if the user is enabled and connected
-    // NOTE: This makes the calls in the background on component load.
-    // This way, while they read the text, the component finds out what state they are in.
-    // That way when they click "Go" it will just go, instead of waiting.
-    // If they click go right away, or have already watched the intro text,
-    // it just shows the loading indicator while it figures out where to send them
-    this.checkSetupStatus();
-  }
-
-  /**
-   * Checks the apps status with pipelines
-   */
-  checkSetupStatus() {
-    this.loading = true;
-
     if (!this.appId) {
       // TODO logic to redirect when no app id is specified: Standalone feature
       this.router.navigateByUrl('/404');
-    } else {
+    }
+  }
 
-      // Use the pipelines API to determine
-      return this.pipelines.getPipelineByAppId(this.appId)
+  /**
+   * Navigate to the corresponding page
+   */
+  go() {
+    this.loading = true;
+    this.pipelines.getPipelineByAppId(this.appId)
         .then((pipelines: Pipeline[]) => {
           // NOTE: logic to say whether or not connected, is by github connection status
           this.isEnabled = true; // if no error, they have the app enabled for pipelines
@@ -146,48 +189,26 @@ export class LandingPageComponent implements OnInit {
             }
           });
         })
+        .then(() => {
+          if (this.isConnected !== undefined || this.isEnabled !== undefined) {
+            // Based on status, navigate to the right page
+            if (this.isConnected) {
+              this.router.navigateByUrl('/jobs/' + this.appId || '');
+            } else if (this.isEnabled) {
+              this.router.navigateByUrl('/auth/github/' + this.appId || '');
+            }
+          }
+        })
         .catch(e => {
           // If pipelines is not enabled for that app, it returns 403 with not enabled
           if (e.status === 403) {
             this.isEnabled = false;
+            window.top.location.href = 'https://cloud.acquia.com/app/profile/agreements';
           } else {
             this.errorHandler.apiError(e);
             this.errorHandler.reportError(e, 'CheckAppStatus', {module: 'landing-page'}, 'Error');
             this.flash.showError('Error checking your app', e);
           }
         });
-    }
-  }
-
-  /**
-   * Completes
-   */
-  end() {
-    // set flag to not show again
-    this.firstTime = false;
-    this.localStorage.set('landing-intro', 'viewed');
-
-    // Wait for original calls to be done if needed
-    this.check = setInterval(() => this.checkUpdate(), 1500);
-    this.checkUpdate(); // initial call
-  }
-
-  /**
-   * Checks for updates in status polling
-   */
-  checkUpdate() {
-    if (this.isConnected !== undefined || this.isEnabled !== undefined) {
-      clearInterval(this.check);
-      this.loading = false;
-
-      // Based on status, navigate to the right page
-      if (this.isConnected) {
-        this.router.navigateByUrl('/jobs/' + this.appId || '');
-      } else if (this.isEnabled) {
-        this.router.navigateByUrl('/auth/github/' + this.appId || '');
-      } else {
-        this.router.navigateByUrl('/upsell');
-      }
-    }
   }
 }

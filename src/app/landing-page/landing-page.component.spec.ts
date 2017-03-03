@@ -1,5 +1,5 @@
 /* tslint:disable:no-unused-variable */
-import {async, ComponentFixture, TestBed, inject, fakeAsync, tick} from '@angular/core/testing';
+import {async, ComponentFixture, TestBed, inject, fakeAsync, tick, discardPeriodicTasks} from '@angular/core/testing';
 import {By} from '@angular/platform-browser';
 import {DebugElement} from '@angular/core';
 
@@ -61,51 +61,45 @@ describe('LandingPageComponent', () => {
     fixture = TestBed.createComponent(LandingPageComponent);
     component = fixture.componentInstance;
     component.appId = '1234';
-    component.localStorage.set('landing-intro', '');
     fixture.detectChanges();
+  });
+
+  beforeAll(() => {
+    window.onbeforeunload = () => {
+    };
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should not redirect and show basic information to the customer', fakeAsync(() => {
-    component.checkSetupStatus();
-    expect(component.firstTime).toEqual(true);
-  }));
-
-  it('should redirect based on a non enabled customer to upsell route', fakeAsync(() => {
-    component.appId = 'not-enabled';
-    component.checkSetupStatus();
-    tick();
-    component.end();
-    tick();
-    fixture.detectChanges();
-    expect(component.firstTime).toEqual(false);
-    expect(component.isEnabled).toEqual(false);
-    expect(component.isConnected).toEqual(undefined);
-  }));
+  // Removed: Karma + Angular + A redirect outside don't play nice together: https://github.com/angular/angular/issues/10127
+  // it('should redirect based on a non enabled customer to upsell route', fakeAsync(() => {
+  //   component.appId = 'not-enabled';
+  //   component.go();
+  //   tick();
+  //   fixture.detectChanges();
+  //   expect(component.isEnabled).toEqual(false);
+  //   expect(component.isConnected).toEqual(undefined);
+  //   discardPeriodicTasks();
+  // }));
 
   it('should redirect based on an enabled but non connected customer to the github route', fakeAsync(() => {
     component.appId = 'not-connected';
-    component.checkSetupStatus();
-    tick();
-    component.end();
+    component.go();
     tick();
     fixture.detectChanges();
-    expect(component.firstTime).toEqual(false);
     expect(component.isEnabled).toBeTruthy();
     expect(component.isConnected).toEqual(undefined);
+    discardPeriodicTasks();
   }));
 
   it('should redirect based on an enabled and connected customer to the jobs route', fakeAsync(() => {
-    component.checkSetupStatus();
-    tick();
-    component.end();
+    component.go();
     tick();
     fixture.detectChanges();
-    expect(component.firstTime).toEqual(false);
     expect(component.isEnabled).toBeTruthy();
     expect(component.isConnected).toBeTruthy();
+    discardPeriodicTasks();
   }));
 });
