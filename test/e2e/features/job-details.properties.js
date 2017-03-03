@@ -22,5 +22,6 @@ module.exports = {
   'jobs': '//a[text()="Jobs "]',
   'job-logs': 'e-card#logs',
   'progress-bar': '//e-card//md-progress-bar[@role="progressbar"]',
-  'empty-logs': '//i[contains(text(),"There are no logs for this job.")]'
+  'empty-logs': '//i[contains(text(),"There are no logs for this job.")]',
+  'count-up-time': '//e-data-label[div[text()="Duration"]]/following-sibling::e-data-value',
 };

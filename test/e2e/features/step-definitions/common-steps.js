@@ -18,8 +18,7 @@ module.exports = function () {
     if (process.env.PIPELINES_URL) {
       let URL = path.join(process.env.PIPELINES_URL, page.getDynamicValue(pageIdentifier));
       this.browser._url(URL).pause(5000);
-    }
-    else {
+    } else {
       return this.browser.getUrl()
         .then((URL) => {
           URL = path.join(URL.replace('/auth/tokens', ''),
@@ -31,7 +30,7 @@ module.exports = function () {
 
   this.When(/^I enter \|(.*?)\| in the \|(.*?)\|/, function (value, selector) {
     boostrap(this.browser);
-    return this.browser._click(page.getDynamicValue(selector), { timeout: 30000 }).keys(page.getDynamicValue(value));
+    return this.browser._click(page.getDynamicValue(selector), {timeout: 30000}).keys(page.getDynamicValue(value));
   });
 
   this.When(/^I click on the \|(.*?)\| button$/, function (selector) {

@@ -21,7 +21,7 @@ module.exports = function () {
     }
   });
 
-  //Will get called before each new feature file is being invoked
+  // Will get called before each new feature file is being invoked
   this.BeforeFeature(function (feature) {
     global.currentFeature = {
       feature: feature,
@@ -44,7 +44,8 @@ module.exports = function () {
 
     // Set up a logging folder
     if (process.env.AQTEST_DEBUG) {
-      global.CURRENT_SCENARIO_FOLDER = path.join(global.LOG_ROOT || 'test-logs', scenario.getName().replace(/( )/g, ''), moment().format('YYYY[_]MM[_]DD[_]X'));
+      global.CURRENT_SCENARIO_FOLDER = path.join(global.LOG_ROOT || 'test-logs', scenario.getName().replace(/( )/g, ''),
+        moment().format('YYYY[_]MM[_]DD[_]X'));
       fs.ensureDirSync(global.CURRENT_SCENARIO_FOLDER);
     }
 

@@ -25,7 +25,8 @@ module.exports = function () {
     return jobsListPage.clickJobLinkByStatus('spin-reverse');
   });
 
-  this.When(/^I click on the job id in the "([^"]*)" column for a job which has the status as state__success\-\-circle$/, function (buildHeader) {
+  this.When(/^I click on the job id in the "([^"]*)" column for a job which has the status as state__success\-\-circle$/,
+    function (buildHeader) {
     return jobsListPage.clickJobLinkByStatus('state__success--circle');
   });
 
@@ -59,7 +60,7 @@ module.exports = function () {
     let selector = 'section[class="el-card__body"]';
 
     boostrap(this.browser);
-    return this.browser._waitUntil(selector, { timeout: 30000 })
+    return this.browser._waitUntil(selector, {timeout: 30000})
       .then(() => jobsListPage.getActivityCardHeaders())
       .then((headers) => expect(headers).to.deep.equal(expectedActivityCardHeaders));
   });
@@ -93,23 +94,28 @@ module.exports = function () {
     return jobsListPage.clickJobLinkInBuildHeader(1);
   });
 
-  this.Then(/^I should see the "([^"]*)" column icon as state__danger for a job with id "([^"]*)"$/, function (statusColumn, jobId) {
+  this.Then(/^I should see the "([^"]*)" column icon as state__danger for a job with id "([^"]*)"$/,
+    function (statusColumn, jobId) {
     return jobsListPage.assertStatusIconOfJob(jobId, 'state__danger');
   });
 
-  this.Then(/^I should see the "([^"]*)" column icon as spin\-reverse for a job with id "([^"]*)"$/, function (statusColumn, jobId) {
+  this.Then(/^I should see the "([^"]*)" column icon as spin\-reverse for a job with id "([^"]*)"$/,
+    function (statusColumn, jobId) {
     return jobsListPage.assertStatusIconOfJob(jobId, 'spin-reverse');
   });
 
-  this.Then(/^I should see the "([^"]*)" column icon as timer for a job with id "([^"]*)"$/, function (statusColumn, jobId) {
+  this.Then(/^I should see the "([^"]*)" column icon as timer for a job with id "([^"]*)"$/,
+    function (statusColumn, jobId) {
     return jobsListPage.assertStatusIconOfJob(jobId, 'timer');
   });
 
-  this.Then(/^I should see the "([^"]*)" column icon as state__success\-\-circle for a job with id "([^"]*)"$/, function (statusColumn, jobId) {
+  this.Then(/^I should see the "([^"]*)" column icon as state__success\-\-circle for a job with id "([^"]*)"$/,
+    function (statusColumn, jobId) {
     return jobsListPage.assertStatusIconOfJob(jobId, 'state__success--circle');
   });
 
-  this.Then(/^I should see the message as "([^"]*)" inside the "([^"]*)" card$/, function (statusMessage, activityCardTitle) {
+  this.Then(/^I should see the message as "([^"]*)" inside the "([^"]*)" card$/,
+    function (statusMessage, activityCardTitle) {
     return jobsListPage.assertNoJobsStatus(statusMessage);
   });
 

@@ -67,3 +67,16 @@ Feature: Pipelines Job Details
     And I click on the job "8f0c38d5" that does not have logs
     Then I should be shown appropriate |*empty-logs| message
 
+  @JobDetail_CheckJobDetailCountUp
+  Scenario: Check appropriate count up time is shown for the job which is in progress
+    Given I have navigated to |*mock-header| page
+    And I enter |job-details-countup.yml| in the |*header-value| field
+    And I click on the |*save| button
+    And I should be navigated to |*pipelines-unauthenticated-url|
+    And I enter |*app-id| in the |*app-input| field
+    And I click on the |*sign-in| button
+    And I wait 10 seconds for logging in
+    When on the |*jobs-list| page
+    And I click on the job with jobid "34b06147"
+    Then I should be shown appropriate |*count-up-time| in summary table
+

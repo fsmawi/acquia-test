@@ -1,5 +1,4 @@
 const boostrap = require('../support/core').bootstrap;
-const path = require('path');
 let page = require('./page-objects/page');
 let loginPage = require('./page-objects/login.page');
 

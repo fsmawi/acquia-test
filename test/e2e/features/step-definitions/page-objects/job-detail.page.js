@@ -18,7 +18,7 @@ let JobDetailPage = Object.create(page, {
    */
   assertJobDetailPage: {
     value: function (jobDetailPageIdentifier) {
-      return this.browser._exists(jobDetailPageIdentifier, { timeout: 15000 });
+      return this.browser._exists(jobDetailPageIdentifier, {timeout: 15000});
     },
   },
 
@@ -29,7 +29,7 @@ let JobDetailPage = Object.create(page, {
    */
   assertProgressBar: {
     value: function (progressBarSelector) {
-      return this.browser._waitUntil(progressBarSelector, { timeout: 10000 });
+      return this.browser._waitUntil(progressBarSelector, {timeout: 10000});
     },
   },
 
@@ -39,7 +39,7 @@ let JobDetailPage = Object.create(page, {
    */
   clickOnBackToJobList: {
     value: function (jobsLinkSelector) {
-      this.browser._click(jobsLinkSelector, { timeout: 10000 });
+      this.browser._click(jobsLinkSelector, {timeout: 10000});
     },
   },
 
@@ -73,7 +73,7 @@ let JobDetailPage = Object.create(page, {
    */
   assertJobLogsExist: {
     value: function (jobLogs) {
-      return this.browser._waitUntil(jobLogs, { timeout: 10000 });
+      return this.browser._waitUntil(jobLogs, {timeout: 10000});
     },
   },
 
@@ -84,7 +84,19 @@ let JobDetailPage = Object.create(page, {
    */
   assertEmptyLogs: {
     value: function (emptyLogsSelector) {
-      return this.browser._waitUntil(emptyLogsSelector, { timeout: 10000 });
+      return this.browser._waitUntil(emptyLogsSelector, {timeout: 10000});
+    },
+  },
+
+  /**
+   * @return {String} count up time text
+   * @param {String} countUpTime
+   * This method fetches the countUpTime displaying under duration field
+   */
+  getCountUpTime: {
+    value: function (countUpTime) {
+      return this.browser._waitUntil(countUpTime, {timeout: 10000})
+        .getText(countUpTime);
     },
   },
 });

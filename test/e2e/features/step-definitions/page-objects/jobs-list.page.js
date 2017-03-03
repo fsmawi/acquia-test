@@ -1,5 +1,4 @@
 let page = require('./page');
-const boostrap = require('../../support/core').bootstrap;
 
 let JobsListPage = Object.create(page, {
 
@@ -75,7 +74,7 @@ let JobsListPage = Object.create(page, {
    */
   getActivityCardTitle: {
     value: function () {
-      return this.browser._exists('.el-card__title', { timeout: 10000 })
+      return this.browser._exists('.el-card__title', {timeout: 10000})
         .getText('.el-card__title');
     },
   },
@@ -146,7 +145,7 @@ let JobsListPage = Object.create(page, {
       else if (status == 'state__success--circle')
         jobLinkElementXpath = '//td[./app-job-status//e-svg-icon[@type="state__success--circle"]]/following-sibling::td/a';
 
-      return this.browser._click(jobLinkElementXpath, { timeout: 10000 });
+      return this.browser._click(jobLinkElementXpath, {timeout: 10000});
     },
   },
 
@@ -168,9 +167,11 @@ let JobsListPage = Object.create(page, {
   assertStatusIconOfJob: {
     value: function (jobId, statusIcon) {
       let jobIdXpath = '//app-job-list/table//td[a[text()="' + jobId + '"]]';
-      let failedOrSucceededJobStatusIconXpath = jobIdXpath + '/preceding-sibling::td/app-job-status//e-svg-icon[@type="' + statusIcon + '"]';
+      let failedOrSucceededJobStatusIconXpath = jobIdXpath +
+        '/preceding-sibling::td/app-job-status//e-svg-icon[@type="' + statusIcon + '"]';
       let queuedStatusIconXpath = jobIdXpath + '/preceding-sibling::td/app-job-status//md-icon[.="' + statusIcon + '" and @role="img"]';
-      let runningJobStatusIconXpath = jobIdXpath + '/preceding-sibling::td/app-job-status//e-progress//e-svg-icon[@animation="spin-reverse"]';
+      let runningJobStatusIconXpath = jobIdXpath +
+        '/preceding-sibling::td/app-job-status//e-progress//e-svg-icon[@animation="spin-reverse"]';
 
       this.browser._exists(jobIdXpath).then(() => {
         if (statusIcon == 'state__danger')
@@ -213,8 +214,7 @@ let JobsListPage = Object.create(page, {
     value: function (jobStatus) {
       if (jobStatus == 'Job is paused') {
         return this.browser.element('//td[text()="' + jobStatus + '"]').waitForVisible(10000);
-      }
-      else {
+      } else {
         console.log('expected jobStatus' + jobStatus + ' belongs to an unimplemented action. Hence failing the test!!');
         return expect(false).to.be.true;
       }
@@ -228,7 +228,7 @@ let JobsListPage = Object.create(page, {
    */
   assertNoJobsStatus: {
     value: function (noJobsStatusMessage) {
-      this.browser._waitUntil('//*[contains(text(),"' + noJobsStatusMessage + '")]', { timeout: 10000 });
+      this.browser._waitUntil('//*[contains(text(),"' + noJobsStatusMessage + '")]', {timeout: 10000});
     },
   },
 

@@ -10,5 +10,5 @@ module.exports = {
   'repo-list': '.md-virtual-repeat-offsetter',
   'filter-input': '.el-select-list__filter input',
   'github-success': 'github.yml',
-  'github-fail': 'github-fail.yml'
+  'github-fail': 'github-fail.yml',
 };

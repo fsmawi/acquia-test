@@ -11,5 +11,5 @@ module.exports = {
   'woody-app': '58bb63dd-57db-4d50-9a49-6b60d5921d14',
   'sign-in': 'button.md-primary',
   'login': '#edit-submit-user-login',
-  'app-input': '[name="AppId"]'
+  'app-input': '[name="AppId"]',
 };
