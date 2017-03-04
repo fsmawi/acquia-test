@@ -9,8 +9,8 @@
 
       <!-- No Jobs? -->
       <div id="no-jobs" class="center" *ngIf="!loadingJobs && jobs && !jobs.length">
-        <img src="/assets/pipelines-logos/pipelines_300x300.png" alt="No jobs for this application">
         <h3>You have no jobs for this application</h3>
+        <!-- @todo MS-2572 | Add "Learn More" link that points to product docs instructing users how to setup Pipelines Build jobs -->
       </div>
 
       <!--List of Jobs-->

@@ -38,31 +38,40 @@ export class LandingPageComponent implements OnInit {
       name: 'deploy',
       img: '/assets/landing-images/viewing.jpg',
       alt: 'Deploy your code in Acquia Cloud.',
-      text: 'Manage your application\'s source code on GitHub, or other third-party Git servers, ' +
-      'and seamlessly deploy to Acquia Cloud.'
+      text: 'Manage your application\'s source code using non-Acquia Git services (currently ' +
+      'GitHub and Bitbucket), which allows seamless deployment to Acquia Cloud.'
     },
     {
       index: 1,
       name: 'prepare',
       img: '/assets/landing-images/viewing.jpg',
       alt: 'Prepare your code in Acquia Cloud.',
-      text: 'Use tools like Composer or Drush Make to assemble your application\'s components and ' +
-      'dependencies automatically.'
+      text: 'Leverage build tools (such as Composer or Drush Make) to assemble your application\'s ' +
+      'components and dependencies.'
     },
     {
       index: 2,
       name: 'compile',
       img: '/assets/landing-images/viewing.jpg',
       alt: 'Compile your code in Acquia Cloud.',
-      text: 'Use technologies like Sass and Typescript to compile application source code.'
+      text: 'Compile application assets (minified and concatenated files), which can resolve problems ' +
+      'normally associated with such files being included in an application\'s version control system.'
     },
     {
       index: 3,
       name: 'control',
       img: '/assets/landing-images/viewing.jpg',
       alt: 'Control access to your code in Acquia Cloud.',
-      text: 'Control which developers or teams have access to change different parts of your ' +
-      'application code base.'
+      text: 'Utilize Teams and Permissions, separating development concerns by pulling in work ' +
+      'completed by non-team members as a dependency.'
+      /**
+       * @todo MS-2575
+       *
+       * Add "Learn More" link that points to product docs that clarify the above feature statement.
+       * "For instance: another team is responsible for developing your Drupal site’s theme;
+       * that work can be included as part of the Pipelines configuration which removes the need to
+       * add those developers to your Cloud Subscription’s team."
+       */
     }
   ];
 

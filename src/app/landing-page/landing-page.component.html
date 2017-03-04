@@ -1,7 +1,9 @@
 <h1 class="page-title">Welcome to Pipelines</h1>
 <section id="landing-page" *ngIf="!loading">
-  <h2>Acquia Pipelines is a tool for developing, testing, and deploying websites or other applications to
-    Acquia Cloud. It enables you to</h2>
+  <h2>Acquia Pipelines allows Acquia Cloud users to continuously develop, test,
+ and deploy their applications, both ensuring code quality and exposing bugs or
+ build failures earlier in the development process. Using Acquia Pipelines
+ provides access to to the following features:</h2>
   <ul id="feature-list">
     <li *ngFor="let feature of features" id="feature-{{feature.name}}">
       <p class="feature-text">{{feature.text}}</p>

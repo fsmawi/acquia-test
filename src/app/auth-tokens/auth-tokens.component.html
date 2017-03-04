@@ -5,13 +5,12 @@
   </div>
 
   <h1 class="center">Log into Pipelines</h1>
-  <h2 class="gray center">via Single Sign On</h2>
 
   <br>
   <hr>
   <br>
 
-  <h3>Pipelines UI uses the same authentication that cloud.acquia.com uses.</h3>
+  <h3>Acquia Pipelines allows you to leverage Single Sign-on with Acquia Cloud.</h3>
 
   <section id="instructions" *ngIf="!loading">
     <h4>To sign in:</h4>
@@ -23,7 +22,7 @@
       <li>Refresh this page
         <e-svg-icon *ngIf="loggedIn" class="success" type="state__success--circle">check_circle</e-svg-icon>
       </li>
-      <li>Enter your application id</li>
+      <li>Enter your application ID (located at the end of your Acquia Cloud application’s URL - https://cloud.acquia.com/app/develop/applications/[application id]):</li>
     </ol>
   </section>
 

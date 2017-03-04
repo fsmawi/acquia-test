@@ -1,5 +1,5 @@
 <e-card *ngIf="!appLoading">
-  <e-card-header>Pipelines Github Connection Information</e-card-header>
+  <e-card-header>Connected repository information</e-card-header>
   <e-card-content>
     <a class="el-button" disabled>Connection Info</a>
     <a class="el-button el-button--primary" [routerLink]="['/jobs', appId]">View Jobs</a>
@@ -7,7 +7,7 @@
        appSegmentOn="click"
        [segmentEventData]="{appId: appId}"
        segmentEventIdentifier="ClickReAuthGithub">Re-Authorize</a>
-    <h3>Github</h3>
+    <h3>GitHub repository</h3>
 
     <e-data>
       <e-data-label>URL</e-data-label>
@@ -16,6 +16,10 @@
       </e-data-value>
     </e-data>
 
+    <!--
+      @todo: MS-2573 | Add metadata about the linked repository and rely on GitHub's
+      UI instruction for cloning the connected repository
+    -->
     <h4>Commands</h4>
     <p>Here are a few commands to get you started using any Git repository</p>
 

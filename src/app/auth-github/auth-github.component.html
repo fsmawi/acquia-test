@@ -1,21 +1,31 @@
 <h1>Pipelines</h1>
-<p>Pipelines Environments provide out-of-the-box, GitHub or Acquia git driven feature branch workflow support on Acquia
-  Cloud.</p>
+<p>Leveraging Acquia Pipelines with existing non-Acquia Git workflows allows developers to integrate testing and release
+ management for deployments to be made for Acquia Cloud-hosted applications.</p>
 
 <h2>Connect with Github</h2>
-<p>Attach a remote Github repository containing your build assets to enable automatic Pipelines builds with new commits
-  and pull requests.</p>
+<p>Link a remote GitHub repository that contains your project’s source files, which will generate a new Pipeline build
+ with each new commit and pull request.</p>
 <div class="github-connect" id="connect-app">
   <form id="auth-form" action="{{oauthUrl}}?applications={{appId}}" method="POST" target="_top">
     <input type="hidden" name="finish_url" value="{{finishUrl}}">
     <input type="hidden" name="n3_endpoint" value="{{n3Endpoint}}">
     <input type="hidden" name="applications" value="{{appId}}">
   </form>
-  <e-button text="Connect to Github" type="primary" (click)="authenticate()" [disabled]="authorized || formSubmited"></e-button>
-  <span *ngIf="authorized">Your github is connected</span>
+  <e-button text="Connect to Github"
+    type="primary"
+    (click)="authenticate()"
+    [disabled]="authorized || formSubmited"></e-button>
+  <span *ngIf="authorized">Your GitHub connection was successfully authorized</span>
+  <!--
+    @todo MS-2574 | Set this message as a page-level success message that appears at the top of the display.
+    This message would visually appear similar to the "build success" message that appears above the activity list.
+  -->
 </div>
 <div class="github-connect" *ngIf="authorized" id="select-repo">
-  <e-button text="Select Github repository" type="primary" (click)="selectRepository()" [disabled]="loading || appAttached"></e-button>
+  <e-button text="Select Github repository"
+    type="primary"
+    (click)="selectRepository()"
+    [disabled]="loading || appAttached"></e-button>
 </div>
 <div id="setting-up-pipelines-indicator" *ngIf="loading">
   <md-progress-bar mode="indeterminate" style="width: 80%; margin-left: 10%"></md-progress-bar>
