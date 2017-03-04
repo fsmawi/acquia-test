@@ -22,13 +22,12 @@
       <li>Refresh this page
         <e-svg-icon *ngIf="loggedIn" class="success" type="state__success--circle">check_circle</e-svg-icon>
       </li>
-      <li>Enter your application ID (located at the end of your Acquia Cloud application’s URL - https://cloud.acquia.com/app/develop/applications/[application id]):</li>
+      <li style="overflow:auto">Enter your application ID (located at the end of your Acquia Cloud application’s URL - https://cloud.acquia.com/app/develop/applications/[application id]):</li>
     </ol>
   </section>
 
   <form id="auth-token-form" (ngSubmit)="login()" #tokenForm="ngForm" *ngIf="!loading">
-    <input class="full-width" placeholder="Application ID" [(ngModel)]="appId" name="AppId" type="text" required
-           [disabled]="loading">
+    <input class="full-width" placeholder="Application ID" [(ngModel)]="appId" name="AppId" type="text" required [disabled]="loading">
     <div class="center">
       <button md-raised-button color="primary" type="submit">Sign In</button>
     </div>
