@@ -8,6 +8,7 @@ import {CoreModule} from './core/core.module';
 describe('AppComponent', () => {
   beforeEach(() => {
     global['analyticsMock'] = true;
+    global['envProdMock'] = true;
     global['analytics'] = {
       load: (key: string) => {
         return true;

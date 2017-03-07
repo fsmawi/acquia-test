@@ -33,6 +33,7 @@ export const environment = {
       UDFFieldname: ''
     }
   },
+  bugsnagAPIKey: '',
   amplitudeAPIKey: '',
   segmentWriteKey: '',
   authRedirect: ''
