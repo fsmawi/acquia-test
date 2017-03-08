@@ -14,30 +14,141 @@
          fxLayoutAlign="start start">
       <e-data class="flex-item"
               fxFlex="25%"
-              fxFlex.xs="50%">
-        <e-data-label>Branch</e-data-label>
+              fxFlex.xs="50%"
+              *ngIf="job.metadata">
+        <e-data-label>
+          <span class="pipelines-job-summary__dotted"
+                mdTooltip="The cloud environment where your code was deployed from this job.
+                This could be an ODE or a dedicated environment, such as staging or production"
+                mdTooltipPosition="right">
+            Environment
+          </span>
+        </e-data-label>
         <e-data-value>
-          {{job.branch}}
+          <a *ngIf="job.metadata.deployment_link" href="{{job.metadata.deployment_link}}" target="_blank">
+            {{job.metadata.deployment_name}}
+          </a>
+          {{job.metadata.deployment_link ? '' : (job.metadata.deployment_name ? job.metadata.deployment_name : '-')}}
+        </e-data-value>
+      </e-data>
+      <e-data class="flex-item"
+              fxFlex="25%"
+              fxFlex.xs="50%"
+              *ngIf="job.metadata && job.metadata.git_sha">
+        <e-data-label>
+          <span class="pipelines-job-summary__dotted"
+                mdTooltip="The commit reference from your git repo."
+                mdTooltipPosition="right">
+            Commit
+          </span>
+        </e-data-label>
+        <e-data-value>
+          <a *ngIf="job.metadata.commit_link" href="{{job.metadata.commit_link}}" target="_blank">
+            {{job.metadata.git_sha | slice:0:8}}
+          </a>
+          {{job.metadata.commit_link ? '' : job.metadata.git_sha | slice:0:8}}
         </e-data-value>
       </e-data>
       <e-data class="flex-item"
               fxFlex="25%"
               fxFlex.xs="50%">
-        <e-data-label>Commit</e-data-label>
-        <e-data-value>{{job.commit ? job.commit : 'Not available'}}</e-data-value>
-      </e-data>
-      <e-data class="flex-item"
-              fxFlex="25%"
-              fxFlex.xs="50%">
-        <e-data-label>Duration</e-data-label>
+        <e-data-label>
+          <span class="pipelines-job-summary__dotted"
+                            mdTooltip="How long the job ran for."
+                            mdTooltipPosition="right">
+            Duration
+          </span>
+        </e-data-label>
         <e-data-value *ngIf="job.isUnfinished">{{calculatedDuration}}</e-data-value>
         <e-data-value *ngIf="job.isFinished">{{job.duration | amDuration:'seconds'}}</e-data-value>
       </e-data>
       <e-data class="flex-item"
               fxFlex="25%"
               fxFlex.xs="50%">
-        <e-data-label>Started at</e-data-label>
+        <e-data-label>
+          <span class="pipelines-job-summary__dotted"
+                            mdTooltip="Date and time when the job started."
+                            mdTooltipPosition="right">
+            Started at
+          </span>
+        </e-data-label>
         <e-data-value>{{(job.started_at | amFromUnix) | amDateFormat:'MM/DD/YY hh:mmA'}}</e-data-value>
+      </e-data>
+      <e-data class="flex-item"
+              fxFlex="25%"
+              fxFlex.xs="50%">
+        <e-data-label>
+          <span class="pipelines-job-summary__dotted"
+                            mdTooltip="The event that started this job.
+                            A branch pull is a normal commit to a Pipelines enabled repo.
+                            A pull request event is when a pull request is made for a Pipelines enabled repo"
+                            mdTooltipPosition="right">
+            Trigger
+          </span>
+        </e-data-label>
+        <e-data-value>{{job.triggerMessage}}</e-data-value>
+      </e-data>
+      <e-data class="flex-item"
+              fxFlex="25%"
+              fxFlex.xs="50%"
+              *ngIf="job.isPullRequest && job.metadata">
+        <e-data-label>
+          <span class="pipelines-job-summary__dotted"
+                            mdTooltip="Link to the pull request that triggered this job."
+                            mdTooltipPosition="right">
+            Pull request
+          </span></e-data-label>
+        <e-data-value>
+          <a *ngIf="job.metadata.pull_request_link" href="{{job.metadata.pull_request_link}}" target="_blank">
+            {{job.metadata.pull_request}}
+          </a>
+          {{job.metadata.pull_request_link ? '' : job.metadata.pull_request}}
+        </e-data-value>
+      </e-data>
+      <e-data class="flex-item"
+              fxFlex="25%"
+              fxFlex.xs="50%"
+              *ngIf="!job.isPullRequest">
+        <e-data-label>
+          <span class="pipelines-job-summary__dotted"
+                            mdTooltip="Git branch that this job is for."
+                            mdTooltipPosition="right">
+            Branch
+          </span>
+        </e-data-label>
+        <e-data-value>
+          {{job.branch}}
+        </e-data-value>
+      </e-data>
+      <e-data class="flex-item"
+              fxFlex="25%"
+              fxFlex.xs="50%"
+              *ngIf="job.isPullRequest">
+        <e-data-label>
+          <span class="pipelines-job-summary__dotted"
+                mdTooltip="The branch in which this job is created."
+                mdTooltipPosition="right">
+            Source branch
+          </span>
+        </e-data-label>
+        <e-data-value>
+          {{job.metadata.source_branch}}
+        </e-data-value>
+      </e-data>
+      <e-data class="flex-item"
+              fxFlex="25%"
+              fxFlex.xs="50%"
+              *ngIf="job.isPullRequest">
+        <e-data-label>
+          <span class="pipelines-job-summary__dotted"
+                mdTooltip="The branch in which the source branch is merging with."
+                mdTooltipPosition="right">
+            Target branch
+          </span>
+        </e-data-label>
+        <e-data-value>
+          {{job.metadata.target_branch}}
+        </e-data-value>
       </e-data>
     </div>
   </e-card-content>

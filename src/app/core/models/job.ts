@@ -68,6 +68,16 @@ export class Job {
    */
   exit_message: string;
 
+  /**
+   * String specifying the trigger for the job eg. pull_request
+   */
+  trigger: string;
+
+  /**
+   * metadata of the job
+   */
+  metadata: any;
+
   /*
    * From https://github.com/acquia/pipeline/blob/master/lib/model/job.rb#L21
    STATUS_SUCCEEDED ||= 'succeeded'.freeze
@@ -196,6 +206,47 @@ export class Job {
         return false;
       default:
         return true;
+    }
+  }
+
+  /**
+   * Returns a user friendly message about the job trigger
+   * @returns {String}
+   */
+  get triggerMessage() {
+    switch (this.trigger) {
+      case 'pull_request':
+        return 'Pull request';
+      case 'push':
+        return 'Branch push';
+      case 'manual':
+        return 'Manual';
+      default:
+        return 'Manual';
+    }
+  }
+
+  /**
+   * Returns true if the job is triggered by a pull request
+   * @returns {String}
+   */
+  get isPullRequest() {
+    if (this.trigger === 'pull_request') {
+      return true;
+    }else {
+      return false;
+    }
+  }
+
+  /**
+   * Returns true if the job is triggered by a branch push
+   * @returns {String}
+   */
+  get isPush() {
+    if (this.trigger === 'push') {
+      return true;
+    }else {
+      return false;
     }
   }
 }

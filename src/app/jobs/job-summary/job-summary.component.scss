@@ -20,4 +20,9 @@
   background-color: $color-state-danger-1;
 }
 
+/deep/ .pipelines-job-summary__dotted {
+  border-bottom: 1px dashed $color-neutral-5;
+  text-decoration: none;
+}
+
 
