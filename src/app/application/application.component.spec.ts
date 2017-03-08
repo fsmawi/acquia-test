@@ -5,7 +5,7 @@ import {MaterialModule} from '@angular/material';
 import {BaseRequestOptions, Http, ResponseOptions, Response} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 import {RouterTestingModule} from '@angular/router/testing';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 import {ApplicationComponent} from './application.component';
 import {ErrorService} from '../core/services/error.service';
@@ -23,6 +23,10 @@ class MockFlashMessage {
   showError(message: string, e: any) {
     return true;
   }
+
+  showInfo(message: string, e: any = {}) {
+    return true;
+  }
 }
 
 function setupConnections(mockBackend: MockBackend, options: any) {
@@ -36,6 +40,18 @@ describe('ApplicationComponent', () => {
   let fixture: ComponentFixture<ApplicationComponent>;
 
   beforeEach(async(() => {
+    global['analyticsMock'] = true;
+    global['analytics'] = {
+      load: (key: string) => {
+        return true;
+      },
+      page: () => {
+        return true;
+      },
+      track: (eventName: string, eventData: Object) => {
+        return 'success';
+      }
+    };
     TestBed.configureTestingModule({
       declarations: [
         ApplicationComponent
@@ -60,8 +76,8 @@ describe('ApplicationComponent', () => {
       imports: [
         MaterialModule.forRoot(),
         ElementalModule,
-        RouterTestingModule,
-        SharedModule
+        SharedModule,
+        RouterTestingModule
       ]
     })
       .compileComponents();
@@ -80,23 +96,12 @@ describe('ApplicationComponent', () => {
   it('should get git info using pipeline service', fakeAsync(inject([ActivatedRoute, MockBackend], (route, mockBackend) => {
 
     setupConnections(mockBackend, {
-      body: JSON.stringify([{
-        repo_data: {
-          repos: [
-            {
-              name: 'acquia/repo1',
-              link: 'https://github.com/acquia/repo1',
-              type: 'github'
-            },
-            {
-              name: 'acquia/repo2',
-              link: 'https://github.com/acquia/repo2',
-              type: 'github'
-            }
-          ],
-          branches: 'test11,test12'
+      body: JSON.stringify({
+        'undefined': {
+          repo_url: 'https://github.com/acquia/repo1',
+          connected: true
         }
-      }])
+      })
     });
 
     component.getConfigurationInfo();
@@ -106,31 +111,17 @@ describe('ApplicationComponent', () => {
     expect(component.gitClone).toEqual('git clone --branch [branch] https://github.com/acquia/repo1 [destination]');
   })));
 
-  it('should show error when getting empty array from pipeline service',
-    fakeAsync(inject([ActivatedRoute, FlashMessageService, MockBackend], (route, flashMessage, mockBackend) => {
-
-      setupConnections(mockBackend, {
-        body: JSON.stringify([])
-      });
-
-      spyOn(flashMessage, 'showError');
-
-      component.getConfigurationInfo();
-      tick();
-      expect(flashMessage.showError).toHaveBeenCalledWith('Unable to find pipeline information for this application.');
-    })));
-
-  it('should show error when getting empty array from pipeline service',
+  it('should show a not connected alert when the repo is not connected',
     fakeAsync(inject([ActivatedRoute, FlashMessageService, MockBackend], (route, flashMessage, mockBackend) => {
 
       setupConnections(mockBackend, {
         body: JSON.stringify({})
       });
 
-      spyOn(flashMessage, 'showError');
+      spyOn(flashMessage, 'showInfo');
 
       component.getConfigurationInfo();
       tick();
-      expect(flashMessage.showError).toHaveBeenCalled();
+      expect(flashMessage.showInfo).toHaveBeenCalledWith('You are not connected yet');
     })));
 });

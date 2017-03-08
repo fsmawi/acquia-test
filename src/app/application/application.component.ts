@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { PipelinesService } from '../core/services/pipelines.service';
-import { ErrorService } from '../core/services/error.service';
-import { FlashMessageService } from '../core/services/flash-message.service';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+
+import {PipelinesService} from '../core/services/pipelines.service';
+import {ErrorService} from '../core/services/error.service';
+import {FlashMessageService} from '../core/services/flash-message.service';
+import {GithubStatus} from '../core/models/github-status';
 
 @Component({
   selector: 'app-application',
@@ -54,14 +56,16 @@ export class ApplicationComponent implements OnInit {
   appLoading = false;
 
   /**
-   * Build the components
+   * Build the component
    * @param route
+   * @param router
    * @param pipelines
    * @param errorHandler
    * @param flashMessage
    */
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private pipelines: PipelinesService,
     private errorHandler: ErrorService,
     private flashMessage: FlashMessageService) {
@@ -71,17 +75,18 @@ export class ApplicationComponent implements OnInit {
    * Get Configuration Information
    */
   getConfigurationInfo() {
-    this.pipelines.getPipelineByAppId(this.appId)
-      .then((res) => {
-        if (res.length === 0) {
-          this.flashMessage.showError('Unable to find pipeline information for this application.');
+    this.pipelines.getGithubStatus(this.appId)
+      .then((status: GithubStatus) => {
+        if (!status.connected) {
+          this.flashMessage.showInfo('You are not connected yet');
         } else {
-          this.gitUrl = res[0].repo_data.repos[0].link;
-          this.gitClone = 'git clone --branch [branch] ' + this.gitUrl + ' [destination]';
+          this.gitUrl = status.repo_url;
+          this.gitClone = `git clone --branch [branch] ${this.gitUrl} [destination]`;
         }
       })
-      .catch((e) => {
+      .catch(e => {
         this.errorHandler.apiError(e);
+        this.errorHandler.reportError(e, 'FailedGetGithubStatus', {}, 'error');
         this.flashMessage.showError('Unable to get your pipeline information for this application at this time.', e);
       })
       .then(() => this.appLoading = false);

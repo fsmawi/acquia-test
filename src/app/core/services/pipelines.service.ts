@@ -1,10 +1,13 @@
 import {Injectable} from '@angular/core';
 import {Http, RequestOptions, Headers, URLSearchParams} from '@angular/http';
-import {environment} from '../../../environments/environment';
+
 import 'rxjs/add/operator/toPromise';
+
+import {environment} from '../../../environments/environment';
 import {Job} from '../models/job';
 import {Pipeline} from '../models/pipeline';
 import {Repository} from '../models/repository';
+import {GithubStatus} from '../models/github-status';
 
 @Injectable()
 export class PipelinesService {
@@ -75,8 +78,18 @@ export class PipelinesService {
     return this.promiseGetRequest(this.URI + `/ci/pipelines`, {
       include_repo_data: 1,
       applications: [appId]
-    })
-      .then(r => r.map(p => new Pipeline(p)));
+    }).then(r => r.map(p => new Pipeline(p)));
+  }
+
+  /**
+   * Get the github status of an application
+   * @param appId
+   * @returns {Promise<GithubStatus>}
+   */
+  getGithubStatus(appId: string) {
+    return this.promiseGetRequest(this.URI + '/ci/github/status', {
+      applications: [appId]
+    }).then(r => new GithubStatus(appId, r));
   }
 
   /**
@@ -98,11 +111,12 @@ export class PipelinesService {
    * @param buildstepsPass
    * @returns {Promise<HttpResponse>}
    */
-  stopJob(appId: string,
-          jobId: string,
-          buildstepsEndpoint: string = undefined,
-          buildstepsUser: string = undefined,
-          buildstepsPass: string = undefined) {
+  stopJob(
+    appId: string,
+    jobId: string,
+    buildstepsEndpoint: string = undefined,
+    buildstepsUser: string = undefined,
+    buildstepsPass: string = undefined) {
     return this.promisePostRequest(this.URI + `/ci/jobs/${jobId}/terminate`, {
       applications: [appId],
       buildsteps_endpoint: buildstepsEndpoint,

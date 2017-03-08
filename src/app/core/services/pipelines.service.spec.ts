@@ -1,11 +1,11 @@
 /* tslint:disable:no-unused-variable */
 
 import {TestBed, async, inject} from '@angular/core/testing';
-import {PipelinesService} from './pipelines.service';
 import {HttpModule, BaseRequestOptions, Http, ResponseOptions, Response} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
-import {Pipeline} from '../models/pipeline';
 
+import {PipelinesService} from './pipelines.service';
+import {Pipeline} from '../models/pipeline';
 
 describe('PipelinesService', () => {
   beforeEach(() => {
@@ -32,7 +32,7 @@ describe('PipelinesService', () => {
     });
   }
 
-  it('should ...', inject([PipelinesService], (service: PipelinesService) => {
+  it('should create the service', inject([PipelinesService], (service: PipelinesService) => {
     expect(service).toBeTruthy();
   }));
 
@@ -48,7 +48,7 @@ describe('PipelinesService', () => {
   }));
 
   it('should attach a Github repository', inject([PipelinesService, MockBackend], (service: PipelinesService, mockBackend: MockBackend) => {
-     setupConnections(mockBackend, {
+    setupConnections(mockBackend, {
       body: JSON.stringify({
         success: true,
         deploy_key_url: 'key_url',
@@ -65,30 +65,47 @@ describe('PipelinesService', () => {
 
   it('should get pipelines given an application ID',
     inject([PipelinesService, MockBackend], (service: PipelinesService, mockBackend: MockBackend) => {
-     const pipeline = new Pipeline({
-      repo_data: {
-        repos: [
-          {
-            name: 'acquia/repo1',
-            link: 'https://github.com/acquia/repo1',
-            type: 'github'
-          },
-          {
-            name: 'acquia/repo2',
-            link: 'https://github.com/acquia/repo2',
-            type: 'github'
+      const pipeline = new Pipeline({
+        repo_data: {
+          repos: [
+            {
+              name: 'acquia/repo1',
+              link: 'https://github.com/acquia/repo1',
+              type: 'github'
+            },
+            {
+              name: 'acquia/repo2',
+              link: 'https://github.com/acquia/repo2',
+              type: 'github'
+            }
+          ],
+          branches: 'test11,test12'
+        }
+      });
+
+      setupConnections(mockBackend, {
+        body: JSON.stringify([pipeline])
+      });
+
+      service.getPipelineByAppId('someAppId').then(res => {
+        expect(res.repo_data.repos[2].link).toEqual('https://github.com/acquia/repo2');
+      });
+    }));
+
+  it('should get the github connection status for a given application ID',
+    inject([PipelinesService, MockBackend], (service: PipelinesService, mockBackend: MockBackend) => {
+      setupConnections(mockBackend, {
+        body: {
+          someAppId: {
+            connected: true,
+            repo_url: 'someurl'
           }
-        ],
-        branches: 'test11,test12'
-      }
-    });
+        }
+      });
 
-    setupConnections(mockBackend, {
-      body: JSON.stringify([pipeline])
-    });
-
-    service.getPipelineByAppId('someAppId').then(res => {
-      expect(res.url).toEqual('https://github/name/repo');
-    });
-  }));
+      service.getGithubStatus('app-id').then(res => {
+        expect(res.connected).toBe(true);
+        expect(res.repo_url).toBe('someurl');
+      });
+    }));
 });
