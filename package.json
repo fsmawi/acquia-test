@@ -21,7 +21,8 @@
     "integration:acceptance": "mocha test/integration --recursive",
     "pipelines:build:master": "ng build --aot --env=live-mock --output-path=/tmp/build",
     "pipelines:build:staging": "ng build --aot --env=live-mock --output-path=/tmp/build",
-    "pipelines:build:production": "ng build --prod --aot --progress --output-path=/tmp/build"
+    "pipelines:build:production": "ng build --prod --aot --progress --output-path=/tmp/build",
+	  "changelog": "standard-version --first-release"
   },
   "private": true,
   "dependencies": {
@@ -76,7 +77,8 @@
     "supertest": "^3.0.0",
     "ts-node": "1.2.1",
     "tslint": "^4.3.0",
-    "typescript": "~2.0.3"
+    "typescript": "~2.0.3",
+	  "standard-version": "2.2.1"
   },
   "config": {
     "commitizen": {
