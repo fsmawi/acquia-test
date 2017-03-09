@@ -35,13 +35,22 @@
       <!--<md-icon color="primary">refresh</md-icon>-->
       <!--</button>-->
 
+      <a *ngIf="job.isFinished && job.metadata && job.metadata.deployment_link"
+         href="{{job.metadata.deployment_link}}" target="_blank">
+        <e-svg-icon class="primary" type="alpha__globe"
+                    *ngIf="job.isFinished && job.metadata && job.metadata.deployment_link"
+                    mdTooltip="Open Environment"
+                    style="cursor:pointer"
+                    mdTooltipPosition="left">
+        </e-svg-icon>
+      </a>
+
       <e-svg-icon class="danger" type="actions__close--circle"
                   *ngIf="job.isUnfinished" (click)="stopJob(job)"
                   mdTooltip="Terminate Job"
                   style="cursor:pointer"
                   mdTooltipPosition="left">
       </e-svg-icon>
-
     </td>
   </tr>
   </tbody>

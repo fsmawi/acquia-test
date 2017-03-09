@@ -1,3 +1,4 @@
+@import "./assets/scss/elemental-core";
 @import '~@angular/material/core/theming/all-theme';
 // Plus imports for other components in your app.
 
@@ -59,6 +60,21 @@ md-spinner[color="danger"] {
   }
 }
 
+// !important is required to override the angular material tooltip default css properties
+.md-tooltip {
+  height: auto !important;
+  padding: 0.375rem 0.75rem !important;
+  font-size: 0.8125rem !important;
+  line-height: 1.3em !important;
+  border-radius: 4px !important;
+  background-color: $color-neutral-12;
+  color: #ffffff;
+  text-shadow: none;
+  white-space: normal;
+  z-index: 1000;
+  max-width: px-to-relative(300px);
+}
+
 // Theme Helper styles
 
 .bg-danger {
@@ -103,7 +119,9 @@ md-spinner[color="danger"] {
 
 .primary {
   color: md-color($elemental-primary, A400);
-  fill: md-color($elemental-primary, A400);
+  svg {
+    fill: md-color($elemental-primary, A400);
+  }
 }
 
 // Basic helper styles

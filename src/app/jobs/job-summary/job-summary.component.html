@@ -25,10 +25,17 @@
           </span>
         </e-data-label>
         <e-data-value>
-          <a *ngIf="job.metadata.deployment_link" href="{{job.metadata.deployment_link}}" target="_blank">
+          <a *ngIf="job.isFinished && job.metadata.deployment_link"
+             href="{{job.metadata.deployment_link}}" target="_blank">
+            <e-svg-icon class="primary" type="alpha__globe"
+                        size="small"
+                        *ngIf="job.metadata && job.metadata.deployment_link"
+                        style="cursor:pointer">
+            </e-svg-icon>
             {{job.metadata.deployment_name}}
           </a>
-          {{job.metadata.deployment_link ? '' : (job.metadata.deployment_name ? job.metadata.deployment_name : '-')}}
+          {{job.isUnfinished ? '-' :
+          (job.metadata.deployment_link ? '' : (job.metadata.deployment_name ? job.metadata.deployment_name : '-'))}}
         </e-data-value>
       </e-data>
       <e-data class="flex-item"
