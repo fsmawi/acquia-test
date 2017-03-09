@@ -1,3 +1,4 @@
+@import "../../assets/scss/elemental-core.scss";
 :host {
   position: absolute;
   width: 100%;
@@ -27,8 +28,9 @@ md-card {
 }
 
 #config-link {
-  float: right;
-  margin-bottom: 10px;
+  position: absolute;
+  right: px-to-relative(24px);
+  top: px-to-relative(32px);
 }
 
 app-job-summary /deep/ section,

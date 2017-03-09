@@ -1,12 +1,12 @@
+<h1 class="page-title">Application Information</h1>
+<a class="el-button el-button--primary" [routerLink]="['/jobs', appId]">View Jobs</a>
+<a class="el-button el-button--primary" [routerLink]="['/auth/github', appId]"
+   appSegmentOn="click"
+   [segmentEventData]="{appId: appId}"
+   segmentEventIdentifier="ClickReAuthGithub">Re-Authorize</a>
 <e-card *ngIf="!appLoading">
   <e-card-header>Connected repository information</e-card-header>
   <e-card-content>
-    <a class="el-button" disabled>Connection Info</a>
-    <a class="el-button el-button--primary" [routerLink]="['/jobs', appId]">View Jobs</a>
-    <a class="el-button el-button--primary" [routerLink]="['/auth/github', appId]"
-       appSegmentOn="click"
-       [segmentEventData]="{appId: appId}"
-       segmentEventIdentifier="ClickReAuthGithub">Re-Authorize</a>
     <h3>GitHub repository</h3>
 
     <e-data>
