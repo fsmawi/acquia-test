@@ -26,6 +26,15 @@ Set the following option and run npm install again...
 Run `npm start` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 You will also have to start a [mock API using merver](https://github.com/raghunat/merver): `npm run mock:jobs` for example, or `npm run mock <path to merver yml>`.
 
+### Development web sockets
+In addition to the above, to simulate a successful websocket flow for job logs, run these 3 processes:
+
+ 1. `npm run mock:websocket`
+ 2. `npm run mock -- test/api-mock-resources/stream-logs.yml`
+ 3. `npm start`
+ 
+Note: Due to the nature of the mock server, you will need to restart it to get the job to say it is in progress again.
+
 ### Code scaffolding
 
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive/pipe/service/class/module`.

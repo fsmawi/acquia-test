@@ -1,0 +1,63 @@
+---
+routes:
+  /api/v1/auth/bakery:
+      GET:
+        response:
+          authenticated: true
+  /api/v1/ci/jobs:
+    GET:
+      response:
+        -
+          branch: master
+          commit: ~
+          duration: 1462297583
+          exit_message: ~
+          finished_at: 1462297582
+          job_id: 2cb7d930-7da3-480c-82de-db719d50f0d9
+          output: {}
+          pipeline_id: a40ab6a5-6b30-40e7-abc7-5a7695499f44
+          requested_at: 1462297477
+          requested_by: admin@example.com
+          sitename: "enterprise-g1:sfwiptravis"
+          started_at: 0
+          status: running
+  /api/v1/ci/jobs/2cb7d930-7da3-480c-82de-db719d50f0d9:
+    GET:
+      responses:
+        -
+          response:
+            branch: master
+            commit: ~
+            duration: 1462297583
+            exit_message: ~
+            finished_at: 1462297582
+            job_id: 2cb7d930-7da3-480c-82de-db719d50f0d9
+            output: {}
+            pipeline_id: a40ab6a5-6b30-40e7-abc7-5a7695499f44
+            requested_at: 1462297477
+            requested_by: admin@example.com
+            sitename: "enterprise-g1:sfwiptravis"
+            started_at: 0
+            status: running
+            metadata:
+              log_stream_websocket: ws://localhost:8080
+              log_stream_secret: pen-pinapple_apple-pen
+        -
+          response:
+            branch: master
+            commit: ~
+            duration: 1462297583
+            exit_message: ~
+            finished_at: 1462297582
+            job_id: 2cb7d930-7da3-480c-82de-db719d50f0d9
+            output: {}
+            pipeline_id: a40ab6a5-6b30-40e7-abc7-5a7695499f44
+            requested_at: 1462297477
+            requested_by: admin@example.com
+            sitename: "enterprise-g1:sfwiptravis"
+            started_at: 0
+            status: succeeded
+            metadata:
+              log_stream_websocket: ws://localhost:8080
+              log_stream_secret: pen-pinapple_apple-pen
+

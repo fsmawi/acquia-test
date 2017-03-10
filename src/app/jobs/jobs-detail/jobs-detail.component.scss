@@ -12,35 +12,22 @@
   overflow: scroll;
 }
 
-.logs {
+#log-info, .logs {
   overflow: auto;
-  font-size: 14px;
+  font-size: $text-size-small;
+  min-height: 65vh;
+  padding: $rhythm-unit;
 }
 
 pre {
   margin: 0;
-  li {
-    list-style: none;
-  }
+  padding: 0;
+  border: none;
 }
 
 .empty {
   height: 65vh;
-  padding: 24px;
-}
-
-.logs-empty-text {
-  text-align: center;
-}
-
-.details-empty-text {
-  text-align: center;
-  margin: 8px;
-}
-
-.header {
-  font-size: smaller;
-  font-style: italic;
+  padding: px-to-relative(24px);
 }
 
 .value {
@@ -59,6 +46,21 @@ pre {
 
 #config-link {
   position: absolute;
-  right: 24px;
-  top: 32px;
+  right: px-to-relative(24px);
+  top: px-to-relative(32px);
+}
+
+#logs {
+  & /deep/ .el-card__content {
+    background-color: $color-neutral-12;
+    padding: 0;
+  }
+}
+
+#log-loader {
+  display: block;
+  float: right;
+  position: relative;
+  right: px-to-relative(18px);
+  bottom: px-to-relative(-10px);
 }

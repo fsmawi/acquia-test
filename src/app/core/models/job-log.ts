@@ -3,9 +3,9 @@
  */
 export class JobLog {
   /**
-   * Datetime String
+   * Datetime unix int
    */
-  timeline: string;
+  timestamp: number;
 
   /**
    * Level of the log event: info, error, warn, etc

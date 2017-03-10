@@ -17,6 +17,7 @@ import {ErrorService} from './services/error.service';
 import {FlashMessageComponent} from './components/flash-message/flash-message.component';
 import {FlashMessageService} from './services/flash-message.service';
 import {LocalStorageService} from './services/local-storage.service';
+import {WebSocketService} from './services/web-socket.service';
 import {N3Service} from './services/n3.service';
 import {PipelinesService} from './services/pipelines.service';
 import {StorageService} from './services/storage.service';
@@ -39,7 +40,8 @@ import {StorageService} from './services/storage.service';
     BugsnagService,
     ConfirmationModalService,
     LocalStorageService,
-    SegmentService
+    SegmentService,
+    WebSocketService
   ],
   declarations: [FlashMessageComponent, ConfirmationModalComponent],
   exports: [FlashMessageComponent, ConfirmationModalComponent],

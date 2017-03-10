@@ -11,6 +11,7 @@
     "test": "ng test --watch=false",
     "build:server": "cp -r server/ dist/server && cp -r environments/vendor dist/server/vendor",
     "mock": "merver",
+    "mock:websocket": "node scripts/mock-websocket.js",
     "mock:jobs": "merver test/api-mock-resources/jobs.yml",
     "mock:no-jobs": "merver test/api-mock-resources/no-jobs.yml",
     "coverage": "ng test --code-coverage --watch=false",
@@ -78,7 +79,8 @@
     "ts-node": "1.2.1",
     "tslint": "^4.3.0",
     "typescript": "~2.0.3",
-	"standard-version": "2.2.1"
+    "ws": "^2.2.0",
+    "standard-version": "2.2.1"
   },
   "config": {
     "commitizen": {

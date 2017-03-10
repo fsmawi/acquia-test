@@ -74,7 +74,7 @@ export class Job {
   trigger: string;
 
   /**
-   * metadata of the job
+   * A generic object field for storing information from jobs
    */
   metadata: any;
 
@@ -233,7 +233,7 @@ export class Job {
   get isPullRequest() {
     if (this.trigger === 'pull_request') {
       return true;
-    }else {
+    } else {
       return false;
     }
   }
@@ -245,7 +245,7 @@ export class Job {
   get isPush() {
     if (this.trigger === 'push') {
       return true;
-    }else {
+    } else {
       return false;
     }
   }

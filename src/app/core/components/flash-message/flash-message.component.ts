@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FlashMessageService } from '../../services/flash-message.service';
+import {Component, OnInit} from '@angular/core';
+import {FlashMessageService} from '../../services/flash-message.service';
 
 @Component({
   selector: 'app-flash-message',
@@ -30,7 +30,7 @@ export class FlashMessageComponent implements OnInit {
    * Timer
    * @type {Number}
    */
-  timer = 5000;
+  timer = 10000;
 
   /**
    * Details
