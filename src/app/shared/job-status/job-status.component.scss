@@ -1,3 +1,5 @@
+@import "../../../assets/scss/elemental-core.scss";
+
 :host {
   display: inline-block;
 }
@@ -10,4 +12,12 @@
   display: inline-block;
   width: 24px;
   height: 24px;
+}
+
+/deep/ .el-iconography.terminating svg {
+  fill: $color-state-warning-8;
+}
+
+/deep/ .el-iconography.terminated svg {
+  fill: $color-neutral-7;
 }

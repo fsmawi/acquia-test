@@ -2,9 +2,10 @@
   <e-svg-icon *ngSwitchCase="'succeeded'" class="success" type="state__success--circle">check_circle</e-svg-icon>
   <e-svg-icon *ngSwitchCase="'warning'" class="warning" type="state__warning">warning</e-svg-icon>
   <md-icon *ngSwitchCase="'queued'" class="primary">timer</md-icon>
-  <md-spinner class="status-spinner" *ngSwitchCase="'starting'" color="primary"></md-spinner>
-  <md-spinner class="status-spinner" *ngSwitchCase="'started'" color="primary"></md-spinner>
-  <e-progress progressType="indeterminate" progressVariant="arrows" *ngSwitchCase="'running'"></e-progress>
-  <md-spinner class="status-spinner" *ngSwitchCase="'terminating'" color="danger"></md-spinner>
+  <md-spinner *ngSwitchCase="'starting'" class="status-spinner" color="primary"></md-spinner>
+  <md-spinner *ngSwitchCase="'started'" class="status-spinner" color="primary"></md-spinner>
+  <e-progress *ngSwitchCase="'running'" progressType="indeterminate" progressVariant="arrows"></e-progress>
+  <e-svg-icon *ngSwitchCase="'terminating'" class="terminating" type="state__alert">alert</e-svg-icon>
+  <e-svg-icon *ngSwitchCase="'terminated'" class="terminated" type="state__alert">alert</e-svg-icon>
   <e-svg-icon *ngSwitchDefault class="danger" type="state__danger">remove_circle</e-svg-icon>
 </div>

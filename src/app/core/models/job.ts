@@ -117,7 +117,7 @@ export class Job {
       case 'terminating':
         return 'Job is terminating';
       case 'terminated':
-        return 'Job has been terminated';
+        return 'Job has been terminated manually';
       case 'failed_by_user':
         return 'Failed by user';
       case 'starting':
