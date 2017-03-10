@@ -2,6 +2,7 @@
 import {async, ComponentFixture, TestBed, inject, fakeAsync, tick, discardPeriodicTasks} from '@angular/core/testing';
 import {By} from '@angular/platform-browser';
 import {DebugElement} from '@angular/core';
+import {MdDialog} from '@angular/material';
 
 import {JobsComponent} from './jobs.component';
 import {MaterialModule} from '@angular/material';
@@ -15,7 +16,6 @@ import {JobListComponent} from './job-list/job-list.component';
 import {JobSummaryComponent} from './job-summary/job-summary.component';
 import {Job} from '../core/models/job';
 import {CoreModule} from '../core/core.module';
-
 
 class MockPipelinesService {
 
@@ -48,6 +48,11 @@ class MockPipelinesService {
   }
 }
 
+class MockMdDialog {
+  open(component: any) {
+    return true;
+  }
+}
 
 describe('JobsComponent', () => {
   let component: JobsComponent;
@@ -58,6 +63,7 @@ describe('JobsComponent', () => {
       declarations: [JobsComponent, JobListComponent, JobSummaryComponent],
       providers: [
         { provide: PipelinesService, useClass: MockPipelinesService },
+        { provide: MdDialog, useClass: MockMdDialog },
         ErrorService],
       imports: [MaterialModule.forRoot(), RouterTestingModule, CoreModule,
         MomentModule, SharedModule, ElementalModule]
@@ -94,4 +100,9 @@ describe('JobsComponent', () => {
     expect(compiled.querySelector('h4 span').innerText).toEqual('Activity');
   })));*/
 
+  it('should open modal',  inject([MdDialog], (dialog) => {
+    spyOn(dialog, 'open');
+    component.startJob();
+    expect(dialog.open).toHaveBeenCalled();
+  }));
 });

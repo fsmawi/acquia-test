@@ -1,0 +1,25 @@
+<e-card>
+  <e-card-header>How to start a job</e-card-header>
+  <e-card-content>
+    <p>Completing any of the following actions will start your build job:</p>
+    <ul>
+      <li>Add a file to a repository.</li>
+      <li>Create a branch in your repository.</li>
+      <li>Create a pull request.</li>
+      <li>Run the pipelines start command -
+      <a appSegmentOn="click"
+         [segmentEventData]="{appId: appId}"
+         segmentEventIdentifier="ClickLearnMoreAboutCli"
+         href="https://docs.acquia.com/pipelines/client#start" target="_blank">Learn more.</a></li>
+    </ul>
+    <p>
+      <a appSegmentOn="click"
+         [segmentEventData]="{appId: appId}"
+         segmentEventIdentifier="ClickLearnMoreAboutGit"
+         href="https://docs.acquia.com/acquia-cloud/develop/repository/git" target="_blank">Learn more about using Git.</a>
+    </p>
+  </e-card-content>
+  <e-card-footer>
+    <e-button text="Close" type="link" (click)="dialogRef.close()"></e-button>
+  </e-card-footer>
+</e-card>

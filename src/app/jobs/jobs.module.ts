@@ -1,15 +1,17 @@
-import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {JobsRoutingModule} from './jobs-routing.module';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {MaterialModule} from '@angular/material';
+import {NgModule} from '@angular/core';
+
+import {ElementalModule} from '../elemental/elemental.module';
+import {JobListComponent} from './job-list/job-list.component';
 import {JobsComponent} from './jobs.component';
 import {JobsDetailComponent} from './jobs-detail/jobs-detail.component';
-import {MaterialModule} from '@angular/material';
-import {MomentModule} from 'angular2-moment';
-import {JobListComponent} from './job-list/job-list.component';
-import {SharedModule} from '../shared/shared.module';
-import {FlexLayoutModule} from '@angular/flex-layout';
-import {ElementalModule} from '../elemental/elemental.module';
 import {JobSummaryComponent} from './job-summary/job-summary.component';
+import {JobsRoutingModule} from './jobs-routing.module';
+import {MomentModule} from 'angular2-moment';
+import {SharedModule} from '../shared/shared.module';
+import {StartJobComponent} from './start-job/start-job.component';
 
 @NgModule({
   imports: [
@@ -21,7 +23,14 @@ import {JobSummaryComponent} from './job-summary/job-summary.component';
     SharedModule,
     ElementalModule
   ],
-  declarations: [JobsComponent, JobsDetailComponent, JobListComponent, JobSummaryComponent]
+  declarations: [
+    JobsComponent,
+    JobsDetailComponent,
+    JobListComponent,
+    JobSummaryComponent,
+    StartJobComponent
+  ],
+  entryComponents: [StartJobComponent]
 })
 export class JobsModule {
 }

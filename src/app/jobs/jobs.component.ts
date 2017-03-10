@@ -1,10 +1,12 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
+import {Component, OnInit, OnDestroy} from '@angular/core';
+import {MdDialog, MdDialogRef} from '@angular/material';
 
-import {PipelinesService} from '../core/services/pipelines.service';
 import {ErrorService} from '../core/services/error.service';
 import {Job} from '../core/models/job';
+import {PipelinesService} from '../core/services/pipelines.service';
 import {SegmentService} from '../core/services/segment.service';
+import {StartJobComponent} from './start-job/start-job.component';
 
 @Component({
   selector: 'app-jobs',
@@ -51,12 +53,26 @@ export class JobsComponent implements OnInit, OnDestroy {
    * @param errorHandler
    * @param route
    * @param segment
+   * @param dialog
    */
   constructor(
     private pipelines: PipelinesService,
     private errorHandler: ErrorService,
     private route: ActivatedRoute,
-    private segment: SegmentService) {
+    private segment: SegmentService,
+    private dialog: MdDialog) {
+  }
+
+  /**
+   * Open Dialog to informs the user about the different
+   * ways how to start a Pipelines job
+   */
+  startJob() {
+    let dialogRef: MdDialogRef<StartJobComponent>;
+    dialogRef = this.dialog.open(StartJobComponent);
+
+    // Track button click
+    this.segment.trackEvent('ClickStartJobButton', {appId: this.appId});
   }
 
   /**

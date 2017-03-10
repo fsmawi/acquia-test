@@ -1,8 +1,12 @@
 <div *ngIf="isInitialized">
+
   <h1 class="page-title">Job List</h1>
 
-  <a id="config-link" routerLink="/application/{{appId}}">View Connection Info</a>
+  <e-button text="Start Job"
+  type="primary"
+  (click)="startJob()"></e-button>
 
+  <a id="config-link" routerLink="/application/{{appId}}">View Connection Info</a>
   <app-job-summary *ngIf="lastJob && appId" [isProgressBarRequired]="false" [appId]="appId" [job]="lastJob"></app-job-summary>
 
   <e-card *ngIf="isInitialized">
