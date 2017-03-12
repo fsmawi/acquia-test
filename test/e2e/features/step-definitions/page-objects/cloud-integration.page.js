@@ -9,8 +9,8 @@ let CloudIntegrationPage = Object.create(page, {
    */
   assertPipelinesIframe: {
     value: function (pipelinesIframeSelector) {
-      return this.browser._exists(pipelinesIframeSelector, { timeout: 10000 });
-    }
+      return this.browser._exists(pipelinesIframeSelector, {timeout: 10000});
+    },
   },
 
   /**
@@ -24,10 +24,10 @@ let CloudIntegrationPage = Object.create(page, {
       return this.browser
         ._switchFrame(iframeIdentifier)
         .then(() => {
-          return this.browser._exists(jobsListIdentifier, { timeout: 10000 });
+          return this.browser._exists(jobsListIdentifier, {timeout: 10000});
         });
-    }
-  }
-
+    },
+  },
 });
+
 module.exports = CloudIntegrationPage;

@@ -9,6 +9,6 @@ module.exports = {
           '58bb63dd-57db-4d50-9a49-6b60d5921d14/pipelines',
   'woody': 'qa.woodypride@acquia.com',
   'login': '#edit-submit-user-login',
-  'iframe' : 'iframe',
-  'jobs' : 'app-jobs'
+  'iframe': 'iframe',
+  'jobs': 'app-jobs',
 };

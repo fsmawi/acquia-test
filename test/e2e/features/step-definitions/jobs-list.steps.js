@@ -34,10 +34,9 @@ module.exports = function () {
     return jobsListPage.clickJobLinkByStatus('timer');
   });
 
-  this.When(/^I click on any job id in the "([^"]*)" column from the list of jobs displayed$/, function (buildHeader) {
-    return jobsListPage.clickRandomJobId();
+  this.When(/^I click on the first job id in the "([^"]*)" column from the list of jobs displayed$/, function (buildHeader) {
+    return jobsListPage.clickFirstJobId();
   });
-
 
   this.When(/^I click on the \|(.*?)\| in the alert$/, function (jobLinkSelector) {
     boostrap(this.browser);
@@ -56,7 +55,7 @@ module.exports = function () {
   });
 
   this.Then(/^I should see the appropriate headers for the activity card$/, function () {
-    expectedActivityCardHeaders = ['Status', 'Build', 'Branch', 'Commit', 'Duration', 'Completed', 'Actions'];
+    expectedActivityCardHeaders = ['Status', 'Job', 'Branch', 'Commit', 'Duration', 'Completed', 'Actions'];
     let selector = 'section[class="el-card__body"]';
 
     boostrap(this.browser);

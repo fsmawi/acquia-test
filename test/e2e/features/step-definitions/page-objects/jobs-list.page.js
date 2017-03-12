@@ -159,6 +159,15 @@ let JobsListPage = Object.create(page, {
   },
 
   /**
+   * click on the first jobId link
+   */
+  clickFirstJobId: {
+    value: function () {
+      return this.clickJobLinkInBuildHeader(1);
+    },
+  },
+
+  /**
    * @param {String} statusIcon identifier
    * @param {String} messageHasText job status message partial text
    * @return {AssertionError} on failure
@@ -238,11 +247,11 @@ let JobsListPage = Object.create(page, {
   assertSummaryTableData: {
     value: function () {
       let details;
-      return this.getSummaryTableJobDetails().then((summaryTableJobDetails) => {
+      return this.getSummaryTableJobId().then((summaryTableJobDetails) => {
         details = summaryTableJobDetails;
         return this.getLastRunJobDetails()
           .then((expectedJobDetails) => {
-            expect(expectedJobDetails.slice(2, 4)).to.deep.equal(details.slice(0, 2));
+            expect(expectedJobDetails.slice(1, 2)).to.deep.equal(details);
           });
       });
     },
@@ -268,6 +277,15 @@ let JobsListPage = Object.create(page, {
     value: function () {
       return this.browser.execute(function () {
         return document.querySelectorAll('.el-data__value');
+      }).then((res) => Promise.all(res.value.map((r) => this.browser.elementIdText(r.ELEMENT))))
+        .then((elems) => elems.map((e) => e.value));
+    },
+  },
+
+  getSummaryTableJobId: {
+    value: function () {
+      return this.browser.execute(function () {
+        return document.querySelectorAll('e-card section div.job__info a');
       }).then((res) => Promise.all(res.value.map((r) => this.browser.elementIdText(r.ELEMENT))))
         .then((elems) => elems.map((e) => e.value));
     },

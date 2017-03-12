@@ -151,18 +151,18 @@ exports.bootstrap = function (browser) {
   /**
    * @param {String} selector
    * Find the iframe with given selector and switch the frame
+   * @return {Promise}
    */
   browser._switchFrame = function (selector) {
     return browser.element(selector)
-      .then(el => {
+      .then((el) => {
         return browser.frame(el.value);
       })
-      .catch(e => {
+      .catch((e) => {
         return screenshot(createTimeName('switchFrame-error', selector))
           .then(() => Promise.reject(e));
       });
-
-  }
+  };
 
   browser._frameworkAttached = true;
   return browser;

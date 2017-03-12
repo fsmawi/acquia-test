@@ -3,7 +3,6 @@ let cloudIntegrationPage = require('./page-objects/cloud-integration.page');
 let page = require('./page-objects/page');
 
 module.exports = function () {
-
   this.Then(/^I should be shown pipelines app in an \|(.*?)\|$/, function (iframeIdentifier) {
     boostrap(this.browser);
     return cloudIntegrationPage.assertPipelinesIframe(page.getDynamicValue(iframeIdentifier));
@@ -14,5 +13,4 @@ module.exports = function () {
     return cloudIntegrationPage.assertJobsList(
       page.getDynamicValue(iframeIdentifier), page.getDynamicValue(jobsListIdentifier));
   });
-
 };

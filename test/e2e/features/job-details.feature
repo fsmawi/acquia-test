@@ -30,14 +30,14 @@ Feature: Pipelines Job Details
   @JobDetail_AlertSummary
   Scenario: Check the status of the job is displayed as an alert
     When on the |*jobs-list| page
-    And I click on any job id in the "Build" column from the list of jobs displayed
+    And I click on the first job id in the "Build" column from the list of jobs displayed
     And I should navigate to the |*job-detail| page
     Then I can see an alert showing the status of the job and message
 
   @JobDetail_BackButton
   Scenario: Check the 'Jobs' link is displayed and it links to jobs-list page
     When on the |*jobs-list| page
-    And I click on any job id in the "Build" column from the list of jobs displayed
+    And I click on the first job id in the "Build" column from the list of jobs displayed
     And I should navigate to the |*job-detail| page
     And I click on the |*jobs| link
     Then I should see the |app-jobs| list
@@ -46,7 +46,7 @@ Feature: Pipelines Job Details
   @JobDetail_CheckSummaryInfo
   Scenario: Check the Job details are displayed
     When on the |*jobs-list| page
-    And I click on any job id in the "Build" column from the list of jobs displayed
+    And I click on the first job id in the "Build" column from the list of jobs displayed
     Then I should see the details of the job
 
   @JobDetail_CheckLogs
