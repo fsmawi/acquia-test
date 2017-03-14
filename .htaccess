@@ -77,9 +77,9 @@ DirectoryIndex index.php
   ExpiresActive On
 
   # Cache all files for 2 weeks after access (A).
-  # ExpiresDefault A1209600
-  # For now, no caching.
-  ExpiresDefault A0
+  ExpiresDefault A1209600
+  # To Disable Cache
+  # ExpiresDefault A0
 
   <FilesMatch \.php$>
     # Never cache PHP scripts.
