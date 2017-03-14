@@ -6,7 +6,7 @@
 module.exports = {
   // feature scope
   'cloud-pipelines-url': 'https://cloud.acquia.com/app/develop/applications/' +
-          '58bb63dd-57db-4d50-9a49-6b60d5921d14/pipelines',
+          'fbcd8f1f-4620-4bd6-9b60-f8d9d0f74fd0/pipelines',
   'woody': 'qa.woodypride@acquia.com',
   'login': '#edit-submit-user-login',
   'iframe': 'iframe',

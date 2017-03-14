@@ -8,7 +8,7 @@ module.exports = {
   'pipelines-url': 'https://Acquia:pipelines2017@pipelines.acquia.com',
   'pipelines-unauthenticated-url': 'https://Acquia:pipelines2017@pipelines.acquia.com/auth/tokens',
   'woody': 'qa.woodypride@acquia.com',
-  'woody-app': '58bb63dd-57db-4d50-9a49-6b60d5921d14',
+  'woody-app': 'fbcd8f1f-4620-4bd6-9b60-f8d9d0f74fd0',
   'sign-in': 'button.md-primary',
   'login': '#edit-submit-user-login',
   'app-input': '[name="AppId"]',
