@@ -52,7 +52,7 @@ export class PipelinesService {
    * @param application
    */
   attachGithubRepository(repositoy: string, application: string) {
-    return this.promisePostRequest(this.URI + `2/ci/github/init`, {
+    return this.promisePostRequest(this.URI + `/ci/github/init`, {
       repo: repositoy,
       applications: [application]
     });

@@ -1,8 +1,3 @@
-<e-alert type={{alertType}} *ngIf="displayAlert">
-  {{alertMessage}}
-   <a (click)="moreDetails()" *ngIf="alertDetails">Show details</a>
-  <pre *ngIf="alertDetails && displayMoreDetails">{{alertDetails | json:2}}</pre>
-</e-alert>
 <h1 class="page-title">Pipelines</h1>
 <p>Leveraging Acquia Pipelines with existing non-Acquia Git workflows allows developers to integrate testing and release
  management for deployments to be made for Acquia Cloud-hosted applications.</p>
@@ -16,21 +11,22 @@
     <input type="hidden" name="n3_endpoint" value="{{n3Endpoint}}">
     <input type="hidden" name="applications" value="{{appId}}">
   </form>
+  <e-alert type={{connectionAlert.type}} *ngIf="connectionAlert.display">{{connectionAlert.message}}</e-alert>
   <e-button text="Connect to Github"
     type="primary"
     (click)="authenticate()"
-    [disabled]="authorized || formSubmited"></e-button>
-  <span *ngIf="authorized">Your GitHub connection was successfully authorized</span>
-  <!--
-    @todo MS-2574 | Set this message as a page-level success message that appears at the top of the display.
-    This message would visually appear similar to the "build success" message that appears above the activity list.
-  -->
+    *ngIf="!authorized"></e-button>
 </div>
 <div class="github-connect" *ngIf="authorized" id="select-repo">
   <e-button text="Select Github repository"
     type="primary"
     (click)="selectRepository()"
     [disabled]="loading || appAttached"></e-button>
+  <e-alert type={{attachRepoAlert.type}} *ngIf="attachRepoAlert.display">
+    {{attachRepoAlert.message}}
+     <a (click)="showMoreDetails()" *ngIf="attachRepoAlert.details">Show details</a>
+    <pre *ngIf="attachRepoAlert.details && attachRepoAlert.showDetails">{{attachRepoAlert.details}}</pre>
+  </e-alert>
 </div>
 <div id="setting-up-pipelines-indicator" *ngIf="loading">
   <md-progress-bar mode="indeterminate" style="width: 80%; margin-left: 10%"></md-progress-bar>

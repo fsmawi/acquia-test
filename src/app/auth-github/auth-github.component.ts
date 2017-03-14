@@ -8,6 +8,17 @@ import {SegmentService} from '../core/services/segment.service';
 import {environment} from '../../environments/environment';
 import {GithubDialogRepositoriesComponent} from './github-dialog-repositories/github-dialog-repositories.component';
 
+/**
+ * Alert Model
+ */
+export class Alert {
+  display = false;
+  type: string;
+  message: string;
+  details: string;
+  showDetails = false;
+}
+
 @Component({
   selector: 'app-auth-github',
   templateUrl: './auth-github.component.html',
@@ -62,15 +73,17 @@ export class AuthGithubComponent implements OnInit {
    */
   appAttached = false;
 
-  displayAlert = false;
+  /**
+   * Alert for github connection status
+   * @type {Alert}
+   */
+  connectionAlert: Alert;
 
-  alertType: string;
-
-  alertMessage: string;
-
-  alertDetails: any;
-
-  displayMoreDetails: boolean;
+  /**
+   * Alert for attach repository status
+   * @type {[type]}
+   */
+  attachRepoAlert: Alert;
 
 
   /**
@@ -127,7 +140,7 @@ export class AuthGithubComponent implements OnInit {
       .catch(e => {
         this.errorHandler.apiError(e);
         this.errorHandler.reportError(e, 'AttachGithubFailed', {appId: this.appId}, 'error');
-        this.showAlert('danger', 'Unable to attach repository to this application.', e);
+        this.showAttachRepoAlert('danger', 'Unable to attach repository to this application.', e);
       })
       .then(() => this.loading = false);
   }
@@ -156,45 +169,66 @@ export class AuthGithubComponent implements OnInit {
    */
   checkAuthorization(params: Params) {
     if (params['success'] === 'true') {
-      this.showAlert('success', 'You are successfully connected to Github.');
+      this.showConnectionAlert('success', 'You are successfully connected to Github.');
       this.authorized = true;
     } else if (params['reason'] !== undefined && params['reason'] !== '') {
-      this.showAlert('warning', decodeURIComponent(params['reason']));
+      this.showConnectionAlert('danger', decodeURIComponent(params['reason']));
       this.errorHandler.reportError(new Error(params['reason']), 'AuthGithubAPIFailed', {appId: this.appId}, 'error');
     } else {
-      this.showAlert('warning', 'Sorry, we could not connect to github at this time.');
+      this.showConnectionAlert('danger', 'Sorry, we could not connect to github at this time.');
     }
   }
 
   /**
-   * Show alert message
+   * Show github connection status
+   * @param type
+   * @param message
+   */
+  showConnectionAlert(type: string, message: string) {
+    this.connectionAlert.display = true;
+    this.connectionAlert.message = message;
+    this.connectionAlert.type = type;
+  }
+
+  /**
+   * Show attach repository status
    * @param type
    * @param message
    * @param details
    */
-  showAlert(type: string, message: string, details: any = undefined) {
-    this.displayAlert = true;
-    this.alertType = type;
-    this.alertMessage = message;
-
-    if (details !== undefined) {
-      this.alertDetails = details;
-    }
+  showAttachRepoAlert(type: string, message: string, details: any) {
+    this.attachRepoAlert.display = true;
+    this.attachRepoAlert.message = message;
+    this.attachRepoAlert.type = type;
+    this.attachRepoAlert.details = details.status + ':' + details._body;
   }
 
-  moreDetails() {
-    this.displayMoreDetails = true;
+  /**
+   * Show more details
+   */
+  showMoreDetails() {
+    this.attachRepoAlert.showDetails = true;
+  }
+
+  /**
+   * Initialize Alerts
+   */
+  initAlerts() {
+     this.connectionAlert = new Alert();
+     this.attachRepoAlert = new Alert();
   }
 
   /**
    * On component initialize
    */
   ngOnInit() {
+
+    // initialize alerts
+    this.initAlerts();
+
     this.authorized = false;
     this.formSubmited = false;
     this.appAttached = false;
-    this.displayAlert = false;
-    this.displayMoreDetails = false;
     this.oauthUrl = environment.apiEndpoint + '/api/v1/ci/github/oauth';
     this.n3Endpoint = environment.headers['X-ACQUIA-PIPELINES-N3-ENDPOINT'];
     this.route.params.subscribe((params) => {

@@ -1,13 +1,17 @@
+
 @import "../../../assets/scss/elemental-core.scss";
 
 .el-alert {
   border: 1px solid black;
-  padding: 24px;
+  padding: px-to-relative(24px);
   margin-bottom: 1.5rem;
+  padding-left: px-to-relative(60px);
+  position: relative;
 
   .state-icon {
-    display: inline-block;
-    padding: 8px;
+    position: absolute;
+    left: px-to-relative(24);
+    top: px-to-relative(20px);
   }
 }
 
