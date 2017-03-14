@@ -1,3 +1,8 @@
+<e-alert type={{alertType}} *ngIf="displayAlert">
+  {{alertMessage}}
+   <a (click)="moreDetails()" *ngIf="alertDetails">Show details</a>
+  <pre *ngIf="alertDetails && displayMoreDetails">{{alertDetails | json:2}}</pre>
+</e-alert>
 <h1 class="page-title">Pipelines</h1>
 <p>Leveraging Acquia Pipelines with existing non-Acquia Git workflows allows developers to integrate testing and release
  management for deployments to be made for Acquia Cloud-hosted applications.</p>
