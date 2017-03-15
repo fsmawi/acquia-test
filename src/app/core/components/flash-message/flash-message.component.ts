@@ -51,6 +51,12 @@ export class FlashMessageComponent implements OnInit {
   detailsOpen = false;
 
   /**
+   * Show more details
+   * @type {Boolean}
+   */
+  showMoreDetails = false;
+
+  /**
    * Builds the component
    * @param flashMessageService
    */
@@ -76,7 +82,11 @@ export class FlashMessageComponent implements OnInit {
     this.icon = type === 'error' ? 'alert--circle' : type;
     this.message = text;
     this.flashOpen = true;
-    this.details = details;
+
+    if (details !== undefined) {
+      this.showMoreDetails = true;
+      this.details = details;
+    }
 
     // handle annimation
     setTimeout(() => {
