@@ -10,7 +10,8 @@ import {RouterTestingModule} from '@angular/router/testing';
 
 import {SegmentService} from '../core/services/segment.service';
 
-import {AuthGithubComponent, Alert} from './auth-github.component';
+import {Alert} from '../core/models/alert';
+import {AuthGithubComponent} from './auth-github.component';
 import {ElementalModule} from '../elemental/elemental.module';
 import {ErrorService} from '../core/services/error.service';
 import {PipelinesService} from '../core/services/pipelines.service';
@@ -108,12 +109,6 @@ describe('AuthGithubComponent', () => {
 
     component.checkAuthorization(params);
     expect(component.showConnectionAlert).toHaveBeenCalledWith('danger', 'Sorry, we could not connect to github at this time.');
-  });
-
-  it('should initialize alerts', () => {
-    component.initAlerts();
-    expect(component.connectionAlert).toEqual(jasmine.any(Alert));
-    expect(component.attachRepoAlert).toEqual(jasmine.any(Alert));
   });
 
   it('should connection alerts', () => {

@@ -2,22 +2,12 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, Params} from '@angular/router';
 import {MdDialog, MdDialogRef} from '@angular/material';
 
+import {Alert} from '../core/models/alert';
 import {PipelinesService} from '../core/services/pipelines.service';
 import {ErrorService} from '../core/services/error.service';
 import {SegmentService} from '../core/services/segment.service';
 import {environment} from '../../environments/environment';
 import {GithubDialogRepositoriesComponent} from './github-dialog-repositories/github-dialog-repositories.component';
-
-/**
- * Alert Model
- */
-export class Alert {
-  display = false;
-  type: string;
-  message: string;
-  details: string;
-  showDetails = false;
-}
 
 @Component({
   selector: 'app-auth-github',
@@ -77,13 +67,13 @@ export class AuthGithubComponent implements OnInit {
    * Alert for github connection status
    * @type {Alert}
    */
-  connectionAlert: Alert;
+  connectionAlert = new Alert();
 
   /**
    * Alert for attach repository status
    * @type {[type]}
    */
-  attachRepoAlert: Alert;
+  attachRepoAlert = new Alert();
 
 
   /**
@@ -211,21 +201,9 @@ export class AuthGithubComponent implements OnInit {
   }
 
   /**
-   * Initialize Alerts
-   */
-  initAlerts() {
-     this.connectionAlert = new Alert();
-     this.attachRepoAlert = new Alert();
-  }
-
-  /**
    * On component initialize
    */
   ngOnInit() {
-
-    // initialize alerts
-    this.initAlerts();
-
     this.authorized = false;
     this.formSubmited = false;
     this.appAttached = false;

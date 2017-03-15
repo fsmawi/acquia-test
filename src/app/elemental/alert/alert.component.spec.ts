@@ -12,7 +12,10 @@ describe('AlertComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [AlertComponent, SvgIconComponent]
+      declarations: [
+        AlertComponent,
+        SvgIconComponent
+      ]
     })
       .compileComponents();
   }));
