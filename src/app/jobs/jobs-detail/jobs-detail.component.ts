@@ -10,6 +10,7 @@ import {SegmentService} from '../../core/services/segment.service';
 import {FlashMessageService} from '../../core/services/flash-message.service';
 import {WebSocketService} from '../../core/services/web-socket.service';
 import {WebSocketHandler} from '../../core/models/web-socket-handler';
+import {features} from '../../core/features';
 
 @Component({
   selector: 'app-jobs-detail',
@@ -156,7 +157,8 @@ export class JobsDetailComponent implements OnInit, OnDestroy {
           }
           // always set to false to flag non streaming components
           this.streaming = false;
-        } else if (this.streaming === null && metadata.log_stream_websocket && metadata.log_stream_secret) {
+          // FEATURE FLAG for enabling log streaming. Remove after MS-2590 is complete
+        } else if (this.streaming === null && metadata.log_stream_websocket && metadata.log_stream_secret && features.logStreaming) {
           this.loadingLogs = false;
           return this.streamLogs();
         } else if (!this.timer) {

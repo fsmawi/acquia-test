@@ -1,7 +1,11 @@
 import {Component, OnInit, Input, OnDestroy} from '@angular/core';
-import {Job} from '../../core/models/job';
+
 import * as moment from 'moment';
 import {Subscription, Observable} from 'rxjs/Rx';
+
+import {environment} from '../../../environments/environment';
+import {Job} from '../../core/models/job';
+
 
 @Component({
   selector: 'app-job-summary',
@@ -9,6 +13,13 @@ import {Subscription, Observable} from 'rxjs/Rx';
   styleUrls: ['job-summary.component.scss']
 })
 export class JobSummaryComponent implements OnInit, OnDestroy {
+
+  /**
+   * If in production environment
+   * @type {boolean}
+   */
+  envProd: boolean;
+
   /**
    * Job whose details to be shown
    */
@@ -47,6 +58,12 @@ export class JobSummaryComponent implements OnInit, OnDestroy {
   calculatedDuration = '00:00';
 
   /**
+   * Pipelines cloud url
+   * @type {string}
+   */
+  cloudUrl: string;
+
+  /**
    * Builds the component and injects services if needed
    */
   constructor() {
@@ -56,6 +73,16 @@ export class JobSummaryComponent implements OnInit, OnDestroy {
    * Initialize
    */
   ngOnInit() {
+    this.envProd = false;
+    // In the production environment, all job links should specify the cloud url,
+    // which will allow multiple windows/tabs to be open
+    if (environment.production && environment.name === 'prod') {
+      this.envProd = true;
+      this.cloudUrl = `${environment.authRedirect}/app/develop/applications/${this.appId}/pipelines/jobs`;
+    } else {
+      this.cloudUrl = `/jobs/${this.appId}`;
+    }
+
     if (this.job && this.job.isUnfinished && !this.timer) {
       // use a timer for consistent updates
       this.timer = Observable.timer(1, 1000).subscribe(() => this.calculateDuration());

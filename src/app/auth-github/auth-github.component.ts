@@ -47,6 +47,12 @@ export class AuthGithubComponent implements OnInit {
   n3Endpoint: string;
 
   /**
+   * N3 Api File
+   * @type {string}
+   */
+  n3ApiFile: string;
+
+  /**
    * Loading indicator
    */
   loading: boolean;
@@ -209,6 +215,7 @@ export class AuthGithubComponent implements OnInit {
     this.appAttached = false;
     this.oauthUrl = environment.apiEndpoint + '/api/v1/ci/github/oauth';
     this.n3Endpoint = environment.headers['X-ACQUIA-PIPELINES-N3-ENDPOINT'];
+    this.n3ApiFile = environment.headers['X-ACQUIA-PIPELINES-N3-APIFILE'];
     this.route.params.subscribe((params) => {
       this.appId = params['app-id'];
       this.finishUrl = environment.authRedirect + '/app/develop/applications/' + this.appId + '/pipelines/github';

@@ -1,8 +1,8 @@
 <div *ngIf="job" id="jobDetails" style="overflow: auto">
   <h1 class="page-title">Job Detail</h1>
-  <a id="config-link" routerLink="/application/{{appId}}">View Connection Info</a>
+  <a id="config-link" appIframeLink="/application/{{appId}}">View Connection Info</a>
   <h3 class="ui-core-set-head-title">
-    <a routerLink="/jobs/{{appId}}">Jobs </a>
+    <a appIframeLink="/jobs/{{appId}}">Jobs </a>
     {{job ? '> #' + (job.job_id | slice:0:8) : ''}}
   </h3>
   <app-job-summary *ngIf="job && appId"

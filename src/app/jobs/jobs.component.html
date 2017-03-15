@@ -6,7 +6,7 @@
   type="primary"
   (click)="startJob()"></e-button>
 
-  <a id="config-link" routerLink="/application/{{appId}}">View Connection Info</a>
+  <a id="config-link" appIframeLink="/application/{{appId}}">View Connection Info</a>
   <app-job-summary *ngIf="lastJob && appId" [isProgressBarRequired]="false" [appId]="appId" [job]="lastJob"></app-job-summary>
 
   <e-card *ngIf="isInitialized">
@@ -14,7 +14,7 @@
     <e-card-content>
 
       <!-- No Jobs? -->
-      <div id="no-jobs" class="center" *ngIf="!loadingJobs && jobs && !jobs.length">
+      <div id="no-jobs" class="center" *ngIf="jobs && !jobs.length">
         <h3>You have no jobs for this application</h3>
         <!-- @todo MS-2572 | Add "Learn More" link that points to product docs instructing users how to setup Pipelines Build jobs -->
       </div>
@@ -25,7 +25,7 @@
   </e-card>
 </div>
 
-<e-progress *ngIf="loadingJobs && !jobs.length"
+<e-progress *ngIf="loadingJobs && !jobs.length && !isInitialized"
   progressType="indeterminate"
   progressVariant="dots">
 </e-progress>
