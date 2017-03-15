@@ -1,8 +1,10 @@
-import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {JobStatusComponent} from './job-status/job-status.component';
 import {MaterialModule} from '@angular/material';
+import {NgModule} from '@angular/core';
+
 import {ElementalModule} from '../elemental/elemental.module';
+import {IframeLinkDirective} from './directives/iframe-link.directive';
+import {JobStatusComponent} from './job-status/job-status.component';
 import {SafePipe} from './pipes/safe.pipe';
 import {SegmentDirective} from './directives/segment.directive';
 
@@ -12,8 +14,8 @@ import {SegmentDirective} from './directives/segment.directive';
     MaterialModule.forRoot(),
     ElementalModule
   ],
-  declarations: [JobStatusComponent, SafePipe, SegmentDirective],
-  exports: [JobStatusComponent, SafePipe, SegmentDirective]
+  declarations: [JobStatusComponent, SafePipe, SegmentDirective, IframeLinkDirective],
+  exports: [JobStatusComponent, SafePipe, SegmentDirective, IframeLinkDirective]
 })
 export class SharedModule {
 }

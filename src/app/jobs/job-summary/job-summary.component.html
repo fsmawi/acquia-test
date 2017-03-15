@@ -1,8 +1,10 @@
 <e-card *ngIf="job" xmlns="http://www.w3.org/1999/html">
   <div class="job-info job__{{(!job ? 'info' : job.isFailed ? 'danger' : job.isSucceeded ? 'success' : 'info')}}">
     Job
-    <a *ngIf="isJobNavigationRequired" routerLink="/jobs/{{appId}}/{{job.job_id}}">
-      {{job.job_id| slice:0:8}}</a>
+    <a *ngIf="isJobNavigationRequired && !envProd"
+        routerLink="{{cloudUrl}}/{{job.job_id}}">{{job.job_id| slice:0:8}}</a>
+    <a *ngIf="isJobNavigationRequired && envProd"
+        href="{{cloudUrl}}/{{job.job_id}}" target="_top">{{job.job_id| slice:0:8}}</a>
     {{isJobNavigationRequired ? ': ' : (' ' + (job.job_id | slice:0:8) + ' : ')}}
     {{job.message}}
   </div>
