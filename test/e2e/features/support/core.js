@@ -45,7 +45,7 @@ exports.bootstrap = function (browser) {
    * open the url on the browser and pause the browser for 5 secs for the URL to load
    */
   browser._url = function (url, params) {
-    let options = {pauseAfter: 5000};
+    let options = { pauseAfter: 5000 };
     Object.assign(options, params || {});
     return browser.url(url).pause(options.pauseAfter).then(() => screenshot(createTimeName('url', url)));
   };
@@ -57,7 +57,7 @@ exports.bootstrap = function (browser) {
    *  wait for element to be visible before performing a click
    */
   browser._click = function (selector, params) {
-    let options = {timeout: 5000};
+    let options = { timeout: 5000 };
     Object.assign(options, params || {});
 
     return browser.waitForVisible(selector, options.timeout)
@@ -114,7 +114,7 @@ exports.bootstrap = function (browser) {
    * check that the element identified by given selector exists on the page
    */
   browser._exists = function (selector, params) {
-    let options = Object.assign({timeout: 5000}, params);
+    let options = Object.assign({ timeout: 5000 }, params);
     return browser.isExistingWithTimeout(selector, options.timeout)
       .then((exists) => {
         if (exists) {
@@ -134,11 +134,11 @@ exports.bootstrap = function (browser) {
   /**
    * @param {String} selector
    * @param {Array} params contains optional timeout parameter
-   * wait until the given selector is visible
    * @return {Promise}
+   * wait until the given selector is visible
    */
   browser._waitUntil = function (selector, params) {
-    let options = Object.assign({timeout: 5000}, params);
+    let options = Object.assign({ timeout: 5000 }, params);
     return browser.waitForVisible(selector, options.timeout)
       .then(() => screenshot(createTimeName('waitUntil', selector)))
       .pause(500)
@@ -155,11 +155,47 @@ exports.bootstrap = function (browser) {
    */
   browser._switchFrame = function (selector) {
     return browser.element(selector)
-      .then((el) => {
+      .then(el => {
         return browser.frame(el.value);
       })
-      .catch((e) => {
+      .catch(e => {
         return screenshot(createTimeName('switchFrame-error', selector))
+          .then(() => Promise.reject(e));
+      });
+  },
+
+  /**
+   * @param {String} selector identifier of an element
+   * get the text of an element identified by given selectors
+   */
+  browser._getText = function (selector) {
+    return browser.getText(selector)
+      .catch(e => {
+        return screenshot(createTimeName('getText-error', selector))
+          .then(() => Promise.reject(e));
+      });
+  },
+
+  /**
+     * @return {Promise}
+     * @param {String} selector of the element to find
+     * @param {Array} params
+     * check that the element identified by given selector exists on the page
+  */
+  browser._notExists = function (selector, params) {
+    let options = Object.assign({ timeout: 5000 }, params);
+    return browser.isExistingWithTimeout(selector, options.timeout)
+      .then((exists) => {
+        if (exists) {
+           throw new Error(`${selector} should not exist`);
+        } else {
+          Promise.resolve();
+        }
+      })
+      .then(() => browser.pause(options.afterPause || 1000))
+      .then(() => screenshot(createTimeName('notexists', selector)))
+      .catch((e) => {
+        return screenshot(createTimeName('notexist-error', selector))
           .then(() => Promise.reject(e));
       });
   };
