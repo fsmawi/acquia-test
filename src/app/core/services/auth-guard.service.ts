@@ -27,6 +27,10 @@ export class AuthGuard implements CanActivate, CanActivateChild {
    * @returns {Promise<boolean>}
    */
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
+    // catch redirects with mock api usage
+    if (route.queryParams['HTTP_X_ACQUIA_PIPELINES_N3_APIFILE'] !== undefined) {
+      environment.headers['X-ACQUIA-PIPELINES-N3-APIFILE'] = route.queryParams['HTTP_X_ACQUIA_PIPELINES_N3_APIFILE'];
+    }
     return this.checkLogin();
   }
 

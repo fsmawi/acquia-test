@@ -62,7 +62,7 @@ events:
             - 'cd environments'
             - 'php cloud-ode.php'
             - 'cd ..'
-      #- acceptance:
+      # - acceptance:
       #    script:
       #      - 'PIPELINES_ODE_URL=`cat ~/ode.url` && echo ODE URI is $PIPELINES_ODE_URL for e2e/integration tests'
       #      - '\[ $PIPELINE_VCS_PATH == "production" \] && npm run integration:acceptance || echo "Integration Acceptance only in Production"'
