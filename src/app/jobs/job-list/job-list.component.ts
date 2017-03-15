@@ -51,7 +51,10 @@ export class JobListComponent implements OnInit {
       branch: !job.commit ? job.branch : undefined
     }).then(result => {
       console.log(result);
-    }).catch(this.errorHandler.apiError);
+    }).catch(e => {
+      this.flashMessageService.showError(e.status + ' : ' + e._body);
+      this.errorHandler.apiError(e);
+    });
   }
 
   /**
@@ -69,7 +72,7 @@ export class JobListComponent implements OnInit {
               this.segment.trackEvent('TerminateJobFromUI', {appId: this.appId, jobId: job.job_id});
             })
             .catch(e => {
-              this.flashMessageService.showError('Error while terminating your job', e);
+              this.flashMessageService.showError(e.status + ' : ' + e._body);
               this.errorHandler.apiError(e);
             });
         }

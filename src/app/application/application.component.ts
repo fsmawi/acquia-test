@@ -87,7 +87,7 @@ export class ApplicationComponent implements OnInit {
       .catch(e => {
         this.errorHandler.apiError(e);
         this.errorHandler.reportError(e, 'FailedGetGithubStatus', {}, 'error');
-        this.flashMessage.showError('Unable to get your pipeline information for this application at this time.', e);
+        this.flashMessage.showError(e.status + ' : ' + e._body);
       })
       .then(() => this.appLoading = false);
   }
