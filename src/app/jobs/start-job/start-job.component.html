@@ -18,8 +18,23 @@
          segmentEventIdentifier="ClickLearnMoreAboutGit"
          href="https://docs.acquia.com/acquia-cloud/develop/repository/git" target="_blank">Learn more about using Git.</a>
     </p>
+    <e-data>
+      <e-data-label>
+        Type the branch name to start a job
+      </e-data-label>
+      <input type="text" [(ngModel)]="branch" (keyup)="filter()" placeholder="Branch Name" name="Branch" size="40">
+      <div id="branch-suggestions" *ngIf="branchSuggestions && (branchSuggestions.length > 0)">
+        <ul>
+          <li *ngFor="let branchSuggestion of branchSuggestions" (click)="select(branchSuggestion)">
+            {{branchSuggestion}}
+          </li>
+        </ul>
+      </div>
+
+    </e-data>
   </e-card-content>
   <e-card-footer>
     <e-button text="Close" type="link" (click)="dialogRef.close()"></e-button>
+    <e-button text="Start" type="primary" [disabled]="!isValidBranch()" (click)="start()"></e-button>
   </e-card-footer>
 </e-card>

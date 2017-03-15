@@ -947,7 +947,17 @@ routes:
           - name: acquia/repo2
             link: https://github.com/acquia/repo2
             type: github
-          branches: test11,test12
+          branches:
+          - test11
+          - test12
+          - test13
+          - test14
+          - test15
+          - test121
+          - test122
+          - test123
+          - test124
+          - test125
       -
         pipeline_id: 11279161-f354-4294-875c-3a2e446f81f6
         sitename: prod:z

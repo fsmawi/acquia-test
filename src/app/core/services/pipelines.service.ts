@@ -103,6 +103,16 @@ export class PipelinesService {
   }
 
   /**
+   * Get all the branches available for an appId
+   * @param appId
+   * @returns {Promise<T>}
+   */
+  getBranches(appId: string) {
+    return this.getPipelineByAppId(appId)
+      .then(p => (p.length > 0) ? p[0].repo_data ? p[0].repo_data.branches || [] : [] : []);
+  }
+
+  /**
    * Stops a job
    * @param appId
    * @param jobId
@@ -139,6 +149,27 @@ export class PipelinesService {
     });
 
     return this.promisePostRequest(this.URI + `/ci/pipelines/${pipelineId}/start`, options);
+  }
+
+  /**
+   * Direct Start a pipelines job
+   * @param appId
+   * @param pipelineId
+   * @param options
+   * @returns {Promise<HttpRequest>}
+   */
+  directStartJob(appId: string, options = {}) {
+    // Default Options
+    Object.assign(options, {
+      applications: [appId]
+    });
+
+    return this.getPipelineByAppId(appId)
+      .then(p => {
+        if (p.length > 0) {
+          return this.promisePostRequest(this.URI + `/ci/pipelines/${p[0].pipeline_id}/direct-start`, options);
+        }
+      });
   }
 
   /**
