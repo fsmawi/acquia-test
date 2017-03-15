@@ -7,5 +7,5 @@ routes:
   /api/v1/ci/jobs:
     GET:
       responses:
-      - response: You are not unauthorized to perform this action
+      - response: You are unauthorized to perform this action
         status: 403
