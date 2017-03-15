@@ -170,6 +170,20 @@ export class PipelinesService {
   }
 
   /**
+   * Helper to make deleye requests. Adds Pipeline creds if supplied.
+   * @param url
+   * @param params
+   * @returns {Promise<HttpRequest>}
+   */
+  promiseDeleteRequest(url, params = {}) {
+    // Create Request Options Object
+    const reqOptions = this.generateReqOptions(params);
+
+    // Make Call
+    return this.http.delete(url, reqOptions).map(r => r.json()).toPromise();
+  }
+
+  /**
    * Generate common headers and params.
    * @param params
    * @returns {RequestOptions}

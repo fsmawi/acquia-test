@@ -5,6 +5,7 @@ import {PipelinesService} from '../core/services/pipelines.service';
 import {ErrorService} from '../core/services/error.service';
 import {FlashMessageService} from '../core/services/flash-message.service';
 import {GithubStatus} from '../core/models/github-status';
+import {ConfirmationModalService} from '../core/services/confirmation-modal.service';
 
 @Component({
   selector: 'app-application',
@@ -68,6 +69,7 @@ export class ApplicationComponent implements OnInit {
     private router: Router,
     private pipelines: PipelinesService,
     private errorHandler: ErrorService,
+    private confirmationModalService: ConfirmationModalService,
     private flashMessage: FlashMessageService) {
   }
 
@@ -101,5 +103,19 @@ export class ApplicationComponent implements OnInit {
       this.appId = params['app-id'];
       this.getConfigurationInfo();
     });
+  }
+
+  /**
+   * Removes Github authentication from the app
+   */
+  removeAuth() {
+    this.confirmationModalService
+      .openDialog('Remove Authentication',
+        'Are you sure you want to remove Github authenticaion from your app?', 'Yes', 'Cancel')
+      .then(result => {
+        if (result) {
+
+        }
+      });
   }
 }

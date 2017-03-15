@@ -14,9 +14,16 @@ import {PipelinesService} from '../core/services/pipelines.service';
 import {SegmentService} from '../core/services/segment.service';
 import {ElementalModule} from '../elemental/elemental.module';
 import {SharedModule} from '../shared/shared.module';
+import {ConfirmationModalService} from '../core/services/confirmation-modal.service';
 
 class MockActivatedRoute {
   params = new EventEmitter<any>();
+}
+
+class MockConfirmationModalService {
+  openDialog(title: string, message: string, primaryActionText: string, secondaryActionText = '') {
+    return Promise.resolve(true);
+  }
 }
 
 class MockFlashMessage {
@@ -65,6 +72,7 @@ describe('ApplicationComponent', () => {
         SegmentService,
         {provide: ActivatedRoute, useClass: MockActivatedRoute},
         {provide: FlashMessageService, useClass: MockFlashMessage},
+        {provide: ConfirmationModalService, useClass: MockConfirmationModalService},
         {
           provide: Http,
           useFactory: (mockBackend, options) => {
