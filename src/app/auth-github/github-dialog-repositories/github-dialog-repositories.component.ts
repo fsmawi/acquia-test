@@ -1,9 +1,9 @@
 import {Component, OnInit, Input} from '@angular/core';
 import {MdDialogRef} from '@angular/material';
+
+import {ErrorService} from '../../core/services/error.service';
 import {PipelinesService} from '../../core/services/pipelines.service';
 import {RepositoryFilterPipe} from './repository-filter.pipe';
-import {ErrorService} from '../../core/services/error.service';
-import {FlashMessageService} from '../../core/services/flash-message.service';
 
 
 @Component({
@@ -47,12 +47,10 @@ export class GithubDialogRepositoriesComponent implements OnInit {
    * Builds the component
    * @param dialogRef
    * @param pipelinesService
-   * @param flashMessageService
    * @param errorHandler
    */
   constructor(public dialogRef: MdDialogRef<GithubDialogRepositoriesComponent>,
               public pipelinesService: PipelinesService,
-              public flashMessageService: FlashMessageService,
               private errorHandler: ErrorService) {
   }
 
@@ -72,8 +70,7 @@ export class GithubDialogRepositoriesComponent implements OnInit {
       })
       .catch(e => {
         this.errorHandler.apiError(e);
-        this.dialogRef.close();
-        this.flashMessageService.showError(e.status + ' : ' + e._body);
+        this.dialogRef.close(e);
       });
   }
 

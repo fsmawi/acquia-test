@@ -115,7 +115,12 @@ export class AuthGithubComponent implements OnInit {
 
       dialogRef.afterClosed().subscribe(result => {
         if (result !== undefined && Object.keys(result).length !== 0) {
-          this.attachRepository(result);
+          // closed with API error
+          if (result.status !== undefined) {
+             this.showAttachRepoAlert('danger', result.status + ' : ' + result._body);
+          } else {
+            this.attachRepository(result);
+          }
         }
       });
     }
@@ -136,7 +141,7 @@ export class AuthGithubComponent implements OnInit {
       .catch(e => {
         this.errorHandler.apiError(e);
         this.errorHandler.reportError(e, 'AttachGithubFailed', {appId: this.appId}, 'error');
-        this.showAttachRepoAlert('danger', 'Unable to attach repository to this application.', e);
+        this.showAttachRepoAlert('danger', e.status + ' : ' + e._body);
       })
       .then(() => this.loading = false);
   }
@@ -190,20 +195,11 @@ export class AuthGithubComponent implements OnInit {
    * Show attach repository status
    * @param type
    * @param message
-   * @param details
    */
-  showAttachRepoAlert(type: string, message: string, details: any) {
+  showAttachRepoAlert(type: string, message: string) {
     this.attachRepoAlert.display = true;
     this.attachRepoAlert.message = message;
     this.attachRepoAlert.type = type;
-    this.attachRepoAlert.details = details.status + ':' + details._body;
-  }
-
-  /**
-   * Show more details
-   */
-  showMoreDetails() {
-    this.attachRepoAlert.showDetails = true;
   }
 
   /**

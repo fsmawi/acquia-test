@@ -22,19 +22,6 @@ export class Alert {
   message: string;
 
   /**
-   * Alert details
-   * @type {string}
-   */
-  details: string;
-
-  /**
-   * Show more details
-   * @type {Boolean}
-   */
-  showDetails = false;
-
-
-  /**
    * Creates a Repository object
    * @param obj {any} Base object to use
    */
