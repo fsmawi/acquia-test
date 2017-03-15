@@ -1015,5 +1015,5 @@ routes:
             type: github
           branches: test11,test12
 redirections:
-  /github/oauth:
+  /github/oauth: 
     redirect_to: http://localhost:4200/auth/github/123?success=true
