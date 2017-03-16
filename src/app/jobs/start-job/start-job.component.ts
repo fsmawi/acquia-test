@@ -57,7 +57,7 @@ export class StartJobComponent implements OnInit {
   }
 
   isValidBranch() {
-    if (this.branch && this.branch !== '') {
+    if (this.branch && this.branch !== '' && this.branches.indexOf(this.branch) > -1) {
       return true;
     }
     return false;
@@ -69,9 +69,6 @@ export class StartJobComponent implements OnInit {
     } else {
       this.branchSuggestions = this.branches ? this.branches.filter(branch =>
         branch.toLowerCase().indexOf(this.branch.toLowerCase()) > -1) : [];
-      if (this.branchSuggestions.length > 5) {
-        this.branchSuggestions = this.branchSuggestions.slice(0, 5);
-      }
     }
   }
 

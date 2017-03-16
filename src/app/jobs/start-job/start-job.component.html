@@ -22,13 +22,23 @@
       <e-data-label>
         Type the branch name to start a job
       </e-data-label>
-      <input type="text" [(ngModel)]="branch" (keyup)="filter()" placeholder="Branch Name" name="Branch" size="40">
-      <div id="branch-suggestions" *ngIf="branchSuggestions && (branchSuggestions.length > 0)">
-        <ul>
-          <li *ngFor="let branchSuggestion of branchSuggestions" (click)="select(branchSuggestion)">
-            {{branchSuggestion}}
-          </li>
-        </ul>
+      <div id="branch-info">
+        <input type="search" size="100" [(ngModel)]="branch" (keyup)="filter()" placeholder="Branch Name" name="Branch">
+        <div id="branch-suggestions">
+          <ul *ngIf="branchSuggestions && (branchSuggestions.length > 0) && (branch !== '')">
+            <li *ngFor="let branchSuggestion of branchSuggestions" (click)="select(branchSuggestion)">
+              {{branchSuggestion|slice:0:(branchSuggestion.toLowerCase().indexOf(branch.toLowerCase()))}}
+              <span class="highlight">
+                {{branchSuggestion|
+                  slice:(branchSuggestion.toLowerCase().indexOf(branch.toLowerCase())):
+                        (branchSuggestion.toLowerCase().indexOf(branch.toLowerCase())+(branch.length))}}
+              </span>
+              {{branchSuggestion|
+                slice:(branchSuggestion.toLowerCase().indexOf(branch.toLowerCase())+(branch.length)):
+                      (branchSuggestion.length)}}
+            </li>
+          </ul>
+        </div>
       </div>
 
     </e-data>
