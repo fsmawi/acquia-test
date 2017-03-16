@@ -18,7 +18,7 @@
          segmentEventIdentifier="ClickLearnMoreAboutGit"
          href="https://docs.acquia.com/acquia-cloud/develop/repository/git" target="_blank">Learn more about using Git.</a>
     </p>
-    <e-data>
+    <e-data *ngIf="isDirectStartAvailable">
       <e-data-label>
         Type the branch name to start a job
       </e-data-label>
@@ -27,15 +27,7 @@
         <div id="branch-suggestions">
           <ul *ngIf="branchSuggestions && (branchSuggestions.length > 0) && (branch !== '')">
             <li *ngFor="let branchSuggestion of branchSuggestions" (click)="select(branchSuggestion)">
-              {{branchSuggestion|slice:0:(branchSuggestion.toLowerCase().indexOf(branch.toLowerCase()))}}
-              <span class="highlight">
-                {{branchSuggestion|
-                  slice:(branchSuggestion.toLowerCase().indexOf(branch.toLowerCase())):
-                        (branchSuggestion.toLowerCase().indexOf(branch.toLowerCase())+(branch.length))}}
-              </span>
-              {{branchSuggestion|
-                slice:(branchSuggestion.toLowerCase().indexOf(branch.toLowerCase())+(branch.length)):
-                      (branchSuggestion.length)}}
+              {{branchSuggestion}}
             </li>
           </ul>
         </div>
@@ -45,6 +37,7 @@
   </e-card-content>
   <e-card-footer>
     <e-button text="Close" type="link" (click)="dialogRef.close()"></e-button>
-    <e-button text="Start" type="primary" [disabled]="!isValidBranch()" (click)="start()"></e-button>
+    <e-button text="Start" *ngIf="isDirectStartAvailable"
+              type="primary" [disabled]="!isValidBranch()" (click)="start()"></e-button>
   </e-card-footer>
 </e-card>

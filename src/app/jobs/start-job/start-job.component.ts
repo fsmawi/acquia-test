@@ -1,9 +1,10 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, OnInit, Input, ViewChild, ElementRef} from '@angular/core';
 import {MdDialogRef} from '@angular/material';
 
 import {PipelinesService} from '../../core/services/pipelines.service';
 import {ErrorService} from '../../core/services/error.service';
 import {FlashMessageService} from '../../core/services/flash-message.service';
+import {features} from '../../core/features';
 
 
 @Component({
@@ -35,6 +36,12 @@ export class StartJobComponent implements OnInit {
   branchSuggestions: Array<string>;
 
   /**
+   * Flag to show/hide the direct start feature
+   */
+  isDirectStartAvailable: boolean;
+
+
+  /**
    * Builds the component
    * @param dialogRef
    * @param pipelineService
@@ -54,6 +61,9 @@ export class StartJobComponent implements OnInit {
     this.pipelineService.getBranches(this.appId)
       .then(branches => this.branches = branches)
       .catch(e => this.errorHandler.apiError(e));
+
+    this.isDirectStartAvailable = features.directStart;
+
   }
 
   isValidBranch() {
@@ -78,7 +88,7 @@ export class StartJobComponent implements OnInit {
   }
 
   start() {
-    this.pipelineService.directStartJob(this.appId)
+    this.pipelineService.directStartJob(this.appId, this.branch)
       .then((res) => {
         this.flashMessageService.showSuccess('Your job has started.');
       })

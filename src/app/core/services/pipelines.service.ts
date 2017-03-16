@@ -158,16 +158,19 @@ export class PipelinesService {
    * @param options
    * @returns {Promise<HttpRequest>}
    */
-  directStartJob(appId: string, options = {}) {
+  directStartJob(appId: string, branch: string, options = {}) {
     // Default Options
     Object.assign(options, {
-      applications: [appId]
+      applications: [appId],
+      branch: branch
     });
 
     return this.getPipelineByAppId(appId)
       .then(p => {
         if (p.length > 0) {
           return this.promisePostRequest(this.URI + `/ci/pipelines/${p[0].pipeline_id}/direct-start`, options);
+        }else {
+          return Promise.reject({});
         }
       });
   }
