@@ -25,7 +25,7 @@ events:
             - 'alias run="node $BUILD_DIR/scripts/run.js"'
       - lint:
           script:
-            - 'npm run lint'
+            - 'run lint "npm run lint"'
       - test:
           script:
             - 'npm test'
