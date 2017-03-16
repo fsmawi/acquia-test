@@ -279,6 +279,13 @@ export class JobsDetailComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * Toggle log chunk visibility
+   */
+  showChunk(chunk: any) {
+    chunk.visible = !chunk.visible;
+  }
+
+  /**
    * Scroll the logs pre section to the latest logs available
    */
   scrollLogsToBottom() {

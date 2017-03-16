@@ -7,6 +7,7 @@ import {IframeLinkDirective} from './directives/iframe-link.directive';
 import {JobStatusComponent} from './job-status/job-status.component';
 import {SafePipe} from './pipes/safe.pipe';
 import {SegmentDirective} from './directives/segment.directive';
+import {LogChunksPipe} from './pipes/log-chunks.pipe';
 
 @NgModule({
   imports: [
@@ -14,8 +15,20 @@ import {SegmentDirective} from './directives/segment.directive';
     MaterialModule.forRoot(),
     ElementalModule
   ],
-  declarations: [JobStatusComponent, SafePipe, SegmentDirective, IframeLinkDirective],
-  exports: [JobStatusComponent, SafePipe, SegmentDirective, IframeLinkDirective]
+  declarations: [
+    JobStatusComponent,
+    SafePipe,
+    SegmentDirective,
+    LogChunksPipe,
+    IframeLinkDirective
+  ],
+  exports: [
+    JobStatusComponent,
+    SafePipe,
+    SegmentDirective,
+    LogChunksPipe,
+    IframeLinkDirective
+  ]
 })
 export class SharedModule {
 }

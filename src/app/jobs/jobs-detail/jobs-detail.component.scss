@@ -65,6 +65,37 @@ pre {
   bottom: px-to-relative(-10px);
 }
 
+.log__chunk {
+  &__title{
+    border-bottom: $border-width-base solid $color-neutral-9;
+    color: #fff;
+    display: block;
+    font-family: Menlo,Monaco,Consolas,"Courier New",monospace;
+    line-height: 1.5;
+    margin: 0;
+    margin-bottom: $rhythm-unit / 4;
+    padding: 0;
+
+    /deep/ {
+      svg {
+        fill: $color-neutral-0;
+      }
+
+      .el-iconography__icon {
+        top: 0;
+      }
+    }
+
+    &::last-child {
+      border-bottom: medium none;
+    }
+  }
+
+  &__message {
+    padding-left: $rhythm-unit * 2;
+  }
+}
+
 #scroll-to-bottom {
   display: block;
   float: right;

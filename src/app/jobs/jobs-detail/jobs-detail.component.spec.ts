@@ -94,13 +94,13 @@ class MockPipelinesService {
         return Promise.resolve([new JobLog({
           timeline: 1462297477,
           level: 'INFO',
-          message: 'failure!'
+          message: 'Executing step test failure\nfailure!\nExiting step test failure'
         })]);
       default:
         return Promise.resolve([new JobLog({
           timeline: 1462297477,
           level: 'INFO',
-          message: 'success!'
+          message: 'Executing step test success\nsuccess!\nExiting step test success'
         })]);
     }
   }
@@ -116,7 +116,7 @@ class MockWebSocketService {
     subscribe: (fn) => {
       fn({name: 'connected'});
       fn({name: 'list-available', argument: {items: [{type: 'log'}]}});
-      fn({name: 'line', argument: {unix_time: 0, text: 'check me!'}});
+      fn({name: 'line', argument: {unix_time: 0, text: 'Pipelines log message'}});
       fn({name: 'close'});
     },
     send: () => {
@@ -186,7 +186,7 @@ describe('JobsDetailComponent', () => {
     tick();
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('.logs').innerHTML).toContain('success!');
+    expect(compiled.querySelector('.logs').innerHTML).toContain('success');
   })));
 
   it('should show job details for a failed job', fakeAsync(inject([], () => {
@@ -195,7 +195,7 @@ describe('JobsDetailComponent', () => {
     tick();
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('.logs').innerHTML).toContain('failure!');
+    expect(compiled.querySelector('.logs').innerHTML).toContain('failure');
   })));
 
   it('should stream logs for an in progress job', fakeAsync(inject([], () => {
@@ -204,7 +204,7 @@ describe('JobsDetailComponent', () => {
     tick();
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('.logs').innerHTML).toContain('check me!');
+    expect(compiled.querySelector('.logs').innerHTML).toContain('Pipelines log message');
   })));
 
   it('should fail to stream logs for an in progress job', fakeAsync(inject([WebSocketService], (ws: MockWebSocketService) => {
@@ -215,4 +215,12 @@ describe('JobsDetailComponent', () => {
     fixture.detectChanges();
     expect(component.streaming).toBe(false);
   })));
+
+  it('should toggle a chunk for showing', fakeAsync(() => {
+    const chunk = {
+      visible: false
+    };
+    component.showChunk(chunk);
+    expect(chunk.visible).toBe(true);
+  }));
 });
