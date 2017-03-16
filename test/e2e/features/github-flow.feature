@@ -1,4 +1,4 @@
-@GithubFlow
+@GithubFlow 
 Feature: Pipelines Github Flow
   As an Acquia Pipelines user
   I want to attach a Github repository to my application
