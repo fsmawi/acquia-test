@@ -119,6 +119,8 @@ export class ApplicationComponent implements OnInit {
           this.pipelines.removeGithubAuth(repoInfo[5], this.appId)
             .then(res => {
               this.flashMessage.showInfo('Github authentication has been removed.');
+              // Reload after removing auth
+              this.appLoading = true;
               this.getConfigurationInfo();
             })
             .catch(e => {
