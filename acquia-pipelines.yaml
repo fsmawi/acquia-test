@@ -47,14 +47,14 @@ events:
       - deploy:
           script:
             - 'run build "cd $PIPELINE_DEPLOY_WORKSPACE"'
-            - 'run build "git config user.email \'pipelines-cd@no-emails.com\'"'
-            - 'run build "git config user.name \'Pipelines CD\'"'
+            - 'run build "git config user.email \"pipelines-cd@no-emails.com\""'
+            - 'run build "git config user.name \"Pipelines CD\""'
             - 'run build "git checkout -b $DEPLOY_VCS_PATH || git checkout $DEPLOY_VCS_PATH"'
             - 'run build "rm -rf ./docroot"'
             - 'run build "mkdir ./docroot"'
             - 'run build "cp -r $BUILD_DIR/docroot/* ./docroot"'
             - 'run build "git add -A"'
-            - 'run build "git commit -m \'Deploying $DEPLOY_VCS_PATH\'"'
+            - 'run build "git commit -m \"Deploying $DEPLOY_VCS_PATH\""'
             - 'run build "git push origin $DEPLOY_VCS_PATH || git push -u origin $DEPLOY_VCS_PATH"'
             - 'run build "cd $BUILD_DIR"'
       - launch_ode:
