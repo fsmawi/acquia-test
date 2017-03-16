@@ -22,9 +22,11 @@ events:
             - 'nvm install v6.9.5'
             - 'nvm use 6.9.5'
             - 'npm install'
+            - 'alias run="node $BUILD_DIR/scripts/run.js"'
       - lint:
           script:
-            - 'npm run lint'
+            # - 'npm run lint'
+            - '
       - test:
           script:
             - 'npm test'
