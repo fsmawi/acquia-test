@@ -1,4 +1,4 @@
-<div *ngIf="job" id="jobDetails" style="overflow: auto">
+<div *ngIf="job" id="jobDetails" style="overflow: auto"> 
   <h1 class="page-title">Job Detail</h1>
   <a id="config-link" appIframeLink="/application/{{appId}}">View Connection Info</a>
   <h3 class="ui-core-set-head-title">
@@ -13,6 +13,11 @@
   <e-card id="logs">
     <e-card-header>
       Logs
+      <a id="scroll-to-bottom"
+         (click)="scrollLogsToBottom()"
+         class="right">
+          Scroll to bottom
+      </a>
       <e-progress id="log-loader"
                   *ngIf="streaming || loadingLogs || loadingJob"
                   progressType="indeterminate"
@@ -21,7 +26,7 @@
                   class="pull-right"></e-progress>
     </e-card-header>
     <e-card-content *ngIf="logs && logs.length" class="no-padding">
-      <div class="logs">
+      <div #logsContainer class="logs">
       <pre *ngFor="let log of logs">{{(log.timestamp | amFromUnix) | amDateFormat:'YYYY-MM-DD HH:mm:ss' }} [{{ log.level }}] <span
         [innerHTML]="log.message | safe: 'html'"></span></pre>
       </div>

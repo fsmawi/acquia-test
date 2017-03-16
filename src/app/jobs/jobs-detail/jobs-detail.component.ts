@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Component, OnInit, OnDestroy, ElementRef, ViewChild} from '@angular/core';
 import {ActivatedRoute, Params} from '@angular/router';
 
 import {Job} from '../../core/models/job';
@@ -71,6 +71,14 @@ export class JobsDetailComponent implements OnInit, OnDestroy {
    * Holds the event stream
    */
   socket: WebSocketHandler;
+
+
+  /**
+   * Hold the reference for the logs div
+   */
+  @ViewChild('logsContainer')
+  logsElement: ElementRef;
+
 
   /**
    * Builds the component
@@ -268,5 +276,12 @@ export class JobsDetailComponent implements OnInit, OnDestroy {
           return console.log('Unknown stream event', event);
       }
     });
+  }
+
+  /**
+   * Scroll the logs pre section to the latest logs available
+   */
+  scrollLogsToBottom() {
+    this.logsElement.nativeElement.scrollIntoView(false);
   }
 }

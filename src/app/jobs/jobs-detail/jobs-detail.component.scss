@@ -64,3 +64,13 @@ pre {
   right: px-to-relative(18px);
   bottom: px-to-relative(-10px);
 }
+
+#scroll-to-bottom {
+  display: block;
+  float: right;
+  position: relative;
+  font-size: $text-size-h5;
+  font-weight: 400;
+  margin-left: $rhythm-unit;
+  cursor: pointer;
+}
