@@ -38,7 +38,7 @@ export class StartJobComponent implements OnInit {
   /**
    * Flag to show/hide the direct start feature
    */
-  isDirectStartAvailable: boolean;
+  isDirectStartAvailable = true;
 
 
   /**
@@ -66,6 +66,10 @@ export class StartJobComponent implements OnInit {
 
   }
 
+  /**
+   * Returns true if the typed branch (input) is valid
+   * @returns {boolean}
+   */
   isValidBranch() {
     if (this.branch && this.branch !== '' && this.branches.indexOf(this.branch) > -1) {
       return true;
@@ -73,6 +77,9 @@ export class StartJobComponent implements OnInit {
     return false;
   }
 
+  /**
+   * Filters the available branches by the typed input
+   */
   filter() {
     if (this.branch === '' || !this.branch) {
       this.branchSuggestions = [];
@@ -82,11 +89,18 @@ export class StartJobComponent implements OnInit {
     }
   }
 
+  /**
+   * Selects the branch and holds it to start
+   * @param branch
+   */
   select(branch) {
     this.branch = branch;
     this.branchSuggestions = [];
   }
 
+  /**
+   * Direct start the job for the selected branch
+   */
   start() {
     this.pipelineService.directStartJob(this.appId, this.branch)
       .then((res) => {

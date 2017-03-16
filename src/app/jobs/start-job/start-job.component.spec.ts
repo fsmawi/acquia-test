@@ -1,5 +1,5 @@
 /* tslint:disable:no-unused-variable */
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {async, ComponentFixture, TestBed, inject, tick, fakeAsync, discardPeriodicTasks} from '@angular/core/testing';
 import {By} from '@angular/platform-browser';
 import {CommonModule} from '@angular/common';
 import {DebugElement, NgModule} from '@angular/core';
@@ -21,6 +21,10 @@ class MockPipelinesService {
   getBranches(appId: string) {
     return Promise.resolve(['branch1', 'branch2', 'branch3']);
   }
+
+  directStartJob(appId: string, branch: string, options = {}) {
+    return Promise.resolve({});
+  }
 }
 
 class MockFlashMessage {
@@ -29,6 +33,10 @@ class MockFlashMessage {
   }
 
   showSuccess(message: string, e: any) {
+    return true;
+  }
+
+  showInfo(message: string, e: any = {}) {
     return true;
   }
 }
@@ -81,9 +89,60 @@ describe('StartJobComponent', () => {
     const dialogRef = dialog.open(StartJobComponent);
 
     component = dialogRef.componentInstance;
+    component.branches = ['branch1', 'branch2', 'branch3'];
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should validate the branch typed', () => {
+    expect(component).toBeTruthy();
+
+    component.branch = 'invalid-branch';
+    expect(component.isValidBranch()).toEqual(false);
+
+    component.branch = 'branch1';
+    expect(component.isValidBranch()).toEqual(true);
+  });
+
+  it('should filter the available branches by the branch name typed', () => {
+    expect(component).toBeTruthy();
+
+    component.branch = 'branch';
+    component.filter();
+    expect(component.branchSuggestions.length).toEqual(3);
+
+    component.branch = '1';
+    component.filter();
+    expect(component.branchSuggestions.length).toEqual(1);
+    expect(component.branchSuggestions[0]).toEqual('branch1');
+
+    component.branch = '';
+    component.filter();
+    expect(component.branchSuggestions.length).toEqual(0);
+  });
+
+  it('should hold the branch selected to start and clear the branch suggestions', () => {
+    expect(component).toBeTruthy();
+
+    component.select('branch1');
+    expect(component.branch).toEqual('branch1');
+    expect(component.branchSuggestions.length).toEqual(0);
+  });
+
+  it('should start the job and show success message', fakeAsync(inject([FlashMessageService], (flashMessage) => {
+    expect(component).toBeTruthy();
+
+    component.branch = 'branch1';
+    component.appId = 'appId';
+
+    spyOn(flashMessage, 'showSuccess');
+
+    component.start();
+    tick(1000);
+    expect(flashMessage.showSuccess).toHaveBeenCalledWith('Your job has started.');
+  })));
+
+
 });
