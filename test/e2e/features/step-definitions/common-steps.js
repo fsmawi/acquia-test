@@ -51,7 +51,7 @@ module.exports = function () {
     else
       PipelinesUnAuthUrl = page.getDynamicValue(expectedUrl);
 
-    return this.browser._wait(10, 'seconds', 'waitForPipelinesUnauthenticatedPageToLoad')
+    return this.browser._wait(5, 'seconds', 'waitForPipelinesUnauthenticatedPageToLoad')
       .then(() => this.browser._checkUrl(PipelinesUnAuthUrl));
   });
 
