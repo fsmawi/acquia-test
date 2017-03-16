@@ -59,7 +59,6 @@ exports.bootstrap = function (browser) {
   browser._click = function (selector, params) {
     let options = { timeout: 5000 };
     Object.assign(options, params || {});
-
     return browser.waitForVisible(selector, options.timeout)
       .then(() => screenshot(createTimeName('click', selector)))
       .click(selector)
@@ -193,11 +192,22 @@ exports.bootstrap = function (browser) {
         }
       })
       .then(() => browser.pause(options.afterPause || 1000))
-      .then(() => screenshot(createTimeName('notexists', selector)))
+      .then(() => screenshot(createTimeName('notExists', selector)))
       .catch((e) => {
-        return screenshot(createTimeName('notexist-error', selector))
+        return screenshot(createTimeName('notExists-error', selector))
           .then(() => Promise.reject(e));
       });
+  };
+
+  /**
+   * @return {Promise}
+   * @param {String} selector of the element to find
+   * @param {String} value to set
+   * sets the text for an element identified by given selector
+   */
+  browser._setText = function (selector, value) {
+  return browser._click(selector, {timeout: 60000})
+    .then(()=> browser.setValue(selector, value));
   };
 
   browser._frameworkAttached = true;

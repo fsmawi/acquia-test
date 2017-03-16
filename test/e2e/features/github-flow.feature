@@ -17,10 +17,10 @@ Feature: Pipelines Github Flow
   @GithubFlow_CheckGithubConnectionSuccess
   Scenario: Check that the connection to Github succeed
     When I click on the |*view-connection-info| link
-    And I wait 10 seconds to navigate to github connection page
+    And I wait 5 seconds to navigate to github connection page
     And I click on the |*re-authorize| button
     And I click on the |*connect-to-github| button
-    And I should see a |*flash-message| with |*succes-message|
+    And I should see a |*flash-message| with |*success-message|
     And I get success parameter with value "true"
     And I should see the |*select-repo| button
 
@@ -35,7 +35,7 @@ Feature: Pipelines Github Flow
     And I wait 10 seconds for logging in
     And I should see the |app-jobs| list
     When I click on the |*view-connection-info| link
-    And I wait 10 seconds to navigate to github connection page
+    And I wait 5 seconds to navigate to github connection page
     And I click on the |*re-authorize| button
     And I click on the |*connect-to-github| button
     And I get reason parameter with value |*fail-reason|
@@ -45,25 +45,24 @@ Feature: Pipelines Github Flow
   @GithubFlow_CheckAttachRepository
   Scenario: Check that attaching repository works
     When I click on the |*view-connection-info| link
-    And I wait 10 seconds to navigate to github connection page
+    And I wait 5 seconds to navigate to github connection page
     And I click on the |*re-authorize| button
     And I click on the |*connect-to-github| button
     And I should see a |*flash-message| with |*succes-message|
     And I click on the |*select-repo| button
     Then I should see a modal with non empty |*repo-list| list
-    And I typed "no_repo" keyword in the Filter input
+    And I enter |no_repo| in the |*repo-filter-text| field
     Then I should see empty |*repo-list| list
-    And I typed "rep" keyword in the Filter input
+    And I enter |rep| in the |*repo-filter-text| field
     Then I should see in the |*repo-list| list only repositories that contain "rep" keyword
-    And I choose any repository
+    And I click on the |*repo1-radio| button
     And I click on the |*continue| button
-    And I wait 10 seconds for navigation to application page
-    Then I should be navigated to application page
+    Then I should be navigated to |*application-information| page
 
   @GithubFlow_CheckChooseRepositoryCancel
   Scenario: Check that the 'Cancel' button close the repository modal
     When I click on the |*view-connection-info| link
-    And I wait 10 seconds to navigate to github connection page
+    And I wait 5 seconds to navigate to github connection page
     And I click on the |*re-authorize| button
     And I click on the |*connect-to-github| button
     And I should see a |*flash-message| with |*succes-message|

@@ -30,7 +30,7 @@ module.exports = function () {
 
   this.When(/^I enter \|(.*?)\| in the \|(.*?)\|/, function (value, selector) {
     boostrap(this.browser);
-    return this.browser._click(page.getDynamicValue(selector), {timeout: 30000}).keys(page.getDynamicValue(value));
+    return this.browser._setText(page.getDynamicValue(selector), page.getDynamicValue(value));
   });
 
   this.When(/^I click on the \|(.*?)\| button$/, function (selector) {
@@ -51,8 +51,13 @@ module.exports = function () {
     else
       PipelinesUnAuthUrl = page.getDynamicValue(expectedUrl);
 
-    return this.browser._wait(5, 'seconds', 'waitForPipelinesUnauthenticatedPageToLoad')
+    return this.browser._wait(10, 'seconds', 'waitForPipelinesUnauthenticatedPageToLoad')
       .then(() => this.browser._checkUrl(PipelinesUnAuthUrl));
+  });
+
+  this.Then(/^I should be navigated to \|(.*?)\| page$/, function (pageTitle) {
+    boostrap(this.browser);
+    return this.browser._waitUntil(page.getDynamicValue(pageTitle), {timeout: 10000});
   });
 
   this.Then(/^I wait (.*?) (.*?) (.*)/, function (value, format, message) {
@@ -63,5 +68,11 @@ module.exports = function () {
   this.Then(/^I should see the \|(.*?)\|/, function (selector) {
     boostrap(this.browser);
     return this.browser._exists(page.getDynamicValue(selector));
+  });
+
+  this.When(/^I should see a \|(.*?)\| with \|(.*?)\|$/, function (textElementIdentifier, expectedText) {
+    return this.browser._waitUntil(page.getDynamicValue(textElementIdentifier), {timeout: 5000})
+      .then(this.browser._getText(page.getDynamicValue(textElementIdentifier),
+      page.getDynamicValue(expectedText)));
   });
 };

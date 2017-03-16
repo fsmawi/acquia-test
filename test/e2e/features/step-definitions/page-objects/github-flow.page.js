@@ -12,15 +12,6 @@ let githubFlowPage = Object.create(page, {
   },
 
   /**
-   * first repository from repository list
-   */
-  firstRepoisotry:{
-    get: function(){
-      return 'input[name="repo"]';
-    }
-  },
-
-  /**
    * filter repositories text field
    */
   filterRepositoriesTextField:{
@@ -72,7 +63,6 @@ let githubFlowPage = Object.create(page, {
     value: function(repositoryList){
       return this.browser._exists(repositoryList).then(()=>{
         this.browser.elements(repositoryList).then((response)=> {
-            console.log(response.value);
             expect(response.value).to.be.length.above(0);
         });
       });
@@ -105,40 +95,22 @@ let githubFlowPage = Object.create(page, {
   },
 
   /**
-   * select first repository from repo-list
-   */
-  selectAnyRepository:{
-    value: function(){
-      return this.browser._click(this.firstRepoisotry);
-    }
-  },
-
-  /**
-   * @param {String} filterText partial text of repositories to be filtered
-   * filter the repo-list based on the provided filterText
-   */
-  filterRepositoriesList:{
-    value: function(filterText){
-      return this.browser.setValue(this.filterRepositoriesTextField, filterText)
-    }
-  },
-  /**
    * @param {String} repoList identifier for elements in repo-list
    * @param {String} filterText repositories filtered with text
    * assert the filtered repositories list contains only the repositories matches with filterText
    */
   assertFilteredRepositoriesList:{
-    value: function(repoList,filterText){
+    value: function(repoList, filterText){
       return this.browser._exists(repoList)
       .then(()=>{
-        this.browser.elements(repoList)
-        .then((res)=> Promise.all(res.value.map((r) => this.browser.elementIdText(r.ELEMENT))))
-        .then((elems) => elems.map((e) => e.value))
-        .then((repositoriesValues)=>{
-          for(let i in repositoriesValues){
-            expect(repositoriesValues[i]).to.contain(filterText);
-          }
-        });
+          return this.browser.elements(repoList)
+      })
+      .then((res)=> Promise.all(res.value.map((r) => this.browser.elementIdText(r.ELEMENT))))
+      .then((elems) => elems.map((e) => e.value))
+      .then((repositoriesValues)=>{
+        for(let i in repositoriesValues){
+          expect(repositoriesValues[i]).to.contain(filterText);
+        }
       });
     }
   }

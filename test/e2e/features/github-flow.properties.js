@@ -2,7 +2,7 @@ module.exports = {
   // feature scope
   'connect-to-github': 'e-button[text="Connect to Github"] button',
   'select-repo': '#select-repo button.el-button.el-button--primary',
-  'succes-message': 'You are successfully connected to Github.',
+  'success-message': 'You are successfully connected to Github.',
   'fail-reason': 'a certain reason',
   'flash-message': '#flash-message',
   'cancel': '.md-dialog-container button.el-button--link',
@@ -29,5 +29,8 @@ module.exports = {
   're-authorize': 'a[segmenteventidentifier="ClickReAuthGithub"]',
   'github_userid': '#login_field',
   'github_password': '#password',
-  'github_signin': 'input[name="commit"]'
+  'github_signin': 'input[name="commit"]',
+  'repo-filter-text': '.el-select-list__filter__input',
+  'repo1-radio': '//span[text()="repo1"]',
+  'application-information': '//h1[text()="Application Information"]'
 };
