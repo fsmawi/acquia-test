@@ -64,7 +64,6 @@ export class StartJobComponent implements OnInit {
       .catch(e => this.errorHandler.apiError(e));
 
     this.isDirectStartAvailable = features.directStart;
-
   }
 
   /**
