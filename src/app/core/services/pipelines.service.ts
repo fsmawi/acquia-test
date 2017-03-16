@@ -169,7 +169,7 @@ export class PipelinesService {
       .then(p => {
         if (p.length > 0) {
           return this.promisePostRequest(this.URI + `/ci/pipelines/${p[0].pipeline_id}/direct-start`, options);
-        }else {
+        } else {
           return Promise.reject({});
         }
       });

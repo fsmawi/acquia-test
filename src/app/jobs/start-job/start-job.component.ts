@@ -45,6 +45,7 @@ export class StartJobComponent implements OnInit {
    * Builds the component
    * @param dialogRef
    * @param pipelineService
+   * @param flashMessageService
    * @param errorHandler
    */
   constructor(
