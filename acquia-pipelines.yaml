@@ -26,43 +26,42 @@ events:
       - lint:
           script:
             - 'run lint "npm run lint"'
-      # - test:
-      #     script:
-      #       - 'npm test'
-      #       - 'npm run integration'
-      # - build:
-      #     script:
-      #       - 'npm run pipelines:build:$PIPELINE_VCS_PATH'
-      # - copy_dist:
-      #     script:
-      #       - 'set -x'
-      #       - 'cd environments && composer install && cd ..'
-      #       - 'rm -rf ./docroot'
-      #       - 'mkdir ./docroot'
-      #       - 'cp -r /tmp/build/* ./docroot'
-      #       - 'cp .htaccess ./docroot'
-      #       - 'cp index.php ./docroot'
-      #       - 'cp -r server ./docroot'
-      #       - 'cp -r environments/vendor ./docroot/server/vendor'
-      # - deploy:
-      #     script:
-      #       - 'cd $PIPELINE_DEPLOY_WORKSPACE'
-      #       - 'git config user.email "pipelines-cd@no-emails.com"'
-      #       - 'git config user.name "Pipelines CD"'
-      #       - 'git checkout -b $DEPLOY_VCS_PATH || git checkout $DEPLOY_VCS_PATH'
-      #       # - 'git pull origin $DEPLOY_VCS_PATH'
-      #       - 'rm -rf ./docroot'
-      #       - 'mkdir ./docroot'
-      #       - 'cp -r $BUILD_DIR/docroot/* ./docroot'
-      #       - 'git add -A'
-      #       - 'git commit -m "Deploying $DEPLOY_VCS_PATH"'
-      #       - 'git push origin $DEPLOY_VCS_PATH || git push -u origin $DEPLOY_VCS_PATH'
-      #       - 'cd $BUILD_DIR'
-      # - launch_ode:
-      #     script:
-      #       - 'cd environments'
-      #       - 'php cloud-ode.php'
-      #       - 'cd ..'
+      - test:
+          script:
+            - 'run test "npm test"'
+            - 'run test "npm run integration"'
+      - build:
+          script:
+            - 'run build "npm run pipelines:build:$PIPELINE_VCS_PATH"'
+      - copy_dist:
+          script:
+            - 'set -x'
+            - 'run build "cd environments && composer install && cd .."'
+            - 'run build "rm -rf ./docroot"'
+            - 'run build "mkdir ./docroot"'
+            - 'run build "cp -r /tmp/build/* ./docroot"'
+            - 'run build "cp .htaccess ./docroot"'
+            - 'run build "cp index.php ./docroot"'
+            - 'run build "cp -r server ./docroot"'
+            - 'run build "cp -r environments/vendor ./docroot/server/vendor"'
+      - deploy:
+          script:
+            - 'run build "cd $PIPELINE_DEPLOY_WORKSPACE"'
+            - 'run build "git config user.email \'pipelines-cd@no-emails.com\'"'
+            - 'run build "git config user.name \'Pipelines CD\'"'
+            - 'run build "git checkout -b $DEPLOY_VCS_PATH || git checkout $DEPLOY_VCS_PATH"'
+            - 'run build "rm -rf ./docroot"'
+            - 'run build "mkdir ./docroot"'
+            - 'run build "cp -r $BUILD_DIR/docroot/* ./docroot"'
+            - 'run build "git add -A"'
+            - 'run build "git commit -m \'Deploying $DEPLOY_VCS_PATH\'"'
+            - 'run build "git push origin $DEPLOY_VCS_PATH || git push -u origin $DEPLOY_VCS_PATH"'
+            - 'run build "cd $BUILD_DIR"'
+      - launch_ode:
+          script:
+            - 'run build "cd environments"'
+            - 'run build "php cloud-ode.php"'
+            - 'run build "cd .."'
       # - acceptance:
       #    script:
       #      - 'PIPELINES_ODE_URL=`cat ~/ode.url` && echo ODE URI is $PIPELINES_ODE_URL for e2e/integration tests'
@@ -72,6 +71,6 @@ events:
     steps:
       - merge_deploy:
           script:
-            - 'cd environments'
-            - 'composer install'
-            - 'php cloud-ode.php'
+            - 'run build "cd environments"'
+            - 'run build "composer install"'
+            - 'run build "php cloud-ode.php"'
