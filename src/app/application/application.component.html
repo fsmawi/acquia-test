@@ -4,7 +4,7 @@
    appSegmentOn="click"
    [segmentEventData]="{appId: appId}"
    segmentEventIdentifier="ClickReAuthGithub">Re-Authorize</a>
-<a class="el-button el-button--danger" (click)="removeAuth()">Remove Auth</a>
+<a class="el-button el-button--danger" *ngIf="gitUrl" (click)="removeAuth()">Remove Auth</a>
 <e-card *ngIf="!appLoading">
   <e-card-header>Connected repository information</e-card-header>
   <e-card-content>

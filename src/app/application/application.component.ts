@@ -118,8 +118,8 @@ export class ApplicationComponent implements OnInit {
           const repoInfo = this.gitUrl.match(regex);
           this.pipelines.removeGithubAuth(repoInfo[5], this.appId)
             .then(res => {
-              console.log('oD');
               this.flashMessage.showInfo('Github authentication has been removed.');
+              this.getConfigurationInfo();
             })
             .catch(e => {
               this.errorHandler.apiError(e);
