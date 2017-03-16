@@ -59,6 +59,19 @@ export class PipelinesService {
   }
 
   /**
+   * Removes Github Auth from the application
+   * @param repository
+   * @param application
+   * @returns {Promise<T>}
+   */
+  removeGithubAuth(repository: string, application: string) {
+    return this.promiseDeleteRequest(this.URI + `/ci/github`, {
+      repo: repository,
+      applications: [application]
+    });
+  }
+
+  /**
    * Gets the logs from a job
    * @param appId
    * @param jobId

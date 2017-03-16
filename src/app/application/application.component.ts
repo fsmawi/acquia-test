@@ -111,10 +111,18 @@ export class ApplicationComponent implements OnInit {
   removeAuth() {
     this.confirmationModalService
       .openDialog('Remove Authentication',
-        'Are you sure you want to remove Github authenticaion from your app?', 'Yes', 'Cancel')
+        'Are you sure you want to remove github authentication from your app?', 'Yes', 'Cancel')
       .then(result => {
         if (result) {
-
+          this.pipelines.removeGithubAuth(this.gitUrl, this.appId)
+            .then(res => {
+              this.flashMessage.showInfo('Successfully removed github authentication.');
+            })
+            .catch(e => {
+              this.errorHandler.apiError(e);
+              this.errorHandler.reportError(e, 'FailedRemoveGithubAuth', {}, 'error');
+              this.flashMessage.showError('Unable to remove github authentication.', e);
+            });
         }
       });
   }
