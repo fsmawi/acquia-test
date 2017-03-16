@@ -114,9 +114,12 @@ export class ApplicationComponent implements OnInit {
         'Are you sure you want to remove github authentication from your app?', 'Yes', 'Cancel')
       .then(result => {
         if (result) {
-          this.pipelines.removeGithubAuth(this.gitUrl, this.appId)
+          const regex = /^((git@[\w\.]+:)|((http|https):\/\/[\w\.]+\/?))([\w\.@\:/\-~]+)(\.git)(\/)?$/;
+          const repoInfo = this.gitUrl.match(regex);
+          this.pipelines.removeGithubAuth(repoInfo[5], this.appId)
             .then(res => {
-              this.flashMessage.showInfo('Successfully removed github authentication.');
+              console.log('oD');
+              this.flashMessage.showInfo('Github authentication has been removed.');
             })
             .catch(e => {
               this.errorHandler.apiError(e);

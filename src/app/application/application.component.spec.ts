@@ -132,4 +132,23 @@ describe('ApplicationComponent', () => {
       tick();
       expect(flashMessage.showInfo).toHaveBeenCalledWith('You are not connected yet');
     })));
+
+  it('should show a success message after removing github authentication',
+    fakeAsync(inject([ActivatedRoute, FlashMessageService, MockBackend],
+                  (route, flashMessage, mockBackend) => {
+
+      setupConnections(mockBackend, {
+        body: JSON.stringify({
+          'status' : 204
+        })
+      });
+
+      spyOn(flashMessage, 'showInfo');
+      component.gitUrl = 'git@github.com:aq/pipe.git';
+      component.appId = 'appId';
+      component.removeAuth();
+      tick();
+      expect(flashMessage.showInfo).toHaveBeenCalledWith('Github authentication has been removed.');
+    })));
+
 });
