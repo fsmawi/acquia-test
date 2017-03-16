@@ -34,6 +34,10 @@ class MockFlashMessage {
   showInfo(message: string, e: any = {}) {
     return true;
   }
+
+  showSuccess(message: string, e: any = {}) {
+    return true;
+  }
 }
 
 function setupConnections(mockBackend: MockBackend, options: any) {
@@ -143,12 +147,12 @@ describe('ApplicationComponent', () => {
         })
       });
 
-      spyOn(flashMessage, 'showInfo');
+      spyOn(flashMessage, 'showSuccess');
       component.gitUrl = 'git@github.com:aq/pipe.git';
       component.appId = 'appId';
       component.removeAuth();
       tick();
-      expect(flashMessage.showInfo).toHaveBeenCalledWith('Github authentication has been removed.');
+      expect(flashMessage.showSuccess).toHaveBeenCalledWith('Github authentication has been removed.');
     })));
 
 });
