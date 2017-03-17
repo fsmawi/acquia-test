@@ -19,7 +19,7 @@ function executeCommande() {
 
   exec(command, {
     cwd: path.join(__dirname, '..'),
-    maxBuffer: 400 * 1024
+    maxBuffer: 600 * 1024
   }, (error, stdout, stderr) => {
 
     // TODO : keep colors
@@ -37,7 +37,8 @@ function executeCommande() {
         })
         .then(() => {
           // TODO : keep colors
-          throw new Error(error);
+          console.error(error);
+          process.exit(1);
         });
     }
   });
