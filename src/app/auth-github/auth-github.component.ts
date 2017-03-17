@@ -117,7 +117,7 @@ export class AuthGithubComponent implements OnInit {
         if (result !== undefined && Object.keys(result).length !== 0) {
           // closed with API error
           if (result.status !== undefined) {
-             this.showAttachRepoAlert('danger', result.status + ' : ' + result._body);
+            this.showAttachRepoAlert('danger', result.status + ' : ' + result._body);
           } else {
             this.attachRepository(result);
           }
