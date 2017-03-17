@@ -74,7 +74,10 @@ export class JobListComponent implements OnInit {
       branch: !job.commit ? job.branch : undefined
     }).then(result => {
       console.log(result);
-    }).catch(this.errorHandler.apiError);
+    }).catch(e => {
+      this.errorHandler.apiError(e)
+        .reportError(e, 'FailedToRestartJob', {component: 'job-list', appId: this.appId}, 'error');
+    });
   }
 
   /**
@@ -93,7 +96,8 @@ export class JobListComponent implements OnInit {
             })
             .catch(e => {
               this.flashMessageService.showError('Error while terminating your job', e);
-              this.errorHandler.apiError(e);
+              this.errorHandler.apiError(e)
+                .reportError(e, 'FailedToStopJob', {component: 'job-list', appId: this.appId}, 'error');
             });
         }
       });

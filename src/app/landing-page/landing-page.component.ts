@@ -215,7 +215,7 @@ export class LandingPageComponent implements OnInit {
             window.top.location.href = 'https://cloud.acquia.com/app/profile/agreements';
           } else {
             this.errorHandler.apiError(e);
-            this.errorHandler.reportError(e, 'CheckAppStatus', {module: 'landing-page'}, 'Error');
+            this.errorHandler.reportError(e, 'CheckAppStatus', {component: 'landing-page', appId: this.appId}, 'error');
             this.flash.showError('Error checking your app', e);
           }
         });
