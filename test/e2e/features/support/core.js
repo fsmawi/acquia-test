@@ -59,7 +59,6 @@ exports.bootstrap = function (browser) {
   browser._click = function (selector, params) {
     let options = {timeout: 5000};
     Object.assign(options, params || {});
-
     return browser.waitForVisible(selector, options.timeout)
       .then(() => screenshot(createTimeName('click', selector)))
       .click(selector)
@@ -134,8 +133,8 @@ exports.bootstrap = function (browser) {
   /**
    * @param {String} selector
    * @param {Array} params contains optional timeout parameter
-   * wait until the given selector is visible
    * @return {Promise}
+   * wait until the given selector is visible
    */
   browser._waitUntil = function (selector, params) {
     let options = Object.assign({timeout: 5000}, params);
@@ -162,7 +161,44 @@ exports.bootstrap = function (browser) {
         return screenshot(createTimeName('switchFrame-error', selector))
           .then(() => Promise.reject(e));
       });
-  };
+  },
+
+    /**
+     * @return {String} text of the element
+     * @param {String} selector identifier of an element
+     * get the text of an element identified by given selectors
+     */
+    browser._getText = function (selector) {
+      return browser.getText(selector)
+        .catch((e) => {
+          return screenshot(createTimeName('getText-error', selector))
+            .then(() => Promise.reject(e));
+        });
+    },
+
+    /**
+       * @return {Promise}
+       * @param {String} selector of the element to find
+       * @param {Array} params
+       * check that the element identified by given selector exists on the page
+    */
+    browser._notExists = function (selector, params) {
+      let options = Object.assign({timeout: 5000}, params);
+      return browser.isExistingWithTimeout(selector, options.timeout)
+        .then((exists) => {
+          if (exists) {
+            throw new Error(`${selector} should not exist`);
+          } else {
+            Promise.resolve();
+          }
+        })
+        .then(() => browser.pause(options.afterPause || 1000))
+        .then(() => screenshot(createTimeName('notExists', selector)))
+        .catch((e) => {
+          return screenshot(createTimeName('notExists-error', selector))
+            .then(() => Promise.reject(e));
+        });
+    };
 
   browser._frameworkAttached = true;
   return browser;

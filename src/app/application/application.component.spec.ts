@@ -14,9 +14,16 @@ import {PipelinesService} from '../core/services/pipelines.service';
 import {SegmentService} from '../core/services/segment.service';
 import {ElementalModule} from '../elemental/elemental.module';
 import {SharedModule} from '../shared/shared.module';
+import {ConfirmationModalService} from '../core/services/confirmation-modal.service';
 
 class MockActivatedRoute {
   params = new EventEmitter<any>();
+}
+
+class MockConfirmationModalService {
+  openDialog(title: string, message: string, primaryActionText: string, secondaryActionText = '') {
+    return Promise.resolve(true);
+  }
 }
 
 class MockFlashMessage {
@@ -25,6 +32,10 @@ class MockFlashMessage {
   }
 
   showInfo(message: string, e: any = {}) {
+    return true;
+  }
+
+  showSuccess(message: string, e: any = {}) {
     return true;
   }
 }
@@ -65,6 +76,7 @@ describe('ApplicationComponent', () => {
         SegmentService,
         {provide: ActivatedRoute, useClass: MockActivatedRoute},
         {provide: FlashMessageService, useClass: MockFlashMessage},
+        {provide: ConfirmationModalService, useClass: MockConfirmationModalService},
         {
           provide: Http,
           useFactory: (mockBackend, options) => {
@@ -124,4 +136,23 @@ describe('ApplicationComponent', () => {
       tick();
       expect(flashMessage.showInfo).toHaveBeenCalledWith('You are not connected yet');
     })));
+
+  it('should show a success message after removing GitHub authentication',
+    fakeAsync(inject([ActivatedRoute, FlashMessageService, MockBackend],
+                  (route, flashMessage, mockBackend) => {
+
+      setupConnections(mockBackend, {
+        body: JSON.stringify({
+          'status' : 204
+        })
+      });
+
+      spyOn(flashMessage, 'showSuccess');
+      component.gitUrl = 'git@github.com:aq/pipe.git';
+      component.appId = 'appId';
+      component.removeAuth();
+      tick();
+      expect(flashMessage.showSuccess).toHaveBeenCalledWith('GitHub authentication has been removed.');
+    })));
+
 });

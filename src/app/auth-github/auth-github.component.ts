@@ -175,7 +175,8 @@ export class AuthGithubComponent implements OnInit {
       this.authorized = true;
     } else if (params['reason'] !== undefined && params['reason'] !== '') {
       this.showConnectionAlert('danger', decodeURIComponent(params['reason']));
-      this.errorHandler.reportError(new Error(params['reason']), 'AuthGithubAPIFailed', {appId: this.appId}, 'error');
+      this.errorHandler.reportError(new Error(params['reason']), 'FailedToCheckGithubAuthorization',
+        {component: 'auth-github', appId: this.appId}, 'error');
     } else {
       this.showConnectionAlert('danger', 'Sorry, we could not connect to github at this time.');
     }
