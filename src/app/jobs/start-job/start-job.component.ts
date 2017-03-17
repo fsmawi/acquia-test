@@ -62,7 +62,7 @@ export class StartJobComponent implements OnInit {
     this.branches = ['master'];
     this.pipelineService.getBranches(this.appId)
       .then(branches => {
-        if (this.branches.indexOf('master') > 0) {
+        if (this.branches.indexOf('master') > -1) {
           this.branches = branches;
         } else {
           this.branches = ['master'].concat(branches);
