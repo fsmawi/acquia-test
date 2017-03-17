@@ -23,7 +23,7 @@
     "pipelines:build:master": "ng build --aot --env=live-mock --output-path=/tmp/build",
     "pipelines:build:staging": "ng build --aot --env=live-mock --output-path=/tmp/build",
     "pipelines:build:production": "ng build --prod --aot --progress --output-path=/tmp/build",
-	"changelog": "standard-version --first-release"
+    "changelog": "standard-version --first-release"
   },
   "private": true,
   "dependencies": {

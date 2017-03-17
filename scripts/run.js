@@ -17,9 +17,9 @@ const directory = process.argv.slice(2)[2];
 if(!command) {
   switch(step) {
     case 'start':
-      return sendNotification('green', `Starting job for ${branch}.`);
+      return sendNotification('green', `Starting job ${jobId} for ${branch}.`);
     case 'end':
-      return sendNotification('green', `Job for ${branch} successful.`);
+      return sendNotification('green', `Job ${jobId} for ${branch} successful.`);
     default:
       throw 'Unknown run step';
   }
@@ -43,7 +43,7 @@ function executeCommand() {
     if (error) {
 
       // send notification to hipchat
-      sendNotification('red', `Job for ${branch} failed.\nExecution step: ${step} \nCommand failed: ${command}\nhttps://cloud.acquia.com/app/develop/applications/${appId}/pipelines/jobs/${jobId}`)
+      sendNotification('red', `Job ${jobId} for ${branch} failed.\nExecution step: ${step} \nCommand failed: ${command}\nhttps://cloud.acquia.com/app/develop/applications/${appId}/pipelines/jobs/${jobId}`)
         .then((res) => {
           console.log('Notification sent to hipchat room');
         })
