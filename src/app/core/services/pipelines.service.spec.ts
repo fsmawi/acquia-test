@@ -123,5 +123,4 @@ describe('PipelinesService', () => {
         expect(res.repo_url).toBe('someurl');
       });
     }));
-
 });
