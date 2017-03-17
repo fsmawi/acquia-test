@@ -3,8 +3,8 @@ const request = require('superagent');
 const path = require('path');
 
 // Hipchat paramerters
-const accessToken = 'lCxpX4CBsVMTHV8MU8G47D0o27fF7vjpkQc7SDwy';
-const roomId = encodeURIComponent('Test Hipchat');
+const accessToken = process.env.PIPELINES_HIPCHAT_TOKEN;
+const roomId = encodeURIComponent(process.env.PIPELINES_HIPCHAT_ROOM);
 
 // get arguments
 const step = process.argv.slice(2)[0];
@@ -31,10 +31,10 @@ function executeCommand() {
       // send notification to hipchat
       sendNotification(step, command, stdout+error, roomId, accessToken)
         .then((res) => {
-          console.log('successfully sent notification to hipchat room');
+          console.log('Notification sent to hipchat room');
         })
         .catch((err) => {
-          console.log('failed to sent notification to hipchat room', err);
+          console.log('Failed to sent notification to hipchat room', err);
         })
         .then(() => {
           // TODO : keep colors
