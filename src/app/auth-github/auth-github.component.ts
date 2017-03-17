@@ -2,9 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, Params} from '@angular/router';
 import {MdDialog, MdDialogRef} from '@angular/material';
 
+import {Alert} from '../core/models/alert';
 import {PipelinesService} from '../core/services/pipelines.service';
 import {ErrorService} from '../core/services/error.service';
-import {FlashMessageService} from '../core/services/flash-message.service';
 import {SegmentService} from '../core/services/segment.service';
 import {environment} from '../../environments/environment';
 import {GithubDialogRepositoriesComponent} from './github-dialog-repositories/github-dialog-repositories.component';
@@ -70,12 +70,24 @@ export class AuthGithubComponent implements OnInit {
   appAttached = false;
 
   /**
+   * Alert for github connection status
+   * @type {Alert}
+   */
+  connectionAlert = new Alert();
+
+  /**
+   * Alert for attach repository status
+   * @type {[type]}
+   */
+  attachRepoAlert = new Alert();
+
+
+  /**
    * Builds the component
    * @param route
    * @param router
    * @param errorHandler
    * @param pipelines
-   * @param flashMessage
    * @param segment
    * @param dialog
    */
@@ -84,7 +96,6 @@ export class AuthGithubComponent implements OnInit {
     private router: Router,
     private errorHandler: ErrorService,
     private pipelines: PipelinesService,
-    private flashMessage: FlashMessageService,
     private segment: SegmentService,
     private dialog: MdDialog) {
   }
@@ -126,7 +137,7 @@ export class AuthGithubComponent implements OnInit {
         this.errorHandler.apiError(e);
         this.errorHandler.reportError(e, 'FailedToAttachGithubReposioryToPipelines',
           {component: 'auth-github', repository: repository.full_name, appId: this.appId}, 'error');
-        this.flashMessage.showError('Unable to attach repository to this application.', e);
+        this.showAttachRepoAlert('danger', 'Unable to attach repository to this application.', e);
       })
       .then(() => this.loading = false);
   }
@@ -155,14 +166,46 @@ export class AuthGithubComponent implements OnInit {
    */
   checkAuthorization(params: Params) {
     if (params['success'] === 'true') {
-      this.flashMessage.showSuccess('You are successfully connected to Github.');
+      this.showConnectionAlert('success', 'You are successfully connected to Github.');
       this.authorized = true;
     } else if (params['reason'] !== undefined && params['reason'] !== '') {
-      this.flashMessage.showError(decodeURIComponent(params['reason']));
-      this.errorHandler.reportError(new Error(params['reason']), 'AuthGithubAPIFailed', {appId: this.appId}, 'error');
+      this.showConnectionAlert('danger', decodeURIComponent(params['reason']));
+      this.errorHandler.reportError(new Error(params['reason']), 'FailedToCheckGithubAuthorization',
+        {component: 'auth-github', appId: this.appId}, 'error');
     } else {
-      this.flashMessage.showError('Sorry, we could not connect to github at this time.');
+      this.showConnectionAlert('danger', 'Sorry, we could not connect to github at this time.');
     }
+  }
+
+  /**
+   * Show github connection status
+   * @param type
+   * @param message
+   */
+  showConnectionAlert(type: string, message: string) {
+    this.connectionAlert.display = true;
+    this.connectionAlert.message = message;
+    this.connectionAlert.type = type;
+  }
+
+  /**
+   * Show attach repository status
+   * @param type
+   * @param message
+   * @param details
+   */
+  showAttachRepoAlert(type: string, message: string, details: any) {
+    this.attachRepoAlert.display = true;
+    this.attachRepoAlert.message = message;
+    this.attachRepoAlert.type = type;
+    this.attachRepoAlert.details = details.status + ':' + details._body;
+  }
+
+  /**
+   * Show more details
+   */
+  showMoreDetails() {
+    this.attachRepoAlert.showDetails = true;
   }
 
   /**
