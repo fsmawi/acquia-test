@@ -7,6 +7,7 @@ import {FlashMessageService} from '../core/services/flash-message.service';
 import {GithubStatus} from '../core/models/github-status';
 import {N3Service} from '../core/services/n3.service';
 import {ConfirmationModalService} from '../core/services/confirmation-modal.service';
+import {features} from '../core/features';
 
 
 @Component({
@@ -69,6 +70,11 @@ export class ApplicationComponent implements OnInit {
   vcsType: string;
 
   /**
+   * Flag to toggle vcs type icon feature
+   */
+  vcsTypeIconFeature: boolean;
+
+  /**
    * Build the component
    * @param route
    * @param router
@@ -107,7 +113,7 @@ export class ApplicationComponent implements OnInit {
       })
       .then(status => {
         // Get the VCS Info if connected
-        if (status.connected) {
+        if (this.vcsTypeIconFeature && status.connected) {
           this.n3Service.getEnvironments(this.appId)
             .then(environments => this.vcsType = environments[0].vcs.type)
             .catch(e => this.errorHandler.apiError(e));
@@ -130,6 +136,7 @@ export class ApplicationComponent implements OnInit {
       this.appId = params['app-id'];
       this.getConfigurationInfo();
     });
+    this.vcsTypeIconFeature = features.vcsTypeIcon;
   }
 
   /**

@@ -9,6 +9,8 @@ import {SegmentService} from '../core/services/segment.service';
 import {StartJobComponent} from './start-job/start-job.component';
 import {GithubStatus} from '../core/models/github-status';
 import {N3Service} from '../core/services/n3.service';
+import {features} from '../core/features';
+
 
 @Component({
   selector: 'app-jobs',
@@ -49,8 +51,14 @@ export class JobsComponent implements OnInit, OnDestroy {
    */
   isInitialized = false;
 
+  /**
+   * Holds repo full name
+   */
   repoFullName: string;
 
+  /**
+   * Holds vcs type
+   */
   vcsType: string;
 
   /**
@@ -101,6 +109,7 @@ export class JobsComponent implements OnInit, OnDestroy {
 
     // Track page view
     this.segment.page('JobListView');
+
   }
 
   /**
@@ -118,18 +127,21 @@ export class JobsComponent implements OnInit, OnDestroy {
   refresh() {
     this.loadingJobs = true;
     // Get GitHub Status and VCS Info
-    this.pipelines.getGithubStatus(this.appId)
-      .then((status: GithubStatus) => {
-        if (status.connected) {
-          const regex = /^((git@[\w\.]+:)|((http|https):\/\/[\w\.]+\/?))([\w\.@\:/\-~]+)(\.git)(\/)?$/;
-          const repoInfo = status.repo_url.match(regex);
-          this.repoFullName = repoInfo[5];
-          this.n3Service.getEnvironments(this.appId)
-            .then(environments => this.vcsType = environments[0].vcs.type)
-            .catch(e => this.errorHandler.apiError(e));
-        }
-      })
-      .catch(e => this.errorHandler.apiError(e));
+    if (features.vcsTypeIcon) {
+      this.pipelines.getGithubStatus(this.appId)
+        .then((status: GithubStatus) => {
+          if (status.connected) {
+            const regex = /^((git@[\w\.]+:)|((http|https):\/\/[\w\.]+\/?))([\w\.@\:/\-~]+)(\.git)(\/)?$/;
+            const repoInfo = status.repo_url.match(regex);
+            this.repoFullName = repoInfo[5];
+            this.n3Service.getEnvironments(this.appId)
+              .then(environments => this.vcsType = environments[0].vcs.type)
+              .catch(e => this.errorHandler.apiError(e));
+          }
+        })
+        .catch(e => this.errorHandler.apiError(e));
+    }
+
     // Get Jobs to be listed
     this.pipelines.getJobsByAppId(this.appId)
       .then(jobs => {

@@ -11,7 +11,7 @@
 <e-card *ngIf="!appLoading">
     <e-card-header>
       Connected repository information
-      <div id="repoInfo">
+      <div id="repoInfo" *ngIf="vcsTypeIconFeature">
         <e-svg-icon *ngIf="vcsType && vcsType === 'git'" type="logos__github" size="medium">
         </e-svg-icon>
         <svg *ngIf="vcsType && vcsType ==='acquia-git'"
