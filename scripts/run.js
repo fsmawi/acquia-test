@@ -10,16 +10,16 @@ const roomId = encodeURIComponent('Test Hipchat');
 const step = process.argv.slice(2)[0];
 const command = process.argv.slice(2)[1];
 
-executeCommande();
+executeCommand();
 
 /**
  * Execute a commande
  */
-function executeCommande() {
+function executeCommand() {
 
   exec(command, {
     cwd: path.join(__dirname, '..'),
-    maxBuffer: 600 * 1024
+    maxBuffer: 1024 * 1024
   }, (error, stdout, stderr) => {
 
     // TODO : keep colors
