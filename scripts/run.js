@@ -26,8 +26,6 @@ function executeCommande() {
     console.log(stdout);
 
     if (error) {
-      // TODO : keep colors
-      console.log(error);
 
       // send notification to hipchat
       sendNotification(step, command, stdout+error, roomId, accessToken)
@@ -36,6 +34,10 @@ function executeCommande() {
         })
         .catch((err) => {
           console.log('failed to sent notification to hipchat room', err);
+        })
+        .then(() => {
+          // TODO : keep colors
+          throw new Error(error);
         });
     }
   });
