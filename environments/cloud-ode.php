@@ -97,6 +97,7 @@ class CloudODE {
                 }
                 catch (CloudAPI\UnexpectedResponseStatusException $e) {
                     $result = $e->getResult();
+                    print_r($result);
                     if (strpos($result['message'], 'On-demand environments are not available') !== FALSE) {
                         print "Environments: {$result['message']}\n";
                         exit(1);

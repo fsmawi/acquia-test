@@ -21,7 +21,13 @@
       <a appSegmentOn="click"
          [segmentEventData]="{job_id: job.job_id, status: job.status}"
          segmentEventIdentifier="ClickJobListDetailLink"
-         routerLink="/jobs/{{appId}}/{{job.job_id}}">{{job.job_id | slice:0:8}}</a>
+         routerLink="{{cloudUrl}}/{{job.job_id}}"
+         *ngIf="!envProd">{{job.job_id | slice:0:8}}</a>
+      <a appSegmentOn="click"
+         [segmentEventData]="{job_id: job.job_id, status: job.status}"
+         segmentEventIdentifier="ClickJobListDetailLink"
+         href="{{cloudUrl}}/{{job.job_id}}" target="_top"
+         *ngIf="envProd">{{job.job_id | slice:0:8}}</a>
     </td>
     <td class="center">{{job.branch}}</td>
     <td class="hidden-xs-down center">{{job.commit ? job.commit : '-'}}</td>

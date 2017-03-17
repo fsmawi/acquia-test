@@ -1,9 +1,11 @@
 import {Component, OnInit, Input} from '@angular/core';
+
+import {ConfirmationModalService} from '../../core/services/confirmation-modal.service';
+import {environment} from '../../../environments/environment';
+import {ErrorService} from '../../core/services/error.service';
+import {FlashMessageService} from '../../core/services/flash-message.service';
 import {Job} from '../../core/models/job';
 import {PipelinesService} from '../../core/services/pipelines.service';
-import {ErrorService} from '../../core/services/error.service';
-import {ConfirmationModalService} from '../../core/services/confirmation-modal.service';
-import {FlashMessageService} from '../../core/services/flash-message.service';
 import {SegmentService} from '../../core/services/segment.service';
 
 @Component({
@@ -12,6 +14,18 @@ import {SegmentService} from '../../core/services/segment.service';
   styleUrls: ['./job-list.component.scss']
 })
 export class JobListComponent implements OnInit {
+
+  /**
+   * If in production environment
+   * @type {boolean}
+   */
+  envProd: boolean;
+
+  /**
+   * Pipelines cloud url
+   * @type {string}
+   */
+  cloudUrl: string;
 
   /**
    * List of Jobs to Display
@@ -39,6 +53,15 @@ export class JobListComponent implements OnInit {
    * Initialize
    */
   ngOnInit() {
+    this.envProd = false;
+    // In the production environment, all job links should specify the cloud url,
+    // which will allow multiple windows/tabs to be open
+    if (environment.production && environment.name === 'prod') {
+      this.envProd = true;
+      this.cloudUrl = `${environment.authRedirect}/app/develop/applications/${this.appId}/pipelines/jobs`;
+    } else {
+      this.cloudUrl = `/jobs/${this.appId}`;
+    }
   }
 
   /**
@@ -51,7 +74,10 @@ export class JobListComponent implements OnInit {
       branch: !job.commit ? job.branch : undefined
     }).then(result => {
       console.log(result);
-    }).catch(this.errorHandler.apiError);
+    }).catch(e => {
+      this.errorHandler.apiError(e)
+        .reportError(e, 'FailedToRestartJob', {component: 'job-list', appId: this.appId}, 'error');
+    });
   }
 
   /**
@@ -70,7 +96,8 @@ export class JobListComponent implements OnInit {
             })
             .catch(e => {
               this.flashMessageService.showError('Error while terminating your job', e);
-              this.errorHandler.apiError(e);
+              this.errorHandler.apiError(e)
+                .reportError(e, 'FailedToStopJob', {component: 'job-list', appId: this.appId}, 'error');
             });
         }
       });

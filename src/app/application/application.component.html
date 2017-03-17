@@ -1,6 +1,6 @@
 <h1 class="page-title">Application Information</h1>
-<a class="el-button el-button--primary" [routerLink]="['/jobs', appId]">View Jobs</a>
-<a class="el-button el-button--primary" [routerLink]="['/auth/github', appId]"
+<a appIframeLink="/jobs/{{appId}}" class="el-button el-button--primary">View Jobs</a>
+<a appIframeLink="/auth/github/{{appId}}" class="el-button el-button--primary"
    appSegmentOn="click"
    [segmentEventData]="{appId: appId}"
    segmentEventIdentifier="ClickReAuthGithub">Re-Authorize</a>

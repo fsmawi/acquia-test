@@ -47,6 +47,12 @@ export class AuthGithubComponent implements OnInit {
   n3Endpoint: string;
 
   /**
+   * N3 Api File
+   * @type {string}
+   */
+  n3ApiFile: string;
+
+  /**
    * Loading indicator
    */
   loading: boolean;
@@ -129,7 +135,8 @@ export class AuthGithubComponent implements OnInit {
       })
       .catch(e => {
         this.errorHandler.apiError(e);
-        this.errorHandler.reportError(e, 'AttachGithubFailed', {appId: this.appId}, 'error');
+        this.errorHandler.reportError(e, 'FailedToAttachGithubReposioryToPipelines',
+          {component: 'auth-github', repository: repository.full_name, appId: this.appId}, 'error');
         this.showAttachRepoAlert('danger', 'Unable to attach repository to this application.', e);
       })
       .then(() => this.loading = false);
@@ -163,7 +170,8 @@ export class AuthGithubComponent implements OnInit {
       this.authorized = true;
     } else if (params['reason'] !== undefined && params['reason'] !== '') {
       this.showConnectionAlert('danger', decodeURIComponent(params['reason']));
-      this.errorHandler.reportError(new Error(params['reason']), 'AuthGithubAPIFailed', {appId: this.appId}, 'error');
+      this.errorHandler.reportError(new Error(params['reason']), 'FailedToCheckGithubAuthorization',
+        {component: 'auth-github', appId: this.appId}, 'error');
     } else {
       this.showConnectionAlert('danger', 'Sorry, we could not connect to github at this time.');
     }
@@ -209,6 +217,7 @@ export class AuthGithubComponent implements OnInit {
     this.appAttached = false;
     this.oauthUrl = environment.apiEndpoint + '/api/v1/ci/github/oauth';
     this.n3Endpoint = environment.headers['X-ACQUIA-PIPELINES-N3-ENDPOINT'];
+    this.n3ApiFile = environment.headers['X-ACQUIA-PIPELINES-N3-APIFILE'];
     this.route.params.subscribe((params) => {
       this.appId = params['app-id'];
       this.finishUrl = environment.authRedirect + '/app/develop/applications/' + this.appId + '/pipelines/github';

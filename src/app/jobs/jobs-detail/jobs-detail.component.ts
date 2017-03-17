@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Component, OnInit, OnDestroy, ElementRef, ViewChild} from '@angular/core';
 import {ActivatedRoute, Params} from '@angular/router';
 
 import {Job} from '../../core/models/job';
@@ -10,6 +10,7 @@ import {SegmentService} from '../../core/services/segment.service';
 import {FlashMessageService} from '../../core/services/flash-message.service';
 import {WebSocketService} from '../../core/services/web-socket.service';
 import {WebSocketHandler} from '../../core/models/web-socket-handler';
+import {features} from '../../core/features';
 
 @Component({
   selector: 'app-jobs-detail',
@@ -70,6 +71,14 @@ export class JobsDetailComponent implements OnInit, OnDestroy {
    * Holds the event stream
    */
   socket: WebSocketHandler;
+
+
+  /**
+   * Hold the reference for the logs div
+   */
+  @ViewChild('logsContainer')
+  logsElement: ElementRef;
+
 
   /**
    * Builds the component
@@ -156,7 +165,8 @@ export class JobsDetailComponent implements OnInit, OnDestroy {
           }
           // always set to false to flag non streaming components
           this.streaming = false;
-        } else if (this.streaming === null && metadata.log_stream_websocket && metadata.log_stream_secret) {
+          // FEATURE FLAG for enabling log streaming. Remove after MS-2590 is complete
+        } else if (this.streaming === null && metadata.log_stream_websocket && metadata.log_stream_secret && features.logStreaming) {
           this.loadingLogs = false;
           return this.streamLogs();
         } else if (!this.timer) {
@@ -174,6 +184,7 @@ export class JobsDetailComponent implements OnInit, OnDestroy {
       .catch(e =>
         this.errorHandler
           .apiError(e)
+          .reportError(e, 'FailedToGetJobDetail', {component: 'jobs-detail', appId: this.appId, jobId: this.jobId}, 'error')
           .showError('Job list', '/jobs/' + this.appId))
       .then(() => {
         this.loadingJob = false;
@@ -195,7 +206,10 @@ export class JobsDetailComponent implements OnInit, OnDestroy {
         });
 
         this.loadingLogs = false;
-      });
+      })
+      .catch(e =>
+         this.errorHandler.reportError(e, 'FailedToGetJobLogs', {component: 'jobs-detail', appId: this.appId, jobId: this.jobId}, 'error')
+      );
   }
 
   /**
@@ -266,5 +280,19 @@ export class JobsDetailComponent implements OnInit, OnDestroy {
           return console.log('Unknown stream event', event);
       }
     });
+  }
+
+  /**
+   * Toggle log chunk visibility
+   */
+  showChunk(chunk: any) {
+    chunk.visible = !chunk.visible;
+  }
+
+  /**
+   * Scroll the logs pre section to the latest logs available
+   */
+  scrollLogsToBottom() {
+    this.logsElement.nativeElement.scrollIntoView(false);
   }
 }

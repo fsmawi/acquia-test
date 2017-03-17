@@ -86,7 +86,13 @@ function clearCookies() {
 
 // Get request attributes
 $method = __('REQUEST_METHOD', $_SERVER);
-$apiFile = isset($_SERVER['HTTP_X_ACQUIA_PIPELINES_N3_APIFILE'])?$_SERVER['HTTP_X_ACQUIA_PIPELINES_N3_APIFILE']:'default.yml';
+if (isset($_SERVER['HTTP_X_ACQUIA_PIPELINES_N3_APIFILE'])) {
+  $apiFile = $_SERVER['HTTP_X_ACQUIA_PIPELINES_N3_APIFILE'];
+} elseif (isset($_REQUEST['HTTP_X_ACQUIA_PIPELINES_N3_APIFILE'])) {
+  $apiFile = $_REQUEST['HTTP_X_ACQUIA_PIPELINES_N3_APIFILE'];
+} else {
+  $apiFile = 'default.yml';
+}
 
 // Check if mock file exists
 $contentFile = file_get_contents(dirname(__FILE__).'/../../../test/api-mock-resources/'.$apiFile);
@@ -170,7 +176,18 @@ if (isset($definition['routes'][$route])) {
   // Process redirection
   unset($_GET['q']);
   $params = http_build_query($_GET);
-  header("Location:".$definition['redirections'][$route]['redirect_to']."?".$params);
+
+  $redirectTo = $definition['redirections'][$route]['redirect_to'];
+
+  if (strpos($redirectTo, '?') === false) {
+    $redirectTo .= "?";
+  } else {
+    $redirectTo .= "&";
+  }
+
+  $redirectTo .= $params."&HTTP_X_ACQUIA_PIPELINES_N3_APIFILE=$apiFile";
+
+  header("Location:".$redirectTo);
 
 } else {
 
