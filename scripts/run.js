@@ -43,7 +43,7 @@ function executeCommand() {
     if (error) {
 
       // send notification to hipchat
-      sendNotification('red', `Job for ${branch} failed.\nExecution step: ${step} \nCommand failed: ${command}\nhttps://cloud.acquia.com/app/develop/${appId}/pipelines/jobs/${jobId}`)
+      sendNotification('red', `Job for ${branch} failed.\nExecution step: ${step} \nCommand failed: ${command}\nhttps://cloud.acquia.com/app/develop/applications/${appId}/pipelines/jobs/${jobId}`)
         .then((res) => {
           console.log('Notification sent to hipchat room');
         })
@@ -67,20 +67,20 @@ function executeCommand() {
  */
 function sendNotification(color, message) {
   return new Promise((resolve, reject) => {
-  let url = `https://acquia.hipchat.com/v2/room/${roomId}/notification?auth_token=${accessToken}`;
-  request.post(url)
-    .send({
-      color: color,
-      message_format: 'text',
-      message: message,
-    })
-    .end((error, res) => {
-      if (error) {
-        return reject(error);
-      } else {
-        return resolve(res);
-      }
-    });
+    let url = `https://acquia.hipchat.com/v2/room/${roomId}/notification?auth_token=${accessToken}`;
+    request.post(url)
+      .send({
+        color: color,
+        message_format: 'text',
+        message: message,
+      })
+      .end((error, res) => {
+        if (error) {
+          return reject(error);
+        } else {
+          return resolve(res);
+        }
+      });
   });
 }
 
