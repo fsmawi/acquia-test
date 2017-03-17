@@ -5,6 +5,7 @@ import {PipelinesService} from '../core/services/pipelines.service';
 import {ErrorService} from '../core/services/error.service';
 import {FlashMessageService} from '../core/services/flash-message.service';
 import {GithubStatus} from '../core/models/github-status';
+import {N3Service} from '../core/services/n3.service';
 
 @Component({
   selector: 'app-application',
@@ -56,6 +57,16 @@ export class ApplicationComponent implements OnInit {
   appLoading = false;
 
   /**
+   * Repo full name
+   */
+  repoFullName: string;
+
+  /**
+   * VCS type eg. git, acquia-git
+   */
+  vcsType: string;
+
+  /**
    * Build the component
    * @param route
    * @param router
@@ -67,6 +78,7 @@ export class ApplicationComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private pipelines: PipelinesService,
+    private n3Service: N3Service,
     private errorHandler: ErrorService,
     private flashMessage: FlashMessageService) {
   }
@@ -74,14 +86,26 @@ export class ApplicationComponent implements OnInit {
   /**
    * Get Configuration Information
    */
-  getConfigurationInfo() {
+    getConfigurationInfo() {
     this.pipelines.getGithubStatus(this.appId)
       .then((status: GithubStatus) => {
         if (!status.connected) {
           this.flashMessage.showInfo('You are not connected yet');
         } else {
+          const regex = /^((git@[\w\.]+:)|((http|https):\/\/[\w\.]+\/?))([\w\.@\:/\-~]+)(\.git)(\/)?$/;
+          const repoInfo = status.repo_url.match(regex);
+          this.repoFullName = repoInfo[5];
           this.gitUrl = status.repo_url;
           this.gitClone = `git clone --branch [branch] ${this.gitUrl} [destination]`;
+        }
+        return status;
+      })
+      .then(status => {
+        // Get the VCS Info if connected
+        if (status.connected) {
+          this.n3Service.getEnvironments(this.appId)
+            .then(environments => this.vcsType = environments[0].vcs.type)
+            .catch(e => this.errorHandler.apiError(e));
         }
       })
       .catch(e => {

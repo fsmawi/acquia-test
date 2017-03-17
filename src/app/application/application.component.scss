@@ -13,3 +13,20 @@ md-card {
   margin-bottom: 24px;
   padding: 0;
 }
+
+#repoInfo {
+  display: block;
+  float: right;
+  position: relative;
+
+  @media (max-width: 600px) {
+    float: left;
+  }
+
+}
+
+/deep/ e-card-header {
+  svg {
+    top: 0.225rem !important;
+  }
+}

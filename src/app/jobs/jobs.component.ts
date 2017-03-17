@@ -7,6 +7,8 @@ import {Job} from '../core/models/job';
 import {PipelinesService} from '../core/services/pipelines.service';
 import {SegmentService} from '../core/services/segment.service';
 import {StartJobComponent} from './start-job/start-job.component';
+import {GithubStatus} from '../core/models/github-status';
+import {N3Service} from '../core/services/n3.service';
 
 @Component({
   selector: 'app-jobs',
@@ -47,6 +49,10 @@ export class JobsComponent implements OnInit, OnDestroy {
    */
   isInitialized = false;
 
+  repoFullName: string;
+
+  vcsType: string;
+
   /**
    * Build the component and inject services if needed
    * @param pipelines
@@ -57,6 +63,7 @@ export class JobsComponent implements OnInit, OnDestroy {
    */
   constructor(
     private pipelines: PipelinesService,
+    private n3Service: N3Service,
     private errorHandler: ErrorService,
     private route: ActivatedRoute,
     private segment: SegmentService,
@@ -110,6 +117,20 @@ export class JobsComponent implements OnInit, OnDestroy {
    */
   refresh() {
     this.loadingJobs = true;
+    // Get GitHub Status and VCS Info
+    this.pipelines.getGithubStatus(this.appId)
+      .then((status: GithubStatus) => {
+        if (status.connected) {
+          const regex = /^((git@[\w\.]+:)|((http|https):\/\/[\w\.]+\/?))([\w\.@\:/\-~]+)(\.git)(\/)?$/;
+          const repoInfo = status.repo_url.match(regex);
+          this.repoFullName = repoInfo[5];
+          this.n3Service.getEnvironments(this.appId)
+            .then(environments => this.vcsType = environments[0].vcs.type)
+            .catch(e => this.errorHandler.apiError(e));
+        }
+      })
+      .catch(e => this.errorHandler.apiError(e));
+    // Get Jobs to be listed
     this.pipelines.getJobsByAppId(this.appId)
       .then(jobs => {
         // Assign the returned jobs if the initial jobs array is empty.

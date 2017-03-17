@@ -7,7 +7,12 @@
   (click)="startJob()"></e-button>
 
   <a id="config-link" appIframeLink="/application/{{appId}}">View Connection Info</a>
-  <app-job-summary *ngIf="lastJob && appId" [isProgressBarRequired]="false" [appId]="appId" [job]="lastJob"></app-job-summary>
+  <app-job-summary *ngIf="lastJob && appId"
+                   [isProgressBarRequired]="false"
+                   [appId]="appId"
+                   [vcsType]="vcsType"
+                   [repoFullName]="repoFullName"
+                   [job]="lastJob"></app-job-summary>
 
   <e-card *ngIf="isInitialized">
     <e-card-header>Activity</e-card-header>
