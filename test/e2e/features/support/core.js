@@ -45,7 +45,7 @@ exports.bootstrap = function (browser) {
    * open the url on the browser and pause the browser for 5 secs for the URL to load
    */
   browser._url = function (url, params) {
-    let options = { pauseAfter: 5000 };
+    let options = {pauseAfter: 5000};
     Object.assign(options, params || {});
     return browser.url(url).pause(options.pauseAfter).then(() => screenshot(createTimeName('url', url)));
   };
@@ -57,7 +57,7 @@ exports.bootstrap = function (browser) {
    *  wait for element to be visible before performing a click
    */
   browser._click = function (selector, params) {
-    let options = { timeout: 5000 };
+    let options = {timeout: 5000};
     Object.assign(options, params || {});
     return browser.waitForVisible(selector, options.timeout)
       .then(() => screenshot(createTimeName('click', selector)))
@@ -113,7 +113,7 @@ exports.bootstrap = function (browser) {
    * check that the element identified by given selector exists on the page
    */
   browser._exists = function (selector, params) {
-    let options = Object.assign({ timeout: 5000 }, params);
+    let options = Object.assign({timeout: 5000}, params);
     return browser.isExistingWithTimeout(selector, options.timeout)
       .then((exists) => {
         if (exists) {
@@ -137,7 +137,7 @@ exports.bootstrap = function (browser) {
    * wait until the given selector is visible
    */
   browser._waitUntil = function (selector, params) {
-    let options = Object.assign({ timeout: 5000 }, params);
+    let options = Object.assign({timeout: 5000}, params);
     return browser.waitForVisible(selector, options.timeout)
       .then(() => screenshot(createTimeName('waitUntil', selector)))
       .pause(500)
@@ -183,7 +183,7 @@ exports.bootstrap = function (browser) {
        * check that the element identified by given selector exists on the page
     */
     browser._notExists = function (selector, params) {
-      let options = Object.assign({ timeout: 5000 }, params);
+      let options = Object.assign({timeout: 5000}, params);
       return browser.isExistingWithTimeout(selector, options.timeout)
         .then((exists) => {
           if (exists) {
