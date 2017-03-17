@@ -9,6 +9,7 @@ const roomId = encodeURIComponent('Test Hipchat');
 // get arguments
 const step = process.argv.slice(2)[0];
 const command = process.argv.slice(2)[1];
+const directory = process.argv.slice(2)[2];
 
 executeCommand();
 
@@ -18,7 +19,7 @@ executeCommand();
 function executeCommand() {
 
   exec(command, {
-    cwd: path.join(__dirname, '..'),
+    cwd: (directory !== undefined) ? directory : path.join(__dirname, '..'),
     maxBuffer: 1024 * 1024
   }, (error, stdout, stderr) => {
 

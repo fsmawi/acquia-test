@@ -36,7 +36,7 @@ events:
       - copy_dist:
           script:
             - 'set -x'
-            - 'run copy_dist "cd environments && composer install && cd .."'
+            - 'run copy_dist "cd environments && composer install"'
             - 'run copy_dist "rm -rf ./docroot"'
             - 'run copy_dist "mkdir ./docroot"'
             - 'run copy_dist "cp -r /tmp/build/* ./docroot"'
@@ -47,21 +47,21 @@ events:
       - deploy:
           script:
             - 'cd $PIPELINE_DEPLOY_WORKSPACE'
-            - 'run deploy "git config user.email \"pipelines-cd@no-emails.com\""'
-            - 'run deploy "git config user.name \"Pipelines CD\""'
-            - 'run deploy "git checkout -b $DEPLOY_VCS_PATH || git checkout $DEPLOY_VCS_PATH"'
-            - 'run deploy "rm -rf ./docroot"'
-            - 'run deploy "mkdir ./docroot"'
-            - 'run deploy "cp -r $BUILD_DIR/docroot/* ./docroot"'
-            - 'run deploy "git add -A"'
-            - 'run deploy "git commit -m \"Deploying $DEPLOY_VCS_PATH\""'
-            - 'run deploy "git push origin $DEPLOY_VCS_PATH || git push -u origin $DEPLOY_VCS_PATH"'
+            - 'run deploy "git config user.email \"pipelines-cd@no-emails.com\"" $PIPELINE_DEPLOY_WORKSPACE'
+            - 'run deploy "git config user.name \"Pipelines CD\"" $PIPELINE_DEPLOY_WORKSPACE'
+            - 'run deploy "git checkout -b $DEPLOY_VCS_PATH || git checkout $DEPLOY_VCS_PATH" $PIPELINE_DEPLOY_WORKSPACE'
+            - 'run deploy "rm -rf ./docroot" $PIPELINE_DEPLOY_WORKSPACE'
+            - 'run deploy "mkdir ./docroot" $PIPELINE_DEPLOY_WORKSPACE'
+            - 'run deploy "cp -r $BUILD_DIR/docroot/* ./docroot" $PIPELINE_DEPLOY_WORKSPACE'
+            - 'run deploy "git add -A" $PIPELINE_DEPLOY_WORKSPACE'
+            - 'run deploy "git commit -m \"Deploying $DEPLOY_VCS_PATH\"" $PIPELINE_DEPLOY_WORKSPACE'
+            - 'run deploy "git push origin $DEPLOY_VCS_PATH || git push -u origin $DEPLOY_VCS_PATH" $PIPELINE_DEPLOY_WORKSPACE'
             - 'cd $BUILD_DIR'
       - launch_ode:
           script:
-            - 'run launch_ode "cd environments"'
-            - 'run launch_ode "php cloud-ode.php"'
-            - 'run launch_ode "cd .."'
+            - 'run launch_ode "cd environments && php cloud-ode.php"'
+            # - 'run launch_ode "php cloud-ode.php"'
+            # - 'run launch_ode "cd .."'
       # - acceptance:
       #    script:
       #      - 'PIPELINES_ODE_URL=`cat ~/ode.url` && echo ODE URI is $PIPELINES_ODE_URL for e2e/integration tests'
@@ -71,6 +71,6 @@ events:
     steps:
       - merge_deploy:
           script:
-            - 'run merge_deploy "cd environments"'
-            - 'run merge_deploy "composer install"'
-            - 'run merge_deploy "php cloud-ode.php"'
+            - 'run merge_deploy "cd environments && composer install && php cloud-ode.php"'
+            # - 'run merge_deploy "composer install"'
+            # - 'run merge_deploy "php cloud-ode.php"'
