@@ -47,7 +47,8 @@ describe('PipelinesService', () => {
     });
   }));
 
-  it('should attach a Github repository', inject([PipelinesService, MockBackend], (service: PipelinesService, mockBackend: MockBackend) => {
+  it('should attach a Github repository',
+    inject([PipelinesService, MockBackend], (service: PipelinesService, mockBackend: MockBackend) => {
     setupConnections(mockBackend, {
       body: JSON.stringify({
         success: true,
@@ -60,6 +61,20 @@ describe('PipelinesService', () => {
       expect(res.success).toEqual(true);
       expect(res.deploy_key_url).toEqual('key_url');
       expect(res.webhook_url).toEqual('webhook_url');
+    });
+  }));
+
+  it('should remove GitHub Authentication from the app',
+    inject([PipelinesService, MockBackend], (service: PipelinesService, mockBackend: MockBackend) => {
+    setupConnections(mockBackend, {
+      body: JSON.stringify({
+        status: 204,
+        success: true
+      })
+    });
+
+    service.removeGitHubAuth('repo', 'app-id').then(res => {
+      expect(res.status).toBe(204);
     });
   }));
 
@@ -108,4 +123,5 @@ describe('PipelinesService', () => {
         expect(res.repo_url).toBe('someurl');
       });
     }));
+
 });

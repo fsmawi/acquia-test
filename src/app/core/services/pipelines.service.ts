@@ -64,7 +64,7 @@ export class PipelinesService {
    * @param application
    * @returns {Promise<T>}
    */
-  removeGithubAuth(repository: string, application: string) {
+  removeGitHubAuth(repository: string, application: string) {
     return this.promiseDeleteRequest(this.URI + `/ci/github` , {
       repo: repository,
       applications: [application]

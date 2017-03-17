@@ -137,7 +137,7 @@ describe('ApplicationComponent', () => {
       expect(flashMessage.showInfo).toHaveBeenCalledWith('You are not connected yet');
     })));
 
-  it('should show a success message after removing github authentication',
+  it('should show a success message after removing GitHub authentication',
     fakeAsync(inject([ActivatedRoute, FlashMessageService, MockBackend],
                   (route, flashMessage, mockBackend) => {
 
@@ -152,7 +152,7 @@ describe('ApplicationComponent', () => {
       component.appId = 'appId';
       component.removeAuth();
       tick();
-      expect(flashMessage.showSuccess).toHaveBeenCalledWith('Github authentication has been removed.');
+      expect(flashMessage.showSuccess).toHaveBeenCalledWith('GitHub authentication has been removed.');
     })));
 
 });
