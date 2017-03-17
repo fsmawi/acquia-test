@@ -77,7 +77,7 @@ export class ApplicationComponent implements OnInit {
   getConfigurationInfo() {
     this.pipelines.getGithubStatus(this.appId)
       .then((status: GithubStatus) => {
-        if(!status.connected) {
+        if (!status.connected) {
           this.flashMessage.showInfo('You are not connected yet');
         } else {
           this.gitUrl = status.repo_url;
