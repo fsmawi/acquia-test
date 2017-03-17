@@ -75,6 +75,11 @@ pre {
     margin: 0;
     margin-bottom: $rhythm-unit / 4;
     padding: 0;
+    cursor: pointer;
+
+    &:hover /deep/ svg {
+      fill: $color-brand-primary-9 !important;
+    }
 
     /deep/ {
       svg {
