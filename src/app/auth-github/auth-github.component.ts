@@ -139,8 +139,9 @@ export class AuthGithubComponent implements OnInit {
         this.displayApplication();
       })
       .catch(e => {
-        this.errorHandler.apiError(e);
-        this.errorHandler.reportError(e, 'AttachGithubFailed', {appId: this.appId}, 'error');
+        this.errorHandler.apiError(e)
+          .reportError(e, 'FailedToAttachGithubReposioryToPipelines',
+          {component: 'auth-github', repository: repository.full_name, appId: this.appId}, 'error');
         this.showAttachRepoAlert('danger', e.status + ' : ' + e._body);
       })
       .then(() => this.loading = false);

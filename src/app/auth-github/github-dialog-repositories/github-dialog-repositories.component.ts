@@ -71,6 +71,8 @@ export class GithubDialogRepositoriesComponent implements OnInit {
       .catch(e => {
         this.errorHandler.apiError(e);
         this.dialogRef.close(e);
+        this.errorHandler.reportError(e, 'FailedToGetGithubRepos',
+          {component: 'github-dialog-repositories', appId: this.appId}, 'error');
       });
   }
 

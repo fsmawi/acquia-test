@@ -85,8 +85,8 @@ export class ApplicationComponent implements OnInit {
         }
       })
       .catch(e => {
-        this.errorHandler.apiError(e);
-        this.errorHandler.reportError(e, 'FailedGetGithubStatus', {}, 'error');
+        this.errorHandler.apiError(e)
+          .reportError(e, 'FailedToGetGithubStatus', {component: 'application', appId: this.appId}, 'error');
         this.flashMessage.showError(e.status + ' : ' + e._body);
       })
       .then(() => this.appLoading = false);

@@ -1,4 +1,4 @@
-<div *ngIf="job" id="jobDetails" style="overflow: auto">
+<div *ngIf="job" id="jobDetails" style="overflow: auto"> 
   <h1 class="page-title">Job Detail</h1>
   <a id="config-link" appIframeLink="/application/{{appId}}">View Connection Info</a>
   <h3 class="ui-core-set-head-title">
@@ -13,6 +13,11 @@
   <e-card id="logs">
     <e-card-header>
       Logs
+      <a id="scroll-to-bottom"
+         (click)="scrollLogsToBottom()"
+         class="right">
+          Scroll to bottom
+      </a>
       <e-progress id="log-loader"
                   *ngIf="streaming || loadingLogs || loadingJob"
                   progressType="indeterminate"
@@ -21,9 +26,17 @@
                   class="pull-right"></e-progress>
     </e-card-header>
     <e-card-content *ngIf="logs && logs.length" class="no-padding">
-      <div class="logs">
-      <pre *ngFor="let log of logs">{{(log.timestamp | amFromUnix) | amDateFormat:'YYYY-MM-DD HH:mm:ss' }} [{{ log.level }}] <span
-        [innerHTML]="log.message | safe: 'html'"></span></pre>
+      <div #logsContainer class="logs">
+        <div *ngFor="let log of logs">
+          <div *ngFor="let chunk of log.message | logChunks">
+            <span class="log__chunk__title" (click)="showChunk(chunk)">
+              <e-svg-icon *ngIf="!chunk.visible" size="small" type="alpha__chevron-right">collapsed</e-svg-icon>
+              <e-svg-icon *ngIf="chunk.visible" size="small" type="alpha__chevron">expanded</e-svg-icon>
+              {{chunk.title}}
+            </span>
+            <pre class="log__chunk__message" [innerHTML]="chunk.log | safe: 'html'" *ngIf="chunk.visible"></pre>
+          </div>
+        </div>
       </div>
     </e-card-content>
     <e-card-content *ngIf="job && (!logs || logs.length == 0)">

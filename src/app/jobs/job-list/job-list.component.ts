@@ -76,7 +76,8 @@ export class JobListComponent implements OnInit {
       console.log(result);
     }).catch(e => {
       this.flashMessageService.showError(e.status + ' : ' + e._body);
-      this.errorHandler.apiError(e);
+      this.errorHandler.apiError(e)
+        .reportError(e, 'FailedToRestartJob', {component: 'job-list', appId: this.appId}, 'error');
     });
   }
 
@@ -96,7 +97,8 @@ export class JobListComponent implements OnInit {
             })
             .catch(e => {
               this.flashMessageService.showError(e.status + ' : ' + e._body);
-              this.errorHandler.apiError(e);
+              this.errorHandler.apiError(e)
+                .reportError(e, 'FailedToStopJob', {component: 'job-list', appId: this.appId}, 'error');
             });
         }
       });
