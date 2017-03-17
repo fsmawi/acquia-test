@@ -4,7 +4,7 @@ import {By} from '@angular/platform-browser';
 import {DebugElement} from '@angular/core';
 
 import {AlertComponent} from './alert.component';
-import {SpriteIconComponent} from '../sprite-icon/sprite-icon.component';
+import {SvgIconComponent} from '../svg-icon/svg-icon.component';
 
 describe('AlertComponent', () => {
   let component: AlertComponent;
@@ -12,7 +12,10 @@ describe('AlertComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [AlertComponent, SpriteIconComponent]
+      declarations: [
+        AlertComponent,
+        SvgIconComponent
+      ]
     })
       .compileComponents();
   }));

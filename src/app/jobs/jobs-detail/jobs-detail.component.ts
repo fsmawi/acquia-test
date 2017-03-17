@@ -184,6 +184,7 @@ export class JobsDetailComponent implements OnInit, OnDestroy {
       .catch(e =>
         this.errorHandler
           .apiError(e)
+          .reportError(e, 'FailedToGetJobDetail', {component: 'jobs-detail', appId: this.appId, jobId: this.jobId}, 'error')
           .showError('Job list', '/jobs/' + this.appId))
       .then(() => {
         this.loadingJob = false;
@@ -205,7 +206,10 @@ export class JobsDetailComponent implements OnInit, OnDestroy {
         });
 
         this.loadingLogs = false;
-      });
+      })
+      .catch(e =>
+         this.errorHandler.reportError(e, 'FailedToGetJobLogs', {component: 'jobs-detail', appId: this.appId, jobId: this.jobId}, 'error')
+      );
   }
 
   /**

@@ -155,6 +155,7 @@ export class JobsComponent implements OnInit, OnDestroy {
       .catch(e =>
         this.errorHandler
           .apiError(e)
+          .reportError(e, 'FailedToGetJobs', {component: 'jobs', appId: this.appId}, 'error')
           .showError('Homepage', '/auth/tokens')
       )
       .then(() => {
