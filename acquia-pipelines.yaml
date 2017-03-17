@@ -35,7 +35,7 @@ events:
             - 'run build "npm run pipelines:build:$PIPELINE_VCS_PATH"'
       - copy_dist:
           script:
-            - 'run copy_dist "set -x"'
+            - 'set -x'
             - 'run copy_dist "cd environments && composer install && cd .."'
             - 'run copy_dist "rm -rf ./docroot"'
             - 'run copy_dist "mkdir ./docroot"'
