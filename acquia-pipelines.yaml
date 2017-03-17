@@ -26,6 +26,7 @@ events:
             - 'nvm use 6.9.5'
             - 'npm install'
             - 'alias run="node $BUILD_DIR/scripts/run.js"'
+            - 'run start'
       - lint:
           script:
             - 'run lint "npm run lint"'
@@ -63,6 +64,7 @@ events:
       - launch_ode:
           script:
             - 'run launch_ode "cd environments && php cloud-ode.php"'
+            - 'run end'
             # - 'run launch_ode "php cloud-ode.php"'
             # - 'run launch_ode "cd .."'
       # - acceptance:
