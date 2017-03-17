@@ -32,5 +32,5 @@ module.exports = {
   'github_signin': 'input[name="commit"]',
   'repo-filter-text': '.el-select-list__filter__input',
   'repo1-radio': '//span[text()="repo1"]',
-  'application-information': '//h1[text()="Application Information"]'
+  'application-information': '//h1[text()="Application Information"]',
 };

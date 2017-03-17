@@ -30,7 +30,9 @@ module.exports = function () {
 
   this.When(/^I enter \|(.*?)\| in the \|(.*?)\|/, function (value, selector) {
     boostrap(this.browser);
-    return this.browser._setText(page.getDynamicValue(selector), page.getDynamicValue(value));
+
+    return this.browser._click(page.getDynamicValue(selector), {timeout: 60000})
+      .then(() => this.browser.setValue(page.getDynamicValue(selector), page.getDynamicValue(value)));
   });
 
   this.When(/^I click on the \|(.*?)\| button$/, function (selector) {
@@ -72,7 +74,6 @@ module.exports = function () {
 
   this.When(/^I should see a \|(.*?)\| with \|(.*?)\|$/, function (textElementIdentifier, expectedText) {
     return this.browser._waitUntil(page.getDynamicValue(textElementIdentifier), {timeout: 5000})
-      .then(this.browser._getText(page.getDynamicValue(textElementIdentifier),
-      page.getDynamicValue(expectedText)));
+      .then(this.browser._getText(page.getDynamicValue(textElementIdentifier), page.getDynamicValue(expectedText)));
   });
 };
