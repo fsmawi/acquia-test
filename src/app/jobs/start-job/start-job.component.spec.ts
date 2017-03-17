@@ -99,7 +99,7 @@ describe('StartJobComponent', () => {
   it('should validate the branch typed', () => {
     expect(component).toBeTruthy();
 
-    component.branch = 'invalid-branch';
+    component.branch = '';
     expect(component.isValidBranch()).toEqual(false);
 
     component.branch = 'branch1';

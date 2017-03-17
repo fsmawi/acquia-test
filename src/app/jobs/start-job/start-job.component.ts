@@ -59,8 +59,15 @@ export class StartJobComponent implements OnInit {
    * Initialize component
    */
   ngOnInit() {
+    this.branches = ['master'];
     this.pipelineService.getBranches(this.appId)
-      .then(branches => this.branches = branches)
+      .then(branches => {
+        if (this.branches.indexOf('master') > 0) {
+          this.branches = branches;
+        } else {
+          this.branches = ['master'].concat(branches);
+        }
+      })
       .catch(e => this.errorHandler.apiError(e));
 
     this.isDirectStartAvailable = features.directStart;
@@ -71,7 +78,7 @@ export class StartJobComponent implements OnInit {
    * @returns {boolean}
    */
   isValidBranch() {
-    if (this.branch && this.branch !== '' && this.branches.indexOf(this.branch) > -1) {
+    if (this.branch && this.branch !== '') {
       return true;
     }
     return false;
