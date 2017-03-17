@@ -2,20 +2,21 @@
 import {async, ComponentFixture, TestBed, inject, fakeAsync, tick, discardPeriodicTasks} from '@angular/core/testing';
 import {By} from '@angular/platform-browser';
 import {DebugElement} from '@angular/core';
-import {MdDialog} from '@angular/material';
-
-import {JobsComponent} from './jobs.component';
 import {MaterialModule} from '@angular/material';
+import {MdDialog} from '@angular/material';
 import {RouterTestingModule} from '@angular/router/testing';
-import {PipelinesService} from '../core/services/pipelines.service';
-import {ErrorService} from '../core/services/error.service';
-import {SharedModule} from '../shared/shared.module';
-import {ElementalModule} from '../elemental/elemental.module';
+
 import {MomentModule} from 'angular2-moment';
+
+import {CoreModule} from '../core/core.module';
+import {ElementalModule} from '../elemental/elemental.module';
+import {ErrorService} from '../core/services/error.service';
+import {Job} from '../core/models/job';
+import {JobsComponent} from './jobs.component';
 import {JobListComponent} from './job-list/job-list.component';
 import {JobSummaryComponent} from './job-summary/job-summary.component';
-import {Job} from '../core/models/job';
-import {CoreModule} from '../core/core.module';
+import {PipelinesService} from '../core/services/pipelines.service';
+import {SharedModule} from '../shared/shared.module';
 
 class MockPipelinesService {
 

@@ -1,19 +1,19 @@
 /* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement, NgModule } from '@angular/core';
-import { MdDialogModule, MdDialog, OverlayContainer, MaterialModule } from '@angular/material';
-import { HttpModule, BaseRequestOptions, Http, ResponseOptions, Response, RequestMethod } from '@angular/http';
-import { MockBackend } from '@angular/http/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { ElementalModule } from '../../elemental/elemental.module';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { GithubDialogRepositoriesComponent } from './github-dialog-repositories.component';
-import { PipelinesService } from '../../core/services/pipelines.service';
-import { RepositoryFilterPipe } from './repository-filter.pipe';
-import { ErrorService } from '../../core/services/error.service';
-import { FlashMessageService } from '../../core/services/flash-message.service';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {By} from '@angular/platform-browser';
+import {CommonModule} from '@angular/common';
+import {DebugElement, NgModule} from '@angular/core';
+import {FormsModule} from '@angular/forms';
+import {HttpModule, BaseRequestOptions, Http, ResponseOptions, Response, RequestMethod} from '@angular/http';
+import {MdDialogModule, MdDialog, OverlayContainer, MaterialModule} from '@angular/material';
+import {MockBackend} from '@angular/http/testing';
+import {RouterTestingModule} from '@angular/router/testing';
+
+import {ElementalModule} from '../../elemental/elemental.module';
+import {ErrorService} from '../../core/services/error.service';
+import {GithubDialogRepositoriesComponent} from './github-dialog-repositories.component';
+import {PipelinesService} from '../../core/services/pipelines.service';
+import {RepositoryFilterPipe} from './repository-filter.pipe';
 
 @NgModule({
   declarations: [GithubDialogRepositoriesComponent, RepositoryFilterPipe],
@@ -33,7 +33,6 @@ describe('GithubDialogRepositoriesComponent', () => {
       imports: [DialogTestModule, RouterTestingModule],
       providers: [
         PipelinesService,
-        FlashMessageService,
         ErrorService,
         MockBackend,
         BaseRequestOptions,

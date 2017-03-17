@@ -119,17 +119,9 @@ describe('AuthGithubComponent', () => {
   });
 
   it('should attach repository alerts', () => {
-    component.showAttachRepoAlert('danger', 'a message', {});
+    component.showAttachRepoAlert('danger', 'a message');
     expect(component.attachRepoAlert.display).toEqual(true);
     expect(component.attachRepoAlert.type).toEqual('danger');
     expect(component.attachRepoAlert.message).toEqual('a message');
-  });
-
-  it('should show more details in repository alerts', () => {
-    component.showAttachRepoAlert('danger', 'a message', {status: '404', _body: 'json body'});
-    component.showMoreDetails();
-    expect(component.attachRepoAlert.display).toEqual(true);
-    expect(component.attachRepoAlert.details).toEqual('404:json body');
-    expect(component.attachRepoAlert.showDetails).toEqual(true);
   });
 });

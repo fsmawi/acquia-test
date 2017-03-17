@@ -23,11 +23,7 @@
     type="primary"
     (click)="selectRepository()"
     [disabled]="loading || appAttached"></e-button>
-  <e-alert type={{attachRepoAlert.type}} *ngIf="attachRepoAlert.display">
-    {{attachRepoAlert.message}}
-     <a (click)="showMoreDetails()" *ngIf="attachRepoAlert.details">Show details</a>
-    <pre *ngIf="attachRepoAlert.details && attachRepoAlert.showDetails">{{attachRepoAlert.details}}</pre>
-  </e-alert>
+  <e-alert type={{attachRepoAlert.type}} *ngIf="attachRepoAlert.display">{{attachRepoAlert.message}}</e-alert>
 </div>
 <div id="setting-up-pipelines-indicator" *ngIf="loading">
   <md-progress-bar mode="indeterminate" style="width: 80%; margin-left: 10%"></md-progress-bar>

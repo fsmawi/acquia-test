@@ -37,9 +37,9 @@
     <td class="center hidden-sm-down" *ngIf="!job.finished_at">-</td>
     <td class="center hidden-xs-down">
       <!-- TODO Refresh is not available in the API yet -->
-      <!--<button md-button *ngIf="job.isFailed" (click)="restartJob(job)">-->
-      <!--<md-icon color="primary">refresh</md-icon>-->
-      <!--</button>-->
+      <!-- <button md-button *ngIf="job.isFailed" (click)="restartJob(job)"> -->
+      <!-- <md-icon color="primary">refresh</md-icon> -->
+      <!-- </button> -->
 
       <a *ngIf="job.isFinished && job.metadata && job.metadata.deployment_link"
          href="{{job.metadata.deployment_link}}" target="_blank">

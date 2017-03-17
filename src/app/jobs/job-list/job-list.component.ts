@@ -75,6 +75,7 @@ export class JobListComponent implements OnInit {
     }).then(result => {
       console.log(result);
     }).catch(e => {
+      this.flashMessageService.showError(e.status + ' : ' + e._body);
       this.errorHandler.apiError(e)
         .reportError(e, 'FailedToRestartJob', {component: 'job-list', appId: this.appId}, 'error');
     });
@@ -95,7 +96,7 @@ export class JobListComponent implements OnInit {
               this.segment.trackEvent('TerminateJobFromUI', {appId: this.appId, jobId: job.job_id});
             })
             .catch(e => {
-              this.flashMessageService.showError('Error while terminating your job', e);
+              this.flashMessageService.showError(e.status + ' : ' + e._body);
               this.errorHandler.apiError(e)
                 .reportError(e, 'FailedToStopJob', {component: 'job-list', appId: this.appId}, 'error');
             });
