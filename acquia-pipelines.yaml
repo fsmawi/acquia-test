@@ -35,33 +35,33 @@ events:
             - 'run build "npm run pipelines:build:$PIPELINE_VCS_PATH"'
       - copy_dist:
           script:
-            - 'set -x'
-            - 'run build "cd environments && composer install && cd .."'
-            - 'run build "rm -rf ./docroot"'
-            - 'run build "mkdir ./docroot"'
-            - 'run build "cp -r /tmp/build/* ./docroot"'
-            - 'run build "cp .htaccess ./docroot"'
-            - 'run build "cp index.php ./docroot"'
-            - 'run build "cp -r server ./docroot"'
-            - 'run build "cp -r environments/vendor ./docroot/server/vendor"'
+            - 'run copy_dist "set -x"'
+            - 'run copy_dist "cd environments && composer install && cd .."'
+            - 'run copy_dist "rm -rf ./docroot"'
+            - 'run copy_dist "mkdir ./docroot"'
+            - 'run copy_dist "cp -r /tmp/build/* ./docroot"'
+            - 'run copy_dist "cp .htaccess ./docroot"'
+            - 'run copy_dist "cp index.php ./docroot"'
+            - 'run copy_dist "cp -r server ./docroot"'
+            - 'run copy_dist "cp -r environments/vendor ./docroot/server/vendor"'
       - deploy:
           script:
-            - 'run build "cd $PIPELINE_DEPLOY_WORKSPACE"'
-            - 'run build "git config user.email \"pipelines-cd@no-emails.com\""'
-            - 'run build "git config user.name \"Pipelines CD\""'
-            - 'run build "git checkout -b $DEPLOY_VCS_PATH || git checkout $DEPLOY_VCS_PATH"'
-            - 'run build "rm -rf ./docroot"'
-            - 'run build "mkdir ./docroot"'
-            - 'run build "cp -r $BUILD_DIR/docroot/* ./docroot"'
-            - 'run build "git add -A"'
-            - 'run build "git commit -m \"Deploying $DEPLOY_VCS_PATH\""'
-            - 'run build "git push origin $DEPLOY_VCS_PATH || git push -u origin $DEPLOY_VCS_PATH"'
-            - 'run build "cd $BUILD_DIR"'
+            - 'cd $PIPELINE_DEPLOY_WORKSPACE'
+            - 'run deploy "git config user.email \"pipelines-cd@no-emails.com\""'
+            - 'run deploy "git config user.name \"Pipelines CD\""'
+            - 'run deploy "git checkout -b $DEPLOY_VCS_PATH || git checkout $DEPLOY_VCS_PATH"'
+            - 'run deploy "rm -rf ./docroot"'
+            - 'run deploy "mkdir ./docroot"'
+            - 'run deploy "cp -r $BUILD_DIR/docroot/* ./docroot"'
+            - 'run deploy "git add -A"'
+            - 'run deploy "git commit -m \"Deploying $DEPLOY_VCS_PATH\""'
+            - 'run deploy "git push origin $DEPLOY_VCS_PATH || git push -u origin $DEPLOY_VCS_PATH"'
+            - 'cd $BUILD_DIR'
       - launch_ode:
           script:
-            - 'run build "cd environments"'
-            - 'run build "php cloud-ode.php"'
-            - 'run build "cd .."'
+            - 'run launch_ode "cd environments"'
+            - 'run launch_ode "php cloud-ode.php"'
+            - 'run launch_ode "cd .."'
       # - acceptance:
       #    script:
       #      - 'PIPELINES_ODE_URL=`cat ~/ode.url` && echo ODE URI is $PIPELINES_ODE_URL for e2e/integration tests'
@@ -71,6 +71,6 @@ events:
     steps:
       - merge_deploy:
           script:
-            - 'run build "cd environments"'
-            - 'run build "composer install"'
-            - 'run build "php cloud-ode.php"'
+            - 'run merge_deploy "cd environments"'
+            - 'run merge_deploy "composer install"'
+            - 'run merge_deploy "php cloud-ode.php"'
