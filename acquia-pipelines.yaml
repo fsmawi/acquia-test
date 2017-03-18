@@ -6,7 +6,6 @@ variables:
     N3_KEY: 1dc88f01-117f-4c6b-bab3-28629e42f8f7
     N3_SECRET:
       secure: 2ac03l0YHqh2wyXDffI8ejsUTqvoWofgmkZhxz+IjvsfIobY/KGs49Cnts5IUlW/LL2+yJY5TrvWVRDNGoxVpV/PwFzEbXfo+gSu1T7VW2/+c2IcyEjMF3LhNirGpCbqIdlnN0AzxzdQK0mstMDsbJ+ZlzksvrLMJMWryQE+NgqoJJeGD+IojGkcYaNZRAz+IOtKb/upoBl+sAgGm7H7LyNtiHJQ675jQz6dZ70iZrQOTEnO9eeT1wi5ZAUBIN5ENGqt91BDkfCs4HbkjWcOts1bGQNuosQQOoyw95TDdzxQxo7Nf42rCbqXzbOSG0/HKEdeNldopfao9oPCjFebJLA8WzNkCJDbNn+sz7mm1EFM1rSXVUS/qZ/Bt0biDrPJ8biKNkyPVHH+kUylDCJ9A9aHCPgl6bh+gXSQLUSleWdbQ9usDeZGtbyjm9ttQBilGEFkKDYrw+hzoWsw/BQ86HDBhDNSX5je8IZTEYcVSWfYhWjdFI1f9wK9EaA2dX0MrENs0Yx3Yfp5lzx7Lp8Zy8oaelYJeaUguxajl7+EShZLaD+Qkfg4+8uy0qBdjrZJHczCTcsPlAD4n8ViKoAhGps7gFyNOEeMTJmfKV8zOciQCSxaisggHCbOfzEZJeyY0wBbU1qlG7UTwRDCpFdpcJ06xl0TwrpXjUa/zA50b0m5Is=5KlT8bAhfZAqYuB+h51fw/1/EctdWeYscJNaA7froI/52DjYZee/Krom+AS9QVTHGmZobLP5IfzRyxsAf1eYWWQOJ31islycCY4TKKxDPEEaPxQgIrOl3uGtKCB7B48QOl3IjuLE6KAR2VW/j7Sx6Zg14rtljbDhUY6bvY1wY9o=
-    NPM_CONFIG_COLOR: always
     PIPELINES_API_URI: https://pipeline-api-production.pipeline.services.acquia.io
     PIPELINES_DEV_URL: 'http://dev.pipelines-internal.acquia.com/index.html#'
     PIPELINES_GIT_URL: 'pipelinesui@svn-182.network.hosting.acquia.com:pipelinesui.git'
