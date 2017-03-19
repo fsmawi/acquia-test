@@ -5,6 +5,7 @@ import {PipelinesService} from '../core/services/pipelines.service';
 import {ErrorService} from '../core/services/error.service';
 import {FlashMessageService} from '../core/services/flash-message.service';
 import {GithubStatus} from '../core/models/github-status';
+import {ConfirmationModalService} from '../core/services/confirmation-modal.service';
 
 @Component({
   selector: 'app-application',
@@ -68,6 +69,7 @@ export class ApplicationComponent implements OnInit {
     private router: Router,
     private pipelines: PipelinesService,
     private errorHandler: ErrorService,
+    private confirmationModalService: ConfirmationModalService,
     private flashMessage: FlashMessageService) {
   }
 
@@ -85,9 +87,9 @@ export class ApplicationComponent implements OnInit {
         }
       })
       .catch(e => {
-        this.errorHandler.apiError(e);
-        this.errorHandler.reportError(e, 'FailedGetGithubStatus', {}, 'error');
-        this.flashMessage.showError('Unable to get your pipeline information for this application at this time.', e);
+        this.errorHandler.apiError(e)
+          .reportError(e, 'FailedToGetGithubStatus', {component: 'application', appId: this.appId}, 'error');
+        this.flashMessage.showError(e.status + ' : ' + e._body);
       })
       .then(() => this.appLoading = false);
   }
@@ -101,5 +103,32 @@ export class ApplicationComponent implements OnInit {
       this.appId = params['app-id'];
       this.getConfigurationInfo();
     });
+  }
+
+  /**
+   * Removes GitHub authentication from the app
+   */
+  removeAuth() {
+    this.confirmationModalService
+      .openDialog('Remove Authentication',
+        'Are you sure you want to remove GitHub authentication from your app?', 'Yes', 'Cancel')
+      .then(result => {
+        if (result) {
+          const regex = /^((git@[\w\.]+:)|((http|https):\/\/[\w\.]+\/?))([\w\.@\:/\-~]+)(\.git)(\/)?$/;
+          const repoInfo = this.gitUrl.match(regex);
+          this.pipelines.removeGitHubAuth(repoInfo[5], this.appId)
+            .then(res => {
+              this.flashMessage.showSuccess('GitHub authentication has been removed.');
+              // Reload after removing auth
+              this.appLoading = true;
+              this.getConfigurationInfo();
+            })
+            .catch(e => {
+              this.errorHandler.apiError(e);
+              this.errorHandler.reportError(e, 'FailedRemoveGitHubAuth', {}, 'error');
+              this.flashMessage.showError('Unable to remove GitHub authentication.', e);
+            });
+        }
+      });
   }
 }

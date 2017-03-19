@@ -36,7 +36,7 @@ let githubFlowPage = Object.create(page, {
    */
   assertFlashMessage: {
     value: function (flashMsgId, flashMsgText) {
-      return this.browser._waitUntil(flashMsgId, { timeout: 10000 })
+      return this.browser._waitUntil(flashMsgId, {timeout: 10000})
         .then(() =>
           this.browser._getText(flashMsgId)
             .then((actualFlashMsgText) => {
@@ -109,7 +109,9 @@ let githubFlowPage = Object.create(page, {
         .then((elems) => elems.map((e) => e.value))
         .then((repositoriesValues) => {
           for (let i in repositoriesValues) {
-            expect(repositoriesValues[i]).to.contain(filterText);
+            if (repositoriesValues.hasOwnProperty(i)) {
+              expect(repositoriesValues[i]).to.contain(filterText);
+            }
           }
         });
     },

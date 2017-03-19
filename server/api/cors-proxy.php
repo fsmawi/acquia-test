@@ -45,7 +45,7 @@ if( ! isset($curl_timeout))
 // Get request attributes
 $headers = getallheaders();
 $method = __('REQUEST_METHOD', $_SERVER);
-$url = __('X-Proxy-Url', $headers);
+$url = __('X-Proxy-Url', $headers) || __('x-proxy-url', $headers);
 
 // Check that we have a URL
 if( ! $url)
@@ -57,7 +57,7 @@ if( ! parse_url($url, PHP_URL_SCHEME))
 
 
 // Remove ignored headers and prepare the rest for resending
-$ignore = ['Cookie', 'Host', 'X-Proxy-URL'];
+$ignore = ['Host', 'X-Proxy-URL', 'x-proxy-url'];
 $headers = array_diff_key($headers, array_flip($ignore));
 $body = "";
 

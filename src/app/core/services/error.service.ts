@@ -73,7 +73,8 @@ export class ErrorService {
         queryParams: {
           errorCode: this.error.status,
           errorTitle: this.error.statusText,
-          errorMessage: this.errorMessages[this.error.status],
+          errorMessage: (this.error.status === 403 && this.error['_body'] !== undefined) ?
+            this.error['_body'] : this.errorMessages[this.error.status],
           tagMessage: tagMessage,
           tagLink: tagLink
         }

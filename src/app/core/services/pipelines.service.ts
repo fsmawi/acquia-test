@@ -59,6 +59,19 @@ export class PipelinesService {
   }
 
   /**
+   * Removes Github Auth from the application
+   * @param repository
+   * @param application
+   * @returns {Promise<T>}
+   */
+  removeGitHubAuth(repository: string, application: string) {
+    return this.promiseDeleteRequest(this.URI + `/ci/github` , {
+      repo: repository,
+      applications: [application]
+    });
+  }
+
+  /**
    * Gets the logs from a job
    * @param appId
    * @param jobId
@@ -167,6 +180,20 @@ export class PipelinesService {
 
     // Make Call
     return this.http.post(url, body, reqOptions).map(r => r.json()).toPromise();
+  }
+
+  /**
+   * Helper to make deleye requests. Adds Pipeline creds if supplied.
+   * @param url
+   * @param params
+   * @returns {Promise<HttpRequest>}
+   */
+  promiseDeleteRequest(url, params = {}) {
+    // Create Request Options Object
+    const reqOptions = this.generateReqOptions(params);
+
+    // Make Call
+    return this.http.delete(url, reqOptions).map(r => r.json()).toPromise();
   }
 
   /**
