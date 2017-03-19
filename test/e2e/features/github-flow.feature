@@ -1,4 +1,4 @@
-@GithubFlow 
+@GithubFlow
 Feature: Pipelines Github Flow
   As an Acquia Pipelines user
   I want to attach a Github repository to my application
@@ -48,7 +48,7 @@ Feature: Pipelines Github Flow
     And I wait 5 seconds to navigate to github connection page
     And I click on the |*re-authorize| button
     And I click on the |*connect-to-github| button
-    And I should see a |*flash-message| with |*succes-message|
+    And I should see a |*flash-message| with |*success-message|
     And I click on the |*select-repo| button
     Then I should see a modal with non empty |*repo-list| list
     And I enter |no_repo| in the |*repo-filter-text| field
@@ -65,7 +65,7 @@ Feature: Pipelines Github Flow
     And I wait 5 seconds to navigate to github connection page
     And I click on the |*re-authorize| button
     And I click on the |*connect-to-github| button
-    And I should see a |*flash-message| with |*succes-message|
+    And I should see a |*flash-message| with |*success-message|
     And I click on the |*select-repo| button
     Then I should see a modal with non empty |*repo-list| list
     And I click on the |*cancel| button
