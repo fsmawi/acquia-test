@@ -15,7 +15,12 @@
   <e-card *ngIf="isInitialized">
     <e-card-header>
       Activity
-      <a id="repoInfo" *ngIf="vcsTypeIconFeature" appIframeLink="/application/{{appId}}">
+      <a id="repoInfo"
+         *ngIf="vcsTypeIconFeature"
+         appIframeLink="/application/{{appId}}"
+         appSegmentOn="click"
+         [segmentEventData]="{appId: appId}"
+         segmentEventIdentifier="ClickRepoNameApplicationInfo" >
         <e-svg-icon *ngIf="vcsType && vcsType === 'git'"
                     type="logos__github"
                     size="medium"
