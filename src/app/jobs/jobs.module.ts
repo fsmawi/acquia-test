@@ -2,6 +2,7 @@ import {CommonModule} from '@angular/common';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {MaterialModule} from '@angular/material';
 import {NgModule} from '@angular/core';
+import {FormsModule} from '@angular/forms';
 
 import {ElementalModule} from '../elemental/elemental.module';
 import {JobListComponent} from './job-list/job-list.component';
@@ -21,7 +22,8 @@ import {StartJobComponent} from './start-job/start-job.component';
     FlexLayoutModule,
     MomentModule,
     SharedModule,
-    ElementalModule
+    ElementalModule,
+    FormsModule
   ],
   declarations: [
     JobsComponent,

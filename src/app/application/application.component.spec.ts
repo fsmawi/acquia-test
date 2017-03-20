@@ -141,6 +141,7 @@ describe('ApplicationComponent', () => {
 
       spyOn(flashMessage, 'showInfo');
 
+      component.vcsTypeIconFeature = false;
       component.getConfigurationInfo();
       tick();
       expect(flashMessage.showInfo).toHaveBeenCalledWith('You are not connected yet');

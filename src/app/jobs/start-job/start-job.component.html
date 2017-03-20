@@ -1,7 +1,36 @@
 <e-card>
   <e-card-header>How to start a job</e-card-header>
   <e-card-content>
-    <p>Completing any of the following actions will start your build job:</p>
+    <e-data *ngIf="isDirectStartAvailable">
+      <e-data-label>
+        Type the branch name to start a job
+      </e-data-label>
+      <div id="branch-info" class="flex-container"
+           fxLayout="row"
+           fxLayoutAlign="start start">
+        <div id="branch-input" class="flex-item" fxFlex="85%" fxFlex.xs="75%">
+          <input type="search" size="100" [(ngModel)]="branch" (keyup)="filter()" placeholder="Branch Name" name="Branch">
+          <div id="branch-suggestions">
+            <ul *ngIf="branchSuggestions && (branchSuggestions.length > 0) && (branch !== '')">
+              <li *ngFor="let branchSuggestion of branchSuggestions" (click)="select(branchSuggestion)">
+                {{branchSuggestion}}
+              </li>
+            </ul>
+          </div>
+        </div>
+        <e-button id="btn-start" text="Start" *ngIf="isDirectStartAvailable"
+                  class="flex-item" fxFlex="15%" fxFlex.xs="25%"
+                  appSegmentOn="click"
+                  [segmentEventData]="{appId: appId, branch: branch}"
+                  segmentEventIdentifier="ClickDirectStartJob"
+                  type="primary" [disabled]="!branch || branch === '' || didJobStart" (click)="start()"></e-button>
+      </div>
+    </e-data>
+    <hr *ngIf="isDirectStartAvailable">
+    <p>
+      {{isDirectStartAvailable ? 'The following actions will also start a job:' :
+      'Completing any of the following actions will start your build job:'}}
+    </p>
     <ul>
       <li>Add a file to a repository.</li>
       <li>Create a branch in your repository.</li>

@@ -1,5 +1,5 @@
 ---
-routes: 
+routes:
   /api/v1/auth/bakery:
       GET:
         response:
@@ -951,6 +951,11 @@ routes:
         123:
           connected: true
           repo_url: https://github.com/raghunat/pineapple-pen
+  /api/v1/ci/pipelines/11279161-f354-4294-875c-3a2e446f81f6/direct-start:
+     POST:
+      response:
+        success: true
+        job_id: 3e09dbb5-c58e-49ee-b166-0a94c07ac85b
   /api/v1/ci/pipelines:
     GET:
       response:
@@ -983,7 +988,17 @@ routes:
           - name: acquia/repo2
             link: https://github.com/acquia/repo2
             type: github
-          branches: test11,test12
+          branches:
+          - Test11
+          - Test12
+          - Test13
+          - Test14
+          - Test15
+          - Test121 Branch
+          - Test122 Branch
+          - Test123 Branch
+          - Test124 Branch
+          - Test125 Branch
       -
         pipeline_id: 11279161-f354-4294-875c-3a2e446f81f6
         sitename: prod:z
@@ -1015,5 +1030,5 @@ routes:
             type: github
           branches: test11,test12
 redirections:
-  /github/oauth: 
+  /github/oauth:
     redirect_to: http://localhost:4200/auth/github/123?success=true

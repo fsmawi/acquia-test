@@ -16,11 +16,19 @@ export const features = {
   },
 
   /**
-   * VCS type Icon flag.
+   * Direct Start flag. Waiting on MS-2623 and related tickets
+   * @returns {boolean}
+   */
+  get directStart() {
+    // switch to return true, or remove embedded flags for enabling
+    return environment.name === 'dev';
+  },
+
+   /** VCS type Icon flag.
    * @returns {boolean}
    */
   get vcsTypeIcon() {
     // switch to return true, or remove embedded flags for enabling
-    return environment.name === 'mock';
+    return environment.name === 'dev';
   }
 };

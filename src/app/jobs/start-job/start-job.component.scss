@@ -15,4 +15,59 @@
   h4 {
     margin-bottom: 0;
   }
+
+  .el-data__label {
+    margin-bottom: 0.375rem;
+  }
+
+  #branch-info {
+    position:relative;
+    width: 100%;
+
+    #branch-input {
+      position: relative;
+      width: 100%;
+    }
+
+    #btn-start {
+      margin: 0 $rhythm-unit;
+    }
+
+  }
+
+  hr {
+    border: 1px solid $color-neutral-2;
+  }
+
+  .highlight {
+    color: $color-brand-primary-10;
+  }
+
+  #branch-suggestions {
+    position: absolute;
+    max-height: px-to-relative(225.5px);
+    overflow: auto;
+    color: $color-neutral-11;
+    box-shadow: 0 2px 5px rgba(0,0,0,.25);
+    width: inherit;
+    z-index: 1000;
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      li {
+        padding: 0 0.75rem;
+        cursor: pointer;
+        background-color: $color-neutral-1;
+        font-size: $text-size-h6;
+        font-weight: 400;
+        line-height: px-to-relative(48px);
+      }
+
+      li:hover {
+        background-color: $color-neutral-2;
+      }
+    }
+
+  }
 }
