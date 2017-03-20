@@ -21,6 +21,6 @@ export const features = {
    */
   get vcsTypeIcon() {
     // switch to return true, or remove embedded flags for enabling
-    return environment.name === 'dev';
+    return environment.name === 'mock';
   }
 };

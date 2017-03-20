@@ -14,9 +14,15 @@
     </div>
 
     <a *ngIf="repoFullName" appIframeLink="/application/{{appId}}" id="repoInfo" class="flex-item">
-      <e-svg-icon *ngIf="vcsType && vcsType === 'git'" type="logos__github" size="medium">
+      <e-svg-icon *ngIf="vcsType && vcsType === 'git'"
+                  type="logos__github"
+                  size="medium"
+                  mdTooltip="Using GitHub"
+                  mdTooltipPosition="left">
       </e-svg-icon>
       <svg *ngIf="vcsType && vcsType ==='acquia-git'"
+           mdTooltip="Using Acquia Git"
+           mdTooltipPosition="left"
            class="el-iconography__icon el-iconography__icon--is-medium">
         <image height="28px" xlink:href="../assets/acquia.svg" width="28px"></image>
       </svg>
