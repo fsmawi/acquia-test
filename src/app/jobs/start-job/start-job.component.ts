@@ -109,15 +109,17 @@ export class StartJobComponent implements OnInit {
    * Direct start the job for the selected branch
    */
   start() {
-    this.pipelineService.directStartJob(this.appId, this.branch)
-      .then((res) => {
-        this.flashMessageService.showSuccess('Your job has started.');
-      })
-      .catch(e => {
-        this.flashMessageService.showError('Error while starting your job.', e);
-        this.errorHandler.apiError(e);
-      })
-      .then(() => this.dialogRef.close());
+    if (this.branch && this.branch !== '') {
+      this.pipelineService.directStartJob(this.appId, this.branch)
+        .then((res) => {
+          this.flashMessageService.showSuccess('Your job has started.');
+        })
+        .catch(e => {
+          this.flashMessageService.showError('Error while starting your job.', e);
+          this.errorHandler.apiError(e);
+        })
+        .then(() => this.dialogRef.close());
+    }
   }
 
 }

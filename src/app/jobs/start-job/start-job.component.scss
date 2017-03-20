@@ -23,6 +23,20 @@
   #branch-info {
     position:relative;
     width: 100%;
+
+    #branch-input {
+      position: relative;
+      width: 100%;
+    }
+
+    #btn-start {
+      margin: 0 $rhythm-unit;
+    }
+
+  }
+
+  hr {
+    border: 1px solid $color-neutral-2;
   }
 
   .highlight {
