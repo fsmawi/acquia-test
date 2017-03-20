@@ -40,6 +40,10 @@ export class StartJobComponent implements OnInit {
    */
   isDirectStartAvailable = true;
 
+  /**
+   * Flag to check if the job is running
+   */
+  didJobStart: boolean;
 
   /**
    * Builds the component
@@ -74,17 +78,6 @@ export class StartJobComponent implements OnInit {
   }
 
   /**
-   * Returns true if the typed branch (input) is valid
-   * @returns {boolean}
-   */
-  isValidBranch() {
-    if (this.branch && this.branch !== '') {
-      return true;
-    }
-    return false;
-  }
-
-  /**
    * Filters the available branches by the typed input
    */
   filter() {
@@ -110,15 +103,20 @@ export class StartJobComponent implements OnInit {
    */
   start() {
     if (this.branch && this.branch !== '') {
+      this.didJobStart = true;
       this.pipelineService.directStartJob(this.appId, this.branch)
         .then((res) => {
           this.flashMessageService.showSuccess('Your job has started.');
         })
         .catch(e => {
-          this.flashMessageService.showError('Error while starting your job.', e);
-          this.errorHandler.apiError(e);
+          this.flashMessageService.showError(e.status + ' : ' + e._body);
+          this.errorHandler.apiError(e)
+            .reportError(e, 'FailedToDirectStartJob', {component: 'start-job', appId : this.appId}, 'error');
         })
-        .then(() => this.dialogRef.close());
+        .then(() => {
+          this.dialogRef.close();
+          this.didJobStart = false;
+        });
     }
   }
 

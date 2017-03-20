@@ -170,7 +170,7 @@ export class PipelinesService {
         if (p.length > 0) {
           return this.promisePostRequest(this.URI + `/ci/pipelines/${p[0].pipeline_id}/direct-start`, options);
         } else {
-          return Promise.reject({});
+          return Promise.reject(new Error('No pipelines for the given application.'));
         }
       });
   }

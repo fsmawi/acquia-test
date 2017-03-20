@@ -20,7 +20,10 @@
         </div>
         <e-button id="btn-start" text="Start" *ngIf="isDirectStartAvailable"
                   class="flex-item" fxFlex="15%" fxFlex.xs="25%"
-                  type="primary" [disabled]="!isValidBranch()" (click)="start()"></e-button>
+                  appSegmentOn="click"
+                  [segmentEventData]="{appId: appId}"
+                  segmentEventIdentifier="ClickDirectStartJob"
+                  type="primary" [disabled]="!branch || branch === '' || didJobStart" (click)="start()"></e-button>
       </div>
     </e-data>
     <hr *ngIf="isDirectStartAvailable">
