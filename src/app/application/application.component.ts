@@ -100,22 +100,30 @@ export class ApplicationComponent implements OnInit {
     getConfigurationInfo() {
     this.pipelines.getGithubStatus(this.appId)
       .then((status: GithubStatus) => {
-        if (!status.connected) {
+        if (!status.connected && !this.vcsTypeIconFeature) {
           this.flashMessage.showInfo('You are not connected yet');
         } else {
+          // Extract repo name from url eg. pineapple-pen from https://github.com/raghunat/pineapple-pen.git
           const regex = /^((git@[\w\.]+:)|((http|https):\/\/[\w\.]+\/?))([\w\.@\:/\-~]+)(\.git)(\/)?$/;
           const repoInfo = status.repo_url.match(regex);
-          this.repoFullName = repoInfo[5];
+          this.repoFullName = repoInfo[5] ? repoInfo[5].split('/')[1] : '';
+          this.vcsType = 'git';
           this.gitUrl = status.repo_url;
-          this.gitClone = `git clone --branch [branch] ${this.gitUrl} [destination]`;
         }
         return status;
       })
       .then(status => {
-        // Get the VCS Info if connected
-        if (this.vcsTypeIconFeature && status.connected) {
+        // Get the VCS Info from N3 if not connected
+        if (this.vcsTypeIconFeature && !status.connected) {
           this.n3Service.getEnvironments(this.appId)
-            .then(environments => this.vcsType = environments[0].vcs.type)
+            .then(environments => {
+              // Extract repo name from url eg. site from site@svn-3.hosted.acquia-sites.com:site.git
+              const regex = /^([^@]*)@/;
+              const repoInfo = environments[0].vcs.url.match(regex);
+              this.repoFullName = repoInfo[1];
+              this.vcsType = environments[0].vcs.type === 'git' ?  'acquia-git' : environments[0].vcs.type;
+              this.gitUrl = environments[0].vcs.url;
+            })
             .catch(e => this.errorHandler.apiError(e));
         }
       })
@@ -124,7 +132,10 @@ export class ApplicationComponent implements OnInit {
           .reportError(e, 'FailedToGetGithubStatus', {component: 'application', appId: this.appId}, 'error');
         this.flashMessage.showError(e.status + ' : ' + e._body);
       })
-      .then(() => this.appLoading = false);
+      .then(() =>  {
+        this.gitClone = this.gitUrl ? `git clone --branch [branch] ${this.gitUrl} [destination]` : '';
+        this.appLoading = false;
+      });
   }
 
   /**

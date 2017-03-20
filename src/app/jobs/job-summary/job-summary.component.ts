@@ -64,18 +64,6 @@ export class JobSummaryComponent implements OnInit, OnDestroy {
   cloudUrl: string;
 
   /**
-   * Repo full name to be shown
-   */
-  @Input()
-  repoFullName: string;
-
-  /**
-   * VCS type eg. git, acquia-git
-   */
-  @Input()
-  vcsType: string;
-
-  /**
    * Builds the component and injects services if needed
    */
   constructor() {

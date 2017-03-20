@@ -62,6 +62,11 @@ export class JobsComponent implements OnInit, OnDestroy {
   vcsType: string;
 
   /**
+   * Flag to toggle vcs type icon feature
+   */
+  vcsTypeIconFeature: boolean;
+
+  /**
    * Build the component and inject services if needed
    * @param pipelines
    * @param errorHandler
@@ -110,6 +115,8 @@ export class JobsComponent implements OnInit, OnDestroy {
     // Track page view
     this.segment.page('JobListView');
 
+    this.vcsTypeIconFeature = features.vcsTypeIcon;
+
   }
 
   /**
@@ -130,12 +137,23 @@ export class JobsComponent implements OnInit, OnDestroy {
     if (features.vcsTypeIcon) {
       this.pipelines.getGithubStatus(this.appId)
         .then((status: GithubStatus) => {
+          let regex;
+          let repoInfo;
           if (status.connected) {
-            const regex = /^((git@[\w\.]+:)|((http|https):\/\/[\w\.]+\/?))([\w\.@\:/\-~]+)(\.git)(\/)?$/;
-            const repoInfo = status.repo_url.match(regex);
-            this.repoFullName = repoInfo[5];
+            // Extract repo name from url eg. pineapple-pen from https://github.com/raghunat/pineapple-pen.git
+            regex = /^((git@[\w\.]+:)|((http|https):\/\/[\w\.]+\/?))([\w\.@\:/\-~]+)(\.git)(\/)?$/;
+            repoInfo = status.repo_url.match(regex);
+            this.repoFullName = repoInfo[5] ? repoInfo[5].split('/')[1] : '';
+            this.vcsType = 'git';
+          } else {
             this.n3Service.getEnvironments(this.appId)
-              .then(environments => this.vcsType = environments[0].vcs.type)
+              .then(environments => {
+                // Extract repo name from url eg. site from site@svn-3.hosted.acquia-sites.com:site.git
+                regex = /^([^@]*)@/;
+                repoInfo = environments[0].vcs.url.match(regex);
+                this.repoFullName = repoInfo[1];
+                this.vcsType = environments[0].vcs.type === 'git' ?  'acquia-git' : environments[0].vcs.type;
+              })
               .catch(e => this.errorHandler.apiError(e));
           }
         })

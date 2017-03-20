@@ -10,12 +10,27 @@
   <app-job-summary *ngIf="lastJob && appId"
                    [isProgressBarRequired]="false"
                    [appId]="appId"
-                   [vcsType]="vcsType"
-                   [repoFullName]="repoFullName"
                    [job]="lastJob"></app-job-summary>
 
   <e-card *ngIf="isInitialized">
-    <e-card-header>Activity</e-card-header>
+    <e-card-header>
+      Activity
+      <a id="repoInfo" *ngIf="vcsTypeIconFeature" appIframeLink="/application/{{appId}}">
+        <e-svg-icon *ngIf="vcsType && vcsType === 'git'"
+                    type="logos__github"
+                    size="medium"
+                    mdTooltip="Using GitHub"
+                    mdTooltipPosition="left">
+        </e-svg-icon>
+        <svg *ngIf="vcsType && vcsType ==='acquia-git'"
+             class="el-iconography__icon el-iconography__icon--is-medium"
+             mdTooltip="Using Acquia Git"
+             mdTooltipPosition="left">
+          <image height="28px" xlink:href="../assets/acquia.svg" width="28px"></image>
+        </svg>
+        {{repoFullName}}
+      </a>
+    </e-card-header>
     <e-card-content>
 
       <!-- No Jobs? -->
