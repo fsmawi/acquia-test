@@ -1,9 +1,5 @@
 <e-card *ngIf="job" xmlns="http://www.w3.org/1999/html">
-  <div class="flex-container
-       job-info job__{{(!job ? 'info' : job.isFailed ? 'danger' : job.isSucceeded ? 'success' : 'info')}}"
-       fxLayoutAlign="space-between start"
-       fxLayout="row">
-    <div id="statusInfo" class="flex-item">
+  <div class="job-info job__{{(!job ? 'info' : job.isFailed ? 'danger' : job.isSucceeded ? 'success' : 'info')}}">
       Job
       <a *ngIf="isJobNavigationRequired && !envProd"
          routerLink="{{cloudUrl}}/{{job.job_id}}">{{job.job_id| slice:0:8}}</a>
@@ -11,7 +7,6 @@
          href="{{cloudUrl}}/{{job.job_id}}" target="_top">{{job.job_id| slice:0:8}}</a>
       {{isJobNavigationRequired ? ': ' : (' ' + (job.job_id | slice:0:8) + ' : ')}}
       {{job.message}}
-    </div>
   </div>
   <e-card-content>
     <div id="job-details-1"
