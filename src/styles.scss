@@ -4,16 +4,16 @@
 
 // Include the base styles for Angular Material core. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
-@include md-core();
+@include mat-core();
 
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue.
-$elemental-primary: md-palette($md-light-blue);
-$elemental-accent: md-palette($md-purple, A200, A100, A400);
+$elemental-primary: mat-palette($mat-light-blue);
+$elemental-accent: mat-palette($mat-purple, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
-$elemental-warn: md-palette($md-yellow);
+$elemental-warn: mat-palette($mat-yellow);
 
 // Customer danger palette
 $elemental-danger: #d54e56;
@@ -21,7 +21,7 @@ $elemental-success: #8cc259;
 $elemental-warning: #f6b654;
 
 // Create the theme object (a Sass map containing all of the palettes).
-$elemental-theme: md-light-theme($elemental-primary, $elemental-accent, $elemental-warn);
+$elemental-theme: mat-light-theme($elemental-primary, $elemental-accent, $elemental-warn);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
@@ -86,7 +86,7 @@ md-spinner[color="danger"] {
 }
 
 .bg-primary {
-  background-color: md-color($elemental-primary, A400);
+  background-color: mat-color($elemental-primary, A400);
 }
 
 .danger {
@@ -118,9 +118,9 @@ md-spinner[color="danger"] {
 }
 
 .primary {
-  color: md-color($elemental-primary, A400);
+  color: mat-color($elemental-primary, A400);
   svg {
-    fill: md-color($elemental-primary, A400);
+    fill: mat-color($elemental-primary, A400);
   }
 }
 
