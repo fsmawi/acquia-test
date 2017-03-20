@@ -76,6 +76,4 @@ events:
     steps:
       - merge_deploy:
           script:
-            - 'merge_deploy "cd environments && composer install && php cloud-ode.php"'
-            # - 'run merge_deploy "composer install"'
-            # - 'run merge_deploy "php cloud-ode.php"'
+            - 'cd environments && composer install && php cloud-ode.php'
