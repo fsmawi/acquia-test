@@ -8,6 +8,7 @@ import {MomentModule} from 'angular2-moment';
 import {MaterialModule} from '@angular/material';
 import {RouterTestingModule} from '@angular/router/testing';
 import {Job} from '../../core/models/job';
+import {SharedModule} from '../../shared/shared.module';
 
 describe('JobSummaryComponent', () => {
   let component: JobSummaryComponent;
@@ -20,7 +21,8 @@ describe('JobSummaryComponent', () => {
         MaterialModule.forRoot(),
         MomentModule,
         ElementalModule,
-        RouterTestingModule
+        RouterTestingModule,
+        SharedModule
       ]
     })
       .compileComponents();

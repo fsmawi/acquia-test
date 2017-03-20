@@ -96,16 +96,6 @@ describe('StartJobComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should validate the branch typed', () => {
-    expect(component).toBeTruthy();
-
-    component.branch = '';
-    expect(component.isValidBranch()).toEqual(false);
-
-    component.branch = 'branch1';
-    expect(component.isValidBranch()).toEqual(true);
-  });
-
   it('should filter the available branches by the branch name typed', () => {
     expect(component).toBeTruthy();
 

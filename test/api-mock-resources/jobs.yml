@@ -186,6 +186,20 @@ routes:
           sitename: "enterprise-g1:sfwiptravis"
           started_at: 0
           status: paused
+        -
+          branch: basic
+          commit: ~
+          duration: ~
+          exit_message: ~
+          finished_at: 0
+          job_id: 55b06145-1344-414c-bc0e-1b9b4cf5293a
+          output: {}
+          pipeline_id: 466b4c99-c0cb-4e3a-ad18-b8dad85e6ea4
+          requested_at: 1460745718
+          requested_by: admin@example.com
+          sitename: "enterprise-g1:sfwiptravis"
+          started_at: 0
+          status: failed_by_user
       - response:
         -
           branch: master
@@ -353,6 +367,24 @@ routes:
           sitename: "enterprise-g1:sfwiptravis"
           started_at: 0
           status: paused
+        -
+          branch: basic
+          commit: ~
+          duration: ~
+          exit_message: ~
+          finished_at: 0
+          job_id: 55b06145-1344-414c-bc0e-1b9b4cf5293a
+          output: {}
+          pipeline_id: 466b4c99-c0cb-4e3a-ad18-b8dad85e6ea4
+          requested_at: 1460745718
+          requested_by: admin@example.com
+          sitename: "enterprise-g1:sfwiptravis"
+          started_at: 0
+          status: failed_by_user
+  /api/v1/ci/pipelines/466b4c99-c0cb-4e3a-ad18-b8dad85e6ea4/start:
+    POST:
+      response: permission denied for current user
+      status: 403
   /api/v1/ci/jobs/2cb7d930-7da3-480c-82de-db719d50f0d9:
     GET:
       response:
@@ -497,6 +529,10 @@ routes:
   /api/v1/ci/jobs/ad9aacb4-11de-44da-b2ac-a478a59f55ca/terminate:
     POST:
       response: []
+  /api/v1/ci/jobs/8f0c38d5-68b5-4192-8439-35eb27577ddc/terminate:
+    POST:
+      response: permission denied for current user
+      status: 403
   /api/v1/ci/jobs/ad9aacb4-11de-44da-b2ac-a478a59f55ca/logs:
     GET:
       response: []
@@ -915,6 +951,11 @@ routes:
         123:
           connected: true
           repo_url: https://github.com/raghunat/pineapple-pen
+  /api/v1/ci/pipelines/11279161-f354-4294-875c-3a2e446f81f6/direct-start:
+     POST:
+      response:
+        success: true
+        job_id: 3e09dbb5-c58e-49ee-b166-0a94c07ac85b
   /api/v1/ci/pipelines:
     GET:
       response:

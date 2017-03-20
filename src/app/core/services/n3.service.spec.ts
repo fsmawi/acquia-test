@@ -13,4 +13,12 @@ describe('N3Service', () => {
   it('should ...', inject([N3Service], (service: N3Service) => {
     expect(service).toBeTruthy();
   }));
+
+  it('should return environments', inject([N3Service], (service: N3Service) => {
+    expect(service).toBeTruthy();
+    service.getEnvironments('someAppId').then(environments => {
+      expect(environments).toBeTruthy();
+    });
+  }));
+
 });

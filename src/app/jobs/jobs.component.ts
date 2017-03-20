@@ -7,6 +7,10 @@ import {Job} from '../core/models/job';
 import {PipelinesService} from '../core/services/pipelines.service';
 import {SegmentService} from '../core/services/segment.service';
 import {StartJobComponent} from './start-job/start-job.component';
+import {GithubStatus} from '../core/models/github-status';
+import {N3Service} from '../core/services/n3.service';
+import {features} from '../core/features';
+
 
 @Component({
   selector: 'app-jobs',
@@ -48,6 +52,21 @@ export class JobsComponent implements OnInit, OnDestroy {
   isInitialized = false;
 
   /**
+   * Holds repo full name
+   */
+  repoFullName: string;
+
+  /**
+   * Holds vcs type
+   */
+  vcsType: string;
+
+  /**
+   * Flag to toggle vcs type icon feature
+   */
+  vcsTypeIconFeature: boolean;
+
+  /**
    * Build the component and inject services if needed
    * @param pipelines
    * @param errorHandler
@@ -57,6 +76,7 @@ export class JobsComponent implements OnInit, OnDestroy {
    */
   constructor(
     private pipelines: PipelinesService,
+    private n3Service: N3Service,
     private errorHandler: ErrorService,
     private route: ActivatedRoute,
     private segment: SegmentService,
@@ -96,6 +116,9 @@ export class JobsComponent implements OnInit, OnDestroy {
 
     // Track page view
     this.segment.page('JobListView');
+
+    this.vcsTypeIconFeature = features.vcsTypeIcon;
+
   }
 
   /**
@@ -112,6 +135,34 @@ export class JobsComponent implements OnInit, OnDestroy {
    */
   refresh() {
     this.loadingJobs = true;
+    // Get GitHub Status and VCS Info
+    if (features.vcsTypeIcon) {
+      this.pipelines.getGithubStatus(this.appId)
+        .then((status: GithubStatus) => {
+          let regex;
+          let repoInfo;
+          if (status.connected) {
+            // Extract repo name from url eg. pineapple-pen from https://github.com/raghunat/pineapple-pen.git
+            regex = /^((git@[\w\.]+:)|((http|https):\/\/[\w\.]+\/?))([\w\.@\:/\-~]+)(\.git)(\/)?$/;
+            repoInfo = status.repo_url.match(regex);
+            this.repoFullName = repoInfo[5] ? repoInfo[5].split('/')[1] : '';
+            this.vcsType = 'git';
+          } else {
+            this.n3Service.getEnvironments(this.appId)
+              .then(environments => {
+                // Extract repo name from url eg. site from site@svn-3.hosted.acquia-sites.com:site.git
+                regex = /^([^@]*)@/;
+                repoInfo = environments[0].vcs.url.match(regex);
+                this.repoFullName = repoInfo[1];
+                this.vcsType = environments[0].vcs.type === 'git' ?  'acquia-git' : environments[0].vcs.type;
+              })
+              .catch(e => this.errorHandler.apiError(e));
+          }
+        })
+        .catch(e => this.errorHandler.apiError(e));
+    }
+
+    // Get Jobs to be listed
     this.pipelines.getJobsByAppId(this.appId)
       .then(jobs => {
         // Assign the returned jobs if the initial jobs array is empty.
@@ -136,6 +187,7 @@ export class JobsComponent implements OnInit, OnDestroy {
       .catch(e =>
         this.errorHandler
           .apiError(e)
+          .reportError(e, 'FailedToGetJobs', {component: 'jobs', appId: this.appId}, 'error')
           .showError('Homepage', '/auth/tokens')
       )
       .then(() => {

@@ -47,7 +47,8 @@ describe('PipelinesService', () => {
     });
   }));
 
-  it('should attach a Github repository', inject([PipelinesService, MockBackend], (service: PipelinesService, mockBackend: MockBackend) => {
+  it('should attach a Github repository',
+    inject([PipelinesService, MockBackend], (service: PipelinesService, mockBackend: MockBackend) => {
     setupConnections(mockBackend, {
       body: JSON.stringify({
         success: true,
@@ -60,6 +61,20 @@ describe('PipelinesService', () => {
       expect(res.success).toEqual(true);
       expect(res.deploy_key_url).toEqual('key_url');
       expect(res.webhook_url).toEqual('webhook_url');
+    });
+  }));
+
+  it('should remove GitHub Authentication from the app',
+    inject([PipelinesService, MockBackend], (service: PipelinesService, mockBackend: MockBackend) => {
+    setupConnections(mockBackend, {
+      body: JSON.stringify({
+        status: 204,
+        success: true
+      })
+    });
+
+    service.removeGitHubAuth('repo', 'app-id').then(res => {
+      expect(res.status).toBe(204);
     });
   }));
 
@@ -110,26 +125,6 @@ describe('PipelinesService', () => {
       });
     }));
 
-  /*it('should direct start a job',
-    inject([PipelinesService, MockBackend], (service: PipelinesService, mockBackend: MockBackend) => {
-      const pipeline = new Pipeline({
-        pipeline_id: 'pipeline-id',
-        repo_data: {
-          branches: ['test11','test12']
-        }
-      });
-
-      setupConnections(mockBackend, [
-        { body: JSON.stringify([pipeline]) },
-        { body: JSON.stringify({ 'test' : 'test'})}
-      ]);
-
-      service.directStartJob('someAppId', 'someBranch').then(res => {
-        console.log(res);
-        expect(res.test).toEqual('test');
-      });
-    }));*/
-
   it('should get the github connection status for a given application ID',
     inject([PipelinesService, MockBackend], (service: PipelinesService, mockBackend: MockBackend) => {
       setupConnections(mockBackend, {
@@ -141,9 +136,33 @@ describe('PipelinesService', () => {
         }
       });
 
-      service.getGithubStatus('app-id').then(res => {
+      service.getGithubStatus('someAppId').then(res => {
         expect(res.connected).toBe(true);
         expect(res.repo_url).toBe('someurl');
       });
     }));
+
+  it('should direct start a job',
+    inject([PipelinesService, MockBackend], (service: PipelinesService, mockBackend: MockBackend) => {
+      const pipeline = new Pipeline({
+        pipeline_id: 'pipeline-id',
+        repo_data: {
+          branches: ['test11', 'test12']
+        }
+      });
+
+      setupConnections(mockBackend,
+        { body: JSON.stringify({job_id : 'job-id'})}
+      );
+
+      spyOn(service, 'getPipelineByAppId').and.callFake(() => {
+        return Promise.resolve([pipeline]);
+      });
+
+      service.directStartJob('someAppId', 'someBranch').then(res => {
+        expect(res).toBeTruthy();
+        expect(res.job_id).toBe('job-id');
+      });
+    }));
+
 });

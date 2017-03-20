@@ -814,25 +814,18 @@ routes:
           message: Problem while loading the components.
   /api/v1/ci/github/init:
     POST:
-      response:
-        success: true
-        deploy_key_url: 'key_url'
-        webhook_url: 'webhook_url'
+      response: permission denied for current user
+      status: 403
   /redirect/create:
     POST:
       response:
         redirect_url: http://localhost:3000/callback/kf54sd5454fs
-  /api/v1/ci/github:
-    DELETE:
-      response:
-        success: true
-        status: 204
   /api/v1/ci/github/status:
     GET:
       response:
-        fbcd8f1f-4620-4bd6-9b60-f8d9d0f74fd0:
+        123:
           connected: true
-          repo_url: https://github.com/raghunat/pineapple-pen.git
+          repo_url: https://github.com/raghunat/pineapple-pen
   /api/v1/ci/pipelines:
     GET:
       response:
