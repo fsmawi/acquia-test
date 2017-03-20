@@ -9,7 +9,24 @@
    [segmentEventData]="{appId: appId}"
    segmentEventIdentifier="ClickRemoveAuth">Remove Auth</a>
 <e-card *ngIf="!appLoading">
-  <e-card-header>Connected repository information</e-card-header>
+    <e-card-header>
+      Connected repository information
+      <div id="repoInfo" *ngIf="vcsTypeIconFeature">
+        <e-svg-icon *ngIf="vcsType && vcsType === 'git'"
+                    type="logos__github"
+                    size="medium"
+                    mdTooltip="Using GitHub"
+                    mdTooltipPosition="left">
+        </e-svg-icon>
+        <svg *ngIf="vcsType && vcsType ==='acquia-git'"
+             class="el-iconography__icon el-iconography__icon--is-medium"
+             mdTooltip="Using Acquia Git"
+             mdTooltipPosition="left">
+          <image height="28px" xlink:href="../assets/acquia.svg" width="28px"></image>
+        </svg>
+        {{repoFullName}}
+      </div>
+    </e-card-header>
   <e-card-content>
     <h3>GitHub repository</h3>
 

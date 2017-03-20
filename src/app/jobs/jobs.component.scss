@@ -54,3 +54,21 @@ app-job-summary /deep/ section,
 e-card /deep/ section {
   clear: both;
 }
+
+#repoInfo {
+  display: block;
+  float: right;
+  position: relative;
+}
+
+/deep/ e-card-header {
+  svg {
+    top: 0.225rem !important;
+  }
+
+  a {
+    font-weight: 400;
+    font-size: $text-size-h5;
+  }
+
+}

@@ -13,5 +13,14 @@ export const features = {
   get logStreaming() {
     // switch to return true, or remove embedded flags for enabling
     return environment.name === 'dev';
+  },
+
+  /**
+   * VCS type Icon flag.
+   * @returns {boolean}
+   */
+  get vcsTypeIcon() {
+    // switch to return true, or remove embedded flags for enabling
+    return environment.name === 'mock';
   }
 };

@@ -14,7 +14,9 @@ import {PipelinesService} from '../core/services/pipelines.service';
 import {SegmentService} from '../core/services/segment.service';
 import {ElementalModule} from '../elemental/elemental.module';
 import {SharedModule} from '../shared/shared.module';
+import {N3Service} from '../core/services/n3.service';
 import {ConfirmationModalService} from '../core/services/confirmation-modal.service';
+
 
 class MockActivatedRoute {
   params = new EventEmitter<any>();
@@ -37,6 +39,12 @@ class MockFlashMessage {
 
   showSuccess(message: string, e: any = {}) {
     return true;
+  }
+}
+
+class MockN3Service {
+  getEnvironments(appId: string) {
+    return Promise.resolve([{ vcs : { type : 'git'}}]);
   }
 }
 
@@ -74,6 +82,7 @@ describe('ApplicationComponent', () => {
         BaseRequestOptions,
         PipelinesService,
         SegmentService,
+        {provide: N3Service, useClass: MockN3Service},
         {provide: ActivatedRoute, useClass: MockActivatedRoute},
         {provide: FlashMessageService, useClass: MockFlashMessage},
         {provide: ConfirmationModalService, useClass: MockConfirmationModalService},
@@ -110,7 +119,7 @@ describe('ApplicationComponent', () => {
     setupConnections(mockBackend, {
       body: JSON.stringify({
         'undefined': {
-          repo_url: 'https://github.com/acquia/repo1',
+          repo_url: 'https://github.com/acquia/repo1.git',
           connected: true
         }
       })
@@ -119,8 +128,8 @@ describe('ApplicationComponent', () => {
     component.getConfigurationInfo();
     tick();
     fixture.detectChanges();
-    expect(component.gitUrl).toEqual('https://github.com/acquia/repo1');
-    expect(component.gitClone).toEqual('git clone --branch [branch] https://github.com/acquia/repo1 [destination]');
+    expect(component.gitUrl).toEqual('https://github.com/acquia/repo1.git');
+    expect(component.gitClone).toEqual('git clone --branch [branch] https://github.com/acquia/repo1.git [destination]');
   })));
 
   it('should show a not connected alert when the repo is not connected',

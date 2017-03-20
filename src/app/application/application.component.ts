@@ -5,7 +5,10 @@ import {PipelinesService} from '../core/services/pipelines.service';
 import {ErrorService} from '../core/services/error.service';
 import {FlashMessageService} from '../core/services/flash-message.service';
 import {GithubStatus} from '../core/models/github-status';
+import {N3Service} from '../core/services/n3.service';
 import {ConfirmationModalService} from '../core/services/confirmation-modal.service';
+import {features} from '../core/features';
+
 
 @Component({
   selector: 'app-application',
@@ -57,17 +60,35 @@ export class ApplicationComponent implements OnInit {
   appLoading = false;
 
   /**
+   * Repo full name
+   */
+  repoFullName: string;
+
+  /**
+   * VCS type eg. git, acquia-git
+   */
+  vcsType: string;
+
+  /**
+   * Flag to toggle vcs type icon feature
+   */
+  vcsTypeIconFeature: boolean;
+
+  /**
    * Build the component
    * @param route
    * @param router
    * @param pipelines
+   * @param n3Service
    * @param errorHandler
+   * @param confirmationModalService
    * @param flashMessage
    */
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private pipelines: PipelinesService,
+    private n3Service: N3Service,
     private errorHandler: ErrorService,
     private confirmationModalService: ConfirmationModalService,
     private flashMessage: FlashMessageService) {
@@ -76,14 +97,34 @@ export class ApplicationComponent implements OnInit {
   /**
    * Get Configuration Information
    */
-  getConfigurationInfo() {
+    getConfigurationInfo() {
     this.pipelines.getGithubStatus(this.appId)
       .then((status: GithubStatus) => {
-        if (!status.connected) {
+        if (!status.connected && !this.vcsTypeIconFeature) {
           this.flashMessage.showInfo('You are not connected yet');
         } else {
+          // Extract repo name from url eg. pineapple-pen from https://github.com/raghunat/pineapple-pen.git
+          const regex = /^((git@[\w\.]+:)|((http|https):\/\/[\w\.]+\/?))([\w\.@\:/\-~]+)(\.git)(\/)?$/;
+          const repoInfo = status.repo_url.match(regex);
+          this.repoFullName = repoInfo[5] ? repoInfo[5].split('/')[1] : '';
+          this.vcsType = 'git';
           this.gitUrl = status.repo_url;
-          this.gitClone = `git clone --branch [branch] ${this.gitUrl} [destination]`;
+        }
+        return status;
+      })
+      .then(status => {
+        // Get the VCS Info from N3 if not connected
+        if (this.vcsTypeIconFeature && !status.connected) {
+          this.n3Service.getEnvironments(this.appId)
+            .then(environments => {
+              // Extract repo name from url eg. site from site@svn-3.hosted.acquia-sites.com:site.git
+              const regex = /^([^@]*)@/;
+              const repoInfo = environments[0].vcs.url.match(regex);
+              this.repoFullName = repoInfo[1];
+              this.vcsType = environments[0].vcs.type === 'git' ?  'acquia-git' : environments[0].vcs.type;
+              this.gitUrl = environments[0].vcs.url;
+            })
+            .catch(e => this.errorHandler.apiError(e));
         }
       })
       .catch(e => {
@@ -91,7 +132,10 @@ export class ApplicationComponent implements OnInit {
           .reportError(e, 'FailedToGetGithubStatus', {component: 'application', appId: this.appId}, 'error');
         this.flashMessage.showError(e.status + ' : ' + e._body);
       })
-      .then(() => this.appLoading = false);
+      .then(() =>  {
+        this.gitClone = this.gitUrl ? `git clone --branch [branch] ${this.gitUrl} [destination]` : '';
+        this.appLoading = false;
+      });
   }
 
   /**
@@ -103,6 +147,7 @@ export class ApplicationComponent implements OnInit {
       this.appId = params['app-id'];
       this.getConfigurationInfo();
     });
+    this.vcsTypeIconFeature = features.vcsTypeIcon;
   }
 
   /**

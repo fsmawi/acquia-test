@@ -15,8 +15,15 @@ import {Job} from '../core/models/job';
 import {JobsComponent} from './jobs.component';
 import {JobListComponent} from './job-list/job-list.component';
 import {JobSummaryComponent} from './job-summary/job-summary.component';
+import {N3Service} from '../core/services/n3.service';
 import {PipelinesService} from '../core/services/pipelines.service';
 import {SharedModule} from '../shared/shared.module';
+
+class MockN3Service {
+  getEnvironments(appId: string) {
+    return Promise.resolve([{ vcs : { type : 'git'}}]);
+  }
+}
 
 class MockPipelinesService {
 
@@ -47,6 +54,14 @@ class MockPipelinesService {
     }
     return Promise.resolve(jobs);
   }
+
+  getGithubStatus(appId: string) {
+    return Promise.resolve([{'undefined': {
+      repo_url: 'https://github.com/acquia/repo1.git',
+      connected: true
+    }}]);
+  }
+
 }
 
 class MockMdDialog {
@@ -65,6 +80,7 @@ describe('JobsComponent', () => {
       providers: [
         { provide: PipelinesService, useClass: MockPipelinesService },
         { provide: MdDialog, useClass: MockMdDialog },
+        {provide: N3Service, useClass: MockN3Service},
         ErrorService],
       imports: [MaterialModule.forRoot(), RouterTestingModule, CoreModule,
         MomentModule, SharedModule, ElementalModule]

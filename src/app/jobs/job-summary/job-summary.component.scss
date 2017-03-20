@@ -29,9 +29,12 @@
   font-size: 1rem;
 }
 
-
-/deep/ e-data-value {
+/deep/ e-card {
   svg {
-    top: 0.125rem !important;
+    top: 0.225rem !important;
   }
+}
+
+#repoInfo {
+  cursor: pointer;
 }
