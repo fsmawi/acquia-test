@@ -74,6 +74,11 @@ module.exports = function () {
 
   this.When(/^I should see a \|(.*?)\| with \|(.*?)\|$/, function (textElementIdentifier, expectedText) {
     return this.browser._waitUntil(page.getDynamicValue(textElementIdentifier), {timeout: 5000})
-      .then(this.browser._getText(page.getDynamicValue(textElementIdentifier), page.getDynamicValue(expectedText)));
+      .then(() => {
+        return this.browser._getText(page.getDynamicValue(textElementIdentifier));
+      })
+      .then((actualText) => {
+        expect(page.getDynamicValue(expectedText)).to.be.equal(actualText);
+      });
   });
 };

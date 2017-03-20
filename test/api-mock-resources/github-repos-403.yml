@@ -1,9 +1,9 @@
 ---
-routes: 
+routes:
   /api/v1/auth/bakery:
-      GET:
-        response:
-          authenticated: true
+    GET:
+      response:
+        authenticated: true
   /api/v1/ci/jobs:
     GET:
       responses:
@@ -22,18 +22,6 @@ routes:
           sitename: "enterprise-g1:sfwiptravis"
           started_at: 0
           status: failed_by_system
-          trigger: pull_request
-          metadata:
-            container_port_8007: "44512"
-            deployment_link: "http://pipelinesuiode83.network.acquia-sites.com"
-            deployment_name: "ode83"
-            git_sha: "a89e8e77b1abd0e3c5dc5b341abe78f8cb7ef62b"
-            log_stream_websocket: "ws://ec2-52-90-145-54.compute-1.amazonaws.com:44512"
-            merge_ref: "pull/92/merge:master"
-            pull_request: "92"
-            pull_request_link: "https://github.com/acquia/pipelines-ui/pull/92"
-            source_branch: "MS-2482--E2E-Testing-for-the-Job-Detail-Count-up"
-            target_branch: "master"
         -
           branch: master
           commit: hashhash
@@ -48,18 +36,6 @@ routes:
           sitename: "enterprise-g1:sfwiptravis"
           started_at: 0
           status: running
-          trigger: pull_request
-          metadata:
-            container_port_8007: "44512"
-            deployment_link: "http://pipelinesuiode83.network.acquia-sites.com"
-            deployment_name: "ode83"
-            git_sha: "a89e8e77b1abd0e3c5dc5b341abe78f8cb7ef62b"
-            log_stream_websocket: "ws://ec2-52-90-145-54.compute-1.amazonaws.com:44512"
-            merge_ref: "pull/92/merge:master"
-            pull_request: "92"
-            pull_request_link: "https://github.com/acquia/pipelines-ui/pull/92"
-            source_branch: "MS-2482--E2E-Testing-for-the-Job-Detail-Count-up"
-            target_branch: "master"
         -
           branch: MS-1170
           commit: ~
@@ -186,20 +162,6 @@ routes:
           sitename: "enterprise-g1:sfwiptravis"
           started_at: 0
           status: paused
-        -
-          branch: basic
-          commit: ~
-          duration: ~
-          exit_message: ~
-          finished_at: 0
-          job_id: 55b06145-1344-414c-bc0e-1b9b4cf5293a
-          output: {}
-          pipeline_id: 466b4c99-c0cb-4e3a-ad18-b8dad85e6ea4
-          requested_at: 1460745718
-          requested_by: admin@example.com
-          sitename: "enterprise-g1:sfwiptravis"
-          started_at: 0
-          status: failed_by_user
       - response:
         -
           branch: master
@@ -207,7 +169,7 @@ routes:
           duration: 1462297583
           exit_message: "New job "
           finished_at: 1462297582
-          job_id: 8f0c38d5-68b5-4192-8439-35eb27577ddc
+          job_id: 2cb7d930-7da3-480c-82de-db719d50f0d912
           output: {}
           pipeline_id: a40ab6a5-6b30-40e7-abc7-5a7695499f44
           requested_at: 1462297477
@@ -215,18 +177,6 @@ routes:
           sitename: "enterprise-g1:sfwiptravis"
           started_at: 0
           status: queued
-          trigger: push
-          metadata:
-            container_port_8007: "44512"
-            deployment_link: "http://pipelinesuiode83.network.acquia-sites.com"
-            deployment_name: "ode83"
-            git_sha: "a89e8e77b1abd0e3c5dc5b341abe78f8cb7ef62b"
-            log_stream_websocket: "ws://ec2-52-90-145-54.compute-1.amazonaws.com:44512"
-            merge_ref: "pull/92/merge:master"
-            pull_request: "92"
-            pull_request_link: "https://github.com/acquia/pipelines-ui/pull/92"
-            source_branch: "MS-2482--E2E-Testing-for-the-Job-Detail-Count-up"
-            target_branch: "master"
         -
           branch: master
           commit: hashhash
@@ -367,24 +317,6 @@ routes:
           sitename: "enterprise-g1:sfwiptravis"
           started_at: 0
           status: paused
-        -
-          branch: basic
-          commit: ~
-          duration: ~
-          exit_message: ~
-          finished_at: 0
-          job_id: 55b06145-1344-414c-bc0e-1b9b4cf5293a
-          output: {}
-          pipeline_id: 466b4c99-c0cb-4e3a-ad18-b8dad85e6ea4
-          requested_at: 1460745718
-          requested_by: admin@example.com
-          sitename: "enterprise-g1:sfwiptravis"
-          started_at: 0
-          status: failed_by_user
-  /api/v1/ci/pipelines/466b4c99-c0cb-4e3a-ad18-b8dad85e6ea4/start:
-    POST:
-      response: permission denied for current user
-      status: 403
   /api/v1/ci/jobs/2cb7d930-7da3-480c-82de-db719d50f0d9:
     GET:
       response:
@@ -401,18 +333,6 @@ routes:
         sitename: "enterprise-g1:sfwiptravis"
         started_at: 1456263980
         status: failed_by_system
-        trigger: manual
-        metadata:
-          container_port_8007: "44512"
-          deployment_link: "http://pipelinesuiode83.network.acquia-sites.com"
-          deployment_name: "ode83"
-          git_sha: "a89e8e77b1abd0e3c5dc5b341abe78f8cb7ef62b"
-          log_stream_websocket: "ws://ec2-52-90-145-54.compute-1.amazonaws.com:44512"
-          merge_ref: "pull/92/merge:master"
-          pull_request: "92"
-          pull_request_link: "https://github.com/acquia/pipelines-ui/pull/92"
-          source_branch: "MS-2482--E2E-Testing-for-the-Job-Detail-Count-up"
-          target_branch: "master"
   /api/v1/ci/jobs/34b06147-1344-414c-bc0e-1b9b4cf5297c:
     GET:
       responses:
@@ -430,18 +350,6 @@ routes:
           sitename: "enterprise-g1:sfwiptravis"
           started_at: 1456263980
           status: queued
-          trigger: pull_request
-          metadata:
-            container_port_8007: "44512"
-            deployment_link: "http://pipelinesuiode83.network.acquia-sites.com"
-            deployment_name: "ode83"
-            git_sha: "a89e8e77b1abd0e3c5dc5b341abe78f8cb7ef62b"
-            log_stream_websocket: "ws://ec2-52-90-145-54.compute-1.amazonaws.com:44512"
-            merge_ref: "pull/92/merge:master"
-            pull_request: "92"
-            pull_request_link: "https://github.com/acquia/pipelines-ui/pull/92"
-            source_branch: "MS-2482--E2E-Testing-for-the-Job-Detail-Count-up"
-            target_branch: "master"
       - response:
           branch: basic
           commit: ~
@@ -456,18 +364,6 @@ routes:
           sitename: "enterprise-g1:sfwiptravis"
           started_at: 1460745718
           status: succeeded
-          trigger: pull_request
-          metadata:
-            container_port_8007: "44512"
-            deployment_link: "http://pipelinesuiode83.network.acquia-sites.com"
-            deployment_name: "ode83"
-            git_sha: "a89e8e77b1abd0e3c5dc5b341abe78f8cb7ef62b"
-            log_stream_websocket: "ws://ec2-52-90-145-54.compute-1.amazonaws.com:44512"
-            merge_ref: "pull/92/merge:master"
-            pull_request: "92"
-            pull_request_link: "https://github.com/acquia/pipelines-ui/pull/92"
-            source_branch: "MS-2482--E2E-Testing-for-the-Job-Detail-Count-up"
-            target_branch: "master"
       - response:
           branch: basic
           commit: ~
@@ -482,18 +378,6 @@ routes:
           sitename: "enterprise-g1:sfwiptravis"
           started_at: 1460745718
           status: succeeded
-          trigger: pull_requests
-          metadata:
-            container_port_8007: "44512"
-            deployment_link: "http://pipelinesuiode83.network.acquia-sites.com"
-            deployment_name: "ode83"
-            git_sha: "a89e8e77b1abd0e3c5dc5b341abe78f8cb7ef62b"
-            log_stream_websocket: "ws://ec2-52-90-145-54.compute-1.amazonaws.com:44512"
-            merge_ref: "pull/92/merge:master"
-            pull_request: "92"
-            pull_request_link: "https://github.com/acquia/pipelines-ui/pull/92"
-            source_branch: "MS-2482--E2E-Testing-for-the-Job-Detail-Count-up"
-            target_branch: "master"
   /api/v1/ci/jobs/8f0c38d5-68b5-4192-8439-35eb27577ddc:
     GET:
       response:
@@ -526,13 +410,6 @@ routes:
         sitename: "enterprise-g1:sfwiptravis"
         started_at: 1456263980
         status: queued
-  /api/v1/ci/jobs/ad9aacb4-11de-44da-b2ac-a478a59f55ca/terminate:
-    POST:
-      response: []
-  /api/v1/ci/jobs/8f0c38d5-68b5-4192-8439-35eb27577ddc/terminate:
-    POST:
-      response: permission denied for current user
-      status: 403
   /api/v1/ci/jobs/ad9aacb4-11de-44da-b2ac-a478a59f55ca/logs:
     GET:
       response: []
@@ -1014,6 +891,10 @@ routes:
             link: https://github.com/acquia/repo2
             type: github
           branches: test11,test12
+  /api/v1/ci/github/repos:
+    GET:
+      response: permission denied for current user
+      status: 403
 redirections:
-  /github/oauth: 
+  /api/v1/ci/github/oauth:
     redirect_to: http://localhost:4200/auth/github/123?success=true

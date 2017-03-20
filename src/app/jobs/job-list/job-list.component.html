@@ -21,13 +21,13 @@
       <a appSegmentOn="click"
          [segmentEventData]="{job_id: job.job_id, status: job.status}"
          segmentEventIdentifier="ClickJobListDetailLink"
-         routerLink="{{cloudUrl}}/{{job.job_id}}"
-         *ngIf="!envProd">{{job.job_id | slice:0:8}}</a>
-      <a appSegmentOn="click"
-         [segmentEventData]="{job_id: job.job_id, status: job.status}"
-         segmentEventIdentifier="ClickJobListDetailLink"
-         href="{{cloudUrl}}/{{job.job_id}}" target="_top"
-         *ngIf="envProd">{{job.job_id | slice:0:8}}</a>
+         appIframeLink="/jobs/{{appId}}/{{job.job_id}}">{{job.job_id | slice:0:8}}</a>
+      <!--TODO revereted open in new tab feature, MS-2709-->
+      <!--<a appSegmentOn="click"-->
+      <!--[segmentEventData]="{job_id: job.job_id, status: job.status}"-->
+      <!--segmentEventIdentifier="ClickJobListDetailLink"-->
+      <!--href="{{cloudUrl}}/{{job.job_id}}" target="_top"-->
+      <!--*ngIf="envProd">{{job.job_id | slice:0:8}}</a>-->
     </td>
     <td class="center">{{job.branch}}</td>
     <td class="hidden-xs-down center">{{job.commit ? job.commit : '-'}}</td>
@@ -37,9 +37,9 @@
     <td class="center hidden-sm-down" *ngIf="!job.finished_at">-</td>
     <td class="center hidden-xs-down">
       <!-- TODO Refresh is not available in the API yet -->
-      <!--<button md-button *ngIf="job.isFailed" (click)="restartJob(job)">-->
-      <!--<md-icon color="primary">refresh</md-icon>-->
-      <!--</button>-->
+      <!-- <button md-button *ngIf="job.isFailed" (click)="restartJob(job)"> -->
+      <!-- <md-icon color="primary">refresh</md-icon> -->
+      <!-- </button> -->
 
       <a *ngIf="job.isFinished && job.metadata && job.metadata.deployment_link"
          href="{{job.metadata.deployment_link}}" target="_blank">
