@@ -61,7 +61,7 @@ md-spinner[color="danger"] {
 }
 
 // !important is required to override the angular material tooltip default css properties
-.md-tooltip {
+.mat-tooltip {
   height: auto !important;
   padding: 0.375rem 0.75rem !important;
   font-size: 0.8125rem !important;
