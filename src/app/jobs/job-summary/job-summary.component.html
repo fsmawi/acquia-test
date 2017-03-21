@@ -115,7 +115,9 @@
              segmentEventIdentifier="ClickPullRequestLinkJobSummary">
             PR {{job.metadata.pull_request}}
           </a>
-          {{job.metadata.pull_request_link ? '' : 'PR ' + job.metadata.pull_request}}
+          <span *ngIf="!job.metadata?.pull_request_link">
+            {{ job.metadata?.pull_request ? ('PR ' +  job.metadata.pull_request)  : '-'}}
+          </span>
         </e-data-value>
       </e-data>
       <e-data class="flex-item"
