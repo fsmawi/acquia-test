@@ -115,7 +115,7 @@
              segmentEventIdentifier="ClickPullRequestLinkJobSummary">
             PR {{job.metadata.pull_request}}
           </a>
-          {{job.metadata.pull_request_link ? '' : 'PR ' + job.pull_request}}
+          {{job.metadata.pull_request_link ? '' : 'PR ' + job.metadata.pull_request}}
         </e-data-value>
       </e-data>
       <e-data class="flex-item"

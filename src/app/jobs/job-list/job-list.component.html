@@ -37,8 +37,8 @@
          segmentEventIdentifier="ClickPullRequestLinkJobList">
         PR {{job.metadata.pull_request}}
       </a>
-      {{job.metadata && job.metadata.pull_request_link ? '' : job.pull_request ?
-        'PR ' + job.pull_request : job.branch ? job.branch : '-'}}
+      {{job.metadata && job.metadata.pull_request_link ? '' : job.metadata.pull_request ?
+        'PR ' + job.metadata.pull_request : job.branch ? job.branch : '-'}}
     </td>
     <td class="hidden-xs-down center">{{job.commit ? job.commit : '-'}}</td>
     <td class="center hidden-sm-down" *ngIf="job.duration">{{job.duration | amDuration:'seconds'}}</td>
