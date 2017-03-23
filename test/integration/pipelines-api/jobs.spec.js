@@ -1,7 +1,7 @@
 const supertest = require('supertest');
 const expect = require('chai').expect;
 const qs = require('querystring');
-const logHelper = require('./log-helper').logHelper;
+const logAPICall = require('../log-helper').logAPICall;
 
 describe('Pipelines API /api/v1/ci/jobs', function () {
   const token = process.env.N3_KEY;
@@ -41,7 +41,7 @@ describe('Pipelines API /api/v1/ci/jobs', function () {
             expect(res.body[0].status).to.exist;
           }
         } catch(e) {
-          logHelper(res, route, params);
+          logAPICall(res, route, params);
           throw e;
         }
       });
@@ -60,7 +60,7 @@ describe('Pipelines API /api/v1/ci/jobs', function () {
             expect(res.text).to.contain('Missing mandatory parameters: n3_endpoint');
           }
         } catch(e) {
-          logHelper(res, route, params);
+          logAPICall(res, route, params);
           throw e;
         }
       });
@@ -83,7 +83,7 @@ describe('Pipelines API /api/v1/ci/jobs', function () {
             .contain('Error authorizing request: Expected([200, 201, 202, 203, 204, 205, 206, 302]) <=> Actual(400 Bad Request)');
           }
         } catch(e) {
-          logHelper(res, route, params);
+          logAPICall(res, route, params);
           throw e;
         }
       });

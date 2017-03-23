@@ -1,7 +1,7 @@
 const supertest = require('supertest');
 const qs = require('querystring');
 const expect = require('chai').expect;
-const logHelper = require('./log-helper').logHelper;
+const logAPICall = require('../log-helper').logAPICall;
 
 describe('Pipelines API /api/v1/ci/jobs/:jobId/logs', function () {
   const params = '?' + qs.stringify({applications: 'fbcd8f1f-4620-4bd6-9b60-f8d9d0f74fd0'});
@@ -34,7 +34,7 @@ describe('Pipelines API /api/v1/ci/jobs/:jobId/logs', function () {
             expect(res.body[0].message).to.exist;
           }
         } catch(e) {
-          logHelper(res, route, params);
+          logAPICall(res, route, params);
           throw e;
         }
       });
@@ -59,7 +59,7 @@ describe('Pipelines API /api/v1/ci/jobs/:jobId/logs', function () {
             expect(res.body.message).to.equal('Job with id invalid-job-id not found.');
           }
         } catch(e) {
-          logHelper(res, route, params);
+          logAPICall(res, route, params);
           throw e;
         }
       });
@@ -86,7 +86,7 @@ describe('Pipelines API /api/v1/ci/jobs/:jobId/logs', function () {
             expect(res.text).to.contain('Error authorizing request: ');
           }
         } catch(e) {
-          logHelper(res, route, params);
+          logAPICall(res, route, params);
           throw e;
         }
       });
