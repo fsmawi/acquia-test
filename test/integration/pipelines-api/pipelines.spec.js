@@ -1,6 +1,7 @@
 const supertest = require('supertest');
 const expect = require('chai').expect;
 const qs = require('querystring');
+const logHelper = require('./log-helper').logHelper;
 
 describe('Pipelines API /api/v1/ci/pipelines', function () {
   const token = process.env.N3_KEY;
@@ -19,16 +20,25 @@ describe('Pipelines API /api/v1/ci/pipelines', function () {
       .set('X-ACQUIA-PIPELINES-N3-ENDPOINT', endpoint)
       .set('X-ACQUIA-PIPELINES-N3-KEY', token)
       .set('X-ACQUIA-PIPELINES-N3-SECRET', secret)
-      .expect(200)
       .expect('Content-Type', /json/)
       .then((res) => {
-        expect(res.body).to.be.a('Array');
-        expect(res.body[0]).to.be.a('Object');
-        expect(res.body[0].repo_data).to.exist;
-        expect(res.body[0].repo_data.repos).to.be.a('Array');
-        expect(res.body[0].repo_data.repos[0].type).to.exist;
-        expect(res.body[0].repo_data.repos[0].link).to.exist;
-        expect(res.body[0].repo_data.repos[0].name).to.exist;
+        try {
+          if (!res.ok && res.status !== 200) {
+            throw res.text;
+          } else {
+            expect(res.status).to.equal(200);
+            expect(res.body).to.be.a('Array');
+            expect(res.body[0]).to.be.a('Object');
+            expect(res.body[0].repo_data).to.exist;
+            expect(res.body[0].repo_data.repos).to.be.a('Array');
+            expect(res.body[0].repo_data.repos[0].type).to.exist;
+            expect(res.body[0].repo_data.repos[0].link).to.exist;
+            expect(res.body[0].repo_data.repos[0].name).to.exist;
+          }
+        } catch(e) {
+          logHelper(res, route, params);
+          throw e;
+        }
       });
   });
 
@@ -44,9 +54,18 @@ describe('Pipelines API /api/v1/ci/pipelines', function () {
       .set('X-ACQUIA-PIPELINES-N3-ENDPOINT', endpoint)
       .set('X-ACQUIA-PIPELINES-N3-KEY', token)
       .set('X-ACQUIA-PIPELINES-N3-SECRET', secret)
-      .expect(403)
       .then((res) => {
-        expect(res.text).to.contain('Error authorizing request: site doesn\'t have pipelines enabled');
+        try {
+          if (!res.ok && res.status !== 403) {
+            throw res.text;
+          } else {
+            expect(res.status).to.equal(403);
+            expect(res.text).to.contain('Error authorizing request: site doesn\'t have pipelines enabled');
+          }
+        } catch(e) {
+          logHelper(res, route, params);
+          throw e;
+        }
       });
   });
 
@@ -60,10 +79,19 @@ describe('Pipelines API /api/v1/ci/pipelines', function () {
       .set('X-ACQUIA-PIPELINES-N3-ENDPOINT', endpoint)
       .set('X-ACQUIA-PIPELINES-N3-KEY', token)
       .set('X-ACQUIA-PIPELINES-N3-SECRET', secret)
-      .expect(403)
       .then((res) => {
-        expect(res.text).to
-          .contain('Error authorizing request: Expected([200, 201, 202, 203, 204, 205, 206, 302]) <=> Actual(400 Bad Request)');
+        try {
+          if (!res.ok && res.status !== 403) {
+            throw res.text;
+          } else {
+            expect(res.status).to.equal(403);
+            expect(res.text).to
+              .contain('Error authorizing request: Expected([200, 201, 202, 203, 204, 205, 206, 302]) <=> Actual(400 Bad Request)');
+          }
+        } catch(e) {
+          logHelper(res, route, params);
+          throw e;
+        }
       });
   });
 
@@ -74,9 +102,18 @@ describe('Pipelines API /api/v1/ci/pipelines', function () {
     });
     return supertest(process.env.PIPELINES_API_URI)
       .get(route + params)
-      .expect(403)
       .then((res) => {
-        expect(res.text).to.contain('Missing mandatory parameters: n3_endpoint');
+        try {
+          if (!res.ok && res.status !== 403) {
+            throw res.text;
+          } else {
+            expect(res.status).to.equal(403);
+            expect(res.text).to.contain('Missing mandatory parameters: n3_endpoint');
+          }
+        } catch(e) {
+          logHelper(res, route, params);
+          throw e;
+        }
       });
   });
 });
