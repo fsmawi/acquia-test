@@ -1,4 +1,4 @@
-<h1 class="page-title">Pipelines</h1> 
+<h1 class="page-title">Pipelines</h1>
 <p>Leveraging Acquia Pipelines with existing non-Acquia Git workflows allows developers to integrate testing and release
  management for deployments to be made for Acquia Cloud-hosted applications.</p>
 
@@ -25,8 +25,7 @@
     [disabled]="loading || appAttached"></e-button>
   <e-alert type={{attachRepoAlert.type}} *ngIf="attachRepoAlert.display">{{attachRepoAlert.message}}</e-alert>
 </div>
-<div id="setting-up-pipelines-indicator" *ngIf="loading">
-  <md-progress-bar mode="indeterminate" style="width: 80%; margin-left: 10%"></md-progress-bar>
-
-  <h3 class="center">Setting up pipelines</h3>
-</div>
+<e-progress *ngIf="loading"
+            progressType="indeterminate"
+            progressVariant="dots">
+</e-progress>
