@@ -1,4 +1,4 @@
-<div *ngIf="job" id="jobDetails" style="overflow: auto"> 
+<div *ngIf="job" id="jobDetails" style="overflow: auto">
   <h1 class="page-title">Job Detail</h1>
   <a id="config-link" appIframeLink="/application/{{appId}}">View Connection Info</a>
   <h3 class="ui-core-set-head-title">
@@ -14,6 +14,7 @@
     <e-card-header>
       Logs
       <a id="scroll-to-bottom"
+         *ngIf="logs && logs.length"
          (click)="scrollLogsToBottom()"
          class="right">
           Scroll to bottom
