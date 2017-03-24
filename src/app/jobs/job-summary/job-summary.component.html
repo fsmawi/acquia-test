@@ -165,6 +165,21 @@
           {{job.metadata.target_branch}}
         </e-data-value>
       </e-data>
+      <e-data class="flex-item"
+              fxFlex="25%"
+              fxFlex.xs="50%"
+              *ngIf="job.requested_by">
+        <e-data-label>
+          <span class="pipelines-job-summary__dotted"
+                mdTooltip="The user who initiated this job."
+                mdTooltipPosition="right">
+            Requested by
+          </span>
+        </e-data-label>
+        <e-data-value>
+          {{job.requested_by}}
+        </e-data-value>
+      </e-data>
     </div>
   </e-card-content>
   <md-progress-bar mode="indeterminate" *ngIf="isProgressBarRequired && job && job.isUnfinished"></md-progress-bar>
