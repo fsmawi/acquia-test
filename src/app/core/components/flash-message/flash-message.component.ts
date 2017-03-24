@@ -76,7 +76,7 @@ export class FlashMessageComponent implements OnInit {
    * @param text
    * @param details
    */
-  show(type: string, text: string, details: any = undefined) {
+  show(type: string, text: string, details?: any) {
 
     this.type = type;
     this.icon = type === 'error' ? 'alert--circle' : type;

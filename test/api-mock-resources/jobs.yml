@@ -951,6 +951,11 @@ routes:
         123:
           connected: true
           repo_url: https://github.com/raghunat/pineapple-pen.git
+  /api/v1/ci/github:
+    DELETE:
+      response:
+        success: true
+        status: 204
   /api/v1/ci/applications:
     GET:
       response:

@@ -1,35 +1,30 @@
 <h1 class="page-title">Application Information</h1>
 <a appIframeLink="/jobs/{{appId}}" class="el-button el-button--primary">View Jobs</a>
-<a appIframeLink="/auth/github/{{appId}}" class="el-button el-button--primary"
-   appSegmentOn="click"
-   [segmentEventData]="{appId: appId}"
-   segmentEventIdentifier="ClickReAuthGithub">Re-Authorize</a>
-<a class="el-button el-button--danger" *ngIf="gitUrl" (click)="removeAuth()"
-   appSegmentOn="click"
-   [segmentEventData]="{appId: appId}"
-   segmentEventIdentifier="ClickRemoveAuth">Remove Auth</a>
 <e-card *ngIf="!appLoading">
-    <e-card-header>
-      Connected repository information
-      <div id="repoInfo" *ngIf="vcsTypeIconFeature">
-        <e-svg-icon *ngIf="vcsType && vcsType === 'github'"
-                    type="logos__github"
-                    size="medium"
-                    mdTooltip="Using GitHub"
-                    mdTooltipPosition="left">
-        </e-svg-icon>
-        <svg *ngIf="vcsType && vcsType ==='acquia-git'"
-             class="el-iconography__icon el-iconography__icon--is-medium"
-             mdTooltip="Using Acquia Git"
-             mdTooltipPosition="left">
-          <image height="28px" xlink:href="../assets/acquia.svg" width="28px"></image>
-        </svg>
-        {{repoFullName}}
-      </div>
-    </e-card-header>
+  <e-card-header>
+    Connected repository information
+    <div id="repoInfo">
+      <e-svg-icon *ngIf="vcsType === 'github'"
+                  type="logos__github"
+                  size="medium"
+                  mdTooltip="Using {{repositoryType}}"
+                  mdTooltipPosition="left">
+      </e-svg-icon>
+      <svg *ngIf="vcsType ==='acquia-git'"
+           class="el-iconography__icon el-iconography__icon--is-medium"
+           mdTooltip="Using {{repositoryType}}"
+           mdTooltipPosition="left">
+        <image height="28px" xlink:href="../assets/acquia.svg" width="28px"></image>
+      </svg>
+      {{repoFullName}}
+    </div>
+  </e-card-header>
   <e-card-content>
-    <h3>GitHub repository</h3>
-
+    <h3>{{repositoryType}} repository</h3>
+    <a appIframeLink="/application/{{appId}}/configure" class="configure-link"
+       appSegmentOn="click"
+       [segmentEventData]="{appId: appId}"
+       segmentEventIdentifier="ClickApplicationInfoConfigure">Configure</a>
     <e-data>
       <e-data-label>URL</e-data-label>
       <e-data-value>

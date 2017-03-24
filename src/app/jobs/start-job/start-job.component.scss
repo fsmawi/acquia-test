@@ -1,6 +1,6 @@
 @import "../../../assets/scss/elemental-core.scss";
 
-/deep/ md-dialog-container {
+/deep/ md-dialog-container.mat-dialog-container {
   padding: 0;
   width: px-to-relative(520px);
   height: auto;
@@ -32,7 +32,6 @@
     #btn-start {
       margin: 0 $rhythm-unit;
     }
-
   }
 
   hr {
@@ -68,6 +67,5 @@
         background-color: $color-neutral-2;
       }
     }
-
   }
 }

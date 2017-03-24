@@ -1,0 +1,30 @@
+@import "../../../assets/scss/elemental-core.scss";
+
+:host {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  padding: px-to-relative(24px);
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  overflow: auto;
+}
+
+.flex-container {
+  .flex-item {
+    margin: px-to-relative(10px);
+  }
+}
+
+#app-config /deep/ e-card .el-card__content {
+  text-align: center;
+
+  a.el-button--link, a.el-button--link:visited {
+    color: $color-brand-primary-7;
+  }
+}
+
+.current-repository /deep/ e-card section.el-card__content {
+  background-color: #cceff5;
+}

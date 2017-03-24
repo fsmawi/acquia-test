@@ -7,6 +7,7 @@ const routes: Routes = [
   {path: 'jobs', loadChildren: 'app/jobs/jobs.module#JobsModule', canActivate: [AuthGuard]},
   {path: 'auth/tokens', loadChildren: 'app/auth-tokens/auth-tokens.module#AuthTokensModule'},
   {path: 'auth/github', loadChildren: 'app/auth-github/auth-github.module#AuthGithubModule', canActivate: [AuthGuard]},
+  {path: 'auth/acquia', loadChildren: 'app/auth-acquia/auth-acquia.module#AuthAcquiaModule', canActivate: [AuthGuard]},
   {path: 'application', loadChildren: 'app/application/application.module#ApplicationModule', canActivate: [AuthGuard]},
   {path: 'error', loadChildren: 'app/status-code/status-code.module#StatusCodeModule'},
   {path: '404', loadChildren: 'app/status-code/status-code.module#StatusCodeModule'},

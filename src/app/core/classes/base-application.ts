@@ -31,6 +31,7 @@ export class BaseApplication {
    * @param force
    */
   getInfo(force = false) {
+    // use force parameter to force the refresh execution and get the last application info
     if (!BaseApplication.info || force) {
       return this.refresh();
     } else {

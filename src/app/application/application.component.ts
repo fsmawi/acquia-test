@@ -74,18 +74,13 @@ export class ApplicationComponent extends BaseApplication implements OnInit {
   repositoryType: string;
 
   /**
-   * Flag to toggle vcs type icon feature
-   */
-  vcsTypeIconFeature: boolean;
-
-  /**
    * Build the component
    * @param route
-   * @param router
    * @param pipelines
    * @param errorHandler
-   * @param confirmationModalService
    * @param flashMessage
+   * @param router
+   * @param confirmationModalService
    */
   constructor(
     private route: ActivatedRoute,
@@ -102,21 +97,21 @@ export class ApplicationComponent extends BaseApplication implements OnInit {
    * @param force
    */
   getConfigurationInfo(force = false) {
-      this.appLoading = true;
-      this.getInfo(force)
-        .then((info) => {
-          this.repoFullName = info.repo_name;
-          this.vcsType = info.repo_type;
-          this.gitUrl = info.repo_url;
-          this.gitClone = this.gitUrl ? `git clone --branch [branch] ${this.gitUrl} [destination]` : '';
-          this.setRepositoryType();
-        })
-        .catch(e => {
-          this.errorHandler.apiError(e).reportError(e, 'FailedToGetApplicationInfo',
-              {component: 'application', appId: this.appId}, 'error');
-          this.flashMessage.showError(e.status + ' : ' + e._body);
-        })
-        .then(() => this.appLoading = false);
+    this.appLoading = true;
+    this.getInfo(force)
+      .then((info) => {
+        this.repoFullName = info.repo_name;
+        this.vcsType = info.repo_type;
+        this.gitUrl = info.repo_url;
+        this.gitClone = this.gitUrl ? `git clone --branch [branch] ${this.gitUrl} [destination]` : '';
+        this.setRepositoryType();
+      })
+      .catch(e => {
+        this.errorHandler.apiError(e).reportError(e, 'FailedToGetApplicationInfo',
+          {component: 'application', appId: this.appId}, 'error');
+        this.flashMessage.showError(e.status + ' : ' + e._body);
+      })
+      .then(() => this.appLoading = false);
   }
 
   /**
@@ -141,7 +136,6 @@ export class ApplicationComponent extends BaseApplication implements OnInit {
       this._appId = this.appId = params['app-id'];
       this.getConfigurationInfo();
     });
-    this.vcsTypeIconFeature = features.vcsTypeIcon;
   }
 
   /**

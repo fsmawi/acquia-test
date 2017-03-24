@@ -1,3 +1,4 @@
+import {Router} from '@angular/router';
 import {Component, OnInit, Input, ViewChild, ElementRef} from '@angular/core';
 import {MdDialogRef} from '@angular/material';
 
@@ -19,6 +20,12 @@ export class StartJobComponent implements OnInit {
    */
   @Input()
   appId: string;
+
+  /**
+   * Redirect to job list after start.
+   */
+  @Input()
+  redirect = false;
 
   /**
    * Branches available for the application
@@ -46,17 +53,25 @@ export class StartJobComponent implements OnInit {
   didJobStart: boolean;
 
   /**
+   * Flag to check if the job started
+   * @type {boolean}
+   */
+  jobStarted: boolean;
+
+  /**
    * Builds the component
    * @param dialogRef
    * @param pipelineService
    * @param flashMessageService
    * @param errorHandler
+   * @param router
    */
   constructor(
     public dialogRef: MdDialogRef<StartJobComponent>,
     private pipelineService: PipelinesService,
     private flashMessageService: FlashMessageService,
-    private errorHandler: ErrorService) {
+    private errorHandler: ErrorService,
+    private router: Router) {
   }
 
   /**
@@ -104,9 +119,11 @@ export class StartJobComponent implements OnInit {
   start() {
     if (this.branch && this.branch !== '') {
       this.didJobStart = true;
+      this.jobStarted = false;
       this.pipelineService.directStartJob(this.appId, this.branch)
         .then((res) => {
           this.flashMessageService.showSuccess('Your job has started.');
+          this.jobStarted = true;
         })
         .catch(e => {
           this.flashMessageService.showError(e.status + ' : ' + e._body);
@@ -116,8 +133,10 @@ export class StartJobComponent implements OnInit {
         .then(() => {
           this.dialogRef.close();
           this.didJobStart = false;
+          if (this.jobStarted && this.redirect) {
+            this.router.navigateByUrl(`/jobs/${this.appId}`);
+          }
         });
     }
   }
-
 }

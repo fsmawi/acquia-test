@@ -9,7 +9,7 @@ export class FlashMessageService {
    * @param text
    * @param details
    */
-  show: (type: string, text: string, details: any) => void;
+  show: (type: string, text: string, details?: any) => void;
 
   /**
    * Initiate the service
@@ -21,7 +21,7 @@ export class FlashMessageService {
    * @param text
    * @param details
    */
-  showInfo(text: string, details: any = undefined) {
+  showInfo(text: string, details?: any) {
     this.show('info', text, details);
   }
 
@@ -30,7 +30,7 @@ export class FlashMessageService {
    * @param text
    * @param details
    */
-  showSuccess(text: string, details: any = undefined) {
+  showSuccess(text: string, details?: any) {
     this.show('success', text, details);
   }
 
@@ -39,7 +39,7 @@ export class FlashMessageService {
    * @param text
    * @param details
    */
-  showError(text: string, details: any = undefined) {
+  showError(text: string, details?: any) {
     this.show('error', text, details);
   }
 
@@ -48,7 +48,7 @@ export class FlashMessageService {
    * @param text
    * @param details
    */
-  showWarning(text: string, details: any = undefined) {
+  showWarning(text: string, details?: any) {
     this.show('warning', text, details);
   }
 }

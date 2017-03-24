@@ -21,13 +21,13 @@ import {SharedModule} from '../shared/shared.module';
 
 class MockN3Service {
   getEnvironments(appId: string) {
-    return Promise.resolve([{ vcs : { type : 'git'}}]);
+    return Promise.resolve([{vcs: {type: 'git'}}]);
   }
 }
 
 class MockPipelinesService {
 
-  job = new Job ({
+  job = new Job({
     job_id: 'job-id',
     sitename: 'sitename',
     pipeline_id: 'pipeline-id',
@@ -47,19 +47,21 @@ class MockPipelinesService {
     let jobs = [];
     if (appId === 'app-with-out-jobs') {
       jobs = [];
-    }else if (appId === 'app-with-jobs') {
+    } else if (appId === 'app-with-jobs') {
       jobs = [this.job];
-    }else {
+    } else {
       return Promise.reject({});
     }
     return Promise.resolve(jobs);
   }
 
   getGithubStatus(appId: string) {
-    return Promise.resolve([{'undefined': {
-      repo_url: 'https://github.com/acquia/repo1.git',
-      connected: true
-    }}]);
+    return Promise.resolve([{
+      'undefined': {
+        repo_url: 'https://github.com/acquia/repo1.git',
+        connected: true
+      }
+    }]);
   }
 
 }
@@ -76,14 +78,25 @@ describe('JobsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [JobsComponent, JobListComponent, JobSummaryComponent],
+      declarations: [
+        JobsComponent,
+        JobListComponent,
+        JobSummaryComponent
+      ],
       providers: [
-        { provide: PipelinesService, useClass: MockPipelinesService },
-        { provide: MdDialog, useClass: MockMdDialog },
+        {provide: PipelinesService, useClass: MockPipelinesService},
+        {provide: MdDialog, useClass: MockMdDialog},
         {provide: N3Service, useClass: MockN3Service},
-        ErrorService],
-      imports: [MaterialModule.forRoot(), RouterTestingModule, CoreModule,
-        MomentModule, SharedModule, ElementalModule]
+        ErrorService
+      ],
+      imports: [
+        MaterialModule.forRoot(),
+        RouterTestingModule,
+        CoreModule,
+        MomentModule,
+        SharedModule,
+        ElementalModule
+      ]
     })
       .compileComponents();
   }));
@@ -100,7 +113,7 @@ describe('JobsComponent', () => {
 
   it('should show no jobs message.', fakeAsync(inject([], () => {
     component.appId = 'app-with-out-jobs';
-    component.refresh();
+    component.getJobs();
     tick();
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
@@ -108,16 +121,16 @@ describe('JobsComponent', () => {
   })));
 
   /*it('should show no jobs message.', fakeAsync(inject([], () => {
-    tick(150000);
-    tick();
-    fixture.detectChanges();
-    tick(150000);
-    fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h4 span').innerText).toEqual('Activity');
-  })));*/
+   tick(150000);
+   tick();
+   fixture.detectChanges();
+   tick(150000);
+   fixture.detectChanges();
+   const compiled = fixture.debugElement.nativeElement;
+   expect(compiled.querySelector('h4 span').innerText).toEqual('Activity');
+   })));*/
 
-  it('should open modal',  inject([MdDialog], (dialog) => {
+  it('should open modal', inject([MdDialog], (dialog) => {
     spyOn(dialog, 'open');
     component.startJob();
     expect(dialog.open).toHaveBeenCalled();

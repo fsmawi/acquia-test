@@ -1,0 +1,28 @@
+<h1 class="page-title">Configure Pipelines with Acquia Git</h1>
+<p>Leveraging Acquia Pipelines with Acquia Git workflows allows developers to integrate testing and release
+ management for deployments to be made for Acquia Cloud-hosted applications.</p>
+
+<h2>Configure Pipelines with Acquia Git</h2>
+<p>Link to the Acquia Git repository that contains your project’s source files and trigger builds from the Pipelines app or the command line interface. <a href="https://docs.acquia.com/pipelines"
+appSegmentOn="click"
+[segmentEventData]="{appId: appId}"
+segmentEventIdentifier="ClickLearnMoreAboutPipelines" target="_blank">Learn more.</a></p>
+<div id="connect-app">
+  <e-alert type={{connectionAlert.type}} *ngIf="connectionAlert.display">{{connectionAlert.message}}</e-alert>
+  <e-button text="Enable Acquia Git" type="primary"
+    appSegmentOn="click"
+    [segmentEventData]="{appId: appId}"
+    segmentEventIdentifier="ClickEnableAcquiaGit"
+    *ngIf="!isConnected && !appLoading" (click)="enableAcquiaGit()"
+    [disabled]="connectionLoading"></e-button>
+  <e-button text="Start Job" type="primary"
+    appSegmentOn="click"
+    [segmentEventData]="{appId: appId}"
+    segmentEventIdentifier="ClickStartJobConfigAcquiaGit"
+    *ngIf="isConnected && !appLoading" (click)="startJob()"></e-button>
+</div>
+
+<e-progress *ngIf="appLoading || connectionLoading"
+            progressType="indeterminate"
+            progressVariant="dots">
+</e-progress>

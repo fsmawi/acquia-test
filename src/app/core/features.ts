@@ -26,6 +26,6 @@ export const features = {
    */
   get directStart() {
     // switch to return true, or remove embedded flags for enabling
-    return environment.name === 'dev';
+    return true;
   }
 };

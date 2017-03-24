@@ -7,17 +7,14 @@ import {Job} from '../core/models/job';
 import {PipelinesService} from '../core/services/pipelines.service';
 import {SegmentService} from '../core/services/segment.service';
 import {StartJobComponent} from './start-job/start-job.component';
-import {GithubStatus} from '../core/models/github-status';
-import {N3Service} from '../core/services/n3.service';
-import {features} from '../core/features';
-
+import {BaseApplication} from '../core/classes/base-application';
 
 @Component({
   selector: 'app-jobs',
   templateUrl: './jobs.component.html',
   styleUrls: ['./jobs.component.scss']
 })
-export class JobsComponent implements OnInit, OnDestroy {
+export class JobsComponent extends BaseApplication implements OnInit, OnDestroy {
 
   /**
    * List of jobs to pass to the job list
@@ -75,12 +72,12 @@ export class JobsComponent implements OnInit, OnDestroy {
    * @param dialog
    */
   constructor(
-    private pipelines: PipelinesService,
-    private n3Service: N3Service,
-    private errorHandler: ErrorService,
+    protected pipelines: PipelinesService,
+    protected errorHandler: ErrorService,
     private route: ActivatedRoute,
     private segment: SegmentService,
     private dialog: MdDialog) {
+    super(errorHandler, pipelines);
   }
 
   /**
@@ -106,19 +103,23 @@ export class JobsComponent implements OnInit, OnDestroy {
         clearInterval(this.interval);
       }
       this.appId = params['app'];
+      this._appId = params['app'];
       this.interval = setInterval(() => {
-        this.refresh();
+        this.getJobs();
       }, 10000);
 
       // run right away
-      this.refresh();
+      this.getJobs();
     });
+
+    // Get GitHub Status and VCS Info
+    this.getInfo().then(info => {
+      this.repoFullName = info.repo_name;
+      this.vcsType = info.repo_type;
+    }).catch(e => this.errorHandler.apiError(e));
 
     // Track page view
     this.segment.page('JobListView');
-
-    this.vcsTypeIconFeature = features.vcsTypeIcon;
-
   }
 
   /**
@@ -133,34 +134,8 @@ export class JobsComponent implements OnInit, OnDestroy {
   /**
    * Load the job list
    */
-  refresh() {
+  getJobs() {
     this.loadingJobs = true;
-    // Get GitHub Status and VCS Info
-    if (features.vcsTypeIcon) {
-      this.pipelines.getGithubStatus(this.appId)
-        .then((status: GithubStatus) => {
-          let regex;
-          let repoInfo;
-          if (status.connected) {
-            // Extract repo name from url eg. pineapple-pen from https://github.com/raghunat/pineapple-pen.git
-            regex = /^((git@[\w\.]+:)|((http|https):\/\/[\w\.]+\/?))([\w\.@\:/\-~]+)(\.git)(\/)?$/;
-            repoInfo = status.repo_url.match(regex);
-            this.repoFullName = repoInfo[5] ? repoInfo[5].split('/')[1] : '';
-            this.vcsType = 'git';
-          } else {
-            this.n3Service.getEnvironments(this.appId)
-              .then(environments => {
-                // Extract repo name from url eg. site from site@svn-3.hosted.acquia-sites.com:site.git
-                regex = /^([^@]*)@/;
-                repoInfo = environments[0].vcs.url.match(regex);
-                this.repoFullName = repoInfo[1];
-                this.vcsType = environments[0].vcs.type === 'git' ?  'acquia-git' : environments[0].vcs.type;
-              })
-              .catch(e => this.errorHandler.apiError(e));
-          }
-        })
-        .catch(e => this.errorHandler.apiError(e));
-    }
 
     // Get Jobs to be listed
     this.pipelines.getJobsByAppId(this.appId)

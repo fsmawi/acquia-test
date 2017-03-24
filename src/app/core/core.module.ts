@@ -45,7 +45,7 @@ import {StorageService} from './services/storage.service';
   ],
   declarations: [FlashMessageComponent, ConfirmationModalComponent],
   exports: [FlashMessageComponent, ConfirmationModalComponent],
-  entryComponents: [ConfirmationModalComponent]
+  entryComponents: [ConfirmationModalComponent, FlashMessageComponent]
 })
 export class CoreModule {
 }

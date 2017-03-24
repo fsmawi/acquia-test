@@ -8,13 +8,13 @@ import {MockBackend} from '@angular/http/testing';
 import {Router} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
 
-import {SegmentService} from '../core/services/segment.service';
-
 import {Alert} from '../core/models/alert';
 import {AuthGithubComponent} from './auth-github.component';
 import {ElementalModule} from '../elemental/elemental.module';
 import {ErrorService} from '../core/services/error.service';
 import {PipelinesService} from '../core/services/pipelines.service';
+import {SegmentService} from '../core/services/segment.service';
+import {SharedModule} from '../shared/shared.module';
 
 function setupConnections(mockBackend: MockBackend, options: any) {
   mockBackend.connections.subscribe((connection) => {
@@ -28,6 +28,18 @@ describe('AuthGithubComponent', () => {
   let injector: any;
 
   beforeEach(async(() => {
+    global['analyticsMock'] = true;
+    global['analytics'] = {
+      load: (key: string) => {
+        return true;
+      },
+      page: () => {
+        return true;
+      },
+      track: (eventName: string, eventData: Object) => {
+        return 'success';
+      }
+    };
     TestBed.configureTestingModule({
       declarations: [AuthGithubComponent],
       providers: [
@@ -44,7 +56,12 @@ describe('AuthGithubComponent', () => {
           deps: [MockBackend, BaseRequestOptions]
         }
       ],
-      imports: [MaterialModule.forRoot(), RouterTestingModule, ElementalModule]
+      imports: [
+        MaterialModule.forRoot(),
+        RouterTestingModule,
+        ElementalModule,
+        SharedModule
+      ]
     })
       .compileComponents();
   }));

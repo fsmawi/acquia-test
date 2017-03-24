@@ -841,14 +841,14 @@ routes:
   /api/v1/ci/github/status:
     GET:
       response:
-        fbcd8f1f-4620-4bd6-9b60-f8d9d0f74fd0:
-          connected: true
+        123:
+          connected: false
           repo_url: https://github.com/raghunat/pineapple-pen.git
   /api/v1/ci/pipelines:
     GET:
       response:
       -
-        pipeline_id: 11279161-f354-4294-875c-3a2e446f81f6
+        pipeline_id: 123
         sitename: prod:z
         name: z
         last_job_id: 3e09dbb5-c58e-49ee-b166-0a94c07ac85a
@@ -876,7 +876,9 @@ routes:
           - name: acquia/repo2
             link: https://github.com/acquia/repo2
             type: github
-          branches: test11,test12
+          branches:
+          - test11
+          - test12
       -
         pipeline_id: 11279161-f354-4294-875c-3a2e446f81f6
         sitename: prod:z
@@ -906,7 +908,9 @@ routes:
           - name: acquia/repo2
             link: https://github.com/acquia/repo2
             type: github
-          branches: test11,test12
+          branches:
+          - test11
+          - test12
   /api/v1/ci/github/repos:
     GET:
       response:
@@ -953,3 +957,4 @@ routes:
 redirections:
   /api/v1/ci/github/oauth:
     redirect_to: http://localhost:4200/auth/github/123?success=true
+
