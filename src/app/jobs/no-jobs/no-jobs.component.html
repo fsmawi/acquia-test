@@ -1,0 +1,101 @@
+<div id="no-jobs" class="center">
+  <h2>Get started with Pipelines</h2>
+  Acquia Pipelines automates building, testing, and deploying sites on Acquia Cloud <br/>
+  <a appSegmentOn="click"
+     [segmentEventData]="{appId: appId}"
+     segmentEventIdentifier="ClickLearnMoreNoJobs"
+     href="https://docs.acquia.com/pipelines/" target="_blank">Learn more.</a>
+  <div id="pipelines-info-container"
+       class="flex-container"
+       fxLayout="row"
+       fxLayoutWrap="wrap"
+       fxLayoutAlign="center start">
+    <div id="spacer-start"
+         class="flex-item"
+         fxFlex="0%"
+         fxFlex.md="5%"
+         fxFlex.gt-md="12.5%">
+    </div>
+    <e-card-content id="configure-source"
+                    class="flex-item"
+                    fxFlex="33.3%"
+                    fxFlex.xs="100%"
+                    fxFlex.md="30%"
+                    fxFlex.gt-md="25%"
+                    fxFlexOrder.xs="2">
+      <h4>Select Source</h4>
+      <div class="flex-container image-container" fxLayoutAlign="center center">
+        <div class="flex-item vcs-icon" [ngClass]="{'disabled' : vcsType !== 'acquia-git'}">
+          <svg width="90" height="90">
+            <image height="100px" xlink:href="../assets/acquia.svg" width="100px"></image>
+          </svg>
+          <e-svg-icon *ngIf="vcsType === 'acquia-git'" class="vcs-success-icon success" type="state__success--circle"></e-svg-icon>
+        </div>
+        <div class="flex-item vcs-icon" [ngClass]="{'disabled' : vcsType !== 'github'}">
+          <svg width="90" height="90">
+            <use xmlns:xlink="http://www.w3.org/1999/xlink"
+                 xlink:href="/assets/scss/icons.symbol.svg#logos__github"></use>
+          </svg>
+          <e-svg-icon *ngIf="vcsType === 'github'" class="vcs-success-icon success" type="state__success--circle"></e-svg-icon>
+        </div>
+      </div>
+      <div>
+        <a id="link-choose-source"
+           appSegmentOn="click"
+           [segmentEventData]="{appId: appId}"
+           segmentEventIdentifier="ClickChooseSourceNoJobs"
+           appIframeLink="/application/{{appId}}">Choose source</a>
+      </div>
+    </e-card-content>
+
+    <e-card-content id="start-job"
+                    class="flex-item"
+                    fxFlex="33.3%"
+                    fxFlex.xs="100%"
+                    fxFlex.md="30%"
+                    fxFlex.gt-md="25%"
+                    fxFlexOrder.xs="1">
+      <h4>Run Pipelines</h4>
+      <div class="flex-container image-container" fxLayoutAlign="center center">
+        <img id="pipelines-logo" class="flex-item" src="../../assets/pipelines-logos/pipelines_100x100.png">
+      </div>
+      <div>
+        <e-button id="start-job-no-jobs" type="primary" text="Start a Job" (click)="startJob()"
+                  appSegmentOn="click"
+                  [segmentEventData]="{appId: appId}"
+                  segmentEventIdentifier="ClickStartJobNoJobs">
+        </e-button>
+      </div>
+    </e-card-content>
+
+    <e-card-content id="deploy-automatically"
+                    class="flex-item info"
+                    fxFlex="33.3%"
+                    fxFlex.xs="100%"
+                    fxFlex.md="30%"
+                    fxFlex.gt-md="25%"
+                    fxFlexOrder.xs="3">
+      <h4>Deploy Automatically</h4>
+      <div class="flex-container image-container" fxLayoutAlign="center center">
+        <svg width="85" height="85">
+          <image class="flex-item" xlink:href="../assets/cloud-logo.svg" width="85px" height="85px"></image>
+        </svg>
+      </div>
+      <div class="center">
+        <a id="link-view-environments"
+           appSegmentOn="click"
+           [segmentEventData]="{appId: appId}"
+           segmentEventIdentifier="ClickViewEnvironmentsNoJobs"
+           href="https://cloud.acquia.com/app/develop/applications/{{appId}}" target="_top">
+          View Environments
+        </a>
+      </div>
+    </e-card-content>
+    <div id="spacer-end"
+         class="flex-item"
+         fxFlex="0%"
+         fxFlex.md="5%"
+         fxFlex.gt-md="12.5%">
+    </div>
+  </div>
+</div>

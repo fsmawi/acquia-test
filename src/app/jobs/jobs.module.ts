@@ -13,6 +13,7 @@ import {JobsRoutingModule} from './jobs-routing.module';
 import {MomentModule} from 'angular2-moment';
 import {SharedModule} from '../shared/shared.module';
 import {StartJobComponent} from './start-job/start-job.component';
+import {NoJobsComponent} from './no-jobs/no-jobs.component';
 
 @NgModule({
   imports: [
@@ -30,7 +31,8 @@ import {StartJobComponent} from './start-job/start-job.component';
     JobsDetailComponent,
     JobListComponent,
     JobSummaryComponent,
-    StartJobComponent
+    StartJobComponent,
+    NoJobsComponent
   ],
   entryComponents: [StartJobComponent]
 })

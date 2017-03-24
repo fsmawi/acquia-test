@@ -18,6 +18,7 @@ import {JobSummaryComponent} from './job-summary/job-summary.component';
 import {N3Service} from '../core/services/n3.service';
 import {PipelinesService} from '../core/services/pipelines.service';
 import {SharedModule} from '../shared/shared.module';
+import {NoJobsComponent} from './no-jobs/no-jobs.component';
 
 class MockN3Service {
   getEnvironments(appId: string) {
@@ -81,7 +82,8 @@ describe('JobsComponent', () => {
       declarations: [
         JobsComponent,
         JobListComponent,
-        JobSummaryComponent
+        JobSummaryComponent,
+        NoJobsComponent
       ],
       providers: [
         {provide: PipelinesService, useClass: MockPipelinesService},
@@ -117,18 +119,17 @@ describe('JobsComponent', () => {
     tick();
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('#no-jobs h3').innerText).toEqual('You have no jobs for this application');
+    expect(compiled.querySelector('#no-jobs h2').innerText).toEqual('Get started with Pipelines');
   })));
 
-  /*it('should show no jobs message.', fakeAsync(inject([], () => {
-   tick(150000);
-   tick();
-   fixture.detectChanges();
-   tick(150000);
-   fixture.detectChanges();
-   const compiled = fixture.debugElement.nativeElement;
-   expect(compiled.querySelector('h4 span').innerText).toEqual('Activity');
-   })));*/
+  it('should show no jobs component.', fakeAsync(inject([], () => {
+    component.appId = 'app-with-out-jobs';
+    component.getJobs();
+    tick();
+    fixture.detectChanges();
+    const compiled = fixture.debugElement.nativeElement;
+    expect(compiled.querySelector('app-no-jobs')).toBeTruthy();
+  })));
 
   it('should open modal', inject([MdDialog], (dialog) => {
     spyOn(dialog, 'open');

@@ -28,21 +28,28 @@ md-card {
   padding: px-to-relative(24px);
 }
 
-#config-link {
+.config-link-no-jobs {
+  position: absolute;
+  float: right;
+  right: px-to-relative(24px);
+  top: px-to-relative(34px);
+}
+
+.config-link {
   position: absolute;
   right: px-to-relative(126px);
   top: px-to-relative(34px);
 }
 
-@media (max-width: 575px) {
-  #config-link {
+@media (max-width: px-to-relative(575px)) {
+  .config-link {
     float: right;
     position: inherit;
     margin-bottom: px-to-relative(10px);
   }
 }
 
-e-button /deep/ {
+#start-job-top {
   float: right;
   margin-left: px-to-relative(10px);
   position: absolute;

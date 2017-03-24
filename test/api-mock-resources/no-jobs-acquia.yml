@@ -12,5 +12,5 @@ routes:
       GET:
         response:
           fbcd8f1f-4620-4bd6-9b60-f8d9d0f74fd0:
-            connected: true
+            connected: false
             repo_url: https://github.com/raghunat/pineapple-pen.git
