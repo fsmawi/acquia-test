@@ -3,6 +3,7 @@ import {Http, RequestOptions, Headers, URLSearchParams} from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
 
+import {Application} from '../models/application';
 import {environment} from '../../../environments/environment';
 import {Job} from '../models/job';
 import {Pipeline} from '../models/pipeline';
@@ -103,6 +104,17 @@ export class PipelinesService {
     return this.promiseGetRequest(this.URI + '/ci/github/status', {
       applications: [appId]
     }).then(r => new GithubStatus(appId, r));
+  }
+
+  /**
+   * Get the application information
+   * @param appId
+   * @returns {Promise<Application>}
+   */
+  getApplicationInfo(appId: string) {
+    return this.promiseGetRequest(this.URI + '/ci/applications', {
+      applications: [appId]
+    }).then(r => new Application(r));
   }
 
   /**

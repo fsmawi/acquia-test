@@ -142,6 +142,26 @@ describe('PipelinesService', () => {
       });
     }));
 
+  it('should get application information',
+    inject([PipelinesService, MockBackend], (service, mockBackend) => {
+
+    setupConnections(mockBackend, {
+      body: JSON.stringify({
+        repo_url: 'https://github.com/acquia/repo1.git',
+        repo_name: 'acquia/repo1',
+        repo_type: 'github'
+      })
+    });
+
+    service.getApplicationInfo()
+      .then((info) => {
+        expect(info.repo_name).toEqual('acquia/repo1');
+        expect(info.repo_url).toEqual('https://github.com/acquia/repo1.git');
+        expect(info.repo_type).toEqual('github');
+      });
+
+  }));
+
   it('should direct start a job',
     inject([PipelinesService, MockBackend], (service: PipelinesService, mockBackend: MockBackend) => {
       const pipeline = new Pipeline({

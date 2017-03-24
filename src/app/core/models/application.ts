@@ -1,27 +1,22 @@
 /**
- * Repository Model
+ * Application Model
  */
-export class Repository {
+export class Application {
   /**
    * Repository URL
    */
-  url: string;
+  repo_url: string;
 
   /**
    * Repository Name
    */
-  full_name: string;
-
-  /**
-   * Repository Description
-   */
-  description: string;
+  repo_name: string;
 
   /**
    * Repository type
    * @type {string}
    */
-  type = '';
+  repo_type: string;
 
   /**
    * Creates a Repository object
