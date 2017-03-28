@@ -38,10 +38,15 @@
         PR {{job.metadata.pull_request}}
       </a>
       <span *ngIf="!job.metadata?.pull_request_link">
-        {{job.metadata?.pull_request ? ('PR ' + job.metadata.pull_request) : (job.branch || '-')}}
+        {{job.metadata?.pull_request ? ('PR ' + job.metadata.pull_request) : (job.branch || 'None')}}
       </span>
     </td>
-    <td class="hidden-xs-down center">{{job.commit ? job.commit : '-'}}</td>
+    <td class="hidden-xs-down center">
+      <a *ngIf="job.metadata?.commit_link" href="{{job.metadata.commit_link}}" target="_blank">
+        {{job.metadata.git_sha | slice:0:8}}
+      </a>
+      {{job.metadata?.commit_link ? '' : job.metadata?.git_sha ? (job.metadata.git_sha | slice:0:8) : 'None'}}
+    </td>
     <td class="center hidden-sm-down" *ngIf="job.duration">{{job.duration | amDuration:'seconds'}}</td>
     <td class="center hidden-sm-down" *ngIf="!job.duration">-</td>
     <td class="center hidden-sm-down" *ngIf="job.finished_at">{{(job.finished_at | amFromUnix) | amTimeAgo }}</td>

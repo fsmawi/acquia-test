@@ -36,8 +36,8 @@
             </e-svg-icon>
             {{job.metadata.deployment_name}}
           </a>
-          {{job.isUnfinished ? '-' :
-          (job.metadata.deployment_link ? '' : (job.metadata.deployment_name ? job.metadata.deployment_name : '-'))}}
+          {{job.isUnfinished ? 'None' :
+          (job.metadata.deployment_link ? '' : (job.metadata.deployment_name ? job.metadata.deployment_name : 'None'))}}
         </e-data-value>
       </e-data>
       <e-data class="flex-item"
@@ -116,7 +116,7 @@
             PR {{job.metadata.pull_request}}
           </a>
           <span *ngIf="!job.metadata?.pull_request_link">
-            {{ job.metadata?.pull_request ? ('PR ' +  job.metadata.pull_request)  : '-'}}
+            {{ job.metadata?.pull_request ? ('PR ' +  job.metadata.pull_request)  : 'None'}}
           </span>
         </e-data-value>
       </e-data>
