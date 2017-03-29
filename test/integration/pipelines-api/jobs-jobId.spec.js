@@ -25,20 +25,20 @@ describe('Pipelines API /api/v1/ci/jobs/:jobId', function () {
           } else {
             expect(res.header['content-type']).to.equal('application/json');
             expect(res.status).to.equal(200);
-            expect(res.body).to.exist;
-            expect(res.body.branch).to.exist;
-            expect(res.body.pipeline_id).to.exist;
-            expect(res.body.job_id).to.exist;
-            expect(res.body.status).to.exist;
-            expect(res.body.started_at).to.exist;
-            expect(res.body.sitename).to.exist;
-            expect(res.body.requested_at).to.exist;
+            expect(res.body).to.not.be.undefined;
+            expect(res.body.branch).to.not.be.undefined;
+            expect(res.body.pipeline_id).to.not.be.undefined;
+            expect(res.body.job_id).to.not.be.undefined;
+            expect(res.body.status).to.not.be.undefined;
+            expect(res.body.started_at).to.not.be.undefined;
+            expect(res.body.sitename).to.not.be.undefined;
+            expect(res.body.requested_at).to.not.be.undefined;
             expect(res.body.requested_by).to.not.be.undefined;
-            expect(res.body.finished_at).to.exist;
-            expect(res.body.exit_message).to.exist;
+            expect(res.body.finished_at).to.not.be.undefined;
+            expect(res.body.exit_message).to.not.be.undefined;
             expect(res.body.commit).to.not.be.undefined;
           }
-        } catch(e) {
+        } catch (e) {
           logAPICall(res, route, params);
           throw e;
         }
@@ -62,7 +62,7 @@ describe('Pipelines API /api/v1/ci/jobs/:jobId', function () {
             // expect(res.body.error).to.equal('Job with id invalid-job-id not found.');
             // expect(res.body.message).to.equal('Job with id invalid-job-id not found.');
           }
-        } catch(e) {
+        } catch (e) {
           logAPICall(res, route, params);
           throw e;
         }
@@ -72,27 +72,27 @@ describe('Pipelines API /api/v1/ci/jobs/:jobId', function () {
   it('should return 403', () => {
     const route = '/api/v1/ci/jobs/' + 'ac40085f-7673-436d-935b-4d6ac3763400'; // route + jobId + params
     return supertest(API_URL) // returns a promise, so no done method
-        .get(route + params)
-        .set('X-ACQUIA-PIPELINES-N3-KEY', '')
-        .set('X-ACQUIA-PIPELINES-N3-SECRET', '')
-        .set('X-ACQUIA-PIPELINES-N3-ENDPOINT', '')
-        .expect(403)
-        .then((res) => {
-          try {
-            if (!res.ok && res.status !== 403) {
-              throw res.text;
-            } else {
-              expect(res.status).to.equal(403);
-              expect(res.body).to.deep.equal({});
-              // Checking only if the text contains 'Error authorizing request: '
-              // as the actual message is not standard
-              // 'Error authorizing request: undefined method `downcase\' for nil:NilClass'
-              expect(res.text).to.contain('Error authorizing request: ');
-            }
-          } catch(e) {
-            logAPICall(res, route, params);
-            throw e;
+      .get(route + params)
+      .set('X-ACQUIA-PIPELINES-N3-KEY', '')
+      .set('X-ACQUIA-PIPELINES-N3-SECRET', '')
+      .set('X-ACQUIA-PIPELINES-N3-ENDPOINT', '')
+      .expect(403)
+      .then((res) => {
+        try {
+          if (!res.ok && res.status !== 403) {
+            throw res.text;
+          } else {
+            expect(res.status).to.equal(403);
+            expect(res.body).to.deep.equal({});
+            // Checking only if the text contains 'Error authorizing request: '
+            // as the actual message is not standard
+            // 'Error authorizing request: undefined method `downcase\' for nil:NilClass'
+            expect(res.text).to.contain('Error authorizing request: ');
           }
-        });
+        } catch (e) {
+          logAPICall(res, route, params);
+          throw e;
+        }
+      });
   });
 });

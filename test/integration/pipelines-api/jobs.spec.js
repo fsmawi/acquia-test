@@ -27,20 +27,20 @@ describe('Pipelines API /api/v1/ci/jobs', function () {
             expect(res.status).to.equal(200);
             expect(res.body).to.be.a('Array');
             expect(res.body[0]).to.be.a('Object');
-            expect(res.body[0].branch).to.exist;
+            expect(res.body[0].branch).to.not.be.undefined;
             expect(res.body[0].commit).to.not.be.undefined;
             expect(res.body[0].duration).to.not.be.undefined;
-            expect(res.body[0].exit_message).to.exist;
-            expect(res.body[0].finished_at).to.exist;
-            expect(res.body[0].job_id).to.exist;
-            // expect(res.body[0].output).to.exist;
-            expect(res.body[0].pipeline_id).to.exist;
-            expect(res.body[0].requested_at).to.exist;
-            expect(res.body[0].sitename).to.exist;
-            expect(res.body[0].started_at).to.exist;
-            expect(res.body[0].status).to.exist;
+            expect(res.body[0].exit_message).to.not.be.undefined;
+            expect(res.body[0].finished_at).to.not.be.undefined;
+            expect(res.body[0].job_id).to.not.be.undefined;
+            // expect(res.body[0].output).to.not.be.undefined;
+            expect(res.body[0].pipeline_id).to.not.be.undefined;
+            expect(res.body[0].requested_at).to.not.be.undefined;
+            expect(res.body[0].sitename).to.not.be.undefined;
+            expect(res.body[0].started_at).to.not.be.undefined;
+            expect(res.body[0].status).to.not.be.undefined;
           }
-        } catch(e) {
+        } catch (e) {
           logAPICall(res, route, params);
           throw e;
         }
@@ -59,7 +59,7 @@ describe('Pipelines API /api/v1/ci/jobs', function () {
             expect(res.status).to.equal(403);
             expect(res.text).to.contain('Missing mandatory parameters: n3_endpoint');
           }
-        } catch(e) {
+        } catch (e) {
           logAPICall(res, route, params);
           throw e;
         }
@@ -80,9 +80,9 @@ describe('Pipelines API /api/v1/ci/jobs', function () {
           } else {
             expect(res.status).to.equal(403);
             expect(res.text).to
-            .contain('Error authorizing request: Expected([200, 201, 202, 203, 204, 205, 206, 302]) <=> Actual(400 Bad Request)');
+              .contain('Error authorizing request: Expected([200, 201, 202, 203, 204, 205, 206, 302]) <=> Actual(400 Bad Request)');
           }
-        } catch(e) {
+        } catch (e) {
           logAPICall(res, route, params);
           throw e;
         }
