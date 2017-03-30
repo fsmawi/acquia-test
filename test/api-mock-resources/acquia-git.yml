@@ -939,6 +939,13 @@ routes:
         url: http://localhost/repo10
         full_name: repo10
         description: rescription repo10
+   
+  /api/v1/ci/applications:
+     GET:
+       response:
+         repo_type: acquia-git
+         repo_name: example/repo
+         repo_url: site@svn-3.hosted.acquia-sites.com:site.git 
 redirections:
   /api/v1/ci/github/oauth:
     redirect_to: http://localhost:4200/auth/github/123?success=true

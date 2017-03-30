@@ -70,3 +70,19 @@ Feature: Pipelines Github Flow
     Then I should see a modal with non empty |*repo-list| list
     And I click on the |*cancel| button
     Then I should not see the repository modal
+
+  @GithubFlow_FirstUXConfigureRepoWithGitHub
+  Scenario: validate first user expereince configuring repo with github
+    When I click on the |*view-connection-info| link
+    And I wait 5 seconds to navigate to github connection page
+    And I click on the |*configure| link
+    And I click on the |*configure-github| link
+    And I click on the |*connect-to-github| button
+    And I should see a |*alert-message| with |*success-message|
+    And I click on the |*select-repo| button
+    Then I should see a modal with non empty |*repo-list| list
+    And I enter |rep| in the |*repo-filter-text| field
+    Then I should see in the |*repo-list| list only repositories that contain "rep" keyword
+    And I click on the |*repo1-radio| button
+    And I click on the |*continue| button
+    Then I should be navigated to |*application-information| page
