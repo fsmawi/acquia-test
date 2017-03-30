@@ -891,6 +891,12 @@ routes:
             link: https://github.com/acquia/repo2
             type: github
           branches: test11,test12
+  /api/v1/ci/applications:
+     GET:
+       response:
+         repo_type: acquia-git
+         repo_name: example/repo
+         repo_url: site@svn-3.hosted.acquia-sites.com:site.git
   /api/v1/ci/github/repos:
     GET:
       response:
