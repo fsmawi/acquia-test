@@ -66,7 +66,7 @@ export class PipelinesService {
    * @returns {Promise<T>}
    */
   removeGitHubAuth(repository: string, application: string) {
-    return this.promiseDeleteRequest(this.URI + `/ci/github` , {
+    return this.promiseDeleteRequest(this.URI + `/ci/github`, {
       repo: repository,
       applications: [application]
     });
@@ -179,7 +179,7 @@ export class PipelinesService {
   /**
    * Direct Start a pipelines job
    * @param appId
-   * @param pipelineId
+   * @param branch
    * @param options
    * @returns {Promise<HttpRequest>}
    */
@@ -187,7 +187,8 @@ export class PipelinesService {
     // Default Options
     Object.assign(options, {
       applications: [appId],
-      branch: branch
+      branch: branch,
+      deploy_vcs_path: `pipelines-build-${branch}`
     });
 
     return this.getPipelineByAppId(appId)
