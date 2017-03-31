@@ -12,7 +12,7 @@
           <input type="search" size="100" [(ngModel)]="branch" (keyup)="filter()" placeholder="Branch Name" name="Branch">
           <div id="branch-suggestions">
             <ul *ngIf="branchSuggestions && (branchSuggestions.length > 0) && (branch !== '')">
-              <li *ngFor="let branchSuggestion of branchSuggestions" (click)="select(branchSuggestion)">
+              <li *ngFor="let branchSuggestion of branchSuggestions" (click)="select(branchSuggestion)" [attr.item]="branchSuggestion">
                 {{branchSuggestion}}
               </li>
             </ul>

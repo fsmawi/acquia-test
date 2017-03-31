@@ -35,12 +35,7 @@ module.exports = function () {
       .then(() => this.browser.setValue(page.getDynamicValue(selector), page.getDynamicValue(value)));
   });
 
-  this.When(/^I click on the \|(.*?)\| button$/, function (selector) {
-    boostrap(this.browser);
-    return this.browser._click(page.getDynamicValue(selector));
-  });
-
-  this.When(/^I click on the \|(.*?)\| link$/, function (selector) {
+  this.When(/^I click on the \|(.*?)\| /, function (selector) {
     boostrap(this.browser);
     return this.browser._click(page.getDynamicValue(selector));
   });
@@ -83,6 +78,16 @@ module.exports = function () {
       })
       .then((actualText) => {
         expect(page.getDynamicValue(expectedText)).to.be.equal(actualText);
+      });
+  });
+
+  this.When(/^I should see a \|(.*?)\| contains \|(.*?)\|$/, function (textElementIdentifier, expectedText) {
+    return this.browser._waitUntil(page.getDynamicValue(textElementIdentifier), {timeout: 10000})
+      .then(() => {
+        return this.browser._getText(page.getDynamicValue(textElementIdentifier));
+      })
+      .then((actualText) => {
+        expect(actualText).to.contain(page.getDynamicValue(expectedText));
       });
   });
 };

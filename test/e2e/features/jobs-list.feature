@@ -72,17 +72,6 @@ Feature: Pipelines Jobs List
       | 8f0c38d5 | timer                  |
       | 34b06147 | state__success--circle |
 
-  @JobList_CheckNoJobsDisplayed
-  Scenario: Check the message when no jobs exist
-    Given I have navigated to |*mock-header| page
-    And I enter |*no-jobs-yml-file-name| in the |*header-value| field
-    And I click on the |*save| button
-    And I should be navigated to |*pipelines-unauthenticated-url|
-    And I enter |*app-id| in the |*app-input| field
-    And I click on the |*sign-in| button
-    And I wait 10 seconds for logging in
-    Then I should see the message as "You have no jobs for this application" inside the "Activity" card
-
   @JobList_CheckSummaryTable
   Scenario: Check the job summary table displaying at the top of jobs-list page with details of last run job
     When on the |*jobs-list| page
