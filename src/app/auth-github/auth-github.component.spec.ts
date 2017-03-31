@@ -15,6 +15,13 @@ import {ErrorService} from '../core/services/error.service';
 import {PipelinesService} from '../core/services/pipelines.service';
 import {SegmentService} from '../core/services/segment.service';
 import {SharedModule} from '../shared/shared.module';
+import {LiftService} from '../core/services/lift.service';
+
+class MockLiftService {
+  captureEvent(eventName: string, eventData: Object) {
+    return true;
+  }
+}
 
 function setupConnections(mockBackend: MockBackend, options: any) {
   mockBackend.connections.subscribe((connection) => {
@@ -48,6 +55,7 @@ describe('AuthGithubComponent', () => {
         MockBackend,
         BaseRequestOptions,
         SegmentService,
+        {provide: LiftService, useClass: MockLiftService},
         {
           provide: Http,
           useFactory: (mockBackend, options) => {

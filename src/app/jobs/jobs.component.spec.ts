@@ -19,6 +19,13 @@ import {N3Service} from '../core/services/n3.service';
 import {PipelinesService} from '../core/services/pipelines.service';
 import {SharedModule} from '../shared/shared.module';
 import {NoJobsComponent} from './no-jobs/no-jobs.component';
+import {LiftService} from '../core/services/lift.service';
+
+class MockLiftService {
+  captureEvent(eventName: string, eventData: Object) {
+    return true;
+  }
+}
 
 class MockN3Service {
   getEnvironments(appId: string) {
@@ -89,6 +96,7 @@ describe('JobsComponent', () => {
         {provide: PipelinesService, useClass: MockPipelinesService},
         {provide: MdDialog, useClass: MockMdDialog},
         {provide: N3Service, useClass: MockN3Service},
+        {provide: LiftService, useClass: MockLiftService},
         ErrorService
       ],
       imports: [

@@ -23,10 +23,14 @@
                   appSegmentOn="click"
                   [segmentEventData]="{appId: appId, branch: branch}"
                   segmentEventIdentifier="ClickDirectStartJob"
+                  appLiftOn="click"
+                  [liftEventData]="{appId: appId}"
+                  liftEventName="ClickDirectStartJob"
                   type="primary" [disabled]="!branch || branch === '' || didJobStart" (click)="start()"></e-button>
       </div>
     </e-data>
     <hr *ngIf="isDirectStartAvailable">
+
     <p>
       {{isDirectStartAvailable ? 'The following actions will also start a job:' :
       'Completing any of the following actions will start your build job:'}}
@@ -39,12 +43,18 @@
       <a appSegmentOn="click"
          [segmentEventData]="{appId: appId}"
          segmentEventIdentifier="ClickLearnMoreAboutCli"
+         appLiftOn="click"
+         [liftEventData]="{appId: appId}"
+         liftEventName="ClickLearnMoreAboutCli"
          href="https://docs.acquia.com/pipelines/client#start" target="_blank">Learn more.</a></li>
     </ul>
     <p>
       <a appSegmentOn="click"
          [segmentEventData]="{appId: appId}"
          segmentEventIdentifier="ClickLearnMoreAboutGit"
+         appLiftOn="click"
+         [liftEventData]="{appId: appId}"
+         liftEventName="ClickLearnMoreAboutGit"
          href="https://docs.acquia.com/acquia-cloud/develop/repository/git" target="_blank">Learn more about using Git.</a>
     </p>
   </e-card-content>

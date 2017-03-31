@@ -8,6 +8,7 @@ import {JobStatusComponent} from './job-status/job-status.component';
 import {SafePipe} from './pipes/safe.pipe';
 import {SegmentDirective} from './directives/segment.directive';
 import {LogChunksPipe} from './pipes/log-chunks.pipe';
+import { LiftDirective } from './directives/lift.directive';
 
 @NgModule({
   imports: [
@@ -20,14 +21,16 @@ import {LogChunksPipe} from './pipes/log-chunks.pipe';
     SafePipe,
     SegmentDirective,
     LogChunksPipe,
-    IframeLinkDirective
+    IframeLinkDirective,
+    LiftDirective
   ],
   exports: [
     JobStatusComponent,
     SafePipe,
     SegmentDirective,
     LogChunksPipe,
-    IframeLinkDirective
+    IframeLinkDirective,
+    LiftDirective
   ]
 })
 export class SharedModule {

@@ -10,6 +10,13 @@ import {NoJobsComponent} from './no-jobs.component';
 import {SegmentService} from '../../core/services/segment.service';
 import {ElementalModule} from '../../elemental/elemental.module';
 import {SharedModule} from '../../shared/shared.module';
+import {LiftService} from '../../core/services/lift.service';
+
+class MockLiftService {
+  captureEvent(eventName: string, eventData: Object) {
+    return true;
+  }
+}
 
 class MockMdDialog {
   open(component: any) {
@@ -32,7 +39,8 @@ describe('NoJobsComponent', () => {
       declarations: [ NoJobsComponent ],
       providers: [
         SegmentService,
-        { provide: MdDialog, useClass: MockMdDialog },
+        { provide: LiftService, useClass: MockLiftService },
+        { provide: MdDialog, useClass: MockMdDialog }
       ]
     })
     .compileComponents();

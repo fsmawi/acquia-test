@@ -9,6 +9,9 @@
             (click)="startJob()"></e-button>
   <a id="config-link" class="{{!jobs?.length ? 'config-link-no-jobs' : 'config-link'}}"
      appIframeLink="/application/{{appId}}"
+     appLiftOn="click"
+     [liftEventData]="{appId: appId}"
+     liftEventName="ClickConnectionInfoJobsList"
      appSegmentOn="click"
      [segmentEventData]="{appId: appId}"
      segmentEventIdentifier="ClickConnectionInfoJobsList">View Connection Info</a>
@@ -24,7 +27,10 @@
          appIframeLink="/application/{{appId}}"
          appSegmentOn="click"
          [segmentEventData]="{appId: appId}"
-         segmentEventIdentifier="ClickRepoNameApplicationInfo">
+         segmentEventIdentifier="ClickRepoNameApplicationInfo"
+         appLiftOn="click"
+         [liftEventData]="{appId: appId}"
+         liftEventName="ClickRepoNameApplicationInfo">
         <e-svg-icon *ngIf="vcsType === 'github'"
                     type="logos__github"
                     size="medium"

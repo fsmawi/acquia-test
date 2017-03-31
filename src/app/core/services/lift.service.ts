@@ -4,7 +4,7 @@ import {environment} from '../../../environments/environment';
 
 // Global Scope, Window
 // or mocked by scope vars in tests
-declare const window;
+declare const window, _tcaq;
 
 @Injectable()
 export class LiftService {
@@ -13,6 +13,11 @@ export class LiftService {
    * Flag to check the script injection
    */
   static bootstrap: boolean;
+
+  /**
+   * Parameters (keys) mapping with Lift custom meta column data fields (user defined fields)
+   */
+  eventsUDFMappings = {appId : 'event_udf5'};
 
   /**
    * Builds the service
@@ -35,5 +40,23 @@ export class LiftService {
       // Flag to maintain bootstrap/injection status
       LiftService.bootstrap = true;
     }
+  }
+
+  /**
+   * Captures the event using acquia lift tracking
+   * @param eventName
+   * @param eventData
+   */
+  captureEvent(eventName: string, eventData: Object) {
+    // Find if the event mapping is available in events hashmap
+    // if available, assign a new param with the found value for eventData
+    // and delete the key/value from eventData
+    Object.keys(eventData).forEach((key) => {
+      if (this.eventsUDFMappings[key]) {
+        eventData[this.eventsUDFMappings[key]] = eventData[key];
+        delete eventData[key];
+      }
+    });
+    return _tcaq.push(['capture', eventName, eventData]);
   }
 }

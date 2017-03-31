@@ -110,6 +110,9 @@
         <e-data-value>
           <a *ngIf="job.metadata.pull_request_link"
              href="{{job.metadata.pull_request_link}}" target="_blank"
+             appLiftOn="click"
+             [liftEventData]="{appId: appId}"
+             liftEventName="ClickPullRequestLinkJobSummary"
              appSegmentOn="click"
              [segmentEventData]="{appId: appId, job_id: job.job_id, status: job.status}"
              segmentEventIdentifier="ClickPullRequestLinkJobSummary">

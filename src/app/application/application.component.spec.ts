@@ -15,7 +15,13 @@ import {FlashMessageService} from '../core/services/flash-message.service';
 import {PipelinesService} from '../core/services/pipelines.service';
 import {SegmentService} from '../core/services/segment.service';
 import {SharedModule} from '../shared/shared.module';
+import {LiftService} from '../core/services/lift.service';
 
+class MockLiftService {
+  captureEvent(eventName: string, eventData: Object) {
+    return true;
+  }
+}
 
 class MockActivatedRoute {
   params = new EventEmitter<any>();
@@ -75,6 +81,7 @@ describe('ApplicationComponent', () => {
         BaseRequestOptions,
         PipelinesService,
         SegmentService,
+        {provide: LiftService, useClass: MockLiftService},
         {provide: ActivatedRoute, useClass: MockActivatedRoute},
         {provide: FlashMessageService, useClass: MockFlashMessage},
         {provide: ConfirmationModalService, useClass: MockConfirmationModalService},

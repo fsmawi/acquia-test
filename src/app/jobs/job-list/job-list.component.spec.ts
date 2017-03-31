@@ -17,6 +17,13 @@ import {SegmentService} from '../../core/services/segment.service';
 import {ElementalModule} from '../../elemental/elemental.module';
 import {JobListComponent} from './job-list.component';
 import {SharedModule} from '../../shared/shared.module';
+import {LiftService} from '../../core/services/lift.service';
+
+class MockLiftService {
+  captureEvent(eventName: string, eventData: Object) {
+    return true;
+  }
+}
 
 class MockPipelinesService {
 
@@ -91,6 +98,7 @@ describe('JobListComponent', () => {
         {provide: PipelinesService, useClass: MockPipelinesService},
         {provide: FlashMessageService, useClass: MockFlashMessage},
         {provide: ConfirmationModalService, useClass: MockConfirmationModalService},
+        {provide: LiftService, useClass: MockLiftService},
         SegmentService,
         ErrorService]
     })

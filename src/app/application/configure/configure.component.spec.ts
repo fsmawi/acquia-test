@@ -16,6 +16,13 @@ import {FlashMessageService} from '../../core/services/flash-message.service';
 import {SegmentService} from '../../core/services/segment.service';
 import {SharedModule} from '../../shared/shared.module';
 import {PipelinesService} from '../../core/services/pipelines.service';
+import {LiftService} from '../../core/services/lift.service';
+
+class MockLiftService {
+  captureEvent(eventName: string, eventData: Object) {
+    return true;
+  }
+}
 
 class MockActivatedRoute {
   params = new EventEmitter<any>();
@@ -74,6 +81,7 @@ describe('ConfigureComponent', () => {
         ErrorService,
         SegmentService,
         PipelinesService,
+        {provide: LiftService, useClass: MockLiftService},
         {provide: ActivatedRoute, useClass: MockActivatedRoute},
         {provide: FlashMessageService, useClass: MockFlashMessage},
         {provide: MdDialog, useClass: MockMdDialog},

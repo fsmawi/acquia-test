@@ -18,6 +18,13 @@ import {ErrorService} from '../core/services/error.service';
 import {SegmentService} from '../core/services/segment.service';
 import {SharedModule} from '../shared/shared.module';
 import {PipelinesService} from '../core/services/pipelines.service';
+import {LiftService} from '../core/services/lift.service';
+
+class MockLiftService {
+  captureEvent(eventName: string, eventData: Object) {
+    return true;
+  }
+}
 
 class MockActivatedRoute {
   params = new EventEmitter<any>();
@@ -56,6 +63,7 @@ describe('AuthAcquiaComponent', () => {
         ErrorService,
         SegmentService,
         PipelinesService,
+        {provide: LiftService, useClass: MockLiftService},
         {provide: ActivatedRoute, useClass: MockActivatedRoute},
         {
           provide: Http,

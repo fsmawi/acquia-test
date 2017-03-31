@@ -24,7 +24,10 @@
     <a appIframeLink="/application/{{appId}}/configure" class="configure-link"
        appSegmentOn="click"
        [segmentEventData]="{appId: appId}"
-       segmentEventIdentifier="ClickApplicationInfoConfigure">Configure</a>
+       segmentEventIdentifier="ClickApplicationInfoConfigure"
+       appLiftOn="click"
+       [liftEventData]="{appId: appId}"
+       liftEventName="ClickApplicationInfoConfigure">Configure</a>
     <e-data>
       <e-data-label>URL</e-data-label>
       <e-data-value>
