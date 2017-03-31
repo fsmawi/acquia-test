@@ -95,6 +95,37 @@ let githubFlowPage = Object.create(page, {
   },
 
   /**
+   * @return {Promise}
+   * @param {String} repoInfoSelector
+   * @param {String} repoName
+   * Assert the GitHub Repo name in the repo info div
+   */
+  assertGitHubRepoName: {
+    value: function (repoInfoSelector, repoName) {
+      return this.browser._getText(repoInfoSelector)
+      .then((repo) => {
+        expect(repo).to.be.equal(repoName);
+      });
+    },
+  },
+
+  /**
+   * @return {Promise}
+   * @param {String} iframeIdentifier
+   * @param {String} buttonIdentifier
+   * Check the button in the iframe
+   */
+  clickButtonInTheIframe: {
+    value: function (iframeIdentifier, buttonIdentifier) {
+      return this.browser
+        ._switchFrame(iframeIdentifier)
+        .then(() => {
+          return this.browser._click(buttonIdentifier, {timeout: 10000});
+        });
+    },
+  },
+
+  /**
    * @param {String} repoList identifier for elements in repo-list
    * @param {String} filterText repositories filtered with text
    * assert the filtered repositories list contains only the repositories matches with filterText

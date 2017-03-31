@@ -148,6 +148,17 @@ exports.bootstrap = function (browser) {
   };
 
   /**
+   * Deletes the browser cookies
+   */
+  browser._deleteCookies = function() {
+    return browser.deleteCookie()
+      .catch((e) => {
+        return screenshot(createTimeName('deleteCookies-error', ''))
+          .then(() => Promise.reject(e));
+      });
+  };
+
+  /**
    * @param {String} selector
    * Find the iframe with given selector and switch the frame
    * @return {Promise}

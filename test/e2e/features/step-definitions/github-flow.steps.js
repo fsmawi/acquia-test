@@ -31,8 +31,19 @@ module.exports = function () {
     return githubFlowPage.assertRepoListIsEmpty(page.getDynamicValue(repoList));
   });
 
+  this.When(/^I click on the \|(.*?)\| button within the \|(.*?)\|$/, function (buttonSelector, iframeSelector) {
+    return githubFlowPage
+      .clickButtonInTheIframe(page.getDynamicValue(iframeSelector), page.getDynamicValue(buttonSelector));
+  });
+
   this.Then(/^I should see in the \|(.*?)\| list only repositories that contain "([^"]*)" keyword$/,
     function (repoList, filterText) {
       return githubFlowPage.assertFilteredRepositoriesList(page.getDynamicValue(repoList), filterText);
+    });
+
+  this.Then(/^I should see the repo name \|(.*?)\| in the \|(.*?)\|$/,
+    function (repoName, repoInfoSelector) {
+      return githubFlowPage
+        .assertGitHubRepoName(page.getDynamicValue(repoInfoSelector), page.getDynamicValue(repoName));
     });
 };

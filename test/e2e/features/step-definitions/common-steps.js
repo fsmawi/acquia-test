@@ -72,6 +72,10 @@ module.exports = function () {
     return this.browser._exists(page.getDynamicValue(selector));
   });
 
+  this.Then(/^I delete the browser cookies$/, function() {
+    return this.browser._deleteCookies();
+  });
+
   this.When(/^I should see a \|(.*?)\| with \|(.*?)\|$/, function (textElementIdentifier, expectedText) {
     return this.browser._waitUntil(page.getDynamicValue(textElementIdentifier), {timeout: 5000})
       .then(() => {
