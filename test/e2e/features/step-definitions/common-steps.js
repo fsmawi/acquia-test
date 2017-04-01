@@ -17,7 +17,7 @@ module.exports = function () {
     boostrap(this.browser);
     if (process.env.PIPELINES_URL) {
       let URL = path.join(process.env.PIPELINES_URL, page.getDynamicValue(pageIdentifier));
-      this.browser._url(URL).pause(5000);
+      return this.browser._url(URL);
     } else {
       return this.browser.getUrl()
         .then((URL) => {
@@ -31,20 +31,30 @@ module.exports = function () {
   this.When(/^I enter \|(.*?)\| in the \|(.*?)\|/, function (value, selector) {
     boostrap(this.browser);
 
-    return this.browser._click(page.getDynamicValue(selector), {timeout: 60000})
-      .then(() => this.browser.setValue(page.getDynamicValue(selector), page.getDynamicValue(value)));
+    return this.browser
+      ._click(page.getDynamicValue(selector), {timeout: 60000})
+      .then(() => this.browser.keys(page.getDynamicValue(value)))
+      .then(() => this.browser.pause(1000));
   });
 
   this.When(/^I click on the \|(.*?)\| /, function (selector) {
     boostrap(this.browser);
-    return this.browser._click(page.getDynamicValue(selector));
+    return this.browser._click(page.getDynamicValue(selector), {timeout: 10000});
   });
 
   this.Then(/^I should be navigated to \|(.*?)\|$/, function (expectedUrl) {
     boostrap(this.browser);
 
-    if (process.env.PIPELINES_URL)
-      PipelinesUnAuthUrl = process.env.PIPELINES_URL.replace(/:(.*)@/, '://') + page.getDynamicValue(expectedUrl);
+    if (process.env.PIPELINES_URL) {
+      let sanitized = process.env.PIPELINES_URL
+        .replace(/:(.*)@/, '://') 			 //replace any basic auth details found in url
+        .replace(/^(http|https)\:\/\//, '') // remove the leading http:// or https:// (temporarily)
+        .replace('/index.html#', '') 		// remove /index.html#
+        .replace(/\/+/g, '/')       		// replace consecutive slashes with a single slash
+        .replace(/(\/|\\)+$/, '');       		// remove trailing slashes
+		
+      PipelinesUnAuthUrl = 'https://' + sanitized + page.getDynamicValue(expectedUrl);
+    }
     else
       PipelinesUnAuthUrl = page.getDynamicValue(expectedUrl);
 
@@ -67,7 +77,7 @@ module.exports = function () {
     return this.browser._exists(page.getDynamicValue(selector));
   });
 
-  this.Then(/^I delete the browser cookies$/, function() {
+  this.Then(/^I delete the browser cookies$/, function () {
     return this.browser._deleteCookies();
   });
 

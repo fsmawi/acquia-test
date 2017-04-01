@@ -8,7 +8,7 @@ Feature: Pipelines Job Details
     And I have navigated to |*mock-header| page
     And I enter |*jobs-yml-file-name| in the |*header-value| field
     And I click on the |*save| button
-    And I should be navigated to |*pipelines-unauthenticated-url|
+    And I wait 5 seconds for page to navigate
     And I enter |*app-id| in the |*app-input| field
     And I click on the |*sign-in| button
     And I wait 10 seconds for logging in
@@ -42,8 +42,7 @@ Feature: Pipelines Job Details
     And I click on the |*jobs| link
     Then I should see the |app-jobs| list
 
-  @pending
-  @JobDetail_CheckSummaryInfo
+  @JobDetail_CheckSummaryInfo @pending
   Scenario: Check the Job details are displayed
     When on the |*jobs-list| page
     And I click on the first job id in the "Build" column from the list of jobs displayed
@@ -72,7 +71,7 @@ Feature: Pipelines Job Details
     Given I have navigated to |*mock-header| page
     And I enter |job-details-countup.yml| in the |*header-value| field
     And I click on the |*save| button
-    And I should be navigated to |*pipelines-unauthenticated-url|
+    And I wait 5 seconds for page to navigate
     And I enter |*app-id| in the |*app-input| field
     And I click on the |*sign-in| button
     And I wait 10 seconds for logging in

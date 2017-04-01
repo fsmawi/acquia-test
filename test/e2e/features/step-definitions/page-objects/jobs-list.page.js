@@ -54,7 +54,7 @@ let JobsListPage = Object.create(page, {
    */
   clickJobLinkFromAlert: {
     value: function (selector) {
-      return this.browser._click(selector);
+      return this.browser._click(selector, {timeout:60000});
     },
   },
 
@@ -64,7 +64,7 @@ let JobsListPage = Object.create(page, {
    */
   assertJobsListPage: {
     value: function (jobsListPageIdentifier) {
-      return this.browser._exists(jobsListPageIdentifier);
+      return this.browser._waitUntil(jobsListPageIdentifier, {timeout: 60000});
     },
   },
 
@@ -141,7 +141,7 @@ let JobsListPage = Object.create(page, {
       else if (status == 'spin-reverse')
         jobLinkElementXpath = '//td[./app-job-status//e-svg-icon[@type="feedback__autocompleting"]]/following-sibling::td/a';
       else if (status == 'timer')
-        jobLinkElementXpath = '//td[./app-job-status//md-icon[.="timer"]]/following-sibling::td/a';
+        jobLinkElementXpath = '//td[./app-job-status//e-svg-icon[@type="alpha__recent"]]/following-sibling::td/a';
       else if (status == 'state__success--circle')
         jobLinkElementXpath = '//td[./app-job-status//e-svg-icon[@type="state__success--circle"]]/following-sibling::td/a';
 
@@ -178,11 +178,11 @@ let JobsListPage = Object.create(page, {
       let jobIdXpath = '//app-job-list/table//td[a[text()="' + jobId + '"]]';
       let failedOrSucceededJobStatusIconXpath = jobIdXpath +
         '/preceding-sibling::td/app-job-status//e-svg-icon[@type="' + statusIcon + '"]';
-      let queuedStatusIconXpath = jobIdXpath + '/preceding-sibling::td/app-job-status//md-icon[.="' + statusIcon + '" and @role="img"]';
+      let queuedStatusIconXpath = jobIdXpath + '/preceding-sibling::td[./app-job-status//e-svg-icon[@type="alpha__recent"]]';
       let runningJobStatusIconXpath = jobIdXpath +
         '/preceding-sibling::td/app-job-status//e-progress//e-svg-icon[@animation="spin-reverse"]';
 
-      this.browser._exists(jobIdXpath).then(() => {
+      return this.browser._exists(jobIdXpath).then(() => {
         if (statusIcon == 'state__danger')
           return this.isJobStatusIconMatched(failedOrSucceededJobStatusIconXpath);
         if (statusIcon == 'spin-reverse')
@@ -202,9 +202,10 @@ let JobsListPage = Object.create(page, {
    */
   isJobStatusIconMatched: {
     value: function (jobStatusIconXpath) {
-      return this.browser._waitUntil(jobStatusIconXpath);
+       return this.browser._waitUntil(jobStatusIconXpath, {timeout: 10000});
     },
   },
+
 
   /**
    * Find the first available Stop Button and click on it
@@ -237,7 +238,7 @@ let JobsListPage = Object.create(page, {
    */
   assertNoJobsStatus: {
     value: function (noJobsStatusMessage) {
-      this.browser._waitUntil('//*[contains(text(),"' + noJobsStatusMessage + '")]', {timeout: 10000});
+      return this.browser._waitUntil('//*[contains(text(),"' + noJobsStatusMessage + '")]', {timeout: 10000});
     },
   },
 

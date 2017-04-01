@@ -47,7 +47,7 @@ exports.bootstrap = function (browser) {
   browser._url = function (url, params) {
     let options = {pauseAfter: 5000};
     Object.assign(options, params || {});
-    return browser.url(url).pause(options.pauseAfter).then(() => screenshot(createTimeName('url', url)));
+    return browser.url(url).then(()=> browser.pause(options.pauseAfter)).then(() => screenshot(createTimeName('url', url)));
   };
 
   /**
@@ -64,6 +64,10 @@ exports.bootstrap = function (browser) {
       .click(selector)
       .pause(500)
       .catch((e) => {
+		    if (e.message.includes('Other element would receive the click')) {
+          return browser._wait(10, 'seconds', 'waiting for the element to load completely')
+            .then(() => { return browser.click(selector).pause(500) });
+        }
         return screenshot(createTimeName('click-error', selector))
           .then(() => Promise.reject(e));
       });
@@ -98,12 +102,18 @@ exports.bootstrap = function (browser) {
    * take the screenshot
    */
   browser._checkUrl = function (expectedUrl) {
-    return browser.getUrl()
-      .then((url) => expect(url).to.equal(expectedUrl))
-      .catch((e) => {
-        return screenshot(createTimeName('url-error', expectedUrl))
-          .then(() => Promise.reject(e));
-      });
+    return browser.waitUntil(function () {
+      console.log('expected URL: ', expectedUrl);
+      return browser.getUrl()
+        .then((url) => {
+          console.log('actual URL: ', url);
+          return expect(url).to.be.equal(expectedUrl);
+        })
+    }, 15000, 'expected url not found after 15 secs')
+    .catch((e) => {
+      return screenshot(createTimeName('get-url-error', expectedUrl))
+        .then(() => Promise.reject(e));
+    });
   };
 
   /**
@@ -140,7 +150,6 @@ exports.bootstrap = function (browser) {
     let options = Object.assign({timeout: 5000}, params);
     return browser.waitForVisible(selector, options.timeout)
       .then(() => screenshot(createTimeName('waitUntil', selector)))
-      .pause(500)
       .catch((e) => {
         return screenshot(createTimeName('waitUntil-error', selector))
           .then(() => Promise.reject(e));

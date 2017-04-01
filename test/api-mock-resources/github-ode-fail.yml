@@ -936,4 +936,4 @@ routes:
         description: rescription repo10
 redirections:
   /api/v1/ci/github/oauth:
-    redirect_to: /auth/github/123?success=false&reason=a%20certain%20reason
+    redirect_to: https://pipelinesui<PIPELINES_DEPLOYMENT_NAME>.network.acquia-sites.com/index.html#/auth/github/123?success=false&reason=a%20certain%20reason

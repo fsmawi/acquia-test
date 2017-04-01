@@ -17,6 +17,6 @@ module.exports = {
   'login': '#edit-submit-user-login',
   'job-detail': '//a[text()="Jobs "]',
   'jobs-list': '.el-card__title',
-  'jobs-list-table': '//e-card[//h4/span[text()="{0}"]]//e-card-content//app-job-list',
+  'jobs-list-table': '//e-card[//h4/span[contains(.,"{0}")]]//e-card-content//app-job-list',
   'jobId-link': '//app-job-summary//div/a'
 };

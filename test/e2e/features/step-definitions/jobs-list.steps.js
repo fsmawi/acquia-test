@@ -51,7 +51,7 @@ module.exports = function () {
   this.Then(/^I should see an activity card with title \|(.*?)\|$/, function (expectedActivityCardTitle) {
     boostrap(this.browser);
     return jobsListPage.getActivityCardTitle()
-      .then((actualActivityCardTitle) => expect(expectedActivityCardTitle).to.be.equal(actualActivityCardTitle));
+      .then((actualActivityCardTitle) => expect(actualActivityCardTitle).to.contain(expectedActivityCardTitle));
   });
 
   this.Then(/^I should see the appropriate headers for the activity card$/, function () {

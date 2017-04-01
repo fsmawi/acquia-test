@@ -184,6 +184,9 @@ if (isset($definition['routes'][$route])) {
   } else {
     $redirectTo .= "&";
   }
+  
+  // support env url variables
+  $redirectTo = str_replace('<PIPELINES_DEPLOYMENT_NAME>', getenv('PIPELINES_DEPLOYMENT_NAME'), $redirectTo);
 
   $redirectTo .= $params."&HTTP_X_ACQUIA_PIPELINES_N3_APIFILE=$apiFile";
 
