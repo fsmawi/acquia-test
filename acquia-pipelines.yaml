@@ -72,7 +72,7 @@ events:
             - 'alias run="node $BUILD_DIR/scripts/run.js"'
             - '\[ $PIPELINE_VCS_PATH == "production" \] && run e2e_test "npm run e2e:acceptance" || run e2e_test "npm run e2e:ode"'
             - 'run end'
-  merge:
+  pr-merge:
     steps:
       - merge_deploy:
           script:
