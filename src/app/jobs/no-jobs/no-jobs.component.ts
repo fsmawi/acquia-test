@@ -35,6 +35,8 @@ export class NoJobsComponent implements OnInit {
    * Initialize component
    */
   ngOnInit() {
+    // Track page view
+    this.segment.page('NoJobView');
   }
 
   /**
