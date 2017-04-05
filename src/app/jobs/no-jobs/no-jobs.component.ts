@@ -49,8 +49,6 @@ export class NoJobsComponent implements OnInit {
     if (dialogRef) {
       dialogRef.componentInstance.appId = this.appId;
     }
-    // Track button click
-    this.segment.trackEvent('ClickStartJobButton', {appId: this.appId});
   }
 
 }

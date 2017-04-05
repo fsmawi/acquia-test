@@ -127,8 +127,8 @@ Acquia Cloud|[MS-2468](https://backlog.acquia.com/browse/MS-2468)|The primary ho
 
 ### UX measurements
 
-
 Metric|Link
 --------------------|-----
 Number of "pipelines no job" viewers who press configure, and press configure github and succeed doing so, then start a job|[MS-2747](https://backlog.acquia.com/browse/MS-2747) [Chart](https://analytics.amplitude.com/org/2005/chart/4fijsym)
 Number of "pipelines no job" viewers who press configure, and press configure acquia git, then start a job|[MS-2748](https://backlog.acquia.com/browse/MS-2748) [Chart](https://analytics.amplitude.com/org/2005/chart/tripfyo)
+Number of "pipelines no job" viewers who press start job, and click start job with any branch|[MS-2746](https://backlog.acquia.com/browse/MS-2746) [Chart](https://analytics.amplitude.com/org/2005/chart/jaglmgz)
