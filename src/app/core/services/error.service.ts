@@ -91,6 +91,7 @@ export class ErrorService {
    */
   reportError(e: Error, name: string, meta: any, severity: string) {
     if (environment.production) {
+      meta.rawError = e;
       Bugsnag.notifyException(e, name, meta, severity);
     }
     return this;

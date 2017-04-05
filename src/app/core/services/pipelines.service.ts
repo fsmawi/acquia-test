@@ -86,11 +86,12 @@ export class PipelinesService {
   /**
    * Get pipeline for the supplied app id
    * @param  appId
+   * @param  getRepoMeta
    * @returns {Promise<Array<Pipeline>>}
    */
-  getPipelineByAppId(appId: string) {
+  getPipelineByAppId(appId: string, getRepoMeta = true) {
     return this.promiseGetRequest(this.URI + `/ci/pipelines`, {
-      include_repo_data: 1,
+      include_repo_data: getRepoMeta ? 1 : undefined,
       applications: [appId]
     }).then(r => r.map(p => new Pipeline(p)));
   }
@@ -191,7 +192,7 @@ export class PipelinesService {
       deploy_vcs_path: `pipelines-build-${branch}`
     });
 
-    return this.getPipelineByAppId(appId)
+    return this.getPipelineByAppId(appId, false)
       .then(p => {
         if (p.length > 0) {
           return this.promisePostRequest(this.URI + `/ci/pipelines/${p[0].pipeline_id}/direct-start`, options);
