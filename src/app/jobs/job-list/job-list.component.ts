@@ -62,6 +62,9 @@ export class JobListComponent implements OnInit {
     } else {
       this.cloudUrl = `/jobs/${this.appId}`;
     }
+
+    // Track page view
+    this.segment.page('JobListView');
   }
 
   /**

@@ -117,9 +117,6 @@ export class JobsComponent extends BaseApplication implements OnInit, OnDestroy 
       this.repoFullName = info.repo_name;
       this.vcsType = info.repo_type;
     }).catch(e => this.errorHandler.apiError(e));
-
-    // Track page view
-    this.segment.page('JobListView');
   }
 
   /**
