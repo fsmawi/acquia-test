@@ -35,8 +35,9 @@ export class NoJobsComponent implements OnInit {
    * Initialize component
    */
   ngOnInit() {
-    // Track page view
+    // Track page view and leaving page event
     this.segment.page('NoJobView');
+    window.onbeforeunload = () => this.segment.trackEvent('NoJobsLeave', {appId: this.appId});
   }
 
   /**

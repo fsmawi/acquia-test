@@ -131,4 +131,5 @@ Metric|Link
 --------------------|-----
 Number of "pipelines no job" viewers who press configure, and press configure github and succeed doing so, then start a job|[MS-2747](https://backlog.acquia.com/browse/MS-2747) [Chart](https://analytics.amplitude.com/org/2005/chart/4fijsym)
 Number of "pipelines no job" viewers who press configure, and press configure acquia git, then start a job|[MS-2748](https://backlog.acquia.com/browse/MS-2748) [Chart](https://analytics.amplitude.com/org/2005/chart/tripfyo)
+Number of "pipelines no job" viewers who do nothing and then leave (abandon rate)|[MS-2749](https://backlog.acquia.com/browse/MS-2749) [Chart](https://analytics.amplitude.com/org/2005/chart/4czzdic)
 Number of "pipelines no job" viewers who press start job, and click start job with any branch|[MS-2746](https://backlog.acquia.com/browse/MS-2746) [Chart](https://analytics.amplitude.com/org/2005/chart/jaglmgz)
