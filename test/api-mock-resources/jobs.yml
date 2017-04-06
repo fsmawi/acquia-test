@@ -215,7 +215,7 @@ routes:
           sitename: "enterprise-g1:sfwiptravis"
           started_at: 0
           status: queued
-          trigger: push
+          trigger: pull_request
           metadata:
             container_port_8007: "44512"
             deployment_link: "http://pipelinesuiode83.network.acquia-sites.com"

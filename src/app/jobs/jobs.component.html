@@ -20,9 +20,28 @@
                    [appId]="appId"
                    [job]="lastJob"></app-job-summary>
 
+  <div *ngIf="jobs && jobs.length" id="filter" class="flex-container" fxLayout="row" fxLayoutAlign="end center" [@fadeInUp]>
+    <input class="flex-item"
+           fxFlex="none"
+           fxFlex.xs="100%"
+           type="search"
+           size="30"
+           placeholder="Filter jobs by branch or status"
+           mdTooltip="Search by status;
+                      Search succeeded or failed jobs typing keywords: Pass, Success, Succeeded, fail, failed, error, errored;
+                      Search by branch name;
+                      Search by trigger type typing keywords:  PR, or pull request, branch, pull."
+           mdTooltipPosition="below"
+           value="{{filterText}}"
+           (input)="filterSubject.next($event.target.value)">
+  </div>
   <e-card *ngIf="isInitialized">
     <e-card-header>
       Activity
+      <div id="filter-info">
+        <span id="filtered-text" *ngIf="filterText !== ''"> filtered with "{{ filterText }}". </span>
+        <a id="clear-filter" *ngIf="filterText !== ''" (click)="clearFilter()">Clear Filter</a>
+      </div>
       <a id="repoInfo"
          appIframeLink="/application/{{appId}}"
          appSegmentOn="click"
@@ -52,7 +71,7 @@
       <app-no-jobs [appId]="appId" [vcsType]="vcsType" *ngIf="jobs && !jobs.length"></app-no-jobs>
 
       <!--List of Jobs-->
-      <app-job-list [appId]="appId" [jobs]="jobs" *ngIf="jobs.length"></app-job-list>
+      <app-job-list [appId]="appId" [jobs]="filteredJobs" *ngIf="jobs.length"></app-job-list>
     </e-card-content>
   </e-card>
 </div>

@@ -60,6 +60,7 @@ md-card {
 app-job-summary /deep/ section,
 e-card /deep/ section {
   clear: both;
+  margin-bottom: $rhythm-unit;
 }
 
 #repoInfo {
@@ -69,6 +70,12 @@ e-card /deep/ section {
 }
 
 /deep/ e-card-header {
+
+  #filtered-text {
+    font-weight: 300;
+    font-size: $text-size-h5;
+  }
+
   svg {
     top: 0.225rem !important;
   }
@@ -76,6 +83,29 @@ e-card /deep/ section {
   a {
     font-weight: 400;
     font-size: $text-size-h5;
+    cursor: pointer;
   }
 
 }
+
+#filter-info {
+  display: inline-block;
+
+  @media (max-width: 480px) {
+    margin-bottom: $rhythm-unit;
+  }
+}
+
+#filter {
+  margin-bottom: $rhythm-unit;
+
+  input[type="search"]::-webkit-search-decoration,
+  input[type="search"]::-webkit-search-cancel-button,
+  input[type="search"]::-webkit-search-results-button,
+  input[type="search"]::-webkit-search-results-decoration {
+    display: none;
+  }
+
+}
+
+

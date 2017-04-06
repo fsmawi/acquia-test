@@ -4,6 +4,7 @@ import {By} from '@angular/platform-browser';
 import {DebugElement} from '@angular/core';
 import {MaterialModule} from '@angular/material';
 import {MdDialog} from '@angular/material';
+import {FormsModule} from '@angular/forms';
 import {RouterTestingModule} from '@angular/router/testing';
 
 import {MomentModule} from 'angular2-moment';
@@ -105,7 +106,8 @@ describe('JobsComponent', () => {
         CoreModule,
         MomentModule,
         SharedModule,
-        ElementalModule
+        ElementalModule,
+        FormsModule
       ]
     })
       .compileComponents();
@@ -144,4 +146,122 @@ describe('JobsComponent', () => {
     component.startJob();
     expect(dialog.open).toHaveBeenCalled();
   }));
+
+  it('should not show the filter input when jobs are not available', fakeAsync(inject([], () => {
+    component.appId = 'app-with-out-jobs';
+    component.getJobs();
+    fixture.detectChanges();
+    const compiled = fixture.debugElement.nativeElement;
+    expect(component.filteredJobs.length).toEqual(0);
+
+    fixture.detectChanges();
+    expect(compiled.querySelector('#filtered-text')).toBeFalsy();
+
+  })));
+
+  it('should filter the jobs shown.', () => {
+    expect(component).toBeTruthy();
+
+    const job = new Job({
+      job_id: 'job-id',
+      sitename: 'sitename',
+      pipeline_id: 'pipeline-id',
+      branch: 'master',
+      commit: 'commit',
+      status: 'succeeded',
+      trigger: 'push',
+      requested_by: 'user@acquia.com',
+      requested_at: 1462297477,
+      started_at: 1462297477,
+      finished_at: 1462297477,
+      duration: 90000,
+      output: '',
+      exit_message: ''
+    });
+
+    component.jobs = [job];
+
+    component.filterText = '';
+    component.filter();
+    expect(component.filteredJobs.length).toEqual(1);
+
+    component.filterText = 'master';
+    component.filter();
+    expect(component.filteredJobs.length).toEqual(1);
+
+    component.filterText = 'push';
+    component.filter();
+    expect(component.filteredJobs.length).toEqual(1);
+
+    component.filterText = 'pass';
+    component.filter();
+    expect(component.filteredJobs.length).toEqual(1);
+
+    component.filterText = 'random text';
+    component.filter();
+    expect(component.filteredJobs.length).toEqual(0);
+  });
+
+  it('should clear the filter.', () => {
+    expect(component).toBeTruthy();
+
+    const job = new Job({
+      job_id: 'job-id',
+      sitename: 'sitename',
+      pipeline_id: 'pipeline-id',
+      branch: 'master',
+      commit: 'commit',
+      status: 'succeeded',
+      trigger: 'push',
+      requested_by: 'user@acquia.com',
+      requested_at: 1462297477,
+      started_at: 1462297477,
+      finished_at: 1462297477,
+      duration: 90000,
+      output: '',
+      exit_message: ''
+    });
+
+    component.jobs = [job];
+
+    component.filterText = '';
+    component.filter();
+    expect(component.filteredJobs.length).toEqual(1);
+
+    component.filterText = 'random text';
+    component.filter();
+    expect(component.filteredJobs.length).toEqual(0);
+
+    component.clearFilter();
+    expect(component.filteredJobs.length).toEqual(1);
+  });
+
+  it('should return the trigger type for the filter text.', () => {
+    expect(component).toBeTruthy();
+
+    expect(component.getTriggerTypeFromFilterText('push')).toEqual('push');
+    expect(component.getTriggerTypeFromFilterText('branch')).toEqual('push');
+    expect(component.getTriggerTypeFromFilterText('pr')).toEqual('pull_request');
+    expect(component.getTriggerTypeFromFilterText('pull')).toEqual('pull_request');
+    expect(component.getTriggerTypeFromFilterText('pull request')).toEqual('pull_request');
+    expect(component.getTriggerTypeFromFilterText('manual')).toEqual('manual');
+    expect(component.getTriggerTypeFromFilterText('random text')).toEqual('');
+  });
+
+  it('should return the status for the filter text.', () => {
+    expect(component).toBeTruthy();
+
+    expect(component.getStatusFromFilterText('pass')).toEqual('success');
+    expect(component.getStatusFromFilterText('passed')).toEqual('success');
+    expect(component.getStatusFromFilterText('success')).toEqual('success');
+    expect(component.getStatusFromFilterText('succeeded')).toEqual('success');
+    expect(component.getStatusFromFilterText('fail')).toEqual('failure');
+    expect(component.getStatusFromFilterText('failed')).toEqual('failure');
+    expect(component.getStatusFromFilterText('error')).toEqual('failure');
+    expect(component.getStatusFromFilterText('errored')).toEqual('failure');
+    expect(component.getStatusFromFilterText('random text')).toEqual('');
+  });
+
+
+
 });
