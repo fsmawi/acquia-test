@@ -18,7 +18,7 @@
             </ul>
           </div>
         </div>
-        <e-button id="btn-start" text="Start" *ngIf="isDirectStartAvailable"
+        <e-button id="btn-start" text="Start" *ngIf="isDirectStartAvailable && !didJobStart"
                   class="flex-item" fxFlex="15%" fxFlex.xs="25%"
                   appSegmentOn="click"
                   [segmentEventData]="{appId: appId, branch: branch}"
@@ -26,7 +26,11 @@
                   appLiftOn="click"
                   [liftEventData]="{appId: appId}"
                   liftEventName="ClickDirectStartJob"
-                  type="primary" [disabled]="!branch || branch === '' || didJobStart" (click)="start()"></e-button>
+                  type="primary" [disabled]="!branch || branch === '' || didJobStart" (click)="start()">
+		    </e-button>
+		    <e-progress *ngIf="didJobStart" id="dot-loader" progressType="indeterminate"
+          progressVariant="dots" progressSize="small">
+        </e-progress>
       </div>
     </e-data>
     <hr *ngIf="isDirectStartAvailable">

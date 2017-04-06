@@ -16,6 +16,16 @@
     margin-bottom: 0;
   }
 
+  #dot-loader {
+   position: relative;
+   left: px-to-relative(30px);
+   top: px-to-relative(18px);
+  }
+ 
+  #btn-start button {
+    margin-bottom: 0.0;  //fixes shrinking context help view while start button disappears
+  }
+
   .el-data__label {
     margin-bottom: 0.375rem;
   }
