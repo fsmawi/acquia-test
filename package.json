@@ -21,8 +21,8 @@
     "e2e:acceptance": "echo TODO",
     "integration": "mocha test/integration --recursive --colors",
     "integration:acceptance": "mocha test/integration --recursive --colors",
-    "pipelines:build:master": "ng build --aot --env=live-mock --output-path=/tmp/build",
-    "pipelines:build:staging": "ng build --aot --env=live-mock --output-path=/tmp/build",
+    "pipelines:build:master": "ng build --prod --aot --env=live-mock --output-path=/tmp/build",
+    "pipelines:build:staging": "ng build --prod --aot --env=live-mock --output-path=/tmp/build",
     "pipelines:build:production": "ng build --prod --aot --progress --output-path=/tmp/build",
     "changelog": "standard-version --first-release"
   },
@@ -56,6 +56,7 @@
     "angular-cli": "1.0.0-beta.26",
     "aqtest": "file:lib/aqtest-2.1.2.tgz",
     "async": "^2.1.5",
+    "aws-sdk": "^2.39.0",
     "chai": "^3.5.0",
     "codelyzer": "~2.0.0-beta.1",
     "colors": "^1.1.2",
@@ -76,12 +77,12 @@
     "mocha": "^3.2.0",
     "protractor": "~4.0.13",
     "querystring": "^0.2.0",
+    "standard-version": "2.2.1",
     "supertest": "^3.0.0",
     "ts-node": "1.2.1",
     "tslint": "^4.3.0",
     "typescript": "~2.0.3",
-    "ws": "^2.2.0",
-    "standard-version": "2.2.1"
+    "ws": "^2.2.0"
   },
   "config": {
     "commitizen": {
