@@ -1,25 +1,13 @@
 <div *ngIf="isInitialized">
+  <app-action-header [appId]="appId"
+                     [showViewInfo]="true"
+                     [showStartJob]="jobs?.length">
+  </app-action-header>
 
-  <h1 class="page-title">Job List</h1>
-
-  <e-button id="start-job-top"
-            *ngIf="jobs?.length"
-            text="Start Job"
-            type="primary"
-            (click)="startJob()"></e-button>
-  <a id="config-link" class="{{!jobs?.length ? 'config-link-no-jobs' : 'config-link'}}"
-     appIframeLink="/application/{{appId}}"
-     appLiftOn="click"
-     [liftEventData]="{appId: appId}"
-     liftEventName="ClickConnectionInfoJobsList"
-     appSegmentOn="click"
-     [segmentEventData]="{appId: appId}"
-     segmentEventIdentifier="ClickConnectionInfoJobsList">View Connection Info</a>
   <app-job-summary *ngIf="lastJob && appId"
                    [isProgressBarRequired]="false"
                    [appId]="appId"
                    [job]="lastJob"></app-job-summary>
-
   <div *ngIf="jobs && jobs.length" id="filter" class="flex-container" fxLayout="row" fxLayoutAlign="end center" [@fadeInUp]>
     <input class="flex-item"
            fxFlex="none"

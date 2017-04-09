@@ -89,30 +89,12 @@ export class JobsComponent extends BaseApplication implements OnInit, OnDestroy 
    * @param pipelines
    * @param errorHandler
    * @param route
-   * @param segment
-   * @param dialog
    */
   constructor(
     protected pipelines: PipelinesService,
     protected errorHandler: ErrorService,
-    private route: ActivatedRoute,
-    private segment: SegmentService,
-    private dialog: MdDialog) {
+    private route: ActivatedRoute) {
     super(errorHandler, pipelines);
-  }
-
-  /**
-   * Open Dialog to informs the user about the different
-   * ways how to start a Pipelines job
-   */
-  startJob() {
-    let dialogRef: MdDialogRef<StartJobComponent>;
-    dialogRef = this.dialog.open(StartJobComponent);
-    if (dialogRef) {
-      dialogRef.componentInstance.appId = this.appId;
-    }
-    // Track button click
-    this.segment.trackEvent('ClickStartJobButton', {appId: this.appId});
   }
 
   /**

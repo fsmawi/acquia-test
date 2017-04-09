@@ -1,0 +1,32 @@
+@import "../../../assets/scss/elemental-core.scss";
+
+#actions {
+  float: right;
+  display: inline-flex;
+  margin-bottom: $rhythm-unit;
+
+  .el-iconography__label {
+    margin-top: 0.5*$rhythm-unit;
+  }
+
+  a:hover {
+    color: $color-brand-primary-9;
+
+    /deep/ svg {
+      fill: $color-brand-primary-9;
+    }
+  }
+
+  .action-icon {
+    color: $color-neutral-9;
+    margin: 0 $rhythm-unit;
+    font-size: 0.75rem;
+    font-weight: 400;
+    cursor: pointer;
+    text-align: center;
+    /deep/ svg {
+      fill: $color-neutral-6;
+    }
+
+  }
+}

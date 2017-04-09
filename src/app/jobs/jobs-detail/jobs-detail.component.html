@@ -1,10 +1,11 @@
 <div *ngIf="job" id="jobDetails" style="overflow: auto">
-  <h1 class="page-title">Job Detail</h1>
-  <a id="config-link" appIframeLink="/application/{{appId}}">View Connection Info</a>
-  <h3 class="ui-core-set-head-title">
-    <a appIframeLink="/jobs/{{appId}}">Jobs </a>
-    {{job ? '> #' + (job.job_id | slice:0:8) : ''}}
-  </h3>
+
+  <app-action-header [appId]="appId"
+                     [job]="job"
+                     [showViewInfo]="true"
+                     [showOpenEnvironment]="job?.isFinished && job.metadata?.deployment_link"
+                     [showStopJob]="job?.isUnfinished" ></app-action-header>
+
   <app-job-summary *ngIf="job && appId"
                    [isProgressBarRequired]="false"
                    [isJobNavigationRequired]="false"

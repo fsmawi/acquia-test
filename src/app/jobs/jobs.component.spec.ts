@@ -105,8 +105,8 @@ describe('JobsComponent', () => {
         RouterTestingModule,
         CoreModule,
         MomentModule,
-        SharedModule,
         ElementalModule,
+        SharedModule,
         FormsModule
       ]
     })
@@ -140,12 +140,6 @@ describe('JobsComponent', () => {
     const compiled = fixture.debugElement.nativeElement;
     expect(compiled.querySelector('app-no-jobs')).toBeTruthy();
   })));
-
-  it('should open modal', inject([MdDialog], (dialog) => {
-    spyOn(dialog, 'open');
-    component.startJob();
-    expect(dialog.open).toHaveBeenCalled();
-  }));
 
   it('should not show the filter input when jobs are not available', fakeAsync(inject([], () => {
     component.appId = 'app-with-out-jobs';
@@ -261,7 +255,5 @@ describe('JobsComponent', () => {
     expect(component.getStatusFromFilterText('errored')).toEqual('failure');
     expect(component.getStatusFromFilterText('random text')).toEqual('');
   });
-
-
 
 });

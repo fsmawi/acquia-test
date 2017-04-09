@@ -2,25 +2,27 @@
 import {async, ComponentFixture, TestBed, inject, fakeAsync, tick} from '@angular/core/testing';
 import {By} from '@angular/platform-browser';
 import {DebugElement} from '@angular/core';
-import {MaterialModule} from '@angular/material';
+import {MdDialog, MaterialModule} from '@angular/material';
+import {FormsModule} from '@angular/forms';
 import {RouterTestingModule} from '@angular/router/testing';
+import {ObservableMedia} from '@angular/flex-layout';
 
 import {MomentModule} from 'angular2-moment';
 
+import {ActionHeaderComponent} from './action-header.component';
 import {PipelinesService} from '../../core/services/pipelines.service';
 import {ErrorService} from '../../core/services/error.service';
 import {Job} from '../../core/models/job';
 import {JobLog} from '../../core/models/job-log';
-import {AnsiService} from '../../core/services/ansi.service';
 import {SegmentService} from '../../core/services/segment.service';
-import {ElementalModule} from '../../elemental/elemental.module';
-import {JobsDetailComponent} from './jobs-detail.component';
-import {JobSummaryComponent} from '../job-summary/job-summary.component';
-import {SharedModule} from '../../shared/shared.module';
 import {FlashMessageService} from '../../core/services/flash-message.service';
-import {WebSocketService} from '../../core/services/web-socket.service';
 import {ConfirmationModalService} from '../../core/services/confirmation-modal.service';
 import {LiftService} from '../../core/services/lift.service';
+import {ElementalModule} from '../../elemental/elemental.module';
+import {StartJobComponent} from '../../jobs/start-job/start-job.component';
+import {IframeLinkDirective} from '../directives/iframe-link.directive';
+import {LiftDirective} from '../directives/lift.directive';
+import {SegmentDirective} from '../directives/segment.directive';
 
 class MockLiftService {
   captureEvent(eventName: string, eventData: Object) {
@@ -124,11 +126,6 @@ class MockPipelinesService {
   }
 }
 
-class MockSegmentService {
-  page() {
-  }
-}
-
 class MockFlashMessage {
   showError(message: string, e: any) {
     return true;
@@ -139,70 +136,41 @@ class MockFlashMessage {
   }
 }
 
-class MockWebSocketService {
-  socket = {
-    subscribe: (fn) => {
-      fn({name: 'connected'});
-      fn({name: 'list-available', argument: {items: [{type: 'log'}]}});
-      fn({name: 'line', argument: {unix_time: 0, text: 'Pipelines log message'}});
-      fn({name: 'close'});
-    },
-    send: () => {
-    }
-  };
-
-  connect() {
-    return this.socket;
-  }
-}
-
-class MockWebSocketServiceFailure {
-  socket = {
-    subscribe: (fn) => {
-      fn({name: 'error', argument: 'Too bad, so sad'});
-    },
-    send: () => {
-    }
-  };
-
-  connect() {
-    return this.socket;
-  }
-}
-
-describe('JobsDetailComponent', () => {
-  let component: JobsDetailComponent;
-  let fixture: ComponentFixture<JobsDetailComponent>;
+describe('HeaderComponent', () => {
+  let component: ActionHeaderComponent;
+  let fixture: ComponentFixture<ActionHeaderComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        JobsDetailComponent,
-        JobSummaryComponent
+        ActionHeaderComponent,
+        StartJobComponent,
+        IframeLinkDirective,
+        LiftDirective,
+        SegmentDirective
+      ],
+      providers: [
+        {provide: PipelinesService, useClass: MockPipelinesService},
+        {provide: ConfirmationModalService, useClass: MockConfirmationModalService},
+        {provide: LiftService, useClass: MockLiftService},
+        {provide: FlashMessageService, useClass: MockFlashMessage},
+        SegmentService,
+        ErrorService,
+        ObservableMedia
       ],
       imports: [
         MaterialModule.forRoot(),
         MomentModule,
         RouterTestingModule,
         ElementalModule,
-        SharedModule
+        FormsModule
       ],
-      providers: [
-        {provide: PipelinesService, useClass: MockPipelinesService},
-        {provide: SegmentService, useClass: MockSegmentService},
-        {provide: WebSocketService, useClass: MockWebSocketService},
-        {provide: ConfirmationModalService, useClass: MockConfirmationModalService},
-        {provide: LiftService, useClass: MockLiftService},
-        {provide: FlashMessageService, useClass: MockFlashMessage},
-        AnsiService,
-        ErrorService
-      ]
     })
       .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(JobsDetailComponent);
+    fixture = TestBed.createComponent(ActionHeaderComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -211,46 +179,31 @@ describe('JobsDetailComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should show job details for a successful job', fakeAsync(inject([], () => {
-    component.refresh();
+  it('should stop job', fakeAsync(inject([], () => {
+    const job = new Job({
+      job_id: 'job-id',
+      sitename: 'sitename',
+      pipeline_id: 'pipeline-id',
+      branch: 'master',
+      commit: 'commit',
+      status: 'succeeded',
+      requested_by: 'user@acquia.com',
+      requested_at: 1462297477,
+      started_at: 1462297477,
+      finished_at: 1462297477,
+      duration: 90000,
+      output: '',
+      exit_message: ''
+    });
+    component.stopJob(job);
     tick();
     fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('.logs').innerHTML).toContain('success');
+    expect(component).toBeTruthy();
   })));
 
-  it('should show job details for a failed job', fakeAsync(inject([], () => {
-    component.jobId = 'failed';
-    component.refresh();
-    tick();
-    fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('.logs').innerHTML).toContain('failure');
-  })));
-
-  it('should stream logs for an in progress job', fakeAsync(inject([], () => {
-    component.jobId = 'current';
-    component.refresh();
-    tick();
-    fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('.logs').innerHTML).toContain('Pipelines log message');
-  })));
-
-  it('should fail to stream logs for an in progress job', fakeAsync(inject([WebSocketService], (ws: MockWebSocketService) => {
-    component.jobId = 'current';
-    ws.socket = new MockWebSocketServiceFailure().socket;
-    component.refresh();
-    tick();
-    fixture.detectChanges();
-    expect(component.streaming).toBe(false);
-  })));
-
-  it('should toggle a chunk for showing', fakeAsync(() => {
-    const chunk = {
-      visible: false
-    };
-    component.showChunk(chunk);
-    expect(chunk.visible).toBe(true);
+  it('should open modal', inject([MdDialog], (dialog) => {
+    spyOn(dialog, 'open');
+    component.startJob();
+    expect(dialog.open).toHaveBeenCalled();
   }));
 });

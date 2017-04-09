@@ -1,0 +1,66 @@
+<div id="title-bar" class="flex-container" fxLayoutAlign="space-between center" fxLayout="row">
+  <h1 id="jobs-list-header" class="page-title flex-item" *ngIf="!job">Job List</h1>
+
+  <h3 id="job-details-header" class="ui-core-set-head-title flex-item" *ngIf="job">
+    <a appIframeLink="/jobs/{{appId}}">Jobs </a>
+    {{job ? '> #' + (job.job_id | slice:0:8) : ''}}
+  </h3>
+
+  <div id="actions" class="flex-item">
+    <a id="view-applicaiton-info" class="flex-container action-icon"
+       *ngIf="showViewInfo"
+       fxLayout="column" fxLayoutAlign="center center"
+       appIframeLink="/application/{{appId}}"
+       appLiftOn="click"
+       [liftEventData]="{appId: appId}"
+       liftEventName="{{ job ? 'ClickConnectionInfoJobDetails' : 'ClickConnectionInfoJobsList' }}"
+       appSegmentOn="click"
+       [segmentEventData]="{appId: appId}"
+       segmentEventIdentifier="{{ job ? 'ClickConnectionInfoJobDetails' : 'ClickConnectionInfoJobsList' }}">
+      <e-svg-icon class="flex-item" type="actions__info"
+                  mdTooltip="{{ media.isActive('xs') ? 'View Application Info' : ''}}"
+                  mdTooltipPosition="below">
+      </e-svg-icon>
+      <span class="el-iconography__label flex-item" fxHide.xs="TRUE">View Application Info</span>
+    </a>
+    <a id="start-job" class="flex-container action-icon"
+       *ngIf="showStartJob"
+       (click)="startJob()"
+       fxLayoutAlign="center center"
+       fxLayout="column">
+      <e-svg-icon class="flex-item" type="alpha__new-app"
+                  mdTooltip="{{ media.isActive('xs') ? 'Start Job' : ''}}"
+                  mdTooltipPosition="below">
+      </e-svg-icon>
+      <span class="el-iconography__label flex-item" fxHide.xs="TRUE">Start Job</span>
+    </a>
+    <a id="open-environment" class="flex-container action-icon"
+       *ngIf="showOpenEnvironment"
+       href="{{job.metadata.deployment_link}}" target="_blank"
+       fxLayoutAlign="center center"
+       fxLayout="column">
+      <e-svg-icon class="flex-item" type="alpha__globe"
+                  mdTooltip="{{ media.isActive('xs') ? 'Open Environment' : ''}}"
+                  mdTooltipPosition="below">
+      </e-svg-icon>
+      <span class="el-iconography__label flex-item" fxHide.xs="TRUE">Open Environment</span>
+    </a>
+    <a id="terminate-job" class="flex-container action-icon"
+       *ngIf="showStopJob"
+       (click)="stopJob(job)"
+       appLiftOn="click"
+       [liftEventData]="{appId: appId}"
+       liftEventName="ClickStopJobJobDetails"
+       appSegmentOn="click"
+       [segmentEventData]="{appId: appId, jobId: job.job_id}"
+       segmentEventIdentifier="ClickStopJobJobDetails"
+       fxLayoutAlign="center center"
+       fxLayout="column">
+      <e-svg-icon class="flex-item" type="actions__close--circle"
+                  mdTooltip="{{ media.isActive('xs') ? 'Terminate Job' : ''}}"
+                  mdTooltipPosition="below">
+      </e-svg-icon>
+      <span class="el-iconography__label flex-item" fxHide.xs="TRUE">Terminate Job</span>
+    </a>
+  </div>
+</div>
