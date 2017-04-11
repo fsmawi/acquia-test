@@ -115,8 +115,8 @@ export class JobsDetailComponent implements OnInit, OnDestroy {
         this.jobId = params['id'];
 
         // clear refresh if needed
-        if (this.timer) {
-          this.timer.unsubscribe();
+        if (this.timer && this.sub) {
+          this.sub.unsubscribe();
         }
 
         // set up refresh interval
@@ -182,7 +182,7 @@ export class JobsDetailComponent implements OnInit, OnDestroy {
       .then(() => {
         // if streaming or complete, stop polling
         if (this.streaming || this.job.isFinished && this.timer) {
-          this.timer.unsubscribe();
+          this.sub.unsubscribe();
           this.timer = null;
         }
       })
