@@ -2,7 +2,7 @@
 import {ActivatedRoute, Router} from '@angular/router';
 import {async, ComponentFixture, TestBed, fakeAsync, tick, inject} from '@angular/core/testing';
 import {BaseRequestOptions, Http, ResponseOptions, Response} from '@angular/http';
-import {By} from '@angular/platform-browser';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {DebugElement} from '@angular/core';
 import {EventEmitter} from '@angular/core';
 import {MaterialModule} from '@angular/material';
@@ -77,10 +77,11 @@ describe('AuthAcquiaComponent', () => {
         MaterialModule.forRoot(),
         RouterTestingModule,
         ElementalModule,
-        SharedModule
+        SharedModule,
+        BrowserAnimationsModule
       ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -96,27 +97,27 @@ describe('AuthAcquiaComponent', () => {
   it('should get git info using pipeline service',
     fakeAsync(inject([ActivatedRoute, MockBackend], (route, mockBackend) => {
 
-    setupConnections(mockBackend, {
-      body: JSON.stringify({
-        repo_url: 'https://github.com/acquia/repo1.git',
-        repo_name: 'acquia/repo1',
-        repo_type: 'github'
-      })
-    });
+      setupConnections(mockBackend, {
+        body: JSON.stringify({
+          repo_url: 'https://github.com/acquia/repo1.git',
+          repo_name: 'acquia/repo1',
+          repo_type: 'github'
+        })
+      });
 
-    component.getConfigurationInfo();
-    tick();
-    fixture.detectChanges();
-    expect(component.isConnected).toEqual(false);
-    expect(component.repository).toEqual('acquia/repo1');
-  })));
+      component.getConfigurationInfo();
+      tick();
+      fixture.detectChanges();
+      expect(component.isConnected).toEqual(false);
+      expect(component.repository).toEqual('acquia/repo1');
+    })));
 
   it('should show an error alert when the service is throwing error',
     fakeAsync(inject([ActivatedRoute], (route) => {
 
       spyOn(component, 'showConnectionAlert');
 
-      spyOn(component, 'getInfo').and.callFake(function() {
+      spyOn(component, 'getInfo').and.callFake(function () {
         return Promise.reject({status: 500, _body: 'some error.'});
       });
 
@@ -125,7 +126,7 @@ describe('AuthAcquiaComponent', () => {
       expect(component.showConnectionAlert).toHaveBeenCalledWith('danger', '500 : some error.');
     })));
 
-  it('should open start job modal',  inject([MdDialog], (dialog) => {
+  it('should open start job modal', inject([MdDialog], (dialog) => {
     spyOn(dialog, 'open');
     component.startJob();
     expect(dialog.open).toHaveBeenCalled();
@@ -134,16 +135,16 @@ describe('AuthAcquiaComponent', () => {
   it('should enable Acquia Git',
     fakeAsync(inject([ActivatedRoute, MockBackend], (route, mockBackend) => {
 
-     setupConnections(mockBackend, {
-      body: JSON.stringify({
-        success: true
-      })
-    });
+      setupConnections(mockBackend, {
+        body: JSON.stringify({
+          success: true
+        })
+      });
 
-    spyOn(component, 'refresh');
+      spyOn(component, 'refresh');
 
-    component.enableAcquiaGit();
-    tick();
-    expect(component.refresh).toHaveBeenCalled();
-  })));
+      component.enableAcquiaGit();
+      tick();
+      expect(component.refresh).toHaveBeenCalled();
+    })));
 });

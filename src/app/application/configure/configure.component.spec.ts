@@ -2,7 +2,7 @@
 import {ActivatedRoute, Router} from '@angular/router';
 import {async, ComponentFixture, TestBed, fakeAsync, tick, inject} from '@angular/core/testing';
 import {BaseRequestOptions, Http, ResponseOptions, Response} from '@angular/http';
-import {By} from '@angular/platform-browser';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {DebugElement} from '@angular/core';
 import {EventEmitter} from '@angular/core';
 import {MdDialog} from '@angular/material';
@@ -96,7 +96,8 @@ describe('ConfigureComponent', () => {
       imports: [
         ElementalModule,
         SharedModule,
-        RouterTestingModule
+        RouterTestingModule,
+        BrowserAnimationsModule
       ]
     })
     .compileComponents();

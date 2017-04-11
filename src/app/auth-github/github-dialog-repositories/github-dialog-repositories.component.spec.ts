@@ -8,6 +8,7 @@ import {HttpModule, BaseRequestOptions, Http, ResponseOptions, Response, Request
 import {MdDialogModule, MdDialog, OverlayContainer, MaterialModule} from '@angular/material';
 import {MockBackend} from '@angular/http/testing';
 import {RouterTestingModule} from '@angular/router/testing';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import {ElementalModule} from '../../elemental/elemental.module';
 import {ErrorService} from '../../core/services/error.service';
@@ -21,7 +22,8 @@ import {RepositoryFilterPipe} from './repository-filter.pipe';
   entryComponents: [GithubDialogRepositoriesComponent],
   imports: [MdDialogModule.forRoot(), ElementalModule, CommonModule, FormsModule, MaterialModule],
 })
-class DialogTestModule { }
+class DialogTestModule {
+}
 
 describe('GithubDialogRepositoriesComponent', () => {
   let component: GithubDialogRepositoriesComponent;
@@ -30,7 +32,7 @@ describe('GithubDialogRepositoriesComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [DialogTestModule, RouterTestingModule],
+      imports: [DialogTestModule, RouterTestingModule, BrowserAnimationsModule],
       providers: [
         PipelinesService,
         ErrorService,
@@ -46,13 +48,13 @@ describe('GithubDialogRepositoriesComponent', () => {
         RepositoryFilterPipe,
         {
           provide: OverlayContainer, useFactory: () => {
-            overlayContainerElement = document.createElement('div');
-            return { getContainerElement: () => overlayContainerElement };
-          }
+          overlayContainerElement = document.createElement('div');
+          return {getContainerElement: () => overlayContainerElement};
+        }
         }
       ],
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

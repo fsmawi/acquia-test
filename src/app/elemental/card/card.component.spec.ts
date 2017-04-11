@@ -1,6 +1,6 @@
 /* tslint:disable:no-unused-variable */
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {By} from '@angular/platform-browser';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {DebugElement} from '@angular/core';
 
 import {CardComponent} from './card.component';
@@ -11,7 +11,8 @@ describe('CardComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [CardComponent]
+      declarations: [CardComponent],
+      imports: [BrowserAnimationsModule]
     })
       .compileComponents();
   }));

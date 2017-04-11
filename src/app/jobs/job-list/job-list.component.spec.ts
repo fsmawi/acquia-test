@@ -4,7 +4,7 @@ import {By} from '@angular/platform-browser';
 import {DebugElement} from '@angular/core';
 import {MaterialModule} from '@angular/material';
 import {RouterModule} from '@angular/router';
-import {RouterTestingModule} from '@angular/router/testing/router_testing_module';
+import {RouterTestingModule} from '@angular/router/testing';
 
 import {MomentModule} from 'angular2-moment';
 

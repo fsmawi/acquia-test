@@ -6,6 +6,7 @@ import {DebugElement, NgModule} from '@angular/core';
 import {MdDialogModule, MdDialog} from '@angular/material';
 import {FormsModule} from '@angular/forms';
 import {RouterTestingModule} from '@angular/router/testing';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import {ElementalModule} from '../../elemental/elemental.module';
 import {StartJobComponent} from './start-job.component';
@@ -56,7 +57,8 @@ class MockFlashMessage {
     ElementalModule,
     CommonModule,
     SharedModule,
-    FormsModule
+    FormsModule,
+    BrowserAnimationsModule
   ]
 })
 class DialogTestModule { }

@@ -6,6 +6,7 @@ import {EventEmitter} from '@angular/core';
 import {MaterialModule} from '@angular/material';
 import {MockBackend} from '@angular/http/testing';
 import {RouterTestingModule} from '@angular/router/testing';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import {ApplicationComponent} from './application.component';
 import {ConfirmationModalService} from '../core/services/confirmation-modal.service';
@@ -97,7 +98,8 @@ describe('ApplicationComponent', () => {
         MaterialModule.forRoot(),
         ElementalModule,
         SharedModule,
-        RouterTestingModule
+        RouterTestingModule,
+        BrowserAnimationsModule
       ]
     })
       .compileComponents();
@@ -116,27 +118,27 @@ describe('ApplicationComponent', () => {
   it('should get application info using pipeline service',
     fakeAsync(inject([ActivatedRoute, MockBackend], (route, mockBackend) => {
 
-    setupConnections(mockBackend, {
-      body: JSON.stringify({
-        repo_url: 'https://github.com/acquia/repo1.git',
-        repo_name: 'acquia/repo1',
-        repo_type: 'github'
-      })
-    });
+      setupConnections(mockBackend, {
+        body: JSON.stringify({
+          repo_url: 'https://github.com/acquia/repo1.git',
+          repo_name: 'acquia/repo1',
+          repo_type: 'github'
+        })
+      });
 
-    component.getConfigurationInfo();
-    tick();
-    fixture.detectChanges();
-    expect(component.gitUrl).toEqual('https://github.com/acquia/repo1.git');
-    expect(component.gitClone).toEqual('git clone --branch [branch] https://github.com/acquia/repo1.git [destination]');
-  })));
+      component.getConfigurationInfo();
+      tick();
+      fixture.detectChanges();
+      expect(component.gitUrl).toEqual('https://github.com/acquia/repo1.git');
+      expect(component.gitClone).toEqual('git clone --branch [branch] https://github.com/acquia/repo1.git [destination]');
+    })));
 
   it('should show an error message when the service is throwing error',
     fakeAsync(inject([ActivatedRoute, FlashMessageService, MockBackend], (route, flashMessage, mockBackend) => {
 
       spyOn(flashMessage, 'showError');
 
-      spyOn(component, 'getInfo').and.callFake(function() {
+      spyOn(component, 'getInfo').and.callFake(function () {
         return Promise.reject({status: 500, _body: 'some error.'});
       });
 

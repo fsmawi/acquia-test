@@ -1,6 +1,8 @@
 import {Component, OnInit, OnDestroy, ElementRef, ViewChild} from '@angular/core';
 import {ActivatedRoute, Params} from '@angular/router';
 
+import {Observable, Subscription} from 'rxjs/Rx';
+
 import {Job} from '../../core/models/job';
 import {PipelinesService} from '../../core/services/pipelines.service';
 import {ErrorService} from '../../core/services/error.service';
@@ -45,6 +47,11 @@ export class JobsDetailComponent implements OnInit, OnDestroy {
   timer: any;
 
   /**
+   * Subscription for the timer
+   */
+  sub: Subscription;
+
+  /**
    * Loading Indicator
    * @type {boolean}
    */
@@ -72,13 +79,11 @@ export class JobsDetailComponent implements OnInit, OnDestroy {
    */
   socket: WebSocketHandler;
 
-
   /**
    * Hold the reference for the logs div
    */
   @ViewChild('logsContainer')
   logsElement: ElementRef;
-
 
   /**
    * Builds the component
@@ -111,13 +116,12 @@ export class JobsDetailComponent implements OnInit, OnDestroy {
 
         // clear refresh if needed
         if (this.timer) {
-          clearInterval(this.timer);
+          this.timer.unsubscribe();
         }
 
         // set up refresh interval
-        this.timer = setInterval(() => {
-          this.refresh.call(this);
-        }, 5000);
+        this.timer = Observable.timer(1, 5000);
+        this.sub = this.timer.subscribe(() => this.refresh.call(this));
 
         // initial refresh
         this.refresh();
@@ -133,7 +137,8 @@ export class JobsDetailComponent implements OnInit, OnDestroy {
    */
   ngOnDestroy() {
     if (this.timer) {
-      clearInterval(this.timer);
+      this.sub.unsubscribe();
+      this.timer = null;
     }
   }
 
@@ -177,14 +182,18 @@ export class JobsDetailComponent implements OnInit, OnDestroy {
       .then(() => {
         // if streaming or complete, stop polling
         if (this.streaming || this.job.isFinished && this.timer) {
-          clearInterval(this.timer);
+          this.timer.unsubscribe();
           this.timer = null;
         }
       })
       .catch(e =>
         this.errorHandler
           .apiError(e)
-          .reportError(e, 'FailedToGetJobDetail', {component: 'jobs-detail', appId: this.appId, jobId: this.jobId}, 'error')
+          .reportError(e, 'FailedToGetJobDetail', {
+            component: 'jobs-detail',
+            appId: this.appId,
+            jobId: this.jobId
+          }, 'error')
           .showError('Job list', '/jobs/' + this.appId))
       .then(() => {
         this.loadingJob = false;
@@ -208,7 +217,11 @@ export class JobsDetailComponent implements OnInit, OnDestroy {
         this.loadingLogs = false;
       })
       .catch(e =>
-         this.errorHandler.reportError(e, 'FailedToGetJobLogs', {component: 'jobs-detail', appId: this.appId, jobId: this.jobId}, 'error')
+        this.errorHandler.reportError(e, 'FailedToGetJobLogs', {
+          component: 'jobs-detail',
+          appId: this.appId,
+          jobId: this.jobId
+        }, 'error')
       );
   }
 

@@ -3,6 +3,7 @@ import {Component, OnInit, OnDestroy} from '@angular/core';
 import {MdDialog, MdDialogRef} from '@angular/material';
 
 import {Subject} from 'rxjs/Subject';
+import {Observable} from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/debounceTime';
 
@@ -103,13 +104,11 @@ export class JobsComponent extends BaseApplication implements OnInit, OnDestroy 
   ngOnInit() {
     this.route.params.subscribe(params => {
       if (this.interval) {
-        clearInterval(this.interval);
+        this.interval.unsubscribe();
       }
       this.appId = params['app'];
       this._appId = params['app'];
-      this.interval = setInterval(() => {
-        this.getJobs();
-      }, 10000);
+      this.interval = Observable.timer(1, 10000).subscribe(() => this.getJobs());
 
       // run right away
       this.getJobs();
@@ -135,7 +134,7 @@ export class JobsComponent extends BaseApplication implements OnInit, OnDestroy 
    */
   ngOnDestroy() {
     if (this.interval) {
-      clearInterval(this.interval);
+      this.interval.unsubscribe();
     }
   }
 
@@ -174,7 +173,7 @@ export class JobsComponent extends BaseApplication implements OnInit, OnDestroy 
 
           // Case 2 : Check if the user is searching for 'success' or 'failed' jobs
           if (status !== '') {
-            if (((status === 'success' && job.isSucceeded)  || (status === 'failure' && job.isFailed))) {
+            if (((status === 'success' && job.isSucceeded) || (status === 'failure' && job.isFailed))) {
               filterByStatusMatch = true;
             }
           }
@@ -191,9 +190,9 @@ export class JobsComponent extends BaseApplication implements OnInit, OnDestroy 
           // Case 2 : Check if the user is searching for 'success' or 'failed' jobs
           // Case 3 : Check if the user is searching for any trigger type
           return ((job.branch.toLowerCase().indexOf(filterTextLowerCase) > -1 || filterByPRNameMatch) || // Case 1
-            (job.status.toLowerCase().indexOf(filterTextLowerCase) > -1 || filterByStatusMatch) || // Case 2
-            filterByTriggerMatch); // Case 3
-            }) : [];
+          (job.status.toLowerCase().indexOf(filterTextLowerCase) > -1 || filterByStatusMatch) || // Case 2
+          filterByTriggerMatch); // Case 3
+        }) : [];
     }
   }
 
@@ -212,7 +211,7 @@ export class JobsComponent extends BaseApplication implements OnInit, OnDestroy 
       case 'push':
         return 'push';
       case 'manual':
-        return'manual';
+        return 'manual';
       default:
         return '';
     }
@@ -239,7 +238,6 @@ export class JobsComponent extends BaseApplication implements OnInit, OnDestroy 
         return '';
     }
   }
-
 
   /**
    * Load the job list

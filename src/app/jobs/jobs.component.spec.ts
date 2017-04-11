@@ -1,6 +1,6 @@
 /* tslint:disable:no-unused-variable */
 import {async, ComponentFixture, TestBed, inject, fakeAsync, tick, discardPeriodicTasks} from '@angular/core/testing';
-import {By} from '@angular/platform-browser';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {DebugElement} from '@angular/core';
 import {MaterialModule} from '@angular/material';
 import {MdDialog} from '@angular/material';
@@ -107,6 +107,8 @@ describe('JobsComponent', () => {
         MomentModule,
         ElementalModule,
         SharedModule,
+        ElementalModule,
+        BrowserAnimationsModule,
         FormsModule
       ]
     })
@@ -116,6 +118,7 @@ describe('JobsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(JobsComponent);
     component = fixture.componentInstance;
+    component._appId = 'default';
     fixture.detectChanges();
   });
 
@@ -124,7 +127,7 @@ describe('JobsComponent', () => {
   });
 
   it('should show no jobs message.', fakeAsync(inject([], () => {
-    component.appId = 'app-with-out-jobs';
+    component._appId = 'app-with-out-jobs';
     component.getJobs();
     tick();
     fixture.detectChanges();
@@ -133,7 +136,7 @@ describe('JobsComponent', () => {
   })));
 
   it('should show no jobs component.', fakeAsync(inject([], () => {
-    component.appId = 'app-with-out-jobs';
+    component._appId = 'app-with-out-jobs';
     component.getJobs();
     tick();
     fixture.detectChanges();
@@ -142,15 +145,15 @@ describe('JobsComponent', () => {
   })));
 
   it('should not show the filter input when jobs are not available', fakeAsync(inject([], () => {
-    component.appId = 'app-with-out-jobs';
+    component._appId = 'app-with-out-jobs';
     component.getJobs();
+    tick();
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
     expect(component.filteredJobs.length).toEqual(0);
 
     fixture.detectChanges();
     expect(compiled.querySelector('#filtered-text')).toBeFalsy();
-
   })));
 
   it('should filter the jobs shown.', () => {

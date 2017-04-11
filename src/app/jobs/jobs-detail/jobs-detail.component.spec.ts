@@ -1,6 +1,6 @@
 /* tslint:disable:no-unused-variable */
-import {async, ComponentFixture, TestBed, inject, fakeAsync, tick} from '@angular/core/testing';
-import {By} from '@angular/platform-browser';
+import {async, ComponentFixture, TestBed, inject, fakeAsync, tick, discardPeriodicTasks} from '@angular/core/testing';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {DebugElement} from '@angular/core';
 import {MaterialModule} from '@angular/material';
 import {RouterTestingModule} from '@angular/router/testing';
@@ -185,7 +185,8 @@ describe('JobsDetailComponent', () => {
         MomentModule,
         RouterTestingModule,
         ElementalModule,
-        SharedModule
+        SharedModule,
+        BrowserAnimationsModule
       ],
       providers: [
         {provide: PipelinesService, useClass: MockPipelinesService},
@@ -207,11 +208,13 @@ describe('JobsDetailComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create', fakeAsync(() => {
     expect(component).toBeTruthy();
-  });
+    tick();
+  }));
 
   it('should show job details for a successful job', fakeAsync(inject([], () => {
+    component.jobId = 'success';
     component.refresh();
     tick();
     fixture.detectChanges();
@@ -252,5 +255,6 @@ describe('JobsDetailComponent', () => {
     };
     component.showChunk(chunk);
     expect(chunk.visible).toBe(true);
+    tick();
   }));
 });
