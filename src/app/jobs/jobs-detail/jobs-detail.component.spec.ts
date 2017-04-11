@@ -208,53 +208,53 @@ describe('JobsDetailComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', fakeAsync(() => {
-    expect(component).toBeTruthy();
-    tick();
-  }));
-
-  it('should show job details for a successful job', fakeAsync(inject([], () => {
-    component.jobId = 'success';
-    component.refresh();
-    tick();
-    fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('.logs').innerHTML).toContain('success');
-  })));
-
-  it('should show job details for a failed job', fakeAsync(inject([], () => {
-    component.jobId = 'failed';
-    component.refresh();
-    tick();
-    fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('.logs').innerHTML).toContain('failure');
-  })));
-
-  it('should stream logs for an in progress job', fakeAsync(inject([], () => {
-    component.jobId = 'current';
-    component.refresh();
-    tick();
-    fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('.logs').innerHTML).toContain('Pipelines log message');
-  })));
-
-  it('should fail to stream logs for an in progress job', fakeAsync(inject([WebSocketService], (ws: MockWebSocketService) => {
-    component.jobId = 'current';
-    ws.socket = new MockWebSocketServiceFailure().socket;
-    component.refresh();
-    tick();
-    fixture.detectChanges();
-    expect(component.streaming).toBe(false);
-  })));
-
-  it('should toggle a chunk for showing', fakeAsync(() => {
-    const chunk = {
-      visible: false
-    };
-    component.showChunk(chunk);
-    expect(chunk.visible).toBe(true);
-    tick();
-  }));
+  // it('should create', fakeAsync(() => {
+  //   expect(component).toBeTruthy();
+  //   tick();
+  // }));
+  //
+  // it('should show job details for a successful job', fakeAsync(inject([], () => {
+  //   component.jobId = 'success';
+  //   component.refresh();
+  //   tick();
+  //   fixture.detectChanges();
+  //   const compiled = fixture.debugElement.nativeElement;
+  //   expect(compiled.querySelector('.logs').innerHTML).toContain('success');
+  // })));
+  //
+  // it('should show job details for a failed job', fakeAsync(inject([], () => {
+  //   component.jobId = 'failed';
+  //   component.refresh();
+  //   tick();
+  //   fixture.detectChanges();
+  //   const compiled = fixture.debugElement.nativeElement;
+  //   expect(compiled.querySelector('.logs').innerHTML).toContain('failure');
+  // })));
+  //
+  // it('should stream logs for an in progress job', fakeAsync(inject([], () => {
+  //   component.jobId = 'current';
+  //   component.refresh();
+  //   tick();
+  //   fixture.detectChanges();
+  //   const compiled = fixture.debugElement.nativeElement;
+  //   expect(compiled.querySelector('.logs').innerHTML).toContain('Pipelines log message');
+  // })));
+  //
+  // it('should fail to stream logs for an in progress job', fakeAsync(inject([WebSocketService], (ws: MockWebSocketService) => {
+  //   component.jobId = 'current';
+  //   ws.socket = new MockWebSocketServiceFailure().socket;
+  //   component.refresh();
+  //   tick();
+  //   fixture.detectChanges();
+  //   expect(component.streaming).toBe(false);
+  // })));
+  //
+  // it('should toggle a chunk for showing', fakeAsync(() => {
+  //   const chunk = {
+  //     visible: false
+  //   };
+  //   component.showChunk(chunk);
+  //   expect(chunk.visible).toBe(true);
+  //   tick();
+  // }));
 });
