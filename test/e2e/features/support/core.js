@@ -47,7 +47,7 @@ exports.bootstrap = function (browser) {
   browser._url = function (url, params) {
     let options = {pauseAfter: 5000};
     Object.assign(options, params || {});
-    return browser.url(url).then(()=> browser.pause(options.pauseAfter)).then(() => screenshot(createTimeName('url', url)));
+    return browser.url(url).then(() => browser.pause(options.pauseAfter)).then(() => screenshot(createTimeName('url', url)));
   };
 
   /**
@@ -64,7 +64,7 @@ exports.bootstrap = function (browser) {
       .click(selector)
       .pause(500)
       .catch((e) => {
-		    if (e.message.includes('Other element would receive the click')) {
+        if (e.message.includes('Other element would receive the click')) {
           return browser._wait(10, 'seconds', 'waiting for the element to load completely')
             .then(() => { return browser.click(selector).pause(500) });
         }
@@ -106,14 +106,16 @@ exports.bootstrap = function (browser) {
       console.log('expected URL: ', expectedUrl);
       return browser.getUrl()
         .then((url) => {
+          url = url.replace('http://', 'https://');
+          expectedUrl = expectedUrl.replace('http://', 'https://');
           console.log('actual URL: ', url);
           return expect(url).to.be.equal(expectedUrl);
-        })
+        });
     }, 15000, 'expected url not found after 15 secs')
-    .catch((e) => {
-      return screenshot(createTimeName('get-url-error', expectedUrl))
-        .then(() => Promise.reject(e));
-    });
+      .catch((e) => {
+        return screenshot(createTimeName('get-url-error', expectedUrl))
+          .then(() => Promise.reject(e));
+      });
   };
 
   /**
