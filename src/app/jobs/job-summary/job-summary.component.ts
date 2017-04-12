@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, OnDestroy} from '@angular/core';
+import {Component, OnInit, Input, OnDestroy, OnChanges} from '@angular/core';
 
 import * as moment from 'moment';
 import {Subscription, Observable} from 'rxjs/Rx';
@@ -6,13 +6,12 @@ import {Subscription, Observable} from 'rxjs/Rx';
 import {environment} from '../../../environments/environment';
 import {Job} from '../../core/models/job';
 
-
 @Component({
   selector: 'app-job-summary',
   templateUrl: 'job-summary.component.html',
   styleUrls: ['job-summary.component.scss']
 })
-export class JobSummaryComponent implements OnInit, OnDestroy {
+export class JobSummaryComponent implements OnInit, OnDestroy, OnChanges {
 
   /**
    * If in production environment
@@ -82,7 +81,12 @@ export class JobSummaryComponent implements OnInit, OnDestroy {
     } else {
       this.cloudUrl = `/jobs/${this.appId}`;
     }
+  }
 
+  /**
+   * Catch live changes and update the timer
+   */
+  ngOnChanges() {
     if (this.job && this.job.isUnfinished && !this.timer) {
       // use a timer for consistent updates
       this.timer = Observable.timer(1, 1000).subscribe(() => this.calculateDuration());
