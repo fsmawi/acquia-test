@@ -1,10 +1,8 @@
 const exec = require('child_process').exec;
 const request = require('superagent');
 const path = require('path');
+const sendNotification = require('./helper').sendNotification;
 
-// Hipchat paramerters
-const accessToken = process.env.PIPELINES_HIPCHAT_TOKEN;
-const roomId = encodeURIComponent(process.env.PIPELINES_HIPCHAT_ROOM);
 const branch = process.env.DEPLOY_VCS_PATH;
 const appId = process.env.PIPELINE_APPLICATION_ID;
 const jobId = process.env.PIPELINE_JOB_ID;
@@ -14,7 +12,7 @@ const step = process.argv.slice(2)[0];
 const command = process.argv.slice(2)[1];
 const directory = process.argv.slice(2)[2];
 
-if(!command) {
+if (!command) {
   switch(step) {
     case 'start':
       return sendNotification('green', `Starting job ${jobId} for ${branch}.`);
@@ -58,29 +56,3 @@ function executeCommand() {
     }
   });
 }
-
-/**
- * Send sample notification to Hipchat
- * @param  color
- * @param  message
- * @return Promise
- */
-function sendNotification(color, message) {
-  return new Promise((resolve, reject) => {
-    let url = `https://acquia.hipchat.com/v2/room/${roomId}/notification?auth_token=${accessToken}`;
-    request.post(url)
-      .send({
-        color: color,
-        message_format: 'text',
-        message: message,
-      })
-      .end((error, res) => {
-        if (error) {
-          return reject(error);
-        } else {
-          return resolve(res);
-        }
-      });
-  });
-}
-

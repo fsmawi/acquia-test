@@ -10,23 +10,19 @@ git log -1 --pretty=%B
 if [ $1 == "master" ] && git log -1 --pretty=%B | grep -q -E "(feat\(|fix\(|refactor\()"
 then
  git --version
- git config core.sshCommand "ssh -i ~/.ssh/write-key -F /dev/null"
- git config user.email "pipelines-cd@no-emails.com" 
- git config user.name "Pipelines CD"
- git reset --hard HEAD
- git checkout $1
- npm version patch
- git push origin $1
  #workaround: do a full clone and merge master into staging
  cd $SOURCE_DIR/../
  mkdir source_copy
  git clone git@github.com:acquia/pipelines-ui.git source_copy
  cd source_copy
- git fetch --all
- git checkout staging
- echo "merging changes from master into staging overwriting any conflicts with master"
  git config user.email "pipelines-cd@no-emails.com"
  git config user.name "Pipelines CD"
+ git fetch --all
+ git checkout master
+ node $SOURCE_DIR/scripts/jira-create-version-pipelines-ui.js
+ git push origin master
+ git checkout staging
+ echo "merging changes from master into staging overwriting any conflicts with master"
  git merge origin/master -X theirs -m "Staging Release"
  echo "pushing to staging"
  git push origin staging
@@ -44,4 +40,5 @@ then
  git config user.name "Pipelines CD"
  git merge origin/staging -X theirs -m "Production release"
  git push origin production
+ node $SOURCE_DIR/scripts/jira-release-versions-pipelines-ui.js
 fi
