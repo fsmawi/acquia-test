@@ -11,6 +11,7 @@ import {SegmentDirective} from './directives/segment.directive';
 import {LogChunksPipe} from './pipes/log-chunks.pipe';
 import {LiftDirective} from './directives/lift.directive';
 import {ActionHeaderComponent} from './action-header/action-header.component';
+import {TopLevelNavigationComponent} from './top-level-navigation/top-level-navigation.component';
 
 @NgModule({
   imports: [
@@ -26,7 +27,8 @@ import {ActionHeaderComponent} from './action-header/action-header.component';
     LogChunksPipe,
     IframeLinkDirective,
     LiftDirective,
-    ActionHeaderComponent
+    ActionHeaderComponent,
+    TopLevelNavigationComponent
   ],
   exports: [
     JobStatusComponent,
@@ -35,7 +37,8 @@ import {ActionHeaderComponent} from './action-header/action-header.component';
     LogChunksPipe,
     IframeLinkDirective,
     LiftDirective,
-    ActionHeaderComponent
+    ActionHeaderComponent,
+    TopLevelNavigationComponent
   ]
 })
 export class SharedModule {

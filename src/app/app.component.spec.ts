@@ -1,9 +1,10 @@
 /* tslint:disable:no-unused-variable */
-
 import {TestBed, async} from '@angular/core/testing';
 import {RouterTestingModule} from '@angular/router/testing';
+
 import {AppComponent} from './app.component';
 import {CoreModule} from './core/core.module';
+import {SharedModule} from './shared/shared.module';
 
 describe('AppComponent', () => {
   beforeEach(() => {
@@ -32,7 +33,9 @@ describe('AppComponent', () => {
     };
     TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule, CoreModule
+        RouterTestingModule,
+        CoreModule,
+        SharedModule
       ],
       declarations: [
         AppComponent
