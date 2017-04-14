@@ -11,6 +11,7 @@ import {FlashMessageService} from '../../core/services/flash-message.service';
 import {ConfirmationModalService} from '../../core/services/confirmation-modal.service';
 import {SegmentService} from '../../core/services/segment.service';
 import {StartJobComponent} from '../../jobs/start-job/start-job.component';
+import {HelpCenterService} from '../../core/services/help-center.service';
 
 
 @Component({
@@ -19,6 +20,12 @@ import {StartJobComponent} from '../../jobs/start-job/start-job.component';
   styleUrls: ['./action-header.component.scss']
 })
 export class ActionHeaderComponent implements OnInit {
+
+  /**
+   * Holds the title of the page
+   */
+  @Input()
+  title: string;
 
   /**
    * Holds the application Id
@@ -61,12 +68,20 @@ export class ActionHeaderComponent implements OnInit {
   showOpenEnvironment = false;
 
   /**
+   * Flag to show help center
+   * @type {boolean}
+   */
+  @Input()
+  showHelpCenter = true;
+
+  /**
    * Builds the component
    * @param pipelineService
    * @param errorHandler
    * @param segment
    * @param flash
    * @param confirmationModalService
+   * @param helpCenterService
    * @param dialog
    * @param media
    */
@@ -75,6 +90,7 @@ export class ActionHeaderComponent implements OnInit {
               private segment: SegmentService,
               private flash: FlashMessageService,
               private confirmationModalService: ConfirmationModalService,
+              private helpCenterService: HelpCenterService,
               private dialog: MdDialog,
               public media: ObservableMedia) {
   }
@@ -117,6 +133,13 @@ export class ActionHeaderComponent implements OnInit {
     }
     // Track button click
     this.segment.trackEvent('ClickStartJobButton', {appId: this.appId});
+  }
+
+  /**
+   * Open the help center
+   */
+  showHelpCenterDrawer() {
+    this.helpCenterService.show();
   }
 
 }

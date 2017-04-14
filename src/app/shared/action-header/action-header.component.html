@@ -1,5 +1,5 @@
 <div id="title-bar" class="flex-container" fxLayoutAlign="space-between center" fxLayout="row">
-  <h1 id="jobs-list-header" class="page-title flex-item" *ngIf="!job">Job List</h1>
+  <h1 id="jobs-list-header" class="page-title flex-item" *ngIf="!job">{{title}}</h1>
 
   <h3 id="job-details-header" class="ui-core-set-head-title flex-item" *ngIf="job">
     <a appIframeLink="/jobs/{{appId}}">Jobs </a>
@@ -61,6 +61,24 @@
                   mdTooltipPosition="below">
       </e-svg-icon>
       <span class="el-iconography__label flex-item" fxHide.xs="TRUE">Terminate Job</span>
+    </a>
+
+    <a id="help-center-action" class="flex-container action-icon"
+       *ngIf="showHelpCenter"
+       (click)="showHelpCenterDrawer()"
+       appLiftOn="click"
+       [liftEventData]="{appId: appId}"
+       liftEventName="ClickHelpCenter"
+       appSegmentOn="click"
+       [segmentEventData]="{appId: appId}"
+       segmentEventIdentifier="ClickHelpCenter"
+       fxLayoutAlign="center center"
+       fxLayout="column">
+      <e-svg-icon class="flex-item" type="sections__help"
+                  mdTooltip="{{ media.isActive('xs') ? 'Help Center' : ''}}"
+                  mdTooltipPosition="below">
+      </e-svg-icon>
+      <span class="el-iconography__label flex-item" fxHide.xs="TRUE">Help Center</span>
     </a>
   </div>
 </div>

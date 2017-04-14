@@ -13,11 +13,13 @@ import {FlashMessageService} from '../../core/services/flash-message.service';
 import {WebSocketService} from '../../core/services/web-socket.service';
 import {WebSocketHandler} from '../../core/models/web-socket-handler';
 import {features} from '../../core/features';
+import {animations} from '../../core/animations';
 
 @Component({
   selector: 'app-jobs-detail',
   templateUrl: './jobs-detail.component.html',
-  styleUrls: ['./jobs-detail.component.scss']
+  styleUrls: ['./jobs-detail.component.scss'],
+  animations: animations
 })
 export class JobsDetailComponent implements OnInit, OnDestroy {
 
