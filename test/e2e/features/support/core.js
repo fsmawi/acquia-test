@@ -64,6 +64,7 @@ exports.bootstrap = function (browser) {
     return browser.waitForVisible(selector, options.timeout)
       .then(() => {
         return browser.execute(function(selector) {
+          "use strict";
           try {
             // dom selector
             document.querySelector(selector).scrollIntoView();
