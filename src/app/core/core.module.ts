@@ -1,6 +1,8 @@
 import {NgModule, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {MaterialModule} from '@angular/material';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {FormsModule} from '@angular/forms';
 
 import {AmplitudeService} from './services/amplitude.service';
 import {AnsiService} from './services/ansi.service';
@@ -21,10 +23,19 @@ import {WebSocketService} from './services/web-socket.service';
 import {N3Service} from './services/n3.service';
 import {PipelinesService} from './services/pipelines.service';
 import {StorageService} from './services/storage.service';
+import {HelpCenterService} from './services/help-center.service';
+import {HelpCenterComponent} from './components/help-center/help-center.component';
+import {HelpContentCategoryFilterPipe } from './components/help-center/help-content-category-filter.pipe';
+import {SharedModule} from '../shared/shared.module';
 
 @NgModule({
   imports: [
-    CommonModule, ElementalModule, MaterialModule.forRoot()
+    CommonModule,
+    ElementalModule,
+    MaterialModule.forRoot(),
+    FormsModule,
+    SharedModule,
+    FlexLayoutModule
   ],
   providers: [
     PipelinesService,
@@ -41,11 +52,12 @@ import {StorageService} from './services/storage.service';
     ConfirmationModalService,
     LocalStorageService,
     SegmentService,
-    WebSocketService
+    WebSocketService,
+    HelpCenterService
   ],
-  declarations: [FlashMessageComponent, ConfirmationModalComponent],
-  exports: [FlashMessageComponent, ConfirmationModalComponent],
-  entryComponents: [ConfirmationModalComponent, FlashMessageComponent]
+  declarations: [FlashMessageComponent, ConfirmationModalComponent, HelpCenterComponent, HelpContentCategoryFilterPipe],
+  exports: [FlashMessageComponent, ConfirmationModalComponent, HelpCenterComponent],
+  entryComponents: [ConfirmationModalComponent, FlashMessageComponent, HelpCenterComponent]
 })
 export class CoreModule {
 }
