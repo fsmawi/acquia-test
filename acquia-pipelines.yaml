@@ -84,9 +84,9 @@ events:
       - e2e_test:
           script:
             - 'alias run="node $BUILD_DIR/scripts/run.js"'
-            - '\[ $PIPELINE_VCS_PATH == "master" \] && run e2e_test "npm run e2e:master" || echo Not master.'
-            - '\[ $PIPELINE_VCS_PATH == "staging" \] && run e2e_test "npm run e2e:staging" || echo Not staging.'
-            - '\[ $PIPELINE_VCS_PATH == "production" \] && run e2e_test "npm run e2e:acceptance" || echo Not production.'
+            - '\[ $PIPELINE_VCS_PATH == "master" \] && export PIPELINES_URL=$PIPELINES_DEV_URL || echo Not master.'
+            - '\[ $PIPELINE_VCS_PATH == "staging" \] && export PIPELINES_URL=$PIPELINES_STAGING_URL || echo Not staging.'
+            - '\[ $PIPELINE_VCS_PATH == "production" \] && run e2e_test "npm run e2e:acceptance" || run e2e_test "npm run e2e:ode"'
       - release:
           script:
             - chmod +x ./scripts/post_deploy.sh
