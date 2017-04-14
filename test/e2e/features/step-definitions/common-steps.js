@@ -52,7 +52,6 @@ module.exports = function () {
         .replace('/index.html#', '') 		// remove /index.html#
         .replace(/\/+/g, '/')       		// replace consecutive slashes with a single slash
         .replace(/(\/|\\)+$/, '');       		// remove trailing slashes
-		
       PipelinesUnAuthUrl = 'https://' + sanitized + page.getDynamicValue(expectedUrl);
     }
     else
@@ -99,5 +98,36 @@ module.exports = function () {
       .then((actualText) => {
         expect(actualText).to.contain(page.getDynamicValue(expectedText));
       });
+  });
+
+  this.Then(/^I should see \|(.*?)\| \|(.*?)\| containing \|(.*?)\|$/, function (labelIdentifier, attribute, attributeValue) {
+    let getAttributeText = function (browser, labelIdentifier, attribute) {
+      return browser._waitUntil(page.getDynamicValue(labelIdentifier), {timeout: 10000})
+        .then(() => {
+          return browser._getAttributeText(page.getDynamicValue(labelIdentifier), page.getDynamicValue(attribute));
+        });
+    };
+
+    let getAttributeTextJS = function (browser, labelIdentifier, attribute) {
+      console.log('unable to find attribute: "', page.getDynamicValue(attribute), '". Trying with javascript');
+      return browser._getAttributeTextJS(page.getDynamicValue(labelIdentifier), page.getDynamicValue(attribute));
+    };
+
+    let validateTooltip = function (actualText) {
+      actualText = actualText.replace(/\n(\s)+/g, '');
+      expect(actualText).to.contain(page.getDynamicValue(attributeValue));
+    };
+
+    return getAttributeText(this.browser, labelIdentifier, attribute)
+      .then((actualText) => {
+        actualText = actualText != null ? actualText :
+          getAttributeTextJS(this.browser, labelIdentifier, attribute);
+        return actualText;
+      })
+      .then(validateTooltip);
+  });
+
+  this.Then(/^I hover on \|(.*?)\|/, function (hoverElement) {
+    return this.browser.moveToObject(page.getDynamicValue(hoverElement));
   });
 };

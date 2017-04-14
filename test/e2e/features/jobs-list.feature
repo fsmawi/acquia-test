@@ -74,3 +74,21 @@ Feature: Pipelines Jobs List
     When on the |*jobs-list| page
     Then I should see last run job details as a summary table
 
+  @JobList_CheckTooltips
+  Scenario: Check the tooltips of the fields displayed in jobList page
+    When on the |*jobs-list| page
+    Then I should see |*Environment-label| |*tooltip| containing |*Environment-tooltip-text|
+    Then I should see |*Commit-label| |*tooltip| containing |*Commit-tooltip-text|
+    Then I should see |*Duration-label| |*tooltip| containing |*Duration-tooltip-text|
+    Then I should see |*Started-at-label| |*tooltip| containing |*Started-at-tooltip-text|
+    Then I should see |*Trigger-label| |*tooltip| containing |*Trigger-tooltip-text|
+    Then I should see |*Pull-request-label| |*tooltip| containing |*Pull-request-tooltip-text|
+    Then I should see |*Source-branch-label| |*tooltip| containing |*Source-branch-tooltip-text|
+    Then I should see |*Target-branch-label| |*tooltip| containing |*Target-branch-tooltip-text|
+    Then I should see |*Requested-by-label| |*tooltip| containing |*Requested-by-tooltip-text|
+    Then I should see |*filter-by-status-label| |*tooltip| containing |*filter-by-status-tooltip-text|
+    Then I hover on |*acquia-git-icon|
+    Then I should see |*acquia-git-icon| |*tooltip| containing |*acquia-git-icon-tooltip|
+
+
+

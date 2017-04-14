@@ -47,7 +47,9 @@ exports.bootstrap = function (browser) {
   browser._url = function (url, params) {
     let options = {pauseAfter: 5000};
     Object.assign(options, params || {});
-    return browser.url(url).then(() => browser.pause(options.pauseAfter)).then(() => screenshot(createTimeName('url', url)));
+    return browser.url(url)
+      .then(() => browser.pause(options.pauseAfter))
+      .then(() => screenshot(createTimeName('url', url)));
   };
 
   /**
@@ -183,44 +185,78 @@ exports.bootstrap = function (browser) {
         return screenshot(createTimeName('switchFrame-error', selector))
           .then(() => Promise.reject(e));
       });
-  },
+  };
 
-    /**
-     * @return {String} text of the element
-     * @param {String} selector identifier of an element
-     * get the text of an element identified by given selectors
-     */
-    browser._getText = function (selector) {
-      return browser.getText(selector)
-        .catch((e) => {
-          return screenshot(createTimeName('getText-error', selector))
-            .then(() => Promise.reject(e));
-        });
-    },
+  /**
+   * @return {String} text of the element
+   * @param {String} selector identifier of an element
+   * get the text of an element identified by given selectors
+   */
+  browser._getText = function (selector) {
+    return browser.getText(selector)
+      .catch((e) => {
+        return screenshot(createTimeName('getText-error', selector))
+          .then(() => Promise.reject(e));
+      });
+  };
 
-    /**
-       * @return {Promise}
-       * @param {String} selector of the element to find
-       * @param {Array} params
-       * check that the element identified by given selector exists on the page
-    */
-    browser._notExists = function (selector, params) {
-      let options = Object.assign({timeout: 5000}, params);
-      return browser.isExistingWithTimeout(selector, options.timeout)
-        .then((exists) => {
-          if (exists) {
-            throw new Error(`${selector} should not exist`);
-          } else {
-            Promise.resolve();
-          }
-        })
-        .then(() => browser.pause(options.afterPause || 1000))
-        .then(() => screenshot(createTimeName('notExists', selector)))
-        .catch((e) => {
-          return screenshot(createTimeName('notExists-error', selector))
-            .then(() => Promise.reject(e));
-        });
-    };
+  /**
+  * @return {Promise}
+  * @param {String} selector of the element to find
+  * @param {Array} params
+  * check that the element identified by given selector exists on the page
+  */
+  browser._notExists = function (selector, params) {
+    let options = Object.assign({timeout: 5000}, params);
+    return browser.isExistingWithTimeout(selector, options.timeout)
+      .then((exists) => {
+        if (exists) {
+          throw new Error(`${selector} should not exist`);
+        } else {
+          Promise.resolve();
+        }
+      })
+      .then(() => browser.pause(options.afterPause || 1000))
+      .then(() => screenshot(createTimeName('notExists', selector)))
+      .catch((e) => {
+        return screenshot(createTimeName('notExists-error', selector))
+          .then(() => Promise.reject(e));
+      });
+  };
+
+  /**
+  * @return {String} text of an {attribute}
+  * @param {String} selector of the element to find
+  * @param {String} attribute whose value has to be returned
+  * get the value of {attribute} inside an element identified by {selector}
+  */
+  browser._getAttributeText = function (selector, attribute) {
+    return browser.getAttribute(selector, attribute)
+      .catch((e) => {
+        return screenshot(createTimeName('getAttributeText-error', selector))
+          .then(() => Promise.reject(e));
+      });
+  };
+
+  /**
+  * @return {String} text of an {attribute}
+  * @param {String} selector of the element to find
+  * @param {String} attribute whose value has to be returned
+  * get the value of {attribute} inside an element identified by {selector} through javascript
+  */
+  browser._getAttributeTextJS = function (selector, attribute) {
+    return browser.execute(function (selector, attribute) {
+      text = document.querySelector(selector).getAttribute(attribute);
+      return text;
+    }, selector, attribute)
+      .then((actualAttributeText) => {
+        return actualAttributeText.value;
+      })
+      .catch((e) => {
+        return screenshot(createTimeName('getAttributeTextJS-error', selector))
+          .then(() => Promise.reject(e));
+      });
+  };
 
   browser._frameworkAttached = true;
   return browser;

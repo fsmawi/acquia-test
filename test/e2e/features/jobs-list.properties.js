@@ -1,6 +1,3 @@
-/**
- * Created by stephen.raghunath on 2/24/17.
- */
 
 // Define the feature level and scenario level properties here
 module.exports = {
@@ -18,5 +15,28 @@ module.exports = {
   'job-detail': '//a[text()="Jobs "]',
   'jobs-list': '.el-card__title',
   'jobs-list-table': '//e-card[//h4/span[contains(.,"{0}")]]//e-card-content//app-job-list',
-  'jobId-link': '//app-job-summary//div/a'
+  'jobId-link': '//app-job-summary//div/a',
+  'tooltip': 'mdTooltip',
+  'Environment-label': '//span[contains(text(),"Environment")]',
+  'Commit-label': '//span[contains(text(),"Commit")]',
+  'Duration-label': '//span[contains(text(),"Duration")]',
+  'Started-at-label': '//span[contains(text(),"Started at")]',
+  'Trigger-label': '//span[contains(text(),"Trigger")]',
+  'Pull-request-label': '//span[contains(text(),"Pull request")]',
+  'Source-branch-label': '//span[contains(text(),"Source branch")]',
+  'Target-branch-label': '//span[contains(text(),"Target branch")]',
+  'Requested-by-label': '//span[contains(text(),"Requested by")]',
+  'Environment-tooltip-text': 'The cloud environment where your code was deployed from this job.This could be an ODE or a dedicated environment, such as staging or production',
+  'Commit-tooltip-text': 'The commit reference from your git repo.',
+  'Duration-tooltip-text': 'How long the job ran for.',
+  'Started-at-tooltip-text': 'Date and time when the job started.',
+  'Trigger-tooltip-text': 'The event that started this job.A branch pull is a normal commit to a Pipelines enabled repo.A pull request event is when a pull request is made for a Pipelines enabled repo',
+  'Pull-request-tooltip-text': 'Link to the pull request that triggered this job.',
+  'Source-branch-tooltip-text': 'The branch in which this job is created.',
+  'Target-branch-tooltip-text': 'The branch in which the source branch is merging with.',
+  'Requested-by-tooltip-text': 'The user who initiated this job.',
+  'filter-by-status-label': 'input[placeholder="Filter jobs by branch or status"]',
+  'filter-by-status-tooltip-text': 'Search by status;Search succeeded or failed jobs typing keywords: Pass, Success, Succeeded, fail, failed, error, errored;Search by branch name;Search by trigger type typing keywords:  PR, or pull request, branch, pull.',
+  'acquia-git-icon': '#repoInfo svg',
+  'acquia-git-icon-tooltip': 'Using Acquia Git',
 };
