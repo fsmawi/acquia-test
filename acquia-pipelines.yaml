@@ -7,10 +7,10 @@ variables:
     N3_SECRET:
       secure: 2ac03l0YHqh2wyXDffI8ejsUTqvoWofgmkZhxz+IjvsfIobY/KGs49Cnts5IUlW/LL2+yJY5TrvWVRDNGoxVpV/PwFzEbXfo+gSu1T7VW2/+c2IcyEjMF3LhNirGpCbqIdlnN0AzxzdQK0mstMDsbJ+ZlzksvrLMJMWryQE+NgqoJJeGD+IojGkcYaNZRAz+IOtKb/upoBl+sAgGm7H7LyNtiHJQ675jQz6dZ70iZrQOTEnO9eeT1wi5ZAUBIN5ENGqt91BDkfCs4HbkjWcOts1bGQNuosQQOoyw95TDdzxQxo7Nf42rCbqXzbOSG0/HKEdeNldopfao9oPCjFebJLA8WzNkCJDbNn+sz7mm1EFM1rSXVUS/qZ/Bt0biDrPJ8biKNkyPVHH+kUylDCJ9A9aHCPgl6bh+gXSQLUSleWdbQ9usDeZGtbyjm9ttQBilGEFkKDYrw+hzoWsw/BQ86HDBhDNSX5je8IZTEYcVSWfYhWjdFI1f9wK9EaA2dX0MrENs0Yx3Yfp5lzx7Lp8Zy8oaelYJeaUguxajl7+EShZLaD+Qkfg4+8uy0qBdjrZJHczCTcsPlAD4n8ViKoAhGps7gFyNOEeMTJmfKV8zOciQCSxaisggHCbOfzEZJeyY0wBbU1qlG7UTwRDCpFdpcJ06xl0TwrpXjUa/zA50b0m5Is=5KlT8bAhfZAqYuB+h51fw/1/EctdWeYscJNaA7froI/52DjYZee/Krom+AS9QVTHGmZobLP5IfzRyxsAf1eYWWQOJ31islycCY4TKKxDPEEaPxQgIrOl3uGtKCB7B48QOl3IjuLE6KAR2VW/j7Sx6Zg14rtljbDhUY6bvY1wY9o=
     PIPELINES_API_URI: 'https://pipeline-api-production.pipeline.services.acquia.io'
-    PIPELINES_DEV_URL: 'http://dev.pipelines-internal.acquia.com/index.html#'
+    PIPELINES_DEV_URL: 'https://dev.pipelines-internal.acquia.com/index.html#'
     PIPELINES_GIT_URL: 'pipelinesui@svn-182.network.hosting.acquia.com:pipelinesui.git'
     PIPELINES_PRODUCTION_URL: 'http://pipelines.acquia.com/index.html#'
-    PIPELINES_STAGING_URL: 'http://staging.pipelines-internal.acquia.com/index.html#'
+    PIPELINES_STAGING_URL: 'https://staging.pipelines-internal.acquia.com/index.html#'
     SAUCE_SERVICE_KEY:
       secure: 2acc5E0v5fVP7BrvCHgZBwUXNE+jnso4yOUMw7F/4sL7EDVxsGO6Gyx8XHCIMsekw9zgcYf221FkqTLsLmyqZ4UHVUKjt/gKxyvBUX2yNAZOOrpmSi+/lf8223C0V1YpNGrlBf24l7C4LS0UrBiSMjmb/NeloSH6RGZB/O9Ne/XCHBn8V9cIEomoicxFSNZPYgBUPPKVCJ7arr9OPfOnm/2TEU5Z9N7PvosndHzNOBSvUPVTs2jXuBOV4BkRlz8Y2xE9+pRjfv0ZFwbIT7vU2PSuBzRx2ltayqifuASMo0H5Z6odaL3Wyps33xG5ApxX4iafmTpgL9W4iks0BENPRJOH5uG2Tykb0Utx6iyba0AtZxl1bc8/qlY/XFrmUsNemg/BzqZbpOf4XUdSmJd69O1eWIRfvrR8w18oL3NJbjAFD3jk0qKNjIGL2WPUwmd4xE2XKtJ5XjYy69qivp1yJyf5nlGiiXc5qBCfVVRyNgnKZOT0a4G0xd240kOptFdNr2JnylUwmKNLh0OtGk5iOZsfLd89xTmEVTpC7FwNYENdEZsyBV8d3EV8lJREgTv5oQlnw8ReYyW8pG9/CK7uoK0g/jv9rDGzq04Zp6FRty6spd1GXzB+PkrSD253YpAkAW/Xp3ya7rsIyPEP67uGHCvy2SZL7A8/aljYyA6XnQmwh4=/c5UKYaYGIyMlFs7uai+Y7SVZG7XfGkJTNuHKGY07UaKaG21LEiGzOWoZAE87aEgqCxlir2LFvixDrsogmrTLWhNc759qNRlPx/+RwqIxsgopbMAiAlYAOey6QUk3Y+VvLIWvZ8rbyROKpJ5RJixpQ==
     SAUCE_SERVICE_USERNAME: pipelines
@@ -80,8 +80,9 @@ events:
       - e2e_test:
           script:
             - 'alias run="node $BUILD_DIR/scripts/run.js"'
-            - '\[ $PIPELINE_VCS_PATH == "production" \] && run e2e_test "npm run e2e:acceptance" || run e2e_test "npm run e2e:ode"'
-            - 'run end'
+            - '\[ $PIPELINE_VCS_PATH == "master" \] && run e2e_test "npm run e2e:master" || echo Not master.'
+            - '\[ $PIPELINE_VCS_PATH == "staging" \] && run e2e_test "npm run e2e:staging" || echo Not staging.'
+            - '\[ $PIPELINE_VCS_PATH == "production" \] && run e2e_test "npm run e2e:acceptance" || echo Not production.'
       - release:
           script:
             - chmod +x ./scripts/post_deploy.sh
