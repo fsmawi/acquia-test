@@ -14,15 +14,16 @@ Feature: Pipelines Job Summary
     And I wait 10 seconds for logging in
     Then I should see the |app-jobs| list
 
-  @JobList_LatestJobDetails
+  @JobList_JobDetails_Summary
   Scenario: Check the latest job details
     When on the |*jobs-list| page
     And I click on the first job id in the "Build" column from the list of jobs displayed
     And I should navigate to the |*job-detail| page
+    And I wait 10 seconds for the job details to load
     And I click on the |*jobs| link
     Then I should see the |app-jobs| list
 
-  @JobList_JobDetails_Summary
+  @JobList_LatestJobDetails
   Scenario: Check the latest job details
     When on the |*jobs-list| page
     And I click on the first job id in the "Build" column from the list of jobs displayed
