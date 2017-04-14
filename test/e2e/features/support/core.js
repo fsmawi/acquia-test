@@ -62,6 +62,21 @@ exports.bootstrap = function (browser) {
     let options = {timeout: 5000};
     Object.assign(options, params || {});
     return browser.waitForVisible(selector, options.timeout)
+      .then(() => {
+        return browser.execute(function(selector) {
+          try {
+            // dom selector
+            document.querySelector(selector).scrollIntoView();
+          } catch(e) {
+            // xpath selector
+            let element = document.evaluate(selector, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null);
+            if (element && element.singleNodeValue) {
+              element.singleNodeValue.scrollIntoView();
+            }
+          }
+
+        }, selector);
+      })
       .then(() => screenshot(createTimeName('click', selector)))
       .click(selector)
       .pause(500)
