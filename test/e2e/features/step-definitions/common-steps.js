@@ -52,6 +52,7 @@ module.exports = function () {
         .replace('/index.html#', '') 		// remove /index.html#
         .replace(/\/+/g, '/')       		// replace consecutive slashes with a single slash
         .replace(/(\/|\\)+$/, '');       		// remove trailing slashes
+
       PipelinesUnAuthUrl = 'https://' + sanitized + page.getDynamicValue(expectedUrl);
     }
     else
@@ -97,6 +98,32 @@ module.exports = function () {
       })
       .then((actualText) => {
         expect(actualText).to.contain(page.getDynamicValue(expectedText));
+      });
+  });
+
+  this.When(/^I should see \|(.*?)\| window opened$/, function (pageURL) {
+    let getWindowHandle = function (browser) {
+      return browser.windowHandles()
+        .then((handles) => {
+          handles = handles.value;
+          handle = (handles.length > 1) ? handles[1] : '';
+          return handle;
+        });
+    };
+    let switchToWindow = function (browser, handle) {
+      return browser.window(handle);
+    };
+    let validateURL = function (browser) {
+      return browser._checkUrl(page.getDynamicValue(pageURL));
+    };
+
+    return getWindowHandle(this.browser)
+      .then((handle) => {
+        return switchToWindow(this.browser, handle);
+      })
+      .then(validateURL(this.browser))
+      .then(() => {
+        return this.browser.close();
       });
   });
 

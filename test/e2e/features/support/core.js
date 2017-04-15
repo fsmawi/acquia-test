@@ -121,12 +121,10 @@ exports.bootstrap = function (browser) {
    */
   browser._checkUrl = function (expectedUrl) {
     return browser.waitUntil(function () {
-      console.log('expected URL: ', expectedUrl);
       return browser.getUrl()
         .then((url) => {
           url = url.replace('http://', 'https://');
           expectedUrl = expectedUrl.replace('http://', 'https://');
-          console.log('actual URL: ', url);
           return expect(url).to.be.equal(expectedUrl);
         });
     }, 15000, 'expected url not found after 15 secs')
