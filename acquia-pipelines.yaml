@@ -99,6 +99,7 @@ events:
       - merge_deploy:
           script:
             - 'alias run="node $BUILD_DIR/scripts/run.js"'
+            - 'npm install'
             - 'run merge_deploy "chmod +x ./tools/pipelines-deploy"'
             - 'run merge_deploy "./tools/pipelines-deploy"'
 ssh-keys:

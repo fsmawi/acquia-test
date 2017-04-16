@@ -16,6 +16,35 @@ import {PipelinesService} from '../core/services/pipelines.service';
 import {SegmentService} from '../core/services/segment.service';
 import {SharedModule} from '../shared/shared.module';
 import {LiftService} from '../core/services/lift.service';
+import {FlashMessageService} from '../core/services/flash-message.service';
+import {ConfirmationModalService} from '../core/services/confirmation-modal.service';
+import {HelpCenterService} from '../core/services/help-center.service';
+
+class MockHelpCenterService {
+  show() {
+    return true;
+  }
+}
+
+class MockConfirmationModalService {
+  openDialog(title: string, message: string, primaryActionText: string, secondaryActionText = '') {
+    return Promise.resolve(true);
+  }
+}
+
+class MockFlashMessage {
+  showError(message: string, e: any) {
+    return true;
+  }
+
+  showInfo(message: string, e: any = {}) {
+    return true;
+  }
+
+  showSuccess(message: string, e: any = {}) {
+    return true;
+  }
+}
 
 class MockLiftService {
   captureEvent(eventName: string, eventData: Object) {
@@ -55,6 +84,9 @@ describe('AuthGithubComponent', () => {
         MockBackend,
         BaseRequestOptions,
         SegmentService,
+        {provide: FlashMessageService, useClass: MockFlashMessage},
+        {provide: HelpCenterService, useClass: MockHelpCenterService},
+        {provide: ConfirmationModalService, useClass: MockConfirmationModalService},
         {provide: LiftService, useClass: MockLiftService},
         {
           provide: Http,

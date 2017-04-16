@@ -13,6 +13,8 @@ import {SegmentService} from '../../core/services/segment.service';
 import {StartJobComponent} from '../../jobs/start-job/start-job.component';
 import {HelpCenterService} from '../../core/services/help-center.service';
 
+// Global Scope, Window
+declare const window;
 
 @Component({
   selector: 'app-action-header',
@@ -68,6 +70,13 @@ export class ActionHeaderComponent implements OnInit {
   showOpenEnvironment = false;
 
   /**
+   * Type of current page (used to display bread crumb)
+   * @type {string}
+   */
+  @Input()
+  pageType: string;
+
+  /**
    * Flag to show help center
    * @type {boolean}
    */
@@ -95,7 +104,19 @@ export class ActionHeaderComponent implements OnInit {
               public media: ObservableMedia) {
   }
 
+  /**
+   * Initialize
+   */
   ngOnInit() {
+    window.onclick = function(event) {
+      if (!event.target.classList.contains('menu-title')
+        && !event.target.classList.contains('hover-menu')) {
+        const menu = document.getElementById('dropdown-links');
+        if (menu && menu.classList.contains('show')) {
+          menu.classList.remove('show');
+        }
+      }
+    };
   }
 
   /**
@@ -136,10 +157,21 @@ export class ActionHeaderComponent implements OnInit {
   }
 
   /**
+   * Toggle menu
+   */
+  toggleMenu() {
+    const menu = document.getElementById('dropdown-links');
+    if (menu.classList.contains('show')) {
+      menu.classList.remove('show');
+    } else {
+      menu.classList.add('show');
+    }
+  }
+
+  /**
    * Open the help center
    */
   showHelpCenterDrawer() {
     this.helpCenterService.show();
   }
-
 }

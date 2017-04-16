@@ -13,6 +13,8 @@ import {SvgIconComponent} from './svg-icon/svg-icon.component';
 import {ButtonComponent} from './button/button.component';
 import {ProgressComponent} from './progress/progress.component';
 import {ClipboardComponent} from './clipboard/clipboard.component';
+import {TabsComponent} from './tabs/tabs.component';
+import {TabComponent} from './tab/tab.component';
 
 @NgModule({
   imports: [
@@ -31,7 +33,9 @@ import {ClipboardComponent} from './clipboard/clipboard.component';
     SvgIconComponent,
     ButtonComponent,
     ProgressComponent,
-    ClipboardComponent
+    ClipboardComponent,
+    TabsComponent,
+    TabComponent
   ],
   exports: [
     CardComponent,
@@ -46,7 +50,9 @@ import {ClipboardComponent} from './clipboard/clipboard.component';
     SvgIconComponent,
     ButtonComponent,
     ProgressComponent,
-    ClipboardComponent
+    ClipboardComponent,
+    TabsComponent,
+    TabComponent
   ],
 })
 export class ElementalModule {

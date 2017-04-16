@@ -17,6 +17,7 @@ import {PipelinesService} from '../core/services/pipelines.service';
 import {SegmentService} from '../core/services/segment.service';
 import {SharedModule} from '../shared/shared.module';
 import {LiftService} from '../core/services/lift.service';
+import {BaseApplication} from '../core/classes/base-application';
 import {HelpCenterService} from '../core/services/help-center.service';
 
 class MockHelpCenterService {
