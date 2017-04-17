@@ -7,8 +7,14 @@
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  padding: 24px;
+  padding: 1.5rem;
   background-color: #eee;
+}
+
+@media (max-width: px-to-relative(320px)) {
+  :host {
+    padding: 1rem;
+  }
 }
 
 #log-info, .logs {
