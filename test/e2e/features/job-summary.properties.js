@@ -24,4 +24,15 @@ module.exports = {
   'progress-bar': '.el-progress__loader__dot__inner',
   'empty-logs': '//pre[@class="logs" and contains(text(),"There are no logs for this job.")]',
   'count-up-time': '//e-data-label[div[span[contains(text(),"Duration")]]]/following-sibling::e-data-value',
+  'deployment-link-value' : '#job-deployment-link-value.el-data__value',
+  'commit-value' : '#job-commit-value.el-data__value',
+  'duration-value' : '#job-duration-value.el-data__value',
+  'started-at-value' : '#job-started-at-value.el-data__value',
+  'trigger-value' : '#job-trigger-value.el-data__value',
+  'pull-request-value' : 'j#ob-pull-request-value.el-data__value',
+  'branch-value' : '#job-branch-value.el-data__value',
+  'source-branch-value' : '#job-source-branch-value.el-data__value',
+  'target-branch-value' : '#job-target-branch-value.el-data__value',
+  'requested-by-value' : '#job-requested-by-value.el-data__value'
+
 };

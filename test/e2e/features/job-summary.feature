@@ -20,6 +20,7 @@ Feature: Pipelines Job Summary
     And I click on the first job id in the "Build" column from the list of jobs displayed
     And I should navigate to the |*job-detail| page
     And I wait 10 seconds for the job details to load
+    And And I should see a |*alert-message| with |*success-message|
     And I click on the |*jobs| link
     Then I should see the |app-jobs| list
 
