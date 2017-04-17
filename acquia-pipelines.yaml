@@ -77,8 +77,7 @@ events:
             - 'cd $BUILD_DIR'
       - launch_ode:
           script:
-            - 'run launch_ode "chmod +x ./tools/pipelines-deploy"'
-            - 'run launch_ode "./tools/pipelines-deploy"'
+            - 'run launch_ode "pipelines-deploy"'
             - export -p | grep PIPELINE
             - 'run launch_ode "node $BUILD_DIR/scripts/clear-cloud-varnish.js $PIPELINE_CLOUD_REALM $PIPELINE_CLOUD_SITE $PIPELINES_DEPLOYMENT_NAME"'
   post-deploy:
