@@ -1,7 +1,8 @@
-<app-action-header title="Application Info">
+<app-action-header [appId]="appId"
+                   [showViewInfo]="true"
+                   pageType="info">
 </app-action-header>
 
-<a appIframeLink="/jobs/{{appId}}" class="el-button el-button--primary">View Jobs</a>
 <e-card *ngIf="!appLoading">
   <e-card-header>
     Connected repository information
@@ -23,7 +24,7 @@
   </e-card-header>
   <e-card-content>
     <h3>{{repositoryType}} repository</h3>
-    <a appIframeLink="/application/{{appId}}/configure" class="configure-link"
+    <a appIframeLink="/applications/{{appId}}/info/configure" class="configure-link"
        appSegmentOn="click"
        [segmentEventData]="{appId: appId}"
        segmentEventIdentifier="ClickApplicationInfoConfigure"

@@ -1,8 +1,8 @@
 const request = require('superagent');
 const exec = require('child_process').exec;
 const moment = require('moment');
-const USER = encodeURIComponent(process.env.JIRA_USER);
-const PASSWORD = encodeURIComponent(process.env.JIRA_PASSWORD);
+const USER = process.env.JIRA_USER;
+const PASSWORD = process.env.JIRA_PASSWORD;
 
 const packageJson = require(__dirname + '/../package.json');
 var versionId = packageJson.version; // old version
@@ -45,7 +45,8 @@ function versionPatch() {
 function createJiraVersion(version) {
   console.log('new version : ' + version);
   return new Promise((resolve, reject) => {
-    request.post(`https://${USER}:${PASSWORD}@backlog.acquia.com/rest/api/2/version`)
+    request.post(`https://backlog.acquia.com/rest/api/2/version`)
+      .auth(USER, PASSWORD)
       .send({
         description: "pipelines",
         name: `pipelines-ui-${version}`,
@@ -95,8 +96,9 @@ function getVersionIssues(versionId) {
 function updateIssueWithVersion(issueId, version) {
   console.log('updating the issue id:', issueId);
   return new Promise((resolve, reject) => {
-    let url = `https://${USER}:${PASSWORD}@backlog.acquia.com/rest/api/2/issue/` + issueId;
+    let url = `https://backlog.acquia.com/rest/api/2/issue/` + issueId;
     request.put(url)
+      .auth(USER, PASSWORD)
       .send({
         update: {
           fixVersions: [{

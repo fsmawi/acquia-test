@@ -1,6 +1,5 @@
 <div *ngIf="isInitialized">
-  <app-action-header title="Job List"
-                     [appId]="appId"
+  <app-action-header [appId]="appId"
                      [showViewInfo]="true"
                      [showStartJob]="jobs?.length">
   </app-action-header>
@@ -24,15 +23,16 @@
            value="{{filterText}}"
            (input)="filterSubject.next($event.target.value)">
   </div>
-  <e-card *ngIf="isInitialized">
+
+  <e-card *ngIf="isInitialized" id="job-list">
     <e-card-header>
-      Activity
+      {{(jobs && !jobs.length) ? 'Activity' : 'Jobs'}}
       <div id="filter-info">
         <span id="filtered-text" *ngIf="filterText !== ''"> filtered with "{{ filterText }}". </span>
         <a id="clear-filter" *ngIf="filterText !== ''" (click)="clearFilter()">Clear Filter</a>
       </div>
       <a id="repoInfo"
-         appIframeLink="/application/{{appId}}"
+         appIframeLink="/applications/{{appId}}/info"
          appSegmentOn="click"
          [segmentEventData]="{appId: appId}"
          segmentEventIdentifier="ClickRepoNameApplicationInfo"
@@ -60,7 +60,12 @@
       <app-no-jobs [appId]="appId" [vcsType]="vcsType" *ngIf="jobs && !jobs.length"></app-no-jobs>
 
       <!--List of Jobs-->
-      <app-job-list [appId]="appId" [jobs]="filteredJobs" *ngIf="jobs.length"></app-job-list>
+      <e-tabs *ngIf="jobs.length">
+        <e-tab tabTitle="Activity">
+          <app-job-list [appId]="appId" [jobs]="filteredJobs" *ngIf="jobs.length"></app-job-list>
+        </e-tab>
+      </e-tabs>
+
     </e-card-content>
   </e-card>
 </div>

@@ -62,6 +62,22 @@ exports.bootstrap = function (browser) {
     let options = {timeout: 5000};
     Object.assign(options, params || {});
     return browser.waitForVisible(selector, options.timeout)
+      .then(() => {
+        return browser.execute(function(selector) {
+          "use strict";
+          try {
+            // dom selector
+            document.querySelector(selector).scrollIntoView();
+          } catch(e) {
+            // xpath selector
+            let element = document.evaluate(selector, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null);
+            if (element && element.singleNodeValue) {
+              element.singleNodeValue.scrollIntoView();
+            }
+          }
+
+        }, selector);
+      })
       .then(() => screenshot(createTimeName('click', selector)))
       .click(selector)
       .pause(500)
@@ -105,12 +121,10 @@ exports.bootstrap = function (browser) {
    */
   browser._checkUrl = function (expectedUrl) {
     return browser.waitUntil(function () {
-      console.log('expected URL: ', expectedUrl);
       return browser.getUrl()
         .then((url) => {
           url = url.replace('http://', 'https://');
           expectedUrl = expectedUrl.replace('http://', 'https://');
-          console.log('actual URL: ', url);
           return expect(url).to.be.equal(expectedUrl);
         });
     }, 15000, 'expected url not found after 15 secs')

@@ -2,6 +2,7 @@
 
   <app-action-header [appId]="appId"
                      [job]="job"
+                     pageType="job"
                      [showViewInfo]="true"
                      [showOpenEnvironment]="job?.isFinished && job.metadata?.deployment_link"
                      [showStopJob]="job?.isUnfinished" ></app-action-header>

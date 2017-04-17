@@ -68,7 +68,7 @@ export class AuthTokensComponent implements OnInit {
     this.loading = true;
     this.auth.isLoggedIn().then(authenticated => {
       if (authenticated) {
-        this.router.navigateByUrl(`/jobs/${this.appId}`);
+        this.router.navigateByUrl(`/applications/${this.appId}`);
       } else {
         window.top.location.href = '/';
       }

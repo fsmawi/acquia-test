@@ -1,8 +1,9 @@
+@import "../../assets/scss/elemental-core.scss";
+
 :host {
   position: absolute;
   width: 100%;
-  height: 100%;
-  padding: 24px;
+  padding: px-to-relative(24px);
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;

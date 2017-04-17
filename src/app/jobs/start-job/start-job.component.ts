@@ -134,7 +134,7 @@ export class StartJobComponent implements OnInit {
           this.dialogRef.close();
           this.didJobStart = false;
           if (this.jobStarted && this.redirect) {
-            this.router.navigateByUrl(`/jobs/${this.appId}`);
+            this.router.navigateByUrl(`/applications/${this.appId}`);
           }
         });
     }

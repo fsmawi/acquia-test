@@ -135,7 +135,7 @@ export class ApplicationComponent extends BaseApplication implements OnInit {
    */
   ngOnInit() {
     this.route.params.subscribe((params) => {
-      this._appId = this.appId = params['app-id'];
+      this._appId = this.appId = params['app'];
       this.getConfigurationInfo();
     });
   }

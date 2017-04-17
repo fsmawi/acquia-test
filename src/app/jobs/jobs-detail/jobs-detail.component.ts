@@ -196,7 +196,7 @@ export class JobsDetailComponent implements OnInit, OnDestroy {
             appId: this.appId,
             jobId: this.jobId
           }, 'error')
-          .showError('Job list', '/jobs/' + this.appId))
+          .showError('Job list', '/applications/' + this.appId))
       .then(() => {
         this.loadingJob = false;
         this.firstLoad = false;

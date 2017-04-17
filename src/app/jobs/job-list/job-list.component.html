@@ -24,7 +24,7 @@
          appLiftOn="click"
          [liftEventData]="{appId: appId}"
          liftEventName="ClickJobListDetailLink"
-         appIframeLink="/jobs/{{appId}}/{{job.job_id}}">{{job.job_id | slice:0:8}}</a>
+         appIframeLink="/applications/{{appId}}/{{job.job_id}}">{{job.job_id | slice:0:8}}</a>
       <!--TODO revereted open in new tab feature, MS-2709-->
       <!--<a appSegmentOn="click"-->
       <!--[segmentEventData]="{job_id: job.job_id, status: job.status}"-->

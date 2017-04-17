@@ -202,7 +202,7 @@ export class LandingPageComponent implements OnInit {
           if (this.isConnected !== undefined || this.isEnabled !== undefined) {
             // Based on status, navigate to the right page
             if (this.isConnected) {
-              this.router.navigateByUrl('/jobs/' + this.appId || '');
+              this.router.navigateByUrl('/applications/' + this.appId || '');
             } else if (this.isEnabled) {
               this.router.navigateByUrl('/auth/github/' + this.appId || '');
             }

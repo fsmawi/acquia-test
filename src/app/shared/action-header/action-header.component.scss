@@ -29,4 +29,52 @@
     }
 
   }
+
+  .dropdown {
+
+    position: relative;
+    display: inline-block;
+    padding-top: px-to-relative(13px);
+
+    &:hover span {
+      color: $color-brand_primary-9;
+    }
+
+    #dropdown-links {
+      display: none;
+      position: absolute;
+      background-color: #f9f9f9;
+      min-width: px-to-relative(190px);
+      box-shadow: 0px 0.5rem 1rem 0px rgba(0,0,0,0.2);
+      z-index: 1;
+      right: 0;
+
+      &.show {
+        display: block;
+      }
+    }
+
+    #dropdown-links a {
+      color: black;
+      padding: px-to-relative(12px) 1rem;
+      text-decoration: none;
+      display: block;
+    }
+
+    #dropdown-links a:hover {
+      background-color: #f1f1f1
+    }
+
+    #more-links-menu {
+      position: relative;
+
+      .hover-menu {
+        position: absolute;
+        width: px-to-relative(24px);
+        height: px-to-relative(24px);
+        display: block;
+        top: px-to-relative(-5px);
+      }
+    }
+  }
 }

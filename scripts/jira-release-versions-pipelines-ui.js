@@ -3,14 +3,15 @@ const semver = require('semver');
 const colors = require('colors');
 const sendNotification = require('./helper').sendNotification;
 
-const USER = encodeURIComponent(process.env.JIRA_USER);
-const PASSWORD = encodeURIComponent(process.env.JIRA_PASSWORD);
+const USER = process.env.JIRA_USER;
+const PASSWORD = process.env.JIRA_PASSWORD;
 
 const packageJson = require(__dirname + '/../package.json');
 
 // List all unreleased version
 request
-  .get(`https://${USER}:${PASSWORD}@backlog.acquia.com/rest/api/2/project/MS/versions`)
+  .get(`https://backlog.acquia.com/rest/api/2/project/MS/versions`)
+  .auth(USER, PASSWORD)
   .end((err, res) => {
     if (err) {
       throw err;
@@ -28,7 +29,8 @@ request
     Promise.all(versions.map(version => {
       return new Promise((resolve, reject) => {
         console.log('update version : ' + version.name);
-        request.put(`https://${USER}:${PASSWORD}@backlog.acquia.com/rest/api/2/version/${version.id}`)
+        request.put(`https://backlog.acquia.com/rest/api/2/version/${version.id}`)
+          .auth(USER, PASSWORD)
           .send({
             released: true
           })
