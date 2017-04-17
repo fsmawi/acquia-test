@@ -2,8 +2,8 @@ const request = require('superagent');
 
 // Cloud api credentials
 const CLOUD_API_ENDPOINT = process.env.PIPELINES_CLOUD_API_ENDPOINT; //'https://cloudapi.acquia.com/v1';
-const USER = process.env.N3_KEY;
-const PASSWORD = process.env.N3_SECRET;
+const USER = process.env.CLOUD_API_USER;
+const PASSWORD = process.env.CLOUD_API_PASSWORD;
 
 const REALM = process.argv.slice(2)[0];
 const SITE = process.argv.slice(2)[1];
@@ -34,6 +34,7 @@ getEnvDomains()
 function getEnvDomains() {
   return new Promise((resolve, reject) => {
     let url = CLOUD_API_ENDPOINT + `/sites/${REALM}:${SITE}/envs/${ENV}/domains.json`;
+    console.log(url);
     request
       .get(url)
       .auth(USER, PASSWORD)
@@ -57,6 +58,7 @@ function getEnvDomains() {
 function purgeCache(domain) {
   return new Promise((resolve, reject) => {
     let url = CLOUD_API_ENDPOINT + `/sites/${REALM}:${SITE}/envs/${ENV}/domains/${domain}/cache.json`;
+    console.log(url);
     request
       .delete(url)
       .auth(USER, PASSWORD)
