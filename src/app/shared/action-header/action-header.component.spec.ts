@@ -23,6 +23,19 @@ import {StartJobComponent} from '../../jobs/start-job/start-job.component';
 import {IframeLinkDirective} from '../directives/iframe-link.directive';
 import {LiftDirective} from '../directives/lift.directive';
 import {SegmentDirective} from '../directives/segment.directive';
+import {HelpCenterService} from '../../core/services/help-center.service';
+
+class MockOberservableMedia {
+ isActive(screenSize: string) {
+      return true;
+   }
+}
+
+class MockHelpCenterService {
+  show() {
+    return true;
+  }
+}
 
 class MockLiftService {
   captureEvent(eventName: string, eventData: Object) {
@@ -136,7 +149,7 @@ class MockFlashMessage {
   }
 }
 
-describe('HeaderComponent', () => {
+describe('ActionHeaderComponent', () => {
   let component: ActionHeaderComponent;
   let fixture: ComponentFixture<ActionHeaderComponent>;
 
@@ -154,9 +167,10 @@ describe('HeaderComponent', () => {
         {provide: ConfirmationModalService, useClass: MockConfirmationModalService},
         {provide: LiftService, useClass: MockLiftService},
         {provide: FlashMessageService, useClass: MockFlashMessage},
+        {provide: HelpCenterService, useClass: MockHelpCenterService},
+        {provide: ObservableMedia, useClass: MockOberservableMedia},
         SegmentService,
-        ErrorService,
-        ObservableMedia
+        ErrorService
       ],
       imports: [
         MaterialModule.forRoot(),

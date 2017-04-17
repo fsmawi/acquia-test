@@ -8,11 +8,13 @@ import {features} from '../core/features';
 import {FlashMessageService} from '../core/services/flash-message.service';
 import {GithubStatus} from '../core/models/github-status';
 import {PipelinesService} from '../core/services/pipelines.service';
+import {animations} from '../core/animations';
 
 @Component({
   selector: 'app-application',
   templateUrl: './application.component.html',
-  styleUrls: ['./application.component.scss']
+  styleUrls: ['./application.component.scss'],
+  animations: animations
 })
 export class ApplicationComponent extends BaseApplication implements OnInit {
 
@@ -133,7 +135,7 @@ export class ApplicationComponent extends BaseApplication implements OnInit {
    */
   ngOnInit() {
     this.route.params.subscribe((params) => {
-      this._appId = this.appId = params['app-id'];
+      this._appId = this.appId = params['app'];
       this.getConfigurationInfo();
     });
   }

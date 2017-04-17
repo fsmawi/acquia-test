@@ -2,7 +2,7 @@
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  padding: 24px;
+  padding: px-to-relative(24px);
 }
 
 #auth-tokens-card {

@@ -13,10 +13,25 @@ import {ConfigureComponent} from './configure.component';
 import {ElementalModule} from '../../elemental/elemental.module';
 import {ErrorService} from '../../core/services/error.service';
 import {FlashMessageService} from '../../core/services/flash-message.service';
+import {ConfirmationModalService} from '../../core/services/confirmation-modal.service';
 import {SegmentService} from '../../core/services/segment.service';
 import {SharedModule} from '../../shared/shared.module';
 import {PipelinesService} from '../../core/services/pipelines.service';
 import {LiftService} from '../../core/services/lift.service';
+import {BaseApplication} from '../../core/classes/base-application';
+import {HelpCenterService} from '../../core/services/help-center.service';
+
+class MockHelpCenterService {
+  show() {
+    return true;
+  }
+}
+
+class MockConfirmationModalService {
+  openDialog(title: string, message: string, primaryActionText: string, secondaryActionText = '') {
+    return Promise.resolve(true);
+  }
+}
 
 class MockLiftService {
   captureEvent(eventName: string, eventData: Object) {
@@ -83,6 +98,8 @@ describe('ConfigureComponent', () => {
         PipelinesService,
         {provide: LiftService, useClass: MockLiftService},
         {provide: ActivatedRoute, useClass: MockActivatedRoute},
+        {provide: ConfirmationModalService, useClass: MockConfirmationModalService},
+        {provide: HelpCenterService, useClass: MockHelpCenterService},
         {provide: FlashMessageService, useClass: MockFlashMessage},
         {provide: MdDialog, useClass: MockMdDialog},
         {
@@ -115,6 +132,8 @@ describe('ConfigureComponent', () => {
 
   it('should get git info using pipeline service',
     fakeAsync(inject([ActivatedRoute, MockBackend], (route, mockBackend) => {
+
+    BaseApplication.info = null;
 
     setupConnections(mockBackend, {
       body: JSON.stringify({

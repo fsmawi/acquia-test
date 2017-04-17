@@ -1,28 +1,68 @@
 <div id="title-bar" class="flex-container" fxLayoutAlign="space-between center" fxLayout="row">
-  <h1 id="jobs-list-header" class="page-title flex-item" *ngIf="!job">Job List</h1>
 
-  <h3 id="job-details-header" class="ui-core-set-head-title flex-item" *ngIf="job">
-    <a appIframeLink="/jobs/{{appId}}">Jobs </a>
-    {{job ? '> #' + (job.job_id | slice:0:8) : ''}}
-  </h3>
+  <div class="bread-crumb" [ngSwitch]="pageType">
+    <h3 id="job-details-header" class="ui-core-set-head-title flex-item" *ngSwitchCase="'job'">
+      <a appIframeLink="/applications/{{appId}}">Pipelines</a>
+      <span *ngIf="job">{{job ? '> #' + (job.job_id | slice:0:8) : ''}}</span>
+    </h3>
+
+    <h3 id="job-details-header" class="ui-core-set-head-title flex-item" *ngSwitchCase="'config'">
+      <a appIframeLink="/applications/{{appId}}">Pipelines</a> >
+      <a appIframeLink="/applications/{{appId}}/info"> Info</a> >
+      <span> Configure</span>
+    </h3>
+
+    <h3 id="job-details-header" class="ui-core-set-head-title flex-item" *ngSwitchCase="'info'">
+      <a appIframeLink="/applications/{{appId}}">Pipelines</a> >
+      <span> Info</span>
+    </h3>
+
+    <h3 id="job-details-header" class="ui-core-set-head-title flex-item" *ngSwitchCase="'acquia-git'">
+      <a appIframeLink="/applications/{{appId}}">Pipelines</a> >
+      <a appIframeLink="/applications/{{appId}}/info"> Info</a> >
+      <a appIframeLink="/applications/{{appId}}/info/configure"> Configure</a> >
+      <span> Acquia Git</span>
+    </h3>
+
+    <h3 id="job-details-header" class="ui-core-set-head-title flex-item" *ngSwitchCase="'github'">
+      <a appIframeLink="/applications/{{appId}}">Pipelines</a> >
+      <a appIframeLink="/applications/{{appId}}/info"> Info</a> >
+      <a appIframeLink="/applications/{{appId}}/info/configure"> Configure</a> >
+      <span> Github</span>
+    </h3>
+
+    <h3 id="job-details-header" class="ui-core-set-head-title flex-item" *ngSwitchDefault>
+      <a appIframeLink="/applications/{{appId}}">Pipelines</a>
+    </h3>
+  </div>
 
   <div id="actions" class="flex-item">
-    <a id="view-applicaiton-info" class="flex-container action-icon"
-       *ngIf="showViewInfo"
-       fxLayout="column" fxLayoutAlign="center center"
-       appIframeLink="/application/{{appId}}"
-       appLiftOn="click"
-       [liftEventData]="{appId: appId}"
-       liftEventName="{{ job ? 'ClickConnectionInfoJobDetails' : 'ClickConnectionInfoJobsList' }}"
-       appSegmentOn="click"
-       [segmentEventData]="{appId: appId}"
-       segmentEventIdentifier="{{ job ? 'ClickConnectionInfoJobDetails' : 'ClickConnectionInfoJobsList' }}">
-      <e-svg-icon class="flex-item" type="actions__info"
-                  mdTooltip="{{ media.isActive('xs') ? 'View Application Info' : ''}}"
-                  mdTooltipPosition="below">
-      </e-svg-icon>
-      <span class="el-iconography__label flex-item" fxHide.xs="TRUE">View Application Info</span>
-    </a>
+
+    <div class="dropdown">
+      <a id="more-links-menu" (click)="toggleMenu()"
+         class="flex-container action-icon menu-title"
+         fxLayoutAlign="center center"
+         fxLayout="column">
+        <e-svg-icon class="flex-item menu-title" size="small" type="actions__hamburger-menu"
+                    mdTooltip="More links"
+                    mdTooltipPosition="below">
+        </e-svg-icon>
+        <span class="el-iconography__label flex-item menu-title" fxHide.xs="TRUE">More Links</span>
+        <span class="hover-menu"></span>
+      </a>
+      <div id="dropdown-links">
+        <a appIframeLink="/applications/{{appId}}/info"
+           appLiftOn="click"
+           [liftEventData]="{appId: appId}"
+           liftEventName="{{ job ? 'ClickConnectionInfoJobDetails' : 'ClickConnectionInfoJobsList' }}"
+           appSegmentOn="click"
+           [segmentEventData]="{appId: appId}"
+           segmentEventIdentifier="{{ job ? 'ClickConnectionInfoJobDetails' : 'ClickConnectionInfoJobsList' }}">
+          View Application Info
+        </a>
+      </div>
+    </div>
+
     <a id="start-job" class="flex-container action-icon"
        *ngIf="showStartJob"
        (click)="startJob()"
@@ -62,5 +102,24 @@
       </e-svg-icon>
       <span class="el-iconography__label flex-item" fxHide.xs="TRUE">Terminate Job</span>
     </a>
+
+    <a id="help-center-action" class="flex-container action-icon"
+       *ngIf="showHelpCenter"
+       (click)="showHelpCenterDrawer()"
+       appLiftOn="click"
+       [liftEventData]="{appId: appId}"
+       liftEventName="ClickHelpCenter"
+       appSegmentOn="click"
+       [segmentEventData]="{appId: appId}"
+       segmentEventIdentifier="ClickHelpCenter"
+       fxLayoutAlign="center center"
+       fxLayout="column">
+      <e-svg-icon class="flex-item" type="sections__help"
+                  mdTooltip="{{ media.isActive('xs') ? 'Help Center' : ''}}"
+                  mdTooltipPosition="below">
+      </e-svg-icon>
+      <span class="el-iconography__label flex-item" fxHide.xs="TRUE">Help Center</span>
+    </a>
   </div>
 </div>
+<h1 class="page-title" *ngIf="title">{{title}}</h1>

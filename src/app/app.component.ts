@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, HostBinding} from '@angular/core';
 import {AmplitudeService} from './core/services/amplitude.service';
 import {LiftService} from './core/services/lift.service';
 import {BugsnagService} from './core/services/bugsnag.service';
@@ -16,6 +16,12 @@ declare const window;
 export class AppComponent implements OnInit {
 
   /**
+   * Flag to add standalone class
+   * @type standaloneClass
+   */
+  @HostBinding('class.standalone') standaloneClass = false;
+
+  /**
    * Flag to check if the application is standalone
    * @type {boolean}
    */
@@ -30,7 +36,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     // Check if window.self is window.top
-    this.isStandalone = (window.self === window.top);
+    this.isStandalone = this.standaloneClass = (window.self === window.top);
   }
-
 }

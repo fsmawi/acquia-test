@@ -11,7 +11,10 @@ import {FlashMessageService} from '../../core/services/flash-message.service';
 import {ConfirmationModalService} from '../../core/services/confirmation-modal.service';
 import {SegmentService} from '../../core/services/segment.service';
 import {StartJobComponent} from '../../jobs/start-job/start-job.component';
+import {HelpCenterService} from '../../core/services/help-center.service';
 
+// Global Scope, Window
+declare const window;
 
 @Component({
   selector: 'app-action-header',
@@ -19,6 +22,12 @@ import {StartJobComponent} from '../../jobs/start-job/start-job.component';
   styleUrls: ['./action-header.component.scss']
 })
 export class ActionHeaderComponent implements OnInit {
+
+  /**
+   * Holds the title of the page
+   */
+  @Input()
+  title: string;
 
   /**
    * Holds the application Id
@@ -61,12 +70,27 @@ export class ActionHeaderComponent implements OnInit {
   showOpenEnvironment = false;
 
   /**
+   * Type of current page (used to display bread crumb)
+   * @type {string}
+   */
+  @Input()
+  pageType: string;
+
+  /**
+   * Flag to show help center
+   * @type {boolean}
+   */
+  @Input()
+  showHelpCenter = true;
+
+  /**
    * Builds the component
    * @param pipelineService
    * @param errorHandler
    * @param segment
    * @param flash
    * @param confirmationModalService
+   * @param helpCenterService
    * @param dialog
    * @param media
    */
@@ -75,11 +99,24 @@ export class ActionHeaderComponent implements OnInit {
               private segment: SegmentService,
               private flash: FlashMessageService,
               private confirmationModalService: ConfirmationModalService,
+              private helpCenterService: HelpCenterService,
               private dialog: MdDialog,
               public media: ObservableMedia) {
   }
 
+  /**
+   * Initialize
+   */
   ngOnInit() {
+    window.onclick = function(event) {
+      if (!event.target.classList.contains('menu-title')
+        && !event.target.classList.contains('hover-menu')) {
+        const menu = document.getElementById('dropdown-links');
+        if (menu && menu.classList.contains('show')) {
+          menu.classList.remove('show');
+        }
+      }
+    };
   }
 
   /**
@@ -119,4 +156,22 @@ export class ActionHeaderComponent implements OnInit {
     this.segment.trackEvent('ClickStartJobButton', {appId: this.appId});
   }
 
+  /**
+   * Toggle menu
+   */
+  toggleMenu() {
+    const menu = document.getElementById('dropdown-links');
+    if (menu.classList.contains('show')) {
+      menu.classList.remove('show');
+    } else {
+      menu.classList.add('show');
+    }
+  }
+
+  /**
+   * Open the help center
+   */
+  showHelpCenterDrawer() {
+    this.helpCenterService.show();
+  }
 }

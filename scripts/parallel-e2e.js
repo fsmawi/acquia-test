@@ -59,6 +59,8 @@ glob('test/e2e/features/*.feature', function (err, files) {
 
   let concurrency = process.env.CONCURRENCY ? parseInt(process.env.CONCURRENCY) : 10;
 
+  let startTime = new Date();
+
   async.eachLimit(tags, concurrency, (tag, cb) => {
     console.log(`Starting ${tag}`.gray);
     output[tag] = {
@@ -84,7 +86,7 @@ glob('test/e2e/features/*.feature', function (err, files) {
     }
     // stop the update
     clearInterval(update);
-
+    endTime = new Date();
     // log all output
     tags.forEach(k => console.log(k.cyan, output[k].log, output[k].err, output[k].duration.yellow));
 
@@ -92,9 +94,11 @@ glob('test/e2e/features/*.feature', function (err, files) {
     if (tags.find(f => output[f].err)) {
       console.error(`The following scenarios failed: ${tags.filter(f => output[f].err).join(', ')}`.red);
       console.log(tags.filter(f => output[f].err).forEach(k => console.log(k.cyan, output[k].log, output[k].err)));
+      console.log('Total Time Taken: ', ((endTime - startTime) / 1000 / 60).toFixed(2) + ' Minutes');
       process.exit(1);
     } else {
       console.log('All E2E scenarios successful'.green);
+      console.log('Total Time Taken: ', ((endTime - startTime) / 1000 / 60).toFixed(2) + ' Minutes');
     }
   });
 });

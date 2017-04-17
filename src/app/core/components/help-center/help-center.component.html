@@ -1,0 +1,97 @@
+<div id="help-center" *ngIf="showHelpCenter" [@slideInLeft]>
+  <div id="help-center-header">
+    <div id="help-center-external-link" class="flex-container"
+         fxLayout="row"
+         fxLayoutAlign="space-between center">
+      <a class="el-iconography__label flex-item"
+         href="https://insight.acquia.com/support"
+         mdTooltip="Visit Acquia Help Center"
+         mdTooltipPosition="left"
+         appSegmentOn="click"
+         [segmentEventData]="{appId: ''}"
+         segmentEventIdentifier="ClickHelpCenterInsightsLink"
+         appLiftOn="click"
+         [liftEventData]="{appId: ''}"
+         liftEventName="ClickHelpCenterInsightsLink">
+        <div class="flex-container" fxLayout="row" fxLayoutAlign="space-between center">
+          <e-svg-icon type="sections__help" class="flex-item">
+          </e-svg-icon>
+          <span class="flex-item">Help Center</span>
+        </div>
+      </a>
+      <e-svg-icon id="close-help-center" type="actions__close" class="flex-item svg-icon"
+                  size="small"
+                  (click)="close()"
+                  style="cursor: pointer">
+      </e-svg-icon>
+    </div>
+
+    <div id="help-search" class="flex-container"  fxLayout="column" fxLayoutAlign="center start">
+      <input type="search" class="flex-item"
+             size="100%"
+             placeholder="Search by topic"
+             (input)="filterSubject.next($event.target.value)">
+    </div>
+  </div>
+
+  <div id="general-help-content" *ngIf="helpContent" class="help-content">
+    <span class="header">
+      Get started with Pipelines
+    </span>
+    <hr/>
+    <li *ngFor="let helpItem of filteredHelpContent | helpContentCategoryFilter:'GENERAL'"
+        class="flex-container help-item" fxLayout="row" fxLayoutAlign="start start">
+        <div class="flex-item help-item-icon" fxFlex="10%">
+          <e-svg-icon type="objects__document"
+                      size="small">
+          </e-svg-icon>
+        </div>
+
+        <div class="flex-item" fxFlex="90%">
+          <div class="flex-container" fxLayout="column">
+            <span class="title flex-item">{{helpItem.title}}</span>
+            <span class="description flex-item">{{helpItem.description}}</span>
+            <a class="flex-item" href="{{helpItem.externalLink}}" target="_blank"
+               appSegmentOn="click"
+               [segmentEventData]="{appId: ''}"
+               segmentEventIdentifier="{{'Click' + helpItem.id + 'Link'}}"
+               appLiftOn="click"
+               [liftEventData]="{appId: ''}"
+               liftEventName="{{'Click' + helpItem.id + 'Link'}}">
+              <span>Learn more</span>
+            </a>
+          </div>
+        </div>
+    </li>
+  </div>
+
+  <div id ="personalized-help-content" *ngIf="helpContent" class="help-content">
+    <li *ngFor="let helpItem of filteredHelpContent | helpContentCategoryFilter:'PERSONALIZED'"
+        class="flex-container help-item" fxLayout="row" fxLayoutAlign="start start">
+        <div class="flex-item help-item-icon" fxFlex="10%">
+          <e-svg-icon type="objects__document"
+                      size="small">
+          </e-svg-icon>
+        </div>
+
+        <div class="flex-item" fxFlex="90%">
+          <div class="flex-container" fxLayout="column">
+            <span class="title flex-item">{{helpItem.title}}</span>
+            <span class="description flex-item">{{helpItem.description}}</span>
+            <a class="flex-item" href="{{helpItem.externalLink}}" target="_blank"
+               appSegmentOn="click"
+               [segmentEventData]="{appId: ''}"
+               segmentEventIdentifier="{{'Click' + helpItem.id + 'Link'}}"
+               appLiftOn="click"
+               [liftEventData]="{appId: ''}"
+               liftEventName="{{'Click' + helpItem.id + 'Link'}}">
+              <span>Learn more</span>
+            </a>
+          </div>
+        </div>
+    </li>
+  </div>
+</div>
+<div id="help-center-bg" *ngIf="showHelpCenter" (click)="close()">
+</div>
+

@@ -13,11 +13,13 @@ import {FlashMessageService} from '../../core/services/flash-message.service';
 import {WebSocketService} from '../../core/services/web-socket.service';
 import {WebSocketHandler} from '../../core/models/web-socket-handler';
 import {features} from '../../core/features';
+import {animations} from '../../core/animations';
 
 @Component({
   selector: 'app-jobs-detail',
   templateUrl: './jobs-detail.component.html',
-  styleUrls: ['./jobs-detail.component.scss']
+  styleUrls: ['./jobs-detail.component.scss'],
+  animations: animations
 })
 export class JobsDetailComponent implements OnInit, OnDestroy {
 
@@ -194,7 +196,7 @@ export class JobsDetailComponent implements OnInit, OnDestroy {
             appId: this.appId,
             jobId: this.jobId
           }, 'error')
-          .showError('Job list', '/jobs/' + this.appId))
+          .showError('Job list', '/applications/' + this.appId))
       .then(() => {
         this.loadingJob = false;
         this.firstLoad = false;

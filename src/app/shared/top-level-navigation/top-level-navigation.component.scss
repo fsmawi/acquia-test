@@ -3,6 +3,9 @@
 #top-level-nav {
 
   box-shadow: 0 0.125rem 0.3125rem -0.0625rem rgba(0,0,0,0.2);
+  position: fixed;
+  width: 100%;
+  top: 0;
 
   a {
     cursor: pointer;

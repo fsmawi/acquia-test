@@ -60,7 +60,7 @@ export class JobListComponent implements OnInit {
       this.envProd = true;
       this.cloudUrl = `${environment.authRedirect}/app/develop/applications/${this.appId}/pipelines/jobs`;
     } else {
-      this.cloudUrl = `/jobs/${this.appId}`;
+      this.cloudUrl = `/applications/${this.appId}`;
     }
 
     // Track page view
