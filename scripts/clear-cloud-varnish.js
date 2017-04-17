@@ -34,7 +34,6 @@ getEnvDomains()
 function getEnvDomains() {
   return new Promise((resolve, reject) => {
     let url = CLOUD_API_ENDPOINT + `/sites/${REALM}:${SITE}/envs/${ENV}/domains.json`;
-    console.log(url);
     request
       .get(url)
       .auth(USER, PASSWORD)
@@ -58,7 +57,6 @@ function getEnvDomains() {
 function purgeCache(domain) {
   return new Promise((resolve, reject) => {
     let url = CLOUD_API_ENDPOINT + `/sites/${REALM}:${SITE}/envs/${ENV}/domains/${domain}/cache.json`;
-    console.log(url);
     request
       .delete(url)
       .auth(USER, PASSWORD)
