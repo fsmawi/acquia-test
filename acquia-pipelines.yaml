@@ -79,6 +79,7 @@ events:
           script:
             - 'run launch_ode "pipelines-deploy"'
             - export -p | grep PIPELINE
+            - cat $PIPELINES_SCRIPT_DATA_FILE
             - 'run launch_ode "node $BUILD_DIR/scripts/clear-cloud-varnish.js $PIPELINE_CLOUD_REALM $PIPELINE_CLOUD_SITE $PIPELINES_DEPLOYMENT_NAME"'
   post-deploy:
     steps:
