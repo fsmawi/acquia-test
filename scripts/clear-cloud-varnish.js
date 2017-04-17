@@ -2,8 +2,8 @@ const request = require('superagent');
 
 // Cloud api credentials
 const CLOUD_API_ENDPOINT = process.env.PIPELINES_CLOUD_API_ENDPOINT; //'https://cloudapi.acquia.com/v1';
-const USER = process.env.CLOUD_API_USER;
-const PASSWORD = process.env.CLOUD_API_PASSWORD;
+const USER = process.env.N3_KEY;
+const PASSWORD = process.env.N3_SECRET;
 
 const REALM = process.argv.slice(2)[0];
 const SITE = process.argv.slice(2)[1];
