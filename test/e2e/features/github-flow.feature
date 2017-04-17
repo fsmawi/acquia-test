@@ -16,7 +16,8 @@ Feature: Pipelines Github Flow
 
   @GithubFlow_CheckGithubConnectionSuccess @pending
   Scenario: Check that the connection to Github succeed
-    When I click on the |*view-connection-info| link
+    When I click on the |*more-links-menu| link
+    And I click on the |*view-connection-info| link
     And I wait 5 seconds to navigate to github connection page
     And I click on the |*re-authorize| button
     And I click on the |*connect-to-github| button
@@ -34,7 +35,8 @@ Feature: Pipelines Github Flow
     And I click on the |*sign-in| button
     And I wait 10 seconds for logging in
     And I should see the |app-jobs| list
-    When I click on the |*view-connection-info| link
+    And I click on the |*more-links-menu| link
+    And I click on the |*view-connection-info| link
     And I wait 5 seconds to navigate to github connection page
     And I click on the |*re-authorize| button
     And I click on the |*connect-to-github| button
@@ -44,7 +46,8 @@ Feature: Pipelines Github Flow
 
   @GithubFlow_CheckAttachRepository @pending
   Scenario: Check that attaching repository works
-    When I click on the |*view-connection-info| link
+    When I click on the |*more-links-menu| link
+    And I click on the |*view-connection-info| link
     And I wait 5 seconds to navigate to github connection page
     And I click on the |*re-authorize| button
     And I click on the |*connect-to-github| button
@@ -61,7 +64,8 @@ Feature: Pipelines Github Flow
 
   @GithubFlow_CheckChooseRepositoryCancel @pending
   Scenario: Check that the 'Cancel' button close the repository modal
-    When I click on the |*view-connection-info| link
+    When I click on the |*more-links-menu| link
+    And I click on the |*view-connection-info| link
     And I wait 5 seconds to navigate to github connection page
     And I click on the |*re-authorize| button
     And I click on the |*connect-to-github| button
@@ -73,7 +77,8 @@ Feature: Pipelines Github Flow
 
   @GithubFlow_FirstUXConfigureRepoWithGitHub @pending
   Scenario: validate first user expereince configuring repo with github
-    When I click on the |*view-connection-info| link
+    When I click on the |*more-links-menu| link
+    And I click on the |*view-connection-info| link
     And I wait 5 seconds to navigate to github connection page
     And I click on the |*configure| link
     And I click on the |*configure-github| link

@@ -26,7 +26,7 @@
             Environment
           </span>
         </e-data-label>
-        <e-data-value>
+        <e-data-value id="job-deployment-link-value">
           <a *ngIf="job.isFinished && job.metadata.deployment_link"
              href="{{job.metadata.deployment_link}}" target="_blank">
             <e-svg-icon class="primary" type="alpha__globe"
@@ -51,7 +51,7 @@
             Commit
           </span>
         </e-data-label>
-        <e-data-value>
+        <e-data-value id="job-commit-value">
           <a *ngIf="job.metadata.commit_link" href="{{job.metadata.commit_link}}" target="_blank">
             {{job.metadata.git_sha | slice:0:8}}
           </a>
@@ -68,8 +68,8 @@
             Duration
           </span>
         </e-data-label>
-        <e-data-value *ngIf="job.isUnfinished">{{calculatedDuration}}</e-data-value>
-        <e-data-value *ngIf="job.isFinished">{{job.duration | amDuration:'seconds'}}</e-data-value>
+        <e-data-value id="job-duration-value" *ngIf="job.isUnfinished">{{calculatedDuration}}</e-data-value>
+        <e-data-value id="job-duration-finished-value" *ngIf="job.isFinished">{{job.duration | amDuration:'seconds'}}</e-data-value>
       </e-data>
       <e-data class="flex-item"
               fxFlex="25%"
@@ -81,7 +81,7 @@
             Started at
           </span>
         </e-data-label>
-        <e-data-value>{{(job.started_at | amFromUnix) | amDateFormat:'MM/DD/YY hh:mmA'}}</e-data-value>
+        <e-data-value id="job-started-at-value">{{(job.started_at | amFromUnix) | amDateFormat:'MM/DD/YY hh:mmA'}}</e-data-value>
       </e-data>
       <e-data class="flex-item"
               fxFlex="25%"
@@ -95,7 +95,7 @@
             Trigger
           </span>
         </e-data-label>
-        <e-data-value>{{job.triggerMessage}}</e-data-value>
+        <e-data-value id="job-trigger-value">{{job.triggerMessage}}</e-data-value>
       </e-data>
       <e-data class="flex-item"
               fxFlex="25%"
@@ -107,7 +107,7 @@
                             mdTooltipPosition="right">
             Pull request
           </span></e-data-label>
-        <e-data-value>
+        <e-data-value id="job-pull-request-value">
           <a *ngIf="job.metadata.pull_request_link"
              href="{{job.metadata.pull_request_link}}" target="_blank"
              appLiftOn="click"
@@ -134,7 +134,7 @@
             Branch
           </span>
         </e-data-label>
-        <e-data-value>
+        <e-data-value id="job-branch-value">
           {{job.branch}}
         </e-data-value>
       </e-data>
@@ -149,7 +149,7 @@
             Source branch
           </span>
         </e-data-label>
-        <e-data-value>
+        <e-data-value id="job-source-branch-value">
           {{job.metadata.source_branch}}
         </e-data-value>
       </e-data>
@@ -164,7 +164,7 @@
             Target branch
           </span>
         </e-data-label>
-        <e-data-value>
+        <e-data-value id="job-target-branch-value">
           {{job.metadata.target_branch}}
         </e-data-value>
       </e-data>
@@ -179,7 +179,7 @@
             Requested by
           </span>
         </e-data-label>
-        <e-data-value>
+        <e-data-value id="job-requested-by-value">
           {{job.requested_by}}
         </e-data-value>
       </e-data>
