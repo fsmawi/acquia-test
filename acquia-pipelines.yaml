@@ -78,14 +78,13 @@ events:
       - launch_ode:
           script:
             - 'run launch_ode "pipelines-deploy"'
-            - export -p | grep PIPELINE
-            - cat $PIPELINES_SCRIPT_DATA_FILE
-            - 'run launch_ode "node $BUILD_DIR/scripts/clear-cloud-varnish.js $PIPELINE_CLOUD_REALM $PIPELINE_CLOUD_SITE $PIPELINES_DEPLOYMENT_NAME"'
   post-deploy:
     steps:
       - e2e_test:
           script:
             - 'alias run="node $BUILD_DIR/scripts/run.js"'
+            - export -p | grep PIPELINE
+            - 'run launch_ode "node $BUILD_DIR/scripts/clear-cloud-varnish.js $PIPELINE_CLOUD_REALM $PIPELINE_CLOUD_SITE $PIPELINES_DEPLOYMENT_NAME"'
             - export PIPELINES_URL=\"$PIPELINES_DEPLOYMENT_LINK/index.html#\"
             - '\[ $PIPELINE_VCS_PATH == "master" \] && export PIPELINES_URL=$PIPELINES_DEV_URL || echo Not master.'
             - '\[ $PIPELINE_VCS_PATH == "staging" \] && export PIPELINES_URL=$PIPELINES_STAGING_URL || echo Not staging.'
