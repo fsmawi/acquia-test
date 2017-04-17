@@ -4,11 +4,17 @@
   position: absolute;
   width: 100%;
   min-height: 50%;
-  padding: px-to-relative(24px);
+  padding: 1.5rem;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   overflow: auto;
+}
+
+@media (max-width: px-to-relative(320px)) {
+  :host {
+    padding: 1rem;
+  }
 }
 
 md-card {
