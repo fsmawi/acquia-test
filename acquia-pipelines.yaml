@@ -85,9 +85,9 @@ events:
           script:
             - 'alias run="node $BUILD_DIR/scripts/run.js"'
             - export PIPELINES_URL=\"$PIPELINES_DEPLOYMENT_LINK/index.html#\"
-            - '\[ $PIPELINE_VCS_PATH == "master" \] && export PIPELINES_URL=$PIPELINES_DEV_URL || echo Not master.'
-            - '\[ $PIPELINE_VCS_PATH == "staging" \] && export PIPELINES_URL=$PIPELINES_STAGING_URL || echo Not staging.'
-            - '\[ $PIPELINE_VCS_PATH == "production" \] && run e2e_test "npm run e2e:acceptance" || run e2e_test "npm run e2e:ode"'
+            - '\[ $PIPELINE_DEPLOY_VCS_PATH == "pipelines-build-master" \] && export PIPELINES_URL=$PIPELINES_DEV_URL || echo Not master.'
+            - '\[ $PIPELINE_DEPLOY_VCS_PATH == "pipelines-build-staging" \] && export PIPELINES_URL=$PIPELINES_STAGING_URL || echo Not staging.'
+            - '\[ $PIPELINE_DEPLOY_VCS_PATH == "pipelines-build-production" \] && run e2e_test "npm run e2e:acceptance" || run e2e_test "npm run e2e:ode"'
             - 'run end'
       - release:
           script:
