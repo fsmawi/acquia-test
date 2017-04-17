@@ -21,24 +21,24 @@ Feature: Pipelines Job Summary
     And I should navigate to the |*job-detail| page
     And I click on the |*pipelines| link
     And I should see the |app-jobs| list
-    And I should see |*deployment-link-value| |*inner-text| containing |*latest-job-details-deployment|
-    And I should see |*commit-value| |*inner-text| containing |*latest-job-details-commit|
-    And I should see |*started-at-value| |*inner-text| containing |*latest-job-details-started-at|
-    And I should see |*trigger-value| |*inner-text| containing |*latest-job-details-trigger|
-    And I should see |*pull-request-value| |*inner-text| containing |*latest-job-details-pr|
-    And I should see |*source-branch-value| |*inner-text| containing |*latest-job-details-source-branch|
-    And I should see |*target-branch-value| |*inner-text| containing |*latest-job-details-target-branch|
-    Then I should see |*requested-by-value| |*inner-text| containing |*latest-job-details-requested-by|
+    And I should see the |*deployment-link-value|
+    And I should see the |*commit-value|
+    And I should see the |*started-at-value|
+    And I should see the |*trigger-value|
+    And I should see the |*pull-request-value|
+    And I should see the |*source-branch-value|
+    And I should see the |*target-branch-value|
+    Then I should see the |*requested-by-value|
 
   @JobList_JobDetails_JobSummary
   Scenario: Check the job summary on job details
     When on the |*jobs-list-title| page
     And I click on the first job id in the "Build" column from the list of jobs displayed
     And I should navigate to the |*job-detail| page
-    And I should see |*duration-finished-value| |*inner-text| containing |*job-details-duration|
-    And I should see |*started-at-value| |*inner-text| containing |*job-details-started-at|
-    And I should see |*trigger-value| |*inner-text| containing |*job-details-trigger|
-    And I should see |*branch-value| |*inner-text| containing |*job-details-source-branch|
-    And I should see |*requested-by-value| |*inner-text| containing |*job-details-requested-by|
+    And I should see the |*duration-finished-value|
+    And I should see the |*started-at-value|
+    And I should see the |*trigger-value|
+    And I should see the |*branch-value|
+    And I should see the |*requested-by-value|
     And I click on the |*pipelines| link
     Then I should see the |app-jobs| list
