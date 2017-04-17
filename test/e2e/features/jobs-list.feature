@@ -27,7 +27,7 @@ Feature: Pipelines Jobs List
   @JobList_CheckActivityCard
   Scenario: Check that the activity card is visible
     When on the |*jobs-list| page
-    Then I should see an activity card with title |Activity|
+    Then I should see the |*activity-tab|
 
   @JobList_CheckActivityTableHeaders
   Scenario: Check that the activity card should show the appropriate headers
@@ -45,11 +45,6 @@ Feature: Pipelines Jobs List
     When on the |*jobs-list| page
     And I click on the "Stop" button in the "Actions" column
     Then I should see the job status as "Job is paused"
-
-  @JobList_CheckActivityTable
-  Scenario: Validate the activity card contains job table information
-    When on the |*jobs-list| page
-    Then I should see |*jobs-list-table| inside |Activity| card
 
   @JobList_CheckDetailLink
   Scenario: A job in the activity card should link to the detail page for that job
