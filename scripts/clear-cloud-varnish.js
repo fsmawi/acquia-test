@@ -37,6 +37,7 @@ function getEnvDomains() {
     request
       .get(url)
       .auth(USER, PASSWORD)
+      .retry(3)
       .end((err, res) => {
         if (err) {
           return reject(err);
@@ -60,6 +61,7 @@ function purgeCache(domain) {
     request
       .delete(url)
       .auth(USER, PASSWORD)
+      .retry(3)
       .end(function(err, res) {
         if (err) {
           return reject(err);
