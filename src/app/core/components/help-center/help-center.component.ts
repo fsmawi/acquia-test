@@ -13,7 +13,6 @@ import {HelpItem} from '../../models/help-item';
 // Global require
 // or mocked by scope vars in tests; to suppress 'cannot find name require' while building
 declare function require(moduleName: string): any;
-
 const {version : appVersion} = require('../../../../../package.json');
 
 @Component({
@@ -121,5 +120,4 @@ export class HelpCenterComponent implements OnInit {
         });
     }
   }
-
 }
