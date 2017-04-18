@@ -10,6 +10,12 @@ import {animations} from '../../animations';
 import {helpCenterContent} from './help-center.definition';
 import {HelpItem} from '../../models/help-item';
 
+// Global require
+// or mocked by scope vars in tests; to suppress 'cannot find name require' while building
+declare function require(moduleName: string): any;
+
+const {version : appVersion} = require('../../../../../package.json');
+
 @Component({
   selector: 'app-help-center',
   templateUrl: './help-center.component.html',
@@ -46,6 +52,11 @@ export class HelpCenterComponent implements OnInit {
   filterSubject = new Subject<string>();
 
   /**
+   * Holds the version number
+   */
+  appVersion: string;
+
+  /**
    * Builds the component
    * @param helpCenterService
    * @param media
@@ -68,6 +79,8 @@ export class HelpCenterComponent implements OnInit {
         this.filterText = filterText;
         this.filter();
       });
+
+    this.appVersion = appVersion;
   }
 
   /**
