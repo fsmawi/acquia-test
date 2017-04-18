@@ -1,5 +1,6 @@
 const AcquiaHttpHmac = require('http-hmac-javascript');
 const XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
+const colors = require('colors');
 
 // Get env variables
 const APP_ID = process.env.PIPELINE_APPLICATION_ID;
@@ -24,15 +25,16 @@ var envId;
 getEnvironmentId()
   .then((env) => {
     envId = env;
+    console.log(`Environment ID :` + `${envId}`.cyan);
     return getDomains(envId);
   })
   .then((domains) => {
     return Promise.all(domains.map((domain) => {
-      return purgeCache(envId, domain.name);
+      return clearCache(envId, domain.name);
     }));
   })
   .then((res) => {
-    console.log(res);
+    console.log(`All caches cleared`.green);
   })
   .catch((err) => console.log(err));
 
@@ -41,6 +43,7 @@ getEnvironmentId()
  * @return {Promise}
  */
 function getEnvironmentId() {
+  console.log(`Getting current Environment ID`.gray);
   let path = `https://cloud.acquia.com/api/applications/${APP_ID}/environments`;
   return new Promise((resolve, reject) => {
 
@@ -72,6 +75,7 @@ function getEnvironmentId() {
  * @return {Promise}
  */
 function getDomains(envId) {
+  console.log(`Getting all domains for current Environment`.gray);
   return new Promise((resolve, reject) => {
 
     let path = `https://cloud.acquia.com/api/environments/${envId}/domains`;
@@ -82,6 +86,8 @@ function getDomains(envId) {
         let domains = res._embedded.items.map((item) => {
           return {name: item.hostname}
         });
+
+        domains.map((domain) => console.log(`${domain.name}`.cyan));
 
         if (domains.length) {
           return resolve(domains);
@@ -96,12 +102,14 @@ function getDomains(envId) {
   });
 }
 
-
 /**
- * Get all domains for the given environment id
+ * Clear the Varnish cache for teh given domain
  * @return {Promise}
  */
-function purgeCache(envId, domain) {
+function clearCache(envId, domain) {
+
+  console.log(`Clearing cache for domain :`.gray +`${domain}`);
+
   let path = `https://cloud.acquia.com/api/environments/${envId}/domains/${domain}/actions/clear-varnish`;
   return xhr2promise(path, 'POST', 202, true);
 }

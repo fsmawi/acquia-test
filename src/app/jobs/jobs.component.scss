@@ -11,6 +11,12 @@
   overflow: auto;
 }
 
+@media (max-width: px-to-relative(320px)) {
+  :host {
+    padding: 1rem;
+  }
+}
+
 #job-list /deep/ .el-card__content {
   padding: 0;
 }
