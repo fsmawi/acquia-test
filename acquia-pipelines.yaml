@@ -77,13 +77,13 @@ events:
             - 'cd $BUILD_DIR'
       - launch_ode:
           script:
-            - 'run launch_ode "chmod +x ./tools/pipelines-deploy"'
-            - 'run launch_ode "./tools/pipelines-deploy"'
+            - 'run launch_ode "pipelines-deploy"'
   post-deploy:
     steps:
       - e2e_test:
           script:
             - 'alias run="node $BUILD_DIR/scripts/run.js"'
+            - 'run launch_ode "node $BUILD_DIR/scripts/clear-cloud-varnish.js"'
             - export PIPELINES_URL=$PIPELINES_DEPLOYMENT_LINK/index.html#
             - '\[ $PIPELINE_DEPLOY_VCS_PATH == "pipelines-build-master" \] && export PIPELINES_URL=$PIPELINES_DEV_URL || echo Not master.'
             - '\[ $PIPELINE_DEPLOY_VCS_PATH == "pipelines-build-staging" \] && export PIPELINES_URL=$PIPELINES_STAGING_URL || echo Not staging.'
