@@ -67,12 +67,12 @@ exports.bootstrap = function (browser) {
           "use strict";
           try {
             // dom selector
-            document.querySelector(selector).scrollIntoView();
+            document.querySelector(selector).scrollIntoView(false);
           } catch(e) {
             // xpath selector
             let element = document.evaluate(selector, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null);
             if (element && element.singleNodeValue) {
-              element.singleNodeValue.scrollIntoView();
+              element.singleNodeValue.scrollIntoView(false);
             }
           }
 
