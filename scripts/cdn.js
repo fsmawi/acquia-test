@@ -1,18 +1,18 @@
 const AWS = require('aws-sdk');
 const fs = require('fs');
 const path = require('path');
+const colors = require('colors');
+const glob = require('glob');
 
 // build folder
 const buildFolder = '/tmp/build/';
 
 // cloudFront prefix url
 const cloudFront = process.argv.slice(2)[0];
+const cloudFrontDistribution = process.argv.slice(2)[1];
 
 // regular expression for asset files
 const assetRegEx = /^((styles|main|vendor|inline))(\.[0-9a-z]+)?(\.bundle\.(js|css|map))$/g;
-
-const filePath = buildFolder + 'index.html';
-var fileBody = fs.readFileSync(filePath, 'utf8');
 
 // load credentials and set region
 AWS.config.update({
@@ -24,32 +24,32 @@ AWS.config.update({
 // create S3 service object
 const s3 = new AWS.S3();
 
+// create CloudFront service object
+const cloudfront = new AWS.CloudFront();
+
 // read build directory
-// find matched asset files and upload them to S3
-// replace asset urls in index.html with CDN versions
-fs.readdir(buildFolder, (err, files) => {
+// upload files to S3
+glob(`${buildFolder}**`, {nodir: true}, function (err, files) {
 
   if (err) {
     console.error(err);
     process.exit(1);
   }
 
-  files = files.filter(file => file.match(assetRegEx));
+  // remove prefix
+  files = files.map((file) => {
+    return file.match(/(tmp\/build\/)(.*)/)[2];
+  });
 
   // Upload files
+  // Create invalidation for index.html
   Promise.all(files.map(file => uploadFile(file)))
   .then(() => {
-
-    files.forEach(file => {
-      fileBody = fileBody.replace('="' + file + '"', '="' + cloudFront + file + '"');
-    });
-
-    // Update index.html
-    fs.writeFile(filePath, fileBody, 'utf8', function(err) {
-      if (err) {
-        return Promise.reject(err);
-      }
-    });
+    console.log(`All dist files uploaded`.green);
+    return invalidateFile('/index.html');
+  })
+  .then(() => {
+    console.log(`Invalidation created`.green);
   })
   .catch((err) => {
     console.error(err);
@@ -57,13 +57,14 @@ fs.readdir(buildFolder, (err, files) => {
   });
 });
 
+
 /**
  * Upload a single file
  * @param  file
  * @return Promise
  */
 function uploadFile(file) {
-  console.log('uploading asset : ' + file);
+  console.log(`uploading asset : `.gray + file);
   return new Promise((resolve, reject) => {
     const fileStream = fs.createReadStream(buildFolder + file);
     fileStream.on('error', (err) => {
@@ -76,6 +77,11 @@ function uploadFile(file) {
       Body: fileStream,
       ContentType: getContentType(file)
     };
+
+    // disable cache for index.html
+    if (file == 'index.html') {
+      uploadParams.CacheControl = 'max-age=0';
+    }
 
     s3.upload (uploadParams, function (err, data) {
       if (err) {
@@ -106,7 +112,7 @@ function getKey(file) {
       directory = 'dev/';
       break;
   }
-  return path.join(directory, path.basename(file));
+  return directory+file;
 }
 
 /**
@@ -116,16 +122,55 @@ function getKey(file) {
  */
 function getContentType(file) {
 
-  let contentType = 'application/octet-stream';
-  var fn = file.toLowerCase();
+  let contentType = '';
+  let fn = file.toLowerCase();
 
   if (fn.indexOf('.js') >= 0) {
     contentType = 'text/x-javascript';
-  }
-
-  if (fn.indexOf('.css') >= 0) {
+  } else if (fn.indexOf('.css') >= 0) {
     contentType = 'text/css';
+  } else if (fn.indexOf('.html') >= 0) {
+    contentType = 'text/html';
+  } else if (fn.indexOf('.png') >= 0) {
+    contentType = 'image/png';
+  } else if (fn.indexOf('.jpg') >= 0) {
+    contentType = 'image/jpg';
+  } else if (fn.indexOf('.svg') >= 0) {
+    contentType = 'image/svg+xml';
+  } else {
+    contentType = 'application/octet-stream';
   }
 
   return contentType;
+}
+
+/**
+ * Create an invalidation for given file
+ * @param  file
+ * @return {Promise}
+ */
+function invalidateFile(file) {
+  console.log(`Creating invalidation for : `.gray + `${file}`)
+  return new Promise((resolve, reject) => {
+    const params = {
+      DistributionId: cloudFrontDistribution, /* required */
+      InvalidationBatch: { /* required */
+        CallerReference: `${Date.now()}`, /* required */
+        Paths: { /* required */
+          Quantity: 1, /* required */
+          Items: [
+            file,
+          ]
+        }
+      }
+    };
+
+    cloudfront.createInvalidation(params, function(err, data) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(data);
+      }
+    });
+  });
 }

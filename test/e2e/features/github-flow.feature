@@ -1,4 +1,4 @@
-@GithubFlow @pending
+@GithubFlow
 Feature: Pipelines Github Flow
   As an Acquia Pipelines user
   I want to connect to Github and attach a repository to pipelines application
@@ -16,10 +16,11 @@ Feature: Pipelines Github Flow
 
   @GithubFlow_CheckGithubConnectionSuccess @pending
   Scenario: Check that the connection to Github succeed
-    When I click on the |*more-links-menu| link
-    And I click on the |*view-connection-info| link
+    When I click on the |*more-links| link
+    When I click on the |*view-application-info| link
     And I wait 5 seconds to navigate to github connection page
-    And I click on the |*re-authorize| button
+    And I click on the |*configure| link
+    And I click on the |*configure-github| link
     And I click on the |*connect-to-github| button
     And I should see a |*alert-message| with |*success-message|
     And I get success parameter with value "true"
@@ -35,10 +36,11 @@ Feature: Pipelines Github Flow
     And I click on the |*sign-in| button
     And I wait 10 seconds for logging in
     And I should see the |app-jobs| list
-    And I click on the |*more-links-menu| link
-    And I click on the |*view-connection-info| link
+    When I click on the |*more-links| link
+    When I click on the |*view-application-info| link
     And I wait 5 seconds to navigate to github connection page
-    And I click on the |*re-authorize| button
+    And I click on the |*configure| link
+    And I click on the |*configure-github| link
     And I click on the |*connect-to-github| button
     And I get reason parameter with value |*fail-reason|
     And I get success parameter with value "false"
@@ -46,10 +48,11 @@ Feature: Pipelines Github Flow
 
   @GithubFlow_CheckAttachRepository @pending
   Scenario: Check that attaching repository works
-    When I click on the |*more-links-menu| link
-    And I click on the |*view-connection-info| link
+    When I click on the |*more-links| link
+    When I click on the |*view-application-info| link
     And I wait 5 seconds to navigate to github connection page
-    And I click on the |*re-authorize| button
+    And I click on the |*configure| link
+    And I click on the |*configure-github| link
     And I click on the |*connect-to-github| button
     And I should see a |*alert-message| with |*success-message|
     And I click on the |*select-repo| button
@@ -64,10 +67,11 @@ Feature: Pipelines Github Flow
 
   @GithubFlow_CheckChooseRepositoryCancel @pending
   Scenario: Check that the 'Cancel' button close the repository modal
-    When I click on the |*more-links-menu| link
-    And I click on the |*view-connection-info| link
+    When I click on the |*more-links| link
+    When I click on the |*view-application-info| link
     And I wait 5 seconds to navigate to github connection page
-    And I click on the |*re-authorize| button
+    And I click on the |*configure| link
+    And I click on the |*configure-github| link
     And I click on the |*connect-to-github| button
     And I should see a |*alert-message| with |*success-message|
     And I click on the |*select-repo| button
@@ -77,8 +81,8 @@ Feature: Pipelines Github Flow
 
   @GithubFlow_FirstUXConfigureRepoWithGitHub @pending
   Scenario: validate first user expereince configuring repo with github
-    When I click on the |*more-links-menu| link
-    And I click on the |*view-connection-info| link
+    When I click on the |*more-links| link
+    When I click on the |*view-application-info| link
     And I wait 5 seconds to navigate to github connection page
     And I click on the |*configure| link
     And I click on the |*configure-github| link
@@ -91,3 +95,14 @@ Feature: Pipelines Github Flow
     And I click on the |*repo1-radio| button
     And I click on the |*continue| button
     Then I should be navigated to |*application-information| page
+
+  @GithubFlow_ValidateContentInGithubAuthPage
+  Scenario: validate the content inside github-connect page
+    When I click on the |*more-links| link
+    And I click on the |*view-application-info| link
+    And I wait 5 seconds to navigate to github connection page
+    And I click on the |*configure| link
+    And I click on the |*configure-github| link
+    Then I should see a |*github-flow-page-title| with |*github-flow-page-title-text|
+    Then I should see a |*github-flow-auth-page-root| contains |*github-flow-page-paragraph1|
+    Then I should see a |*github-flow-auth-page-root| contains |*github-flow-page-paragraph2|
