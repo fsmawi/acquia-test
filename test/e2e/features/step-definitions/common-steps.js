@@ -157,4 +157,11 @@ module.exports = function () {
   this.Then(/^I hover on \|(.*?)\|/, function (hoverElement) {
     return this.browser.moveToObject(page.getDynamicValue(hoverElement));
   });
+
+  this.Then(/^I should see a \|(.*?)\| element contains \|(.*?)\|$/, function (element, textToFind) {
+    return this.browser._getHTML(page.getDynamicValue(element))
+      .then((actualHTML) => {
+        expect(actualHTML).to.contain(page.getDynamicValue(textToFind));
+      });
+  });
 };
