@@ -24,5 +24,30 @@ module.exports = {
   'learn-more': 'a[segmenteventidentifier="ClickLearnMoreAboutCli"]',
   'learn-more-about-using-git': 'a[segmenteventidentifier="ClickLearnMoreAboutGit"]',
   'acquia-docs-using-pipelines': 'https://docs.acquia.com/pipelines/client#start',
-  'acquia-docs-using-git': 'https://docs.acquia.com/acquia-cloud/develop/repository/git'
+  'acquia-docs-using-git': 'https://docs.acquia.com/acquia-cloud/develop/repository/git',
+  'acquia-docs-pipelines': 'https://docs.acquia.com/pipelines/',
+  'acquia-pipelines-description': 'Acquia Pipelines automates building, testing, and deploying sites on Acquia Cloud',
+  'no-jobs-card': '#no-jobs',
+  //run pipelines
+  'run-pipelines-card': '#start-job',
+  'run-pipelines-header': '#start-job h4',
+  'run-pipelines-header-text': 'Run Pipelines',
+  'pipelines-logo': '#start-job img#pipelines-logo',
+  'learn-more-no-jobs': 'a[segmenteventidentifier="ClickLearnMoreNoJobs"]',
+  //select source
+  'select-source-card': '#configure-source',
+  'select-source-header': '#configure-source h4',
+  'select-source-header-text': 'Select Source',
+  'acquia-git-image': '#configure-source .image-container div:nth-child(1)',
+  'acquia-git-image-file-name': 'acquia.svg',
+  'git-image': '#configure-source .image-container div:nth-child(2)',
+  'git-image-file-name': 'icons.symbol.svg#logos__github',
+  'select-source-link': 'a#link-choose-source',
+  //deploy automatically
+  'deploy-automatically-card': '#deploy-automatically',
+  'deploy-automatically-header': '#deploy-automatically h4',
+  'deploy-automatically-header-text': 'Deploy Automatically',
+  'acquia-cloud-image': '#deploy-automatically image',
+  'acquia-cloud-image-file-name': 'cloud-logo.svg',
+  'view-environments': 'a#link-view-environments'
 };
