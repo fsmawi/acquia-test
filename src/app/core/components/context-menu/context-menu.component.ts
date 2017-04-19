@@ -1,8 +1,9 @@
 import {Component, HostListener, OnInit} from '@angular/core';
 
 import {ContextMenuService} from '../../services/context-menu.service';
-import {environment} from '../../../../environments/environment';
 import {MenuItem} from '../../models/menu-item';
+
+declare const window;
 
 @Component({
   selector: 'app-context-menu',
@@ -18,11 +19,20 @@ export class ContextMenuComponent implements OnInit {
   menuOpen = false;
 
   /**
+   * Mouse location
+   * @type {Object}
+   */
+  mouseLocation = {x: 0, y: 0};
+
+  /**
    * Items menu
    * @type {MenuItem[]}
    */
   items: MenuItem[];
 
+  /**
+   * Handle all events that should close the menu
+   */
   @HostListener('document:click')
   @HostListener('document:contextmenu')
   @HostListener('window:scroll')
@@ -43,11 +53,36 @@ export class ContextMenuComponent implements OnInit {
 
    /**
    * Show context menu
-   * @param {MenuItem[]}
+   * @param {any}
    */
-  show(items: MenuItem[]) {
+  show(menu: any) {
     this.menuOpen = true;
-    this.items = items;
+    this.items = menu.items;
+    this.mouseLocation = menu.mouseLocation;
+  }
+
+  /**
+   * Get menu css position X/Y
+   * @return {any}
+   */
+  get locationCss(): any {
+
+    let positionX = this.mouseLocation.x,
+        positionY = this.mouseLocation.y;
+
+    if (this.mouseLocation.x + 200 >= window.innerWidth) {
+      positionX -= 200;
+    }
+
+    if (this.mouseLocation.y + (this.items.length * 32) >= window.innerHeight) {
+      positionY -= this.items.length * 32;
+    }
+
+    return {
+      position: 'fixed',
+      left: positionX,
+      top: positionY
+    };
   }
 
   /**

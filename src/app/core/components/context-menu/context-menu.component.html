@@ -1,4 +1,4 @@
-<div id="context-menu" *ngIf="menuOpen">
+<div id="context-menu" *ngIf="menuOpen" [ngStyle]="locationCss">
   <ul class="dropdown-menu">
     <li *ngFor="let item of items">
       <a href="{{item.link}}" target="{{item.target}}">{{item.text}}</a>

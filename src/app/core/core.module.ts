@@ -58,9 +58,25 @@ import {ContextMenuService} from './services/context-menu.service';
     HelpCenterService,
     ContextMenuService
   ],
-  declarations: [FlashMessageComponent, ConfirmationModalComponent, HelpCenterComponent, HelpContentCategoryFilterPipe, ContextMenuComponent],
-  exports: [FlashMessageComponent, ConfirmationModalComponent, HelpCenterComponent, ContextMenuComponent],
-  entryComponents: [ConfirmationModalComponent, FlashMessageComponent, HelpCenterComponent, ContextMenuComponent]
+  declarations: [
+    FlashMessageComponent,
+    ConfirmationModalComponent,
+    HelpCenterComponent,
+    HelpContentCategoryFilterPipe,
+    ContextMenuComponent
+  ],
+  exports: [
+    FlashMessageComponent,
+    ConfirmationModalComponent,
+    HelpCenterComponent,
+    ContextMenuComponent
+  ],
+  entryComponents: [
+    ConfirmationModalComponent,
+    FlashMessageComponent,
+    HelpCenterComponent,
+    ContextMenuComponent
+  ]
 })
 export class CoreModule {
 }

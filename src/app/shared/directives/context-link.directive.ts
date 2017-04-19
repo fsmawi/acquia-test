@@ -21,12 +21,13 @@ export class ContextLinkDirective {
 
   @HostListener('contextmenu', ['$event'])
   public onContextMenu(event: any): void {
-    // if (window.self !== window.top) {
-    if (true) {
-      event.stopPropagation();
-      event.preventDefault();
-      this.contextMenuService.show(this.appContextLink);
-    }
+    event.stopPropagation();
+    event.preventDefault();
+    const contextMenu = {
+      items: this.appContextLink,
+      mouseLocation: {x: event.clientX, y: event.clientY}
+    };
+    this.contextMenuService.show(contextMenu);
   }
 
   /**
