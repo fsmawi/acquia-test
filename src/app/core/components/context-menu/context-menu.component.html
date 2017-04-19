@@ -1,0 +1,7 @@
+<div id="context-menu" *ngIf="menuOpen">
+  <ul class="dropdown-menu">
+    <li *ngFor="let item of items">
+      <a href="{{item.link}}" target="{{item.target}}">{{item.text}}</a>
+    </li>
+  </ul>
+</div>

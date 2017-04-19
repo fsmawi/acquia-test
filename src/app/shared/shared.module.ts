@@ -12,6 +12,7 @@ import {LogChunksPipe} from './pipes/log-chunks.pipe';
 import {LiftDirective} from './directives/lift.directive';
 import {ActionHeaderComponent} from './action-header/action-header.component';
 import {TopLevelNavigationComponent} from './top-level-navigation/top-level-navigation.component';
+import {ContextLinkDirective} from './directives/context-link.directive';
 
 @NgModule({
   imports: [
@@ -28,7 +29,8 @@ import {TopLevelNavigationComponent} from './top-level-navigation/top-level-navi
     IframeLinkDirective,
     LiftDirective,
     ActionHeaderComponent,
-    TopLevelNavigationComponent
+    TopLevelNavigationComponent,
+    ContextLinkDirective
   ],
   exports: [
     JobStatusComponent,
@@ -36,6 +38,7 @@ import {TopLevelNavigationComponent} from './top-level-navigation/top-level-navi
     SegmentDirective,
     LogChunksPipe,
     IframeLinkDirective,
+    ContextLinkDirective,
     LiftDirective,
     ActionHeaderComponent,
     TopLevelNavigationComponent
