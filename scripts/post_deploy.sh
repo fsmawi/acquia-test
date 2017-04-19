@@ -20,7 +20,9 @@ then
  git fetch --all
  git checkout master
  node $SOURCE_DIR/scripts/jira-create-version-pipelines-ui.js
- git push origin master
+ git describe --exact-match --abbrev=0 | xargs git tag -d
+ npm run changelog
+ git push --follow-tags origin master
  git checkout staging
  echo "merging changes from master into staging overwriting any conflicts with master"
  git merge origin/master -X theirs -m "Staging Release"
