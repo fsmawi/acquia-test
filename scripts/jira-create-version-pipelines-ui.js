@@ -75,7 +75,7 @@ function getVersionIssues(versionId) {
         return reject(error);
       } else {
         const search = stdout.match(versionId);
-        const tmp = stdout.substring(0, search.index).match(/MS-\d{4,}/g);
+        const tmp = stdout.substring(0, search.index).match(/MS-\d{4,}/g) || [];
 
         let issues = [];
         for (var i = 0; i < tmp.length; i++) {
