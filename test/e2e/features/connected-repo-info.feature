@@ -4,7 +4,7 @@ Feature: Pipelines Connected Repo Information Flow
   I want to check the connected repository information
 
   @ConnectedRepoInformationFlow_CheckInfoByRepoType
-  Scenario Outline: Check the application's connected repository information (Repo type: <repo-type>)
+  Scenario Outline: Check the application connected repository information
     Given I visit the |*PIPELINES_URL|
     And I have navigated to |*mock-header| page
     And I enter |*<repo-type>| in the |*header-value| field
@@ -31,4 +31,4 @@ Feature: Pipelines Connected Repo Information Flow
       | repo-type  |
       | acquia     |
       | github     |
-      
+
