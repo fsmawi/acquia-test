@@ -4,9 +4,6 @@ import {Router} from '@angular/router';
 import {ContextMenuService} from '../../core/services/context-menu.service';
 import {MenuItem} from '../../core/models/menu-item';
 
-// Global Scope, Window
-declare const window;
-
 @Directive({
   selector: '[appContextLink]'
 })
@@ -18,7 +15,10 @@ export class ContextLinkDirective {
   @Input('appContextLink')
   appContextLink: MenuItem[];
 
-
+  /**
+   * Prevent right click events and show the context menu
+   * @param event
+   */
   @HostListener('contextmenu', ['$event'])
   public onContextMenu(event: any): void {
     event.stopPropagation();

@@ -10,6 +10,7 @@
   background-color: $color-monotone-0;
   border: solid px-to-relative(1px) $color-neutral-3;
   box-shadow: 0 px-to-relative(6px) px-to-relative(12px) rgba(0,0,0,.175);
+  z-index: 1000;
 
   ul {
     margin: 0;

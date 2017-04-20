@@ -3,6 +3,7 @@ import {Component, HostListener, OnInit} from '@angular/core';
 import {ContextMenuService} from '../../services/context-menu.service';
 import {MenuItem} from '../../models/menu-item';
 
+// Global Scope, Window
 declare const window;
 
 @Component({
@@ -19,16 +20,16 @@ export class ContextMenuComponent implements OnInit {
   menuOpen = false;
 
   /**
-   * Mouse location
+   * menu location
    * @type {Object}
    */
-  mouseLocation = {x: 0, y: 0};
+  menuLocation = {top: 0, left: 0};
 
   /**
    * Items menu
    * @type {MenuItem[]}
    */
-  items: MenuItem[];
+  items: MenuItem[] = [];
 
   /**
    * Handle all events that should close the menu
@@ -58,37 +59,32 @@ export class ContextMenuComponent implements OnInit {
   show(menu: any) {
     this.menuOpen = true;
     this.items = menu.items;
-    this.mouseLocation = menu.mouseLocation;
+    this.setMenuLocation(menu.mouseLocation.x, menu.mouseLocation.y);
   }
 
   /**
-   * Get menu css position X/Y
-   * @return {any}
+   * Set menu location
+   * @param mouseLocationX
+   * @param mouseLocationY
    */
-  get locationCss(): any {
+  setMenuLocation(mouseLocationX, mouseLocationY) {
 
-    let positionX = this.mouseLocation.x,
-        positionY = this.mouseLocation.y;
+    // by default take mouse position
+    this.menuLocation.left = mouseLocationX;
+    this.menuLocation.top = mouseLocationY;
 
-    if (this.mouseLocation.x + 200 >= window.innerWidth) {
-      positionX -= 200;
+    if (mouseLocationX + 200 >= window.innerWidth) {
+      this.menuLocation.left -= 200;
     }
 
-    if (this.mouseLocation.y + (this.items.length * 32) >= window.innerHeight) {
-      positionY -= this.items.length * 32;
+    if (mouseLocationY + (this.items.length * 32) >= window.innerHeight) {
+      this.menuLocation.top -= this.items.length * 32;
     }
-
-    return {
-      position: 'fixed',
-      left: positionX,
-      top: positionY
-    };
   }
 
   /**
    * Initiate Component
    */
   ngOnInit() {
-    this.items = [];
   }
 }
