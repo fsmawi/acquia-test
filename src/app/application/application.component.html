@@ -34,7 +34,7 @@
     <e-data>
       <e-data-label>URL</e-data-label>
       <e-data-value>
-        <e-clipboard inputText="{{gitUrl}}"></e-clipboard>
+        <e-clipboard id="repo-URL" inputText="{{gitUrl}}"></e-clipboard>
       </e-data-value>
     </e-data>
 
@@ -48,28 +48,28 @@
     <e-data>
       <e-data-label>Clone - copy a Git repository to work with locally</e-data-label>
       <e-data-value>
-        <e-clipboard inputText="{{gitClone}}"></e-clipboard>
+        <e-clipboard id="command-clone" inputText="{{gitClone}}"></e-clipboard>
       </e-data-value>
     </e-data>
 
     <e-data>
       <e-data-label>Stage - prepare changed files to be committed</e-data-label>
       <e-data-value>
-        <e-clipboard inputText="{{gitAdd}}"></e-clipboard>
+        <e-clipboard id="command-stage" inputText="{{gitAdd}}"></e-clipboard>
       </e-data-value>
     </e-data>
 
     <e-data>
       <e-data-label>Commit - save a local snapshot of staged files</e-data-label>
       <e-data-value>
-        <e-clipboard inputText="{{gitCommit}}"></e-clipboard>
+        <e-clipboard id="command-commit" inputText="{{gitCommit}}"></e-clipboard>
       </e-data-value>
     </e-data>
 
     <e-data>
       <e-data-label>Push - push local commits to a remote repository</e-data-label>
       <e-data-value>
-        <e-clipboard inputText="{{gitPush}}"></e-clipboard>
+        <e-clipboard id="command-push" inputText="{{gitPush}}"></e-clipboard>
       </e-data-value>
     </e-data>
 
