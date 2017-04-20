@@ -272,6 +272,19 @@ exports.bootstrap = function (browser) {
       });
   };
 
+  /**
+  * @return {String} text of an {attribute}
+  * @param {String} selector of the element to find
+  * Return an elements HTML string for matching
+  */
+  browser._getHTML = function (selector) {
+    return browser.getHTML(selector)
+      .catch((e) => {
+        return screenshot(createTimeName('getHTML-error', selector))
+          .then(() => Promise.reject(e));
+      });
+  }
+
   browser._frameworkAttached = true;
   return browser;
 };
