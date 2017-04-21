@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.19"></a>
+## [0.2.19](https://github.com/acquia/pipelines-ui/compare/v0.2.18...v0.2.19) (2017-04-21)
+
+
+### Bug Fixes
+
+* **E2E:** fix bug invalid path char ([d6cc9bd](https://github.com/acquia/pipelines-ui/commit/d6cc9bd))
+* **UX:** add context menu to open link in new tab ([d1e3042](https://github.com/acquia/pipelines-ui/commit/d1e3042))
+* **UX:** fix e2e failing test ([94784b8](https://github.com/acquia/pipelines-ui/commit/94784b8))
+* **UX:** refactoring ([cc9e60d](https://github.com/acquia/pipelines-ui/commit/cc9e60d))
+
+
+
 <a name="0.2.18"></a>
 ## [0.2.18](https://github.com/acquia/pipelines-ui/compare/v0.2.17...v0.2.18) (2017-04-20)
 
