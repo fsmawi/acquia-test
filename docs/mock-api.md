@@ -139,10 +139,10 @@ A connect based API that configures API responses from predefined YAML files ass
 ## Implementation Tasks
 | Task | Ticket |
 | --- | --- |
-| Create repository | [MS-XXXX](https://backlog.acquia.com/browse/MS-XXXX) |
-| Initalize API and CORS | [MS-XXXX](https://backlog.acquia.com/browse/MS-XXXX) |
-| Create beanstalk application and npm scripts | [MS-XXXX](https://backlog.acquia.com/browse/MS-XXXX) |
-| Initalize Passport with Sqlite/RDS | [MS-XXXX](https://backlog.acquia.com/browse/MS-XXXX) |
-| YAML defined API flows | [MS-XXXX](https://backlog.acquia.com/browse/MS-XXXX) |
-| YAML defined Websocket flows | [MS-XXXX](https://backlog.acquia.com/browse/MS-XXXX) |
-| Replace Merver with new Mock API | [MS-XXXX](https://backlog.acquia.com/browse/MS-XXXX) |
+| Create repository | [MS-2920](https://backlog.acquia.com/browse/MS-2920) |
+| Initalize API and CORS | [MS-2920](https://backlog.acquia.com/browse/MS-2920) |
+| Create beanstalk application and npm scripts | [MS-2920](https://backlog.acquia.com/browse/MS-2920) |
+| Initalize Passport with Sqlite/RDS | [MS-2921](https://backlog.acquia.com/browse/MS-2921) |
+| YAML defined API flows | [MS-2922](https://backlog.acquia.com/browse/MS-2922) |
+| YAML defined Websocket flows | [MS-2922](https://backlog.acquia.com/browse/MS-2922) |
+| Replace Merver with new Mock API | [MS-2923](https://backlog.acquia.com/browse/MS-2923) |
