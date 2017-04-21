@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.21"></a>
+## [0.2.21](https://github.com/acquia/pipelines-ui/compare/v0.2.20...v0.2.21) (2017-04-21)
+
+
+### Features
+
+* **release:** auto create document ticket after production release ([357fb24](https://github.com/acquia/pipelines-ui/commit/357fb24))
+
+
+
 <a name="0.2.20"></a>
 ## [0.2.20](https://github.com/acquia/pipelines-ui/compare/v0.2.19...v0.2.20) (2017-04-21)
 
