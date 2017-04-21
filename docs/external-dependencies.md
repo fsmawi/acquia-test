@@ -8,7 +8,8 @@ The pipelines UI uses several external services:
 4. Amplitude: Organizes and reports user events into metrics for improvement
 5. Lift: Captures user events from the UI, and uses them to personalize content for users
 6. Bugsnag: Application error reporting that triggers notifications to the UI engineers.
- 
+7. Saucelabs: Cloud-based platform for automated testing of web and mobile applications.
+8. N3 API: A RESTful web interface that allows developers to extend, enhance, and customize Acquia Cloud.
  
 ## Acquia Cloud
 
@@ -175,3 +176,36 @@ if (environment.production) {
 ```
 We need also to replace the **bugsnagAPIKey** property value in [environments\environment.prod.ts](../src/environments/environment.prod.ts) with the Bugsnag API Key.
 
+## Saucelabs
+
+[Saucelabs](https://saucelabs.com/) is a cloud based, web and mobile application automated testing platform. This is being used for running E2E test cases. 
+
+### Integration 
+
+To run E2E tests on sauce labs, 
+   1. Get Saucelabs username and service API Key
+   2. And run the following command
+	
+	``` shell
+     aqtest features --host sauce --service-user admin --service-key E2345QW-HWER675-12WERT89
+    ```
+	
+    Note: 
+    * Please replace the 'service-user' and 'service-key' option values with Saucelabs account specific values
+    * Saucelabs won't support phantomjs so please use other browsers while running in sauce labs
+
+## N3 API
+
+[N3 API](http://cloud.acquia.com/api-docs/) is a RESTful web interface that allows developers to extend, enhance, and customize Acquia Cloud. It includes developer workflow, site management, and provisioning capabilities.
+
+
+### Integration 
+
+Getting Started
+To get started with the API, you need an API access token.
+
+To generate an API access token, login to [cloud.acquia.com](cloud.acquia.com), then visit [cloud.acquia.com/#/profile/tokens](cloud.acquia.com/#/profile/tokens), and click **Create Token**.
+   * Provide a label for the access token, so it can be easily identified. Click **Create Token**.
+   * The token has been generated, copy the api key and api secret to a secure place. Make sure you record it now: you will not be able to retrieve this access token's secret again.
+
+The Acquia HTTP HMAC spec v2 is used for authenticating requests. Use [Acquia HTTP HMAC library](https://github.com/acquia/http-hmac-javascript) to make requests.
