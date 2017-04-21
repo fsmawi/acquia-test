@@ -27,6 +27,8 @@ import {HelpCenterService} from './services/help-center.service';
 import {HelpCenterComponent} from './components/help-center/help-center.component';
 import {HelpContentCategoryFilterPipe } from './components/help-center/help-content-category-filter.pipe';
 import {SharedModule} from '../shared/shared.module';
+import {ContextMenuComponent} from './components/context-menu/context-menu.component';
+import {ContextMenuService} from './services/context-menu.service';
 
 @NgModule({
   imports: [
@@ -53,11 +55,28 @@ import {SharedModule} from '../shared/shared.module';
     LocalStorageService,
     SegmentService,
     WebSocketService,
-    HelpCenterService
+    HelpCenterService,
+    ContextMenuService
   ],
-  declarations: [FlashMessageComponent, ConfirmationModalComponent, HelpCenterComponent, HelpContentCategoryFilterPipe],
-  exports: [FlashMessageComponent, ConfirmationModalComponent, HelpCenterComponent],
-  entryComponents: [ConfirmationModalComponent, FlashMessageComponent, HelpCenterComponent]
+  declarations: [
+    FlashMessageComponent,
+    ConfirmationModalComponent,
+    HelpCenterComponent,
+    HelpContentCategoryFilterPipe,
+    ContextMenuComponent
+  ],
+  exports: [
+    FlashMessageComponent,
+    ConfirmationModalComponent,
+    HelpCenterComponent,
+    ContextMenuComponent
+  ],
+  entryComponents: [
+    ConfirmationModalComponent,
+    FlashMessageComponent,
+    HelpCenterComponent,
+    ContextMenuComponent
+  ]
 })
 export class CoreModule {
 }
