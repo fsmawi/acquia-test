@@ -85,7 +85,8 @@
     "tslint": "^4.5.0",
     "typescript": "~2.2.0",
     "ws": "^2.2.0",
-    "xmlhttprequest": "^1.8.0"
+    "xmlhttprequest": "^1.8.0",
+    "jira2md": "2.0.1"
   },
   "config": {
     "commitizen": {

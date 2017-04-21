@@ -78,9 +78,11 @@ function getVersionIssues(versionId) {
         const tmp = stdout.substring(0, search.index).match(/MS-\d{4,}/g) || [];
 
         let issues = [];
-        for (var i = 0; i < tmp.length; i++) {
-          if (issues.indexOf(tmp[i]) == -1) {
-            issues.push(tmp[i]);
+        if (tmp != null) {
+          for (var i = 0; i < tmp.length; i++) {
+            if (issues.indexOf(tmp[i]) == -1) {
+              issues.push(tmp[i]);
+            }
           }
         }
         console.log(issues);

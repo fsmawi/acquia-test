@@ -43,4 +43,5 @@ then
  git merge origin/staging -X theirs -m "Production release"
  git push origin production
  node $SOURCE_DIR/scripts/jira-release-versions-pipelines-ui.js
+ node $SOURCE_DIR/scripts/jira-create-doc-ticket.js
 fi
