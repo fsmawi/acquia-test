@@ -1,0 +1,36 @@
+@import "../../../../assets/scss/elemental-core.scss";
+
+#context-menu {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: px-to-relative(200px);
+  height: auto;
+  border-radius: px-to-relative(4px);
+  background-color: $color-monotone-0;
+  border: solid px-to-relative(1px) $color-neutral-3;
+  box-shadow: 0 px-to-relative(6px) px-to-relative(12px) rgba(0,0,0,.175);
+  z-index: 1000;
+
+  ul {
+    margin: 0;
+    padding: 0;
+
+    li {
+      list-style: none;
+
+      a {
+        width: 100%;
+        color: $color-monotone-13;
+        display: inline-block;
+        font-size: px-to-relative(14px);
+        line-height: 2rem;
+        padding: 0 1rem;
+
+        &:hover {
+          color: $color-brand_primary-9;
+        }
+      }
+    }
+  }
+}

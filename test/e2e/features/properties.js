@@ -3,6 +3,10 @@ module.exports = {
   // feature scope
   'pipelines-unauthenticated-url': '/auth/tokens',
   'mock-header': '/mock/header',
+  'jobs-yml-file-name': 'jobs.yml',
+  'jobs-list': '.el-card__title',
+  'login': '#edit-submit-user-login',
+  'sign-in': 'button.mat-primary',
   'no-jobs-yml-file-name': 'no-jobs.yml',
   'save': 'button.mat-primary',
   'header-value': 'input[name="headerValue"]',
