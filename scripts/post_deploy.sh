@@ -42,5 +42,6 @@ then
  git config user.name "Pipelines CD"
  git merge origin/staging -X theirs -m "Production release"
  git push origin production
+ node $SOURCE_DIR/scripts/jira-create-doc-ticket.js
  node $SOURCE_DIR/scripts/jira-release-versions-pipelines-ui.js
 fi

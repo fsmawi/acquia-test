@@ -46,7 +46,9 @@
     "fs-extra": "^2.0.0",
     "moment": "^2.17.1",
     "rxjs": "^5.1.0",
-    "zone.js": "^0.8.4"
+    "zone.js": "^0.8.4",
+    "standard-version": "2.2.1",
+    "jira2md": "2.0.1"
   },
   "devDependencies": {
     "@angular/cli": "^1.0.0",
