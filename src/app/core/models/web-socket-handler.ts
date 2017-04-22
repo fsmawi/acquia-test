@@ -17,7 +17,7 @@ export class WebSocketHandler extends EventEmitter<{name: string, argument: any}
     this.socket = WebSocketClass ? new WebSocketClass(url) : new WebSocket(url);
 
     // map to friendly event emitter handlers
-    this.socket.onopen = () => this._emit('connected');
+    this.socket.onopen = () => console.log('socket opened', url);
     this.socket.onclose = () => this._emit('close');
     this.socket.onerror = (e) => this._emit('error', e);
     this.socket.onmessage = (message: MessageEvent) => {

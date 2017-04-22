@@ -173,7 +173,7 @@ export class JobsDetailComponent implements OnInit, OnDestroy {
           // always set to false to flag non streaming components
           this.streaming = false;
           // FEATURE FLAG for enabling log streaming. Remove after MS-2590 is complete
-        } else if (this.streaming === null && metadata.log_stream_websocket && metadata.log_stream_secret && features.logStreaming) {
+        } else if (this.streaming === null && metadata.log_stream_url && metadata.log_stream_secret && features.logStreaming) {
           this.loadingLogs = false;
           return this.streamLogs();
         } else if (!this.timer) {
@@ -232,7 +232,7 @@ export class JobsDetailComponent implements OnInit, OnDestroy {
    * @returns {Promise}
    */
   streamLogs() {
-    this.socket = this.webSocketService.connect(this.job.metadata.log_stream_websocket);
+    this.socket = this.webSocketService.connect(this.job.metadata.log_stream_url.replace(/\/$/, ""));
     // if no socket support, revert to long poll
     if (!this.socket) {
       this.streaming = false;
@@ -241,6 +241,7 @@ export class JobsDetailComponent implements OnInit, OnDestroy {
 
     // connect, auth, append logs, and close
     this.streaming = true;
+    let miniLogs = [];
     this.logs = [];
     this.socket.subscribe(event => {
       switch (event.name) {
@@ -251,29 +252,28 @@ export class JobsDetailComponent implements OnInit, OnDestroy {
             cmd: 'authenticate',
             secret: this.job.metadata.log_stream_secret
           });
-          // list available items
-          this.socket.send({
-            cmd: 'list-available'
-          });
           break;
 
         // when available items comes back, enable the logs
-        case 'list-available':
-          event.argument.items.map(i => this.socket.send({
+        case 'available':
+          let i = event.argument;
+          this.socket.send({
             cmd: 'enable',
             type: i.type,
             from: 'start'
-          }));
+          });
           break;
 
         // On each line item append
         case 'line':
-          const lineObj = event.argument;
-          this.logs.push(new JobLog({
-            timestamp: lineObj.unix_time,
+          miniLogs.push(event);
+          let text = miniLogs.map(l => l.argument.raw_text_base64 ? atob(l.argument.raw_text_base64) : l.argument.text).join('\n' +
+            '');
+          this.logs = [new JobLog({
+            timestamp: miniLogs[miniLogs.length - 1].unix_time,
             level: 'info',
-            message: this.ansiService.convert(lineObj.text)
-          }));
+            message: this.ansiService.convert(text)
+          })];
           break;
 
         // When the socket closes and is done, refresh the job info
@@ -284,7 +284,7 @@ export class JobsDetailComponent implements OnInit, OnDestroy {
 
         // If an error occurs, report, and revert to long polling
         case 'error':
-          this.streaming = false;
+          // this.streaming = false;
           this.flash.showInfo(
             'Unable to stream logs, will show the logs when available', event.argument
           );
