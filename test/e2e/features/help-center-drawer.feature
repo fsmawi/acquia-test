@@ -1,4 +1,4 @@
-@HelpContentDrawerFlow
+@HelpCenterDrawerFlow
 Feature: Pipelines Help Content Drawer Flow
   As an Acquia Pipelines user
   I want to check the help content drawer
@@ -15,7 +15,7 @@ Feature: Pipelines Help Content Drawer Flow
     And I should see the |app-jobs| list
 
 
-  @HelpContentDrawerFlow_CheckHelpContent
+  @HelpCenterDrawerFlow_CheckHelpContent
   Scenario: Check the application connected repository information
     When on the |*pipelines| page
     Then I click on the |*help-center| link
@@ -25,7 +25,7 @@ Feature: Pipelines Help Content Drawer Flow
     And I click on the |*close-help-center| button
     And I should see the |app-jobs| list
 
-  @HelpContentDrawerFlow_CheckSearchHelpContent
+  @HelpCentertDrawerFlow_CheckSearchHelpContent
   Scenario: Check the search help content functionality
     When on the |*pipelines| page
     Then I click on the |*help-center| link
