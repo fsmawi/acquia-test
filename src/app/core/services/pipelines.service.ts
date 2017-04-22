@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {Http, RequestOptions, Headers, URLSearchParams} from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
+import 'rxjs/add/operator/map';
 
 import {Application} from '../models/application';
 import {environment} from '../../../environments/environment';
@@ -20,10 +21,46 @@ export class PipelinesService {
   URI = `${environment.apiEndpoint}/api/v1`;
 
   /**
+   * Session container for bakery cookies
+   */
+  bakeryExpiry: Date;
+
+  /**
    * Create the Service
    * @param http
    */
   constructor(private http: Http) {
+  }
+
+  authBakery() {
+
+    // bakery is still good, reuse
+    if (this.bakeryExpiry && new Date() < this.bakeryExpiry) {
+      return Promise.resolve();
+    }
+
+    // Does not use the promisePost/Get methods because it is used within
+    const reqOptions = new RequestOptions();
+    reqOptions.headers = reqOptions.headers || new Headers();
+
+    // All request headers
+    if (environment.headers) {
+      Object.keys(environment.headers).forEach(k => reqOptions.headers.append(k, environment.headers[k]));
+    }
+
+    // Add cookie headers
+    reqOptions.withCredentials = environment.production;
+    return this.http.get(this.URI + '/auth/bakery', reqOptions)
+      .map(r => r.json())
+      .toPromise()
+      .then(res => {
+        if (res.authenticated) {
+          let expires = new Date();
+          expires.setMinutes(expires.getMinutes() + 5);
+          this.bakeryExpiry = expires;
+        }
+        return Promise.resolve();
+      });
   }
 
   /**
@@ -33,7 +70,7 @@ export class PipelinesService {
    * @returns {Promise<Array<Job>>}
    */
   getJobsByAppId(appId: string, params = {}) {
-    return this.promiseGetRequest(this.URI + `/ci/jobs?applications=${appId}`, params).then(r => r.map(j => new Job(j)));
+    return this.promiseGetRequest(this.URI + `/ci/jobs?applications=${appId}`, params).then((r: any) => r.map(j => new Job(j)));
   }
 
   /**
@@ -44,7 +81,7 @@ export class PipelinesService {
    * @returns {Promise<Job>}
    */
   getJobByJobId(appId: string, jobId: string, params = {}) {
-    return this.promiseGetRequest(this.URI + `/ci/jobs/${jobId}?applications=${appId}`, params).then(r => new Job(r));
+    return this.promiseGetRequest(this.URI + `/ci/jobs/${jobId}?applications=${appId}`, params).then((r: any) => new Job(r));
   }
 
   /**
@@ -80,7 +117,7 @@ export class PipelinesService {
    * @returns {Promise<Array<JobLog>>}
    */
   getLogFile(appId: string, jobId: string, params = {}) {
-    return this.promiseGetRequest(this.URI + `/ci/jobs/${jobId}/logs?applications=${appId}`, params);
+    return this.promiseGetRequest(this.URI + `/ci/jobs/${jobId}/logs?applications=${appId}`, params).then((r: any) => r);
   }
 
   /**
@@ -93,7 +130,7 @@ export class PipelinesService {
     return this.promiseGetRequest(this.URI + `/ci/pipelines`, {
       include_repo_data: getRepoMeta ? 1 : undefined,
       applications: [appId]
-    }).then(r => r.map(p => new Pipeline(p)));
+    }).then((r: any) => r.map(p => new Pipeline(p)));
   }
 
   /**
@@ -104,7 +141,7 @@ export class PipelinesService {
   getGithubStatus(appId: string) {
     return this.promiseGetRequest(this.URI + '/ci/github/status', {
       applications: [appId]
-    }).then(r => new GithubStatus(appId, r));
+    }).then((r: any) => new GithubStatus(appId, r));
   }
 
   /**
@@ -115,7 +152,7 @@ export class PipelinesService {
   getApplicationInfo(appId: string) {
     return this.promiseGetRequest(this.URI + '/ci/applications', {
       applications: [appId]
-    }).then(r => new Application(r));
+    }).then((r: any) => new Application(r));
   }
 
   /**
@@ -125,7 +162,7 @@ export class PipelinesService {
    */
   getRepositoriesByPage(page: number, appId: string) {
     return this.promiseGetRequest(this.URI + `/ci/github/repos?per_page=100&page=${page}&applications=${appId}`, {})
-      .then(res => res.map(r => new Repository(r)));
+      .then((res: any) => res.map(r => new Repository(r)));
   }
 
   /**
@@ -213,7 +250,8 @@ export class PipelinesService {
     const reqOptions = this.generateReqOptions(params);
 
     // Make Call
-    return this.http.get(url, reqOptions).map(r => r.json()).toPromise();
+    return this.authBakery()
+      .then(() => this.http.get(url, reqOptions).map(r => r.json()).toPromise());
   }
 
   /**
@@ -227,7 +265,8 @@ export class PipelinesService {
     const reqOptions = this.generateReqOptions(params);
 
     // Make Call
-    return this.http.post(url, body, reqOptions).map(r => r.json()).toPromise();
+    return this.authBakery()
+      .then(() => this.http.post(url, body, reqOptions).map(r => r.json()).toPromise());
   }
 
   /**
@@ -241,7 +280,8 @@ export class PipelinesService {
     const reqOptions = this.generateReqOptions(params);
 
     // Make Call
-    return this.http.delete(url, reqOptions).map(r => r.json()).toPromise();
+    return this.authBakery()
+      .then(() => this.http.delete(url, reqOptions).map(r => r.json()).toPromise());
   }
 
   /**
