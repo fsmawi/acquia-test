@@ -16,7 +16,7 @@ Feature: Pipelines Help Content Drawer Flow
 
 
   @HelpCenterDrawerFlow_CheckHelpContent
-  Scenario: Check the application connected repository information
+  Scenario: Check the help drawer content
     When on the |*pipelines| page
     Then I click on the |*help-center| link
     And I should see the |*help-center-title|
