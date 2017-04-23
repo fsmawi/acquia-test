@@ -39,4 +39,6 @@ module.exports = {
   'filter-by-status-tooltip-text': 'Search by status;Search succeeded or failed jobs typing keywords: Pass, Success, Succeeded, fail, failed, error, errored;Search by branch name;Search by trigger type typing keywords:  PR, or pull request, branch, pull.',
   'acquia-git-icon': '#repoInfo svg',
   'acquia-git-icon-tooltip': 'Using Acquia Git',
+  'start-job': 'a#start-job',
+  'start-job-button': 'e-button[segmenteventidentifier="ClickStartJobConfigAcquiaGit"]'
 };
