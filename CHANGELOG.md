@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.22"></a>
+## [0.2.22](https://github.com/acquia/pipelines-ui/compare/v0.2.21...v0.2.22) (2017-04-24)
+
+
+### Bug Fixes
+
+* **clear-cloud-varnish:** Timeout for varnish ([e252a23](https://github.com/acquia/pipelines-ui/commit/e252a23))
+* **status-code.component:** Added hotfix for cloud reload ([f5c2b8d](https://github.com/acquia/pipelines-ui/commit/f5c2b8d))
+* **status-code.component:** Added hotfix for cloud reload ([f5ab0a1](https://github.com/acquia/pipelines-ui/commit/f5ab0a1))
+
+
+
 <a name="0.2.21"></a>
 ## [0.2.21](https://github.com/acquia/pipelines-ui/compare/v0.2.20...v0.2.21) (2017-04-21)
 
