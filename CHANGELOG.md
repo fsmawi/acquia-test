@@ -2,6 +2,66 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.22"></a>
+## [0.2.22](https://github.com/acquia/pipelines-ui/compare/v0.2.21...v0.2.22) (2017-04-24)
+
+
+### Bug Fixes
+
+* **clear-cloud-varnish:** Timeout for varnish ([e252a23](https://github.com/acquia/pipelines-ui/commit/e252a23))
+* **status-code.component:** Added hotfix for cloud reload ([f5c2b8d](https://github.com/acquia/pipelines-ui/commit/f5c2b8d))
+* **status-code.component:** Added hotfix for cloud reload ([f5ab0a1](https://github.com/acquia/pipelines-ui/commit/f5ab0a1))
+
+
+
+<a name="0.2.21"></a>
+## [0.2.21](https://github.com/acquia/pipelines-ui/compare/v0.2.20...v0.2.21) (2017-04-21)
+
+
+### Features
+
+* **release:** auto create document ticket after production release ([357fb24](https://github.com/acquia/pipelines-ui/commit/357fb24))
+
+
+
+<a name="0.2.20"></a>
+## [0.2.20](https://github.com/acquia/pipelines-ui/compare/v0.2.19...v0.2.20) (2017-04-21)
+
+
+### Bug Fixes
+
+* **status-code.component:** Removed API error ([f463930](https://github.com/acquia/pipelines-ui/commit/f463930))
+
+
+
+<a name="0.2.19"></a>
+## [0.2.19](https://github.com/acquia/pipelines-ui/compare/v0.2.18...v0.2.19) (2017-04-21)
+
+
+### Bug Fixes
+
+* **E2E:** fix bug invalid path char ([d6cc9bd](https://github.com/acquia/pipelines-ui/commit/d6cc9bd))
+* **UX:** add context menu to open link in new tab ([d1e3042](https://github.com/acquia/pipelines-ui/commit/d1e3042))
+* **UX:** fix e2e failing test ([94784b8](https://github.com/acquia/pipelines-ui/commit/94784b8))
+* **UX:** refactoring ([cc9e60d](https://github.com/acquia/pipelines-ui/commit/cc9e60d))
+
+
+
+<a name="0.2.18"></a>
+## [0.2.18](https://github.com/acquia/pipelines-ui/compare/v0.2.17...v0.2.18) (2017-04-20)
+
+
+### Bug Fixes
+
+* **application.module:** Added missing import ([6a68b87](https://github.com/acquia/pipelines-ui/commit/6a68b87))
+
+
+
+<a name="0.2.17"></a>
+## [0.2.17](https://github.com/acquia/pipelines-ui/compare/v0.2.16...v0.2.17) (2017-04-20)
+
+
+
 <a name="0.2.16"></a>
 ## 0.2.16 (2017-04-19)
 

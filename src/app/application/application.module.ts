@@ -9,6 +9,7 @@ import {ApplicationRoutingModule} from './application-routing.module';
 import {ElementalModule} from '../elemental/elemental.module';
 import {SharedModule} from '../shared/shared.module';
 import {ConfigureComponent} from './configure/configure.component';
+import {JobsModule} from '../jobs/jobs.module';
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import {ConfigureComponent} from './configure/configure.component';
     ElementalModule,
     FlexLayoutModule,
     FormsModule,
+    JobsModule,
     SharedModule
   ],
   declarations: [

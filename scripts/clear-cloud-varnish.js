@@ -34,7 +34,7 @@ getEnvironmentId()
     }));
   })
   .then((res) => {
-    console.log(`All caches cleared`.green);
+    setTimeout(() => console.log(`All caches cleared`.green), 60000);
   })
   .catch((err) => console.log(err));
 

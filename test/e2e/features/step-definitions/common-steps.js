@@ -158,6 +158,24 @@ module.exports = function () {
     return this.browser.moveToObject(page.getDynamicValue(hoverElement));
   });
 
+  this.Then(/^I should see a \|(.*?)\| scroller move \|(.*?)\| by at least \|(.*?)\|$/, function (scrollerType, moveDirection, points) {
+    return this.browser.execute(function () {
+      return [document.body.scrollTop, document.body.scrollLeft];
+    }).then((scrollPos) => {
+      if (page.getDynamicValue(scrollerType) == 'vertical' && page.getDynamicValue(moveDirection) === 'down')
+        expect(scrollPos.value[0]).to.be.above(page.getDynamicValue(points));
+
+      else if (page.getDynamicValue(scrollerType) == 'vertical' && page.getDynamicValue(scrollerType) == 'up')
+        expect(scrollPos.value[0]).to.be.below(page.getDynamicValue(points));
+
+      else if (page.getDynamicValue(scrollerType) == 'horizontal' && page.getDynamicValue(scrollerType) == 'right')
+        expect(scrollPos.value[1]).to.be.above(page.getDynamicValue(points));
+
+      else if (page.getDynamicValue(scrollerType) == 'horizontal' && page.getDynamicValue(scrollerType) == 'left')
+        expect(scrollPos.value[1]).to.be.below(page.getDynamicValue(points));
+    });
+  });
+
   this.Then(/^I should see a \|(.*?)\| element contains \|(.*?)\|$/, function (element, textToFind) {
     return this.browser._getHTML(page.getDynamicValue(element))
       .then((actualHTML) => {

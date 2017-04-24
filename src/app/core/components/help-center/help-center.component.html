@@ -35,9 +35,7 @@
   </div>
 
   <div id="general-help-content" *ngIf="helpContent" class="help-content">
-    <span class="header">
-      Get started with Pipelines
-    </span>
+    <span class="header">Get started with Pipelines</span>
     <hr/>
     <li *ngFor="let helpItem of filteredHelpContent | helpContentCategoryFilter:'GENERAL'"
         class="flex-container help-item" fxLayout="row" fxLayoutAlign="start start">

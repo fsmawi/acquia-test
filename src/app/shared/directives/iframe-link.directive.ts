@@ -19,7 +19,6 @@ export class IframeLinkDirective {
    */
   @HostListener('click', ['$event'])
   public onClick(event: any): void {
-    event.stopPropagation();
     if (this.appIframeLink) {
       this.router.navigateByUrl(this.appIframeLink);
     }

@@ -24,13 +24,8 @@
          appLiftOn="click"
          [liftEventData]="{appId: appId}"
          liftEventName="ClickJobListDetailLink"
+         [appContextLink]="[{text: 'Open in new Tab', link: cloudUrl+'/'+job.job_id, target: '_blank' }]"
          appIframeLink="/applications/{{appId}}/{{job.job_id}}">{{job.job_id | slice:0:8}}</a>
-      <!--TODO revereted open in new tab feature, MS-2709-->
-      <!--<a appSegmentOn="click"-->
-      <!--[segmentEventData]="{job_id: job.job_id, status: job.status}"-->
-      <!--segmentEventIdentifier="ClickJobListDetailLink"-->
-      <!--href="{{cloudUrl}}/{{job.job_id}}" target="_top"-->
-      <!--*ngIf="envProd">{{job.job_id | slice:0:8}}</a>-->
     </td>
     <td class="center">
       <a *ngIf="job.metadata?.pull_request_link"

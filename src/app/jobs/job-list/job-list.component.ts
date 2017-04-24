@@ -16,12 +16,6 @@ import {SegmentService} from '../../core/services/segment.service';
 export class JobListComponent implements OnInit {
 
   /**
-   * If in production environment
-   * @type {boolean}
-   */
-  envProd: boolean;
-
-  /**
    * Pipelines cloud url
    * @type {string}
    */
@@ -53,11 +47,9 @@ export class JobListComponent implements OnInit {
    * Initialize
    */
   ngOnInit() {
-    this.envProd = false;
     // In the production environment, all job links should specify the cloud url,
     // which will allow multiple windows/tabs to be open
     if (environment.production && environment.name === 'prod') {
-      this.envProd = true;
       this.cloudUrl = `${environment.authRedirect}/app/develop/applications/${this.appId}/pipelines/jobs`;
     } else {
       this.cloudUrl = `/applications/${this.appId}`;

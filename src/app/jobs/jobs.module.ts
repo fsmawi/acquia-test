@@ -34,7 +34,8 @@ import {NoJobsComponent} from './no-jobs/no-jobs.component';
     StartJobComponent,
     NoJobsComponent
   ],
-  entryComponents: [StartJobComponent]
+  entryComponents: [StartJobComponent],
+  exports: [StartJobComponent]
 })
 export class JobsModule {
 }
