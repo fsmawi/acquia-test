@@ -85,5 +85,29 @@ Feature: Pipelines Jobs List
     Then I hover on |*acquia-git-icon|
     Then I should see |*acquia-git-icon| |*tooltip| containing |*acquia-git-icon-tooltip|
 
+  @JobList_CheckStartJob
+  Scenario: Check Start Job functionality in top menu
+    When on the |*jobs-list| page
+    And I click on the |*start-job| link
+    And I should see a |*how-to-start-job-dialog| with |*header-message|
+    And I enter |*branch-name| in the |*branch-input| field
+    And I click on the |*branch-suggestion| list item
+    And I click on the |*start| button
+    Then I should see a |*flash-message| contains |*success-message|
+
+  @JobList_CheckConfigureStartJob
+  Scenario: Check Start Job functionality in application info configure
+    When on the |*jobs-list| page
+    And I click on the |*more-links| link
+    And I click on the |*view-application-info| link
+    And I wait 5 seconds to navigate to github connection page
+    And I click on the |*configure| link
+    And I click on the |*start-job-button| button
+    And I should see a |*how-to-start-job-dialog| with |*header-message|
+    And I enter |*branch-name| in the |*branch-input| field
+    And I click on the |*branch-suggestion| list item
+    And I click on the |*start| button
+    Then I should see a |*flash-message| contains |*success-message|
+
 
 
