@@ -36,6 +36,17 @@ describe('PipelinesService', () => {
     expect(service).toBeTruthy();
   }));
 
+  it('should authenticate with bakery', inject([PipelinesService, MockBackend], (service: PipelinesService, mockBackend: MockBackend) => {
+
+    setupConnections(mockBackend, {
+      body: JSON.stringify({authenticated: true})
+    });
+
+    service.authBakery().then(res => {
+      expect(res.authenticated).toEqual(true);
+    });
+  }));
+
   it('should stop a job', inject([PipelinesService, MockBackend], (service: PipelinesService, mockBackend: MockBackend) => {
 
     setupConnections(mockBackend, {
@@ -49,34 +60,34 @@ describe('PipelinesService', () => {
 
   it('should attach a Github repository',
     inject([PipelinesService, MockBackend], (service: PipelinesService, mockBackend: MockBackend) => {
-    setupConnections(mockBackend, {
-      body: JSON.stringify({
-        success: true,
-        deploy_key_url: 'key_url',
-        webhook_url: 'webhook_url'
-      })
-    });
+      setupConnections(mockBackend, {
+        body: JSON.stringify({
+          success: true,
+          deploy_key_url: 'key_url',
+          webhook_url: 'webhook_url'
+        })
+      });
 
-    service.attachGithubRepository('repoId', 'someAppId').then(res => {
-      expect(res.success).toEqual(true);
-      expect(res.deploy_key_url).toEqual('key_url');
-      expect(res.webhook_url).toEqual('webhook_url');
-    });
-  }));
+      service.attachGithubRepository('repoId', 'someAppId').then(res => {
+        expect(res.success).toEqual(true);
+        expect(res.deploy_key_url).toEqual('key_url');
+        expect(res.webhook_url).toEqual('webhook_url');
+      });
+    }));
 
   it('should remove GitHub Authentication from the app',
     inject([PipelinesService, MockBackend], (service: PipelinesService, mockBackend: MockBackend) => {
-    setupConnections(mockBackend, {
-      body: JSON.stringify({
-        status: 204,
-        success: true
-      })
-    });
+      setupConnections(mockBackend, {
+        body: JSON.stringify({
+          status: 204,
+          success: true
+        })
+      });
 
-    service.removeGitHubAuth('repo', 'app-id').then(res => {
-      expect(res.status).toBe(204);
-    });
-  }));
+      service.removeGitHubAuth('repo', 'app-id').then(res => {
+        expect(res.status).toBe(204);
+      });
+    }));
 
   it('should get pipelines given an application ID',
     inject([PipelinesService, MockBackend], (service: PipelinesService, mockBackend: MockBackend) => {
@@ -145,22 +156,22 @@ describe('PipelinesService', () => {
   it('should get application information',
     inject([PipelinesService, MockBackend], (service, mockBackend) => {
 
-    setupConnections(mockBackend, {
-      body: JSON.stringify({
-        repo_url: 'https://github.com/acquia/repo1.git',
-        repo_name: 'acquia/repo1',
-        repo_type: 'github'
-      })
-    });
-
-    service.getApplicationInfo()
-      .then((info) => {
-        expect(info.repo_name).toEqual('acquia/repo1');
-        expect(info.repo_url).toEqual('https://github.com/acquia/repo1.git');
-        expect(info.repo_type).toEqual('github');
+      setupConnections(mockBackend, {
+        body: JSON.stringify({
+          repo_url: 'https://github.com/acquia/repo1.git',
+          repo_name: 'acquia/repo1',
+          repo_type: 'github'
+        })
       });
 
-  }));
+      service.getApplicationInfo()
+        .then((info) => {
+          expect(info.repo_name).toEqual('acquia/repo1');
+          expect(info.repo_url).toEqual('https://github.com/acquia/repo1.git');
+          expect(info.repo_type).toEqual('github');
+        });
+
+    }));
 
   it('should direct start a job',
     inject([PipelinesService, MockBackend], (service: PipelinesService, mockBackend: MockBackend) => {
@@ -172,7 +183,7 @@ describe('PipelinesService', () => {
       });
 
       setupConnections(mockBackend,
-        { body: JSON.stringify({job_id : 'job-id'})}
+        {body: JSON.stringify({job_id: 'job-id'})}
       );
 
       spyOn(service, 'getPipelineByAppId').and.callFake(() => {
