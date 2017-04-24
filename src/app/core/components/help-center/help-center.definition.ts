@@ -14,8 +14,8 @@ export const helpCenterContent: Array<HelpItem> = [
     type: 'DOCUMENTATION',
     category: 'GENERAL',
     title: 'Pipelines Documentation',
-    description: `Introduction to Acquia Pipelines, a flexible and straightforward mechanism for 
-      assembling, compiling, and governing codebases.` ,
+    description: `Introduction to Acquia Pipelines, a flexible and straightforward mechanism for assembling,` +
+      ` compiling, and governing codebases.` ,
     externalLink: 'https://docs.acquia.com/pipelines'
   },
   {
@@ -23,8 +23,8 @@ export const helpCenterContent: Array<HelpItem> = [
     type: 'DOCUMENTATION',
     category: 'PERSONALIZED',
     title: 'Troubleshooting guide',
-    description: `This page describes some of the approaches you can take in determining the causes 
-      of errors or other problems with Acquia Pipelines.`,
+    description: `This page describes some of the approaches you can take in determining the causes of errors` +
+      ` or other problems with Acquia Pipelines.`,
     externalLink: 'https://docs.acquia.com/pipelines/troubleshooting'
   },
   {

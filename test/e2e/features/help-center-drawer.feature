@@ -22,6 +22,18 @@ Feature: Pipelines Help Content Drawer Flow
     And I should see the |*help-center-title|
     And I should see the |*get-started-title|
     And I should see the |*search-box|
+    And I should see the |*help-item-examples-title|
+    And I should see the |*help-item-examples-desc|
+    And I should see the |*help-item-examples-link|
+    And I should see the |*help-item-documentation-title|
+    And I should see the |*help-item-documentation-desc|
+    And I should see the |*help-item-documentation-link|
+    And I should see the |*help-item-troubleshooting-title|
+    And I should see the |*help-item-troubleshooting-desc|
+    And I should see the |*help-item-troubleshooting-link|
+    And I should see the |*help-item-release-notes-title|
+    And I should see the |*help-item-release-notes-desc|
+    And I should see the |*help-item-release-notes-link|
     And I click on the |*close-help-center| button
     And I should see the |app-jobs| list
 
