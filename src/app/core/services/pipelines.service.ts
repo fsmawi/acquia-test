@@ -21,24 +21,17 @@ export class PipelinesService {
   URI = `${environment.apiEndpoint}/api/v1`;
 
   /**
-   * Session container for bakery cookies
-   */
-  bakeryExpiry: Date;
-
-  /**
    * Create the Service
    * @param http
    */
   constructor(private http: Http) {
   }
 
+  /**
+   * Gets bakery authentication cookies if missing
+   * @returns {Promise<any>}
+   */
   authBakery() {
-
-    // bakery is still good, reuse
-    if (this.bakeryExpiry && new Date() < this.bakeryExpiry) {
-      return Promise.resolve();
-    }
-
     // Does not use the promisePost/Get methods because it is used within
     const reqOptions = new RequestOptions();
     reqOptions.headers = reqOptions.headers || new Headers();
@@ -52,15 +45,7 @@ export class PipelinesService {
     reqOptions.withCredentials = environment.production;
     return this.http.get(this.URI + '/auth/bakery', reqOptions)
       .map(r => r.json())
-      .toPromise()
-      .then(res => {
-        if (res.authenticated) {
-          let expires = new Date();
-          expires.setMinutes(expires.getMinutes() + 5);
-          this.bakeryExpiry = expires;
-        }
-        return Promise.resolve();
-      });
+      .toPromise();
   }
 
   /**
@@ -243,15 +228,23 @@ export class PipelinesService {
    * Helper to make get requests. Adds Pipeline creds if supplied.
    * @param url
    * @param params
+   * @param firstTime Flag for first time calls, allowing a retry after bakery
    * @returns {Promise<HttpRequest>}
    */
-  promiseGetRequest(url, params = {}) {
+  promiseGetRequest(url, params = {}, firstTime = true) {
     // Create Request Options Object
     const reqOptions = this.generateReqOptions(params);
 
     // Make Call
-    return this.authBakery()
-      .then(() => this.http.get(url, reqOptions).map(r => r.json()).toPromise());
+    return this.http.get(url, reqOptions).map(r => r.json()).toPromise()
+      .catch(e => {
+        if (e.status === 403 && firstTime) {
+          return this.authBakery()
+            .then(() => this.promiseGetRequest(url, params, false));
+        } else {
+          return Promise.reject(e);
+        }
+      });
   }
 
   /**
@@ -259,29 +252,46 @@ export class PipelinesService {
    * @param url
    * @param body
    * @param params
+   * @param firstTime Flag for first time calls, allowing a retry after bakery
    * @returns {Promise<HttpRequest>}
    */
-  promisePostRequest(url, body = {}, params = {}): Promise<any> {
+  promisePostRequest(url, body = {}, params = {}, firstTime = true): Promise<any> {
     const reqOptions = this.generateReqOptions(params);
 
     // Make Call
-    return this.authBakery()
-      .then(() => this.http.post(url, body, reqOptions).map(r => r.json()).toPromise());
+    return this.http.post(url, body, reqOptions).map(r => r.json()).toPromise()
+      .catch(e => {
+        if (e.status === 403 && firstTime) {
+          return this.authBakery()
+            .then(() => this.promisePostRequest(url, params, false));
+        } else {
+          return Promise.reject(e);
+        }
+      });
   }
 
   /**
    * Helper to make deleye requests. Adds Pipeline creds if supplied.
    * @param url
    * @param params
+   * @param firstTime Flag for first time calls, allowing a retry after bakery
    * @returns {Promise<HttpRequest>}
    */
-  promiseDeleteRequest(url, params = {}) {
+  promiseDeleteRequest(url, params = {}, firstTime = true) {
+
     // Create Request Options Object
     const reqOptions = this.generateReqOptions(params);
 
     // Make Call
-    return this.authBakery()
-      .then(() => this.http.delete(url, reqOptions).map(r => r.json()).toPromise());
+    return this.http.delete(url, reqOptions).map(r => r.json()).toPromise()
+      .catch(e => {
+        if (e.status === 403 && firstTime) {
+          return this.authBakery()
+            .then(() => this.promiseDeleteRequest(url, params, false));
+        } else {
+          return Promise.reject(e);
+        }
+      });
   }
 
   /**
