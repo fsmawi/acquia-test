@@ -29,7 +29,7 @@
                   class="pull-right"></e-progress>
     </e-card-header>
     <e-card-content *ngIf="logs && logs.length" class="no-padding">
-      <div #logsContainer class="logs">
+      <div #logsContainer class="logs" *ngIf="!streaming">
         <div *ngFor="let log of logs">
           <div *ngFor="let chunk of log.message | logChunks">
             <span class="log__chunk__title" (click)="showChunk(chunk)">
@@ -39,6 +39,11 @@
             </span>
             <pre class="log__chunk__message" [innerHTML]="chunk.log | safe: 'html'" *ngIf="chunk.visible"></pre>
           </div>
+        </div>
+      </div>
+      <div #logsContainer class="logs" *ngIf="streaming">
+        <div *ngFor="let log of logs">
+          <pre class="log__chunk__message" [innerHTML]="log.message | safe: 'html'"></pre>
         </div>
       </div>
     </e-card-content>

@@ -148,6 +148,9 @@ export class JobsDetailComponent implements OnInit, OnDestroy {
    * Load the job and available logs by polling or switch to streaming if available
    */
   refresh() {
+    if (this.loadingJob) {
+      return; // Already refreshing
+    }
     this.loadingJob = true;
     this.pipelineService.getJobByJobId(this.appId, this.jobId)
       .then((j: Job) => this.job = new Job(j))
@@ -232,7 +235,7 @@ export class JobsDetailComponent implements OnInit, OnDestroy {
    * @returns {Promise}
    */
   streamLogs() {
-    this.socket = this.webSocketService.connect(this.job.metadata.log_stream_url.replace(/\/$/, ""));
+    this.socket = this.webSocketService.connect(this.job.metadata.log_stream_url);
     // if no socket support, revert to long poll
     if (!this.socket) {
       this.streaming = false;
@@ -241,7 +244,6 @@ export class JobsDetailComponent implements OnInit, OnDestroy {
 
     // connect, auth, append logs, and close
     this.streaming = true;
-    let miniLogs = [];
     this.logs = [];
     this.socket.subscribe(event => {
       switch (event.name) {
@@ -256,35 +258,45 @@ export class JobsDetailComponent implements OnInit, OnDestroy {
 
         // when available items comes back, enable the logs
         case 'available':
-          let i = event.argument;
           this.socket.send({
             cmd: 'enable',
-            type: i.type,
+            type: event.argument.type,
             from: 'start'
           });
           break;
 
         // On each line item append
         case 'line':
-          miniLogs.push(event);
-          let text = miniLogs.map(l => l.argument.raw_text_base64 ? atob(l.argument.raw_text_base64) : l.argument.text).join('\n' +
-            '');
-          this.logs = [new JobLog({
-            timestamp: miniLogs[miniLogs.length - 1].unix_time,
+          let text;
+          if (event.argument.raw_text_base64) {
+            // HACK: The browser doesn't like base64->utf8, so the following is necessary
+            text = decodeURIComponent(
+              Array.prototype.map.call(
+                atob(event.argument.raw_text_base64), function (c) {
+                  return '%' + ('00' + c.charCodeAt(0).toString(16)
+                    ).slice(-2);
+                }).join('')
+            );
+          } else {
+            text = event.argument.text;
+          }
+          text += '\n';
+          this.logs.push(new JobLog({
+            timestamp: event.unix_time,
             level: 'info',
             message: this.ansiService.convert(text)
-          })];
+          }));
           break;
 
         // When the socket closes and is done, refresh the job info
         case 'close':
-          this.streaming = false;
+          this.streaming = null;
           this.refresh();
           break;
 
         // If an error occurs, report, and revert to long polling
         case 'error':
-          // this.streaming = false;
+          this.streaming = false;
           this.flash.showInfo(
             'Unable to stream logs, will show the logs when available', event.argument
           );

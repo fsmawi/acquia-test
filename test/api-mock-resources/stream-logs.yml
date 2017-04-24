@@ -4,6 +4,12 @@ routes:
       GET:
         response:
           authenticated: true
+  /api/v1/ci/applications:
+      GET:
+        response:
+          repo_type: acquia-git
+          repo_name: example/repo
+          repo_url: site@svn-3.hosted.acquia-sites.com:site.git
   /api/v1/ci/jobs:
     GET:
       response:
@@ -40,7 +46,7 @@ routes:
             started_at: 0
             status: running
             metadata:
-              log_stream_websocket: ws://localhost:8080
+              log_stream_url: ws://localhost:8080
               log_stream_secret: pen-pinapple_apple-pen
         -
           response:
@@ -58,6 +64,6 @@ routes:
             started_at: 0
             status: succeeded
             metadata:
-              log_stream_websocket: ws://localhost:8080
+              log_stream_url: ws://localhost:8080
               log_stream_secret: pen-pinapple_apple-pen
 
