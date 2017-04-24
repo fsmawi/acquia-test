@@ -148,6 +148,9 @@ export class JobsDetailComponent implements OnInit, OnDestroy {
    * Load the job and available logs by polling or switch to streaming if available
    */
   refresh() {
+    if (this.loadingJob) {
+      return; // Already refreshing
+    }
     this.loadingJob = true;
     this.pipelineService.getJobByJobId(this.appId, this.jobId)
       .then((j: Job) => this.job = new Job(j))
@@ -173,7 +176,7 @@ export class JobsDetailComponent implements OnInit, OnDestroy {
           // always set to false to flag non streaming components
           this.streaming = false;
           // FEATURE FLAG for enabling log streaming. Remove after MS-2590 is complete
-        } else if (this.streaming === null && metadata.log_stream_websocket && metadata.log_stream_secret && features.logStreaming) {
+        } else if (this.streaming === null && metadata.log_stream_url && metadata.log_stream_secret && features.logStreaming) {
           this.loadingLogs = false;
           return this.streamLogs();
         } else if (!this.timer) {
@@ -232,7 +235,7 @@ export class JobsDetailComponent implements OnInit, OnDestroy {
    * @returns {Promise}
    */
   streamLogs() {
-    this.socket = this.webSocketService.connect(this.job.metadata.log_stream_websocket);
+    this.socket = this.webSocketService.connect(this.job.metadata.log_stream_url);
     // if no socket support, revert to long poll
     if (!this.socket) {
       this.streaming = false;
@@ -251,34 +254,43 @@ export class JobsDetailComponent implements OnInit, OnDestroy {
             cmd: 'authenticate',
             secret: this.job.metadata.log_stream_secret
           });
-          // list available items
-          this.socket.send({
-            cmd: 'list-available'
-          });
           break;
 
         // when available items comes back, enable the logs
-        case 'list-available':
-          event.argument.items.map(i => this.socket.send({
+        case 'available':
+          this.socket.send({
             cmd: 'enable',
-            type: i.type,
+            type: event.argument.type,
             from: 'start'
-          }));
+          });
           break;
 
         // On each line item append
         case 'line':
-          const lineObj = event.argument;
+          let text;
+          if (event.argument.raw_text_base64) {
+            // HACK: The browser doesn't like base64->utf8, so the following is necessary
+            text = decodeURIComponent(
+              Array.prototype.map.call(
+                atob(event.argument.raw_text_base64), function (c) {
+                  return '%' + ('00' + c.charCodeAt(0).toString(16)
+                    ).slice(-2);
+                }).join('')
+            );
+          } else {
+            text = event.argument.text;
+          }
+          text += '\n';
           this.logs.push(new JobLog({
-            timestamp: lineObj.unix_time,
+            timestamp: event.unix_time,
             level: 'info',
-            message: this.ansiService.convert(lineObj.text)
+            message: this.ansiService.convert(text)
           }));
           break;
 
         // When the socket closes and is done, refresh the job info
         case 'close':
-          this.streaming = false;
+          this.streaming = null;
           this.refresh();
           break;
 

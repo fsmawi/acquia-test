@@ -29,7 +29,6 @@ describe('WebSocketHandler', () => {
     handler.socket.onclose();
     handler.socket.onerror();
     handler.socket.onmessage({data: '{"cmd": "something"}'});
-    expect(handler._emit).toHaveBeenCalledWith('connected');
     expect(handler._emit).toHaveBeenCalledWith('close');
     expect(handler._emit).toHaveBeenCalledWith('error', undefined);
     expect(handler._emit).toHaveBeenCalledWith('something', {cmd: 'something'});

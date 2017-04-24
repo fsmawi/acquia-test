@@ -115,3 +115,15 @@ pre {
   margin-left: $rhythm-unit;
   cursor: pointer;
 }
+
+#streaming-loader {
+  /deep/ {
+    .el-progress__loader {
+      position: inherit;
+      margin: $rhythm-unit auto;
+    }
+    .el-progress__loader__node {
+      background-color: $color-neutral-0;
+    }
+  }
+}

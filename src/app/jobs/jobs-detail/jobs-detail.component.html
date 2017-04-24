@@ -5,7 +5,7 @@
                      pageType="job"
                      [showViewInfo]="true"
                      [showOpenEnvironment]="job?.isFinished && job.metadata?.deployment_link"
-                     [showStopJob]="job?.isUnfinished" ></app-action-header>
+                     [showStopJob]="job?.isUnfinished"></app-action-header>
 
   <app-job-summary *ngIf="job && appId"
                    [isProgressBarRequired]="false"
@@ -19,7 +19,7 @@
          *ngIf="logs && logs.length"
          (click)="scrollLogsToBottom()"
          class="right">
-          Scroll to bottom
+        Scroll to bottom
       </a>
       <e-progress id="log-loader"
                   *ngIf="streaming || loadingLogs || loadingJob"
@@ -29,7 +29,7 @@
                   class="pull-right"></e-progress>
     </e-card-header>
     <e-card-content *ngIf="logs && logs.length" class="no-padding">
-      <div #logsContainer class="logs">
+      <div #logsContainer class="logs" *ngIf="!streaming">
         <div *ngFor="let log of logs">
           <div *ngFor="let chunk of log.message | logChunks">
             <span class="log__chunk__title" (click)="showChunk(chunk)">
@@ -40,6 +40,15 @@
             <pre class="log__chunk__message" [innerHTML]="chunk.log | safe: 'html'" *ngIf="chunk.visible"></pre>
           </div>
         </div>
+      </div>
+      <div #logsContainer class="logs" *ngIf="streaming">
+        <div *ngFor="let log of logs">
+          <pre class="log__chunk__message" [innerHTML]="log.message | safe: 'html'"></pre>
+        </div>
+        <e-progress id="streaming-loader" *ngIf="streaming"
+                    progressSize="large"
+                    progressType="indeterminate"
+                    progressVariant="dots"></e-progress>
       </div>
     </e-card-content>
     <e-card-content *ngIf="job && (!logs || logs.length == 0)">
