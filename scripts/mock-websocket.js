@@ -24,12 +24,16 @@ wss.on('connection', ws => {
         return console.log(`Someone authenticated! Secret: ${obj.secret.rainbow}`);
       case 'enable':
         return setupStream(ws);
-      case 'list-available':
-        return emit(ws, 'list-available', {items: [{type: 'log', server: 'local'}]});
       default:
         return console.log(`Unknown command ${obj.cmd}`.red);
     }
   });
+
+  // Start off the streaming handshake
+  emit(ws, 'connected')
+    .then(() => emit(ws, 'available', {
+      type: 'stdout'
+    }));
 });
 
 /**
@@ -84,6 +88,6 @@ function pause(timeout) {
 
 function emit(ws, event, data) {
   console.log(`Emitting ${event}`.blue, data);
-  Promise.resolve(ws.send(JSON.stringify(Object.assign({cmd: event}, data))));
+  return Promise.resolve(ws.send(JSON.stringify(Object.assign({cmd: event}, data))));
 }
 

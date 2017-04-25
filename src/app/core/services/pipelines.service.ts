@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {Http, RequestOptions, Headers, URLSearchParams} from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
+import 'rxjs/add/operator/map';
 
 import {Application} from '../models/application';
 import {environment} from '../../../environments/environment';
@@ -27,13 +28,34 @@ export class PipelinesService {
   }
 
   /**
+   * Gets bakery authentication cookies if missing
+   * @returns {Promise<any>}
+   */
+  authBakery() {
+    // Does not use the promisePost/Get methods because it is used within
+    const reqOptions = new RequestOptions();
+    reqOptions.headers = reqOptions.headers || new Headers();
+
+    // All request headers
+    if (environment.headers) {
+      Object.keys(environment.headers).forEach(k => reqOptions.headers.append(k, environment.headers[k]));
+    }
+
+    // Add cookie headers
+    reqOptions.withCredentials = environment.production;
+    return this.http.get(this.URI + '/auth/bakery', reqOptions)
+      .map(r => r.json())
+      .toPromise();
+  }
+
+  /**
    * Gets a list of jobs for the supplied app id
    * @param appId
    * @param params
    * @returns {Promise<Array<Job>>}
    */
   getJobsByAppId(appId: string, params = {}) {
-    return this.promiseGetRequest(this.URI + `/ci/jobs?applications=${appId}`, params).then(r => r.map(j => new Job(j)));
+    return this.promiseGetRequest(this.URI + `/ci/jobs?applications=${appId}`, params).then((r: any) => r.map(j => new Job(j)));
   }
 
   /**
@@ -44,7 +66,7 @@ export class PipelinesService {
    * @returns {Promise<Job>}
    */
   getJobByJobId(appId: string, jobId: string, params = {}) {
-    return this.promiseGetRequest(this.URI + `/ci/jobs/${jobId}?applications=${appId}`, params).then(r => new Job(r));
+    return this.promiseGetRequest(this.URI + `/ci/jobs/${jobId}?applications=${appId}`, params).then((r: any) => new Job(r));
   }
 
   /**
@@ -80,7 +102,7 @@ export class PipelinesService {
    * @returns {Promise<Array<JobLog>>}
    */
   getLogFile(appId: string, jobId: string, params = {}) {
-    return this.promiseGetRequest(this.URI + `/ci/jobs/${jobId}/logs?applications=${appId}`, params);
+    return this.promiseGetRequest(this.URI + `/ci/jobs/${jobId}/logs?applications=${appId}`, params).then((r: any) => r);
   }
 
   /**
@@ -93,7 +115,7 @@ export class PipelinesService {
     return this.promiseGetRequest(this.URI + `/ci/pipelines`, {
       include_repo_data: getRepoMeta ? 1 : undefined,
       applications: [appId]
-    }).then(r => r.map(p => new Pipeline(p)));
+    }).then((r: any) => r.map(p => new Pipeline(p)));
   }
 
   /**
@@ -104,7 +126,7 @@ export class PipelinesService {
   getGithubStatus(appId: string) {
     return this.promiseGetRequest(this.URI + '/ci/github/status', {
       applications: [appId]
-    }).then(r => new GithubStatus(appId, r));
+    }).then((r: any) => new GithubStatus(appId, r));
   }
 
   /**
@@ -115,7 +137,7 @@ export class PipelinesService {
   getApplicationInfo(appId: string) {
     return this.promiseGetRequest(this.URI + '/ci/applications', {
       applications: [appId]
-    }).then(r => new Application(r));
+    }).then((r: any) => new Application(r));
   }
 
   /**
@@ -125,7 +147,7 @@ export class PipelinesService {
    */
   getRepositoriesByPage(page: number, appId: string) {
     return this.promiseGetRequest(this.URI + `/ci/github/repos?per_page=100&page=${page}&applications=${appId}`, {})
-      .then(res => res.map(r => new Repository(r)));
+      .then((res: any) => res.map(r => new Repository(r)));
   }
 
   /**
@@ -206,14 +228,23 @@ export class PipelinesService {
    * Helper to make get requests. Adds Pipeline creds if supplied.
    * @param url
    * @param params
+   * @param firstTime Flag for first time calls, allowing a retry after bakery
    * @returns {Promise<HttpRequest>}
    */
-  promiseGetRequest(url, params = {}) {
+  promiseGetRequest(url, params = {}, firstTime = true) {
     // Create Request Options Object
     const reqOptions = this.generateReqOptions(params);
 
     // Make Call
-    return this.http.get(url, reqOptions).map(r => r.json()).toPromise();
+    return this.http.get(url, reqOptions).map(r => r.json()).toPromise()
+      .catch(e => {
+        if (e.status === 403 && firstTime) {
+          return this.authBakery()
+            .then(() => this.promiseGetRequest(url, params, false));
+        } else {
+          return Promise.reject(e);
+        }
+      });
   }
 
   /**
@@ -221,27 +252,46 @@ export class PipelinesService {
    * @param url
    * @param body
    * @param params
+   * @param firstTime Flag for first time calls, allowing a retry after bakery
    * @returns {Promise<HttpRequest>}
    */
-  promisePostRequest(url, body = {}, params = {}): Promise<any> {
+  promisePostRequest(url, body = {}, params = {}, firstTime = true): Promise<any> {
     const reqOptions = this.generateReqOptions(params);
 
     // Make Call
-    return this.http.post(url, body, reqOptions).map(r => r.json()).toPromise();
+    return this.http.post(url, body, reqOptions).map(r => r.json()).toPromise()
+      .catch(e => {
+        if (e.status === 403 && firstTime) {
+          return this.authBakery()
+            .then(() => this.promisePostRequest(url, params, false));
+        } else {
+          return Promise.reject(e);
+        }
+      });
   }
 
   /**
    * Helper to make deleye requests. Adds Pipeline creds if supplied.
    * @param url
    * @param params
+   * @param firstTime Flag for first time calls, allowing a retry after bakery
    * @returns {Promise<HttpRequest>}
    */
-  promiseDeleteRequest(url, params = {}) {
+  promiseDeleteRequest(url, params = {}, firstTime = true) {
+
     // Create Request Options Object
     const reqOptions = this.generateReqOptions(params);
 
     // Make Call
-    return this.http.delete(url, reqOptions).map(r => r.json()).toPromise();
+    return this.http.delete(url, reqOptions).map(r => r.json()).toPromise()
+      .catch(e => {
+        if (e.status === 403 && firstTime) {
+          return this.authBakery()
+            .then(() => this.promiseDeleteRequest(url, params, false));
+        } else {
+          return Promise.reject(e);
+        }
+      });
   }
 
   /**
