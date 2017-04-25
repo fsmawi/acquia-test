@@ -11,6 +11,12 @@
   overflow: auto;
 }
 
+.standalone {
+  :host {
+    width: 70%;
+  }
+}
+
 @media (max-width: px-to-relative(320px)) {
   :host {
     padding: 1rem;
