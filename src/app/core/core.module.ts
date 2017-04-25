@@ -29,7 +29,6 @@ import {HelpContentCategoryFilterPipe } from './components/help-center/help-cont
 import {SharedModule} from '../shared/shared.module';
 import {ContextMenuComponent} from './components/context-menu/context-menu.component';
 import {ContextMenuService} from './services/context-menu.service';
-import { ApplicationsListComponent } from './components/applications-list/applications-list.component';
 
 @NgModule({
   imports: [
@@ -64,22 +63,19 @@ import { ApplicationsListComponent } from './components/applications-list/applic
     ConfirmationModalComponent,
     HelpCenterComponent,
     HelpContentCategoryFilterPipe,
-    ContextMenuComponent,
-    ApplicationsListComponent
+    ContextMenuComponent
   ],
   exports: [
     FlashMessageComponent,
     ConfirmationModalComponent,
     HelpCenterComponent,
-    ContextMenuComponent,
-    ApplicationsListComponent
+    ContextMenuComponent
   ],
   entryComponents: [
     ConfirmationModalComponent,
     FlashMessageComponent,
     HelpCenterComponent,
-    ContextMenuComponent,
-    ApplicationsListComponent
+    ContextMenuComponent
   ]
 })
 export class CoreModule {
