@@ -20,6 +20,12 @@ export class AnsiService {
    * @returns {String}
    */
   convert(input: string) {
-    return ansi_up.ansi_to_html(input);
+    // escape any prior HTML
+    return ansi_up.ansi_to_html(input.replace(/[\"&'\/<>]/g, function (a) {
+      return {
+        '"': '&quot;', '&': '&amp;', '\'': '&#39;',
+        '/': '&#47;', '<': '&lt;', '>': '&gt;'
+      }[a];
+    }));
   }
 }
