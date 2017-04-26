@@ -20,10 +20,9 @@
               *ngIf="job.metadata">
         <e-data-label>
           <span class="pipelines-job-summary__dotted"
-                mdTooltip="The cloud environment where your code was deployed from this job.
-                This could be an ODE or a dedicated environment, such as staging or production"
+                mdTooltip="The Acquia Cloud environment to which this job will deploy code."
                 mdTooltipPosition="right">
-            Environment
+            Destination Environment
           </span>
         </e-data-label>
         <e-data-value id="job-deployment-link-value">
@@ -63,9 +62,9 @@
               fxFlex.xs="50%">
         <e-data-label>
           <span class="pipelines-job-summary__dotted"
-                            mdTooltip="How long the job ran for."
+                            mdTooltip="The duration for which this job ran."
                             mdTooltipPosition="right">
-            Duration
+            Job Duration
           </span>
         </e-data-label>
         <e-data-value id="job-duration-value" *ngIf="job.isUnfinished">{{calculatedDuration}}</e-data-value>
@@ -88,11 +87,11 @@
               fxFlex.xs="50%">
         <e-data-label>
           <span class="pipelines-job-summary__dotted"
-                            mdTooltip="The event that started this job.
-                            A branch pull is a normal commit to a Pipelines enabled repo.
-                            A pull request event is when a pull request is made for a Pipelines enabled repo"
+                            mdTooltip="The event that triggered this job. Possible triggers include:
+                            1) Branch commit: A new commit was made to the repository.
+                            2) Pull request: A pull request was submitted or updated"
                             mdTooltipPosition="right">
-            Trigger
+            Job Trigger
           </span>
         </e-data-label>
         <e-data-value id="job-trigger-value">{{job.triggerMessage}}</e-data-value>
@@ -129,7 +128,7 @@
               *ngIf="!job.isPullRequest">
         <e-data-label>
           <span class="pipelines-job-summary__dotted"
-                            mdTooltip="Git branch that this job is for."
+                            mdTooltip="The git branch used to run this job."
                             mdTooltipPosition="right">
             Branch
           </span>
