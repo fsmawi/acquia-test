@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.27"></a>
+## [0.2.27](https://github.com/acquia/pipelines-ui/compare/v0.2.26...v0.2.27) (2017-04-26)
+
+
+### Bug Fixes
+
+* **error.service:** Added catch for cancelled requests (#213) ([00dbd6e](https://github.com/acquia/pipelines-ui/commit/00dbd6e))
+
+
+
 <a name="0.2.26"></a>
 ## [0.2.26](https://github.com/acquia/pipelines-ui/compare/v0.2.25...v0.2.26) (2017-04-26)
 
