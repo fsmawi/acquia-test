@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.28"></a>
+## [0.2.28](https://github.com/acquia/pipelines-ui/compare/v0.2.27...v0.2.28) (2017-04-26)
+
+
+### Features
+
+* **E2E:** always retry failed e2e test (#214) ([45e6011](https://github.com/acquia/pipelines-ui/commit/45e6011))
+
+
+
 <a name="0.2.27"></a>
 ## [0.2.27](https://github.com/acquia/pipelines-ui/compare/v0.2.26...v0.2.27) (2017-04-26)
 
