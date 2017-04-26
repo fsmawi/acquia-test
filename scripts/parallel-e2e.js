@@ -28,6 +28,12 @@ const doNotUse = [
 
 let aqTestArgs = process.argv.slice(3);
 
+// output holder
+let output = {};
+
+let update;
+
+let startTime = new Date();
 
 // Automation Steps
 // 1. Find all feature files
@@ -41,9 +47,6 @@ glob('test/e2e/features/*.feature', function (err, files) {
     throw err;
   }
 
-  // output holder
-  let output = {};
-
   // filter do not use
   let featureFiles = files.map(f => path.basename(f)).filter(f => doNotUse.indexOf(f) === -1);
 
@@ -55,19 +58,69 @@ glob('test/e2e/features/*.feature', function (err, files) {
 
   console.log('Running Scenarios:\n'.cyan, tags.join('\n'), '\n');
 
-  let update = setInterval(() => console.log('E2E Tests running'.gray), 60000);
+  update = setInterval(() => console.log('E2E Tests running'.gray), 60000);
 
   let concurrency = process.env.CONCURRENCY ? parseInt(process.env.CONCURRENCY) : 10;
 
-  let startTime = new Date();
+  executeTests(tags, concurrency);
+});
 
-  async.eachLimit(tags, concurrency, (tag, cb) => {
+/**
+ * Execute Test scenarios
+ * @param  {String[]}  scenarios
+ * @param  {Number}  concurrency
+ */
+function executeTests(scenarios, concurrency) {
+
+  async.eachLimit(scenarios, concurrency, (tag, cb) => {
     console.log(`Starting ${tag}`.gray);
     output[tag] = {
       err: false,
       start: new Date()
     };
 
+    tryScenario(tag)
+      .catch((err) => {
+        if (err.retry) {
+          tryScenario(tag, true);
+        }
+      })
+      .then(() =>  {
+        cb(null); // let other tests run, even if error
+      });
+
+  }, err => {
+    if (err) {
+      throw err;
+    }
+
+    // stop the update
+    clearInterval(update);
+
+    let endTime = new Date();
+    // log all output
+    scenarios.forEach(k => console.log(k.cyan, output[k].log, output[k].err, output[k].duration.yellow));
+
+    // throw error if there was any error
+    if (scenarios.find(f => output[f].err)) {
+      console.error(`The following scenarios failed: ${scenarios.filter(f => output[f].err).join(', ')}`.red);
+      console.log(scenarios.filter(f => output[f].err).forEach(k => console.log(k.cyan, output[k].log, output[k].err)));
+      console.log(scenarios.filter(f => output[f].err).forEach(k => console.log(k.cyan, output[k].log)));
+      console.log('Total Time Taken: ', ((endTime - startTime) / 1000 / 60).toFixed(2) + ' Minutes');
+      process.exit(1);
+    } else {
+      console.log('All E2E scenarios successful'.green);
+      console.log('Total Time Taken: ', ((endTime - startTime) / 1000 / 60).toFixed(2) + ' Minutes');
+    }
+  });
+}
+
+function tryScenario(tag, retry = false) {
+  if (retry) {
+    console.log(`Retrying ${tag}`.yellow);
+  }
+
+  return new Promise((resolve, reject) => {
     exec(`node_modules/.bin/aqtest test/e2e/features --tags ${tag} --test-name pipelines${tag} ${aqTestArgs.join(' ')}`, {
       cwd: path.join(__dirname, '..'),
       env: Object.assign(process.env, {CONFIG: process.env.CONFIG || 'test/e2e/aqtestfile.js'}),
@@ -78,28 +131,28 @@ glob('test/e2e/features/*.feature', function (err, files) {
       output[tag].duration = ((output[tag].end - output[tag].start) / 1000 / 60).toFixed(2) + ' Minutes';
       output[tag].err = err;
       output[tag].log = log;
-      cb(null); // let other tests run, even if error
+      // trigger a retry if failing rate is more than 70%
+      // and if it's the first try
+      if (err && getFailingRate(log) > 70 && !retry) {
+        reject({retry: true})
+      } else {
+        resolve();
+      }
     });
-  }, err => {
-    if (err) {
-      throw err;
-    }
-    // stop the update
-    clearInterval(update);
-    endTime = new Date();
-    // log all output
-    tags.forEach(k => console.log(k.cyan, output[k].log, output[k].err, output[k].duration.yellow));
-
-    // throw error if there was any error
-    if (tags.find(f => output[f].err)) {
-      console.error(`The following scenarios failed: ${tags.filter(f => output[f].err).join(', ')}`.red);
-      console.log(tags.filter(f => output[f].err).forEach(k => console.log(k.cyan, output[k].log, output[k].err)));
-      console.log('Total Time Taken: ', ((endTime - startTime) / 1000 / 60).toFixed(2) + ' Minutes');
-      process.exit(1);
-    } else {
-      console.log('All E2E scenarios successful'.green);
-      console.log('Total Time Taken: ', ((endTime - startTime) / 1000 / 60).toFixed(2) + ' Minutes');
-    }
   });
-});
+}
 
+/**
+ * Calculate the failing rate in the given scenario log
+ * @param  {String} str
+ */
+function getFailingRate(str) {
+
+  const allStepsRegex = /((✓\s|✖\s|-\s)(And|Given|When|Then))/g;
+  const successStepsRegex = /((✓\s)(And|Given|When|Then))/g;
+
+  const countAllSteps = str.match(allStepsRegex) ? str.match(allStepsRegex).length : 0;
+  const countSuccessSteps = str.match(successStepsRegex) ? str.match(successStepsRegex).length : 0;
+
+  return countAllSteps ? ((countAllSteps - countSuccessSteps) / countAllSteps) * 100 : countAllSteps;
+}
