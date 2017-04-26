@@ -72,11 +72,11 @@ Feature: Pipelines Jobs List
   @JobList_CheckTooltips
   Scenario: Check the tooltips of the fields displayed in jobList page
     When on the |*jobs-list| page
-    Then I should see |*Environment-label| |*tooltip| containing |*Environment-tooltip-text|
+    Then I should see |*Destination-Environment-label| |*tooltip| containing |*Destination-Environment-tooltip-text|
     Then I should see |*Commit-label| |*tooltip| containing |*Commit-tooltip-text|
-    Then I should see |*Duration-label| |*tooltip| containing |*Duration-tooltip-text|
+    Then I should see |*Job-Duration-label| |*tooltip| containing |*Job-Duration-tooltip-text|
     Then I should see |*Started-at-label| |*tooltip| containing |*Started-at-tooltip-text|
-    Then I should see |*Trigger-label| |*tooltip| containing |*Trigger-tooltip-text|
+    Then I should see |*Job-Trigger-label| |*tooltip| containing |*Job-Trigger-tooltip-text|
     Then I should see |*Pull-request-label| |*tooltip| containing |*Pull-request-tooltip-text|
     Then I should see |*Source-branch-label| |*tooltip| containing |*Source-branch-tooltip-text|
     Then I should see |*Target-branch-label| |*tooltip| containing |*Target-branch-tooltip-text|
