@@ -8,7 +8,7 @@ export const environment = {
     'X-ACQUIA-PIPELINES-N3-ENDPOINT': 'https://cloud.acquia.com'
   },
   URL: 'https://pipelines.acquia.com', // redirect url
-  auth: { // authentication parameters
+  auth: { // authentication parameters for oauth
     github: {
       oauthEndpoint: '',
       oauthTokenEndpoint: '',
@@ -31,7 +31,7 @@ export const environment = {
     }
   },
   bugsnagAPIKey: '53277c40f7254811573110c3ec847eec',
-  amplitudeAPIKey: '59e1dbd5afbc7c7c22c2a144fd7b5732',
-  segmentWriteKey: 'A5xBlvdjiF2RN5JRzMBsFXRNt97Vx2Uq',
+  amplitudeAPIKey: '6d3691615064031e356c16691f148e34',
+  segmentWriteKey: 'Acn6k4EbYaeBzUsKnBZqqs9NQlccqeoq',
   authRedirect: 'https://cloud.acquia.com'
 };

@@ -6,18 +6,16 @@ import {Subscription, Observable} from 'rxjs/Rx';
 import {environment} from '../../../environments/environment';
 import {Job} from '../../core/models/job';
 
+// Global Scope, Window
+// or mocked by scope vars in tests
+declare const window;
+
 @Component({
   selector: 'app-job-summary',
   templateUrl: 'job-summary.component.html',
   styleUrls: ['job-summary.component.scss']
 })
 export class JobSummaryComponent implements OnInit, OnDestroy, OnChanges {
-
-  /**
-   * If in production environment
-   * @type {boolean}
-   */
-  envProd: boolean;
 
   /**
    * Job whose details to be shown
@@ -72,11 +70,10 @@ export class JobSummaryComponent implements OnInit, OnDestroy, OnChanges {
    * Initialize
    */
   ngOnInit() {
-    this.envProd = false;
+
     // In the production environment, all job links should specify the cloud url,
     // which will allow multiple windows/tabs to be open
-    if (environment.production && environment.name === 'prod') {
-      this.envProd = true;
+    if (environment.production && environment.name === 'prod' && window.self !== window.top) {
       this.cloudUrl = `${environment.authRedirect}/app/develop/applications/${this.appId}/pipelines/jobs`;
     } else {
       this.cloudUrl = `/applications/${this.appId}`;
