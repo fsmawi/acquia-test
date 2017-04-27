@@ -90,6 +90,13 @@ export class ErrorService {
    * @returns {ErrorService}
    */
   reportError(e: Error, name: string, meta: any, severity: string) {
+
+    // Catch cancelled requests from the browser, and don't report
+    // Where status is status code, and type is the @angular/http/Response.type enum (failed/3)
+    if (e['status'] && e['type'] && e['status'].toString() === '0' && e['type'].toString() === '3') {
+      return this;
+    }
+
     if (environment.production) {
       meta.rawError = e;
       Bugsnag.notifyException(e, name, meta, severity);

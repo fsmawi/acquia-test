@@ -60,7 +60,7 @@ glob('test/e2e/features/*.feature', function (err, files) {
 
   update = setInterval(() => console.log('E2E Tests running'.gray), 60000);
 
-  let concurrency = process.env.CONCURRENCY ? parseInt(process.env.CONCURRENCY) : 10;
+  let concurrency = process.env.CONCURRENCY ? parseInt(process.env.CONCURRENCY) : 16;
 
   executeTests(tags, concurrency);
 });
@@ -133,7 +133,7 @@ function tryScenario(tag, retry = false) {
       output[tag].log = log;
       // trigger a retry if failing rate is more than 70%
       // and if it's the first try
-      if (err && getFailingRate(log) > 70 && !retry) {
+      if (err && getFailingRate(log) > 0 && !retry) {
         reject({retry: true})
       } else {
         resolve();

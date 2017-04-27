@@ -33,7 +33,7 @@ export class SegmentService {
    */
   trackEvent(eventIdentifier: string, eventData: Object) {
     if (environment.production || analyticsMock) {
-      return analytics.track(eventIdentifier, eventData);
+      return analytics.track('PUX-' + eventIdentifier, eventData);
     }
   }
 
@@ -44,7 +44,7 @@ export class SegmentService {
    */
   page(name: string) {
     if (environment.production || analyticsMock) {
-      return analytics.page(name);
+      return analytics.page('PUX-' + name);
     }
   }
 }

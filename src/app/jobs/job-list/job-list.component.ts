@@ -8,6 +8,10 @@ import {Job} from '../../core/models/job';
 import {PipelinesService} from '../../core/services/pipelines.service';
 import {SegmentService} from '../../core/services/segment.service';
 
+// Global Scope, Window
+// or mocked by scope vars in tests
+declare const window;
+
 @Component({
   selector: 'app-job-list',
   templateUrl: './job-list.component.html',
@@ -49,7 +53,7 @@ export class JobListComponent implements OnInit {
   ngOnInit() {
     // In the production environment, all job links should specify the cloud url,
     // which will allow multiple windows/tabs to be open
-    if (environment.production && environment.name === 'prod') {
+    if (environment.production && environment.name === 'prod' && window.self !== window.top) {
       this.cloudUrl = `${environment.authRedirect}/app/develop/applications/${this.appId}/pipelines/jobs`;
     } else {
       this.cloudUrl = `/applications/${this.appId}`;
