@@ -50,12 +50,9 @@
       </a>
       <div id="dropdown-links">
         <a appIframeLink="/applications/{{appId}}/info"
-           appLiftOn="click"
-           [liftEventData]="{appId: appId}"
-           liftEventName="{{ job ? 'ClickConnectionInfoJobDetails' : 'ClickConnectionInfoJobsList' }}"
-           appSegmentOn="click"
-           [segmentEventData]="{appId: appId}"
-           segmentEventIdentifier="{{ job ? 'ClickConnectionInfoJobDetails' : 'ClickConnectionInfoJobsList' }}">
+           appTrackOn="click"
+           [trackEventData]="{appId: appId}"
+           trackEventName="{{ job ? 'ClickConnectionInfoJobDetails' : 'ClickConnectionInfoJobsList' }}">
           View Application Info
         </a>
       </div>
@@ -86,12 +83,9 @@
     <a id="terminate-job" class="flex-container action-icon"
        *ngIf="showStopJob"
        (click)="stopJob(job)"
-       appLiftOn="click"
-       [liftEventData]="{appId: appId}"
-       liftEventName="ClickStopJobJobDetails"
-       appSegmentOn="click"
-       [segmentEventData]="{appId: appId, jobId: job.job_id}"
-       segmentEventIdentifier="ClickStopJobJobDetails"
+       appTrackOn="click"
+       [trackEventData]="{appId: appId, jobId: job.job_id}"
+       trackEventName="ClickStopJobJobDetails"
        fxLayoutAlign="center center"
        fxLayout="column">
       <e-svg-icon class="flex-item" type="actions__close--circle"
@@ -104,12 +98,9 @@
     <a id="help-center-action" class="flex-container action-icon"
        *ngIf="showHelpCenter"
        (click)="showHelpCenterDrawer()"
-       appLiftOn="click"
-       [liftEventData]="{appId: appId}"
-       liftEventName="ClickHelpCenter"
-       appSegmentOn="click"
-       [segmentEventData]="{appId: appId}"
-       segmentEventIdentifier="ClickHelpCenter"
+       appTrackOn="click"
+       [trackEventData]="{appId: appId}"
+       trackEventName="ClickHelpCenter"
        fxLayoutAlign="center center"
        fxLayout="column">
       <e-svg-icon class="flex-item" type="sections__help"

@@ -8,6 +8,7 @@ import {IframeLinkDirective} from './directives/iframe-link.directive';
 import {JobStatusComponent} from './job-status/job-status.component';
 import {SafePipe} from './pipes/safe.pipe';
 import {SegmentDirective} from './directives/segment.directive';
+import {TrackDirective} from './directives/track.directive';
 import {LogChunksPipe} from './pipes/log-chunks.pipe';
 import {LiftDirective} from './directives/lift.directive';
 import {ActionHeaderComponent} from './action-header/action-header.component';
@@ -25,6 +26,7 @@ import {ContextLinkDirective} from './directives/context-link.directive';
     JobStatusComponent,
     SafePipe,
     SegmentDirective,
+    TrackDirective,
     LogChunksPipe,
     IframeLinkDirective,
     LiftDirective,
@@ -36,6 +38,7 @@ import {ContextLinkDirective} from './directives/context-link.directive';
     JobStatusComponent,
     SafePipe,
     SegmentDirective,
+    TrackDirective,
     LogChunksPipe,
     IframeLinkDirective,
     ContextLinkDirective,

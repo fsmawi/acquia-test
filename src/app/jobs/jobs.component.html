@@ -33,12 +33,9 @@
       </div>
       <a id="repoInfo"
          routerLink="/applications/{{appId}}/info"
-         appSegmentOn="click"
-         [segmentEventData]="{appId: appId}"
-         segmentEventIdentifier="ClickRepoNameApplicationInfo"
-         appLiftOn="click"
-         [liftEventData]="{appId: appId}"
-         liftEventName="ClickRepoNameApplicationInfo">
+         appTrackOn="click"
+         [trackEventData]="{appId: appId}"
+         trackEventName="ClickRepoNameApplicationInfo">
         <e-svg-icon *ngIf="vcsType === 'github'"
                     type="logos__github"
                     size="medium"

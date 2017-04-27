@@ -6,6 +6,7 @@ import {HelpCenterComponent} from './help-center.component';
 import {HelpCenterService} from '../../services/help-center.service';
 import {LiftDirective} from '../../../shared/directives/lift.directive';
 import {SegmentDirective} from '../../../shared/directives/segment.directive';
+import {TrackDirective} from '../../../shared/directives/track.directive';
 import {ElementalModule} from '../../../elemental/elemental.module';
 import {HelpContentCategoryFilterPipe} from './help-content-category-filter.pipe';
 
@@ -32,6 +33,7 @@ describe('HelpCenterComponent', () => {
         HelpCenterComponent,
         LiftDirective,
         SegmentDirective,
+        TrackDirective,
         HelpContentCategoryFilterPipe
       ],
       providers: [

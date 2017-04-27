@@ -20,24 +20,18 @@
   <e-alert type={{connectionAlert.type}} *ngIf="connectionAlert.display">{{connectionAlert.message}}</e-alert>
   <e-button text="Connect to Github"
     type="primary"
-    appLiftOn="click"
-    [liftEventData]="{appId: appId}"
-    liftEventName="ClickConnectToGithub"
-    appSegmentOn="click"
-    [segmentEventData]="{appId: appId}"
-    segmentEventIdentifier="ClickConnectToGithub"
+    appTrackOn="click"
+    [trackEventData]="{appId: appId}"
+    trackEventName="ClickConnectToGithub"
     (click)="authenticate()"
     *ngIf="!authorized"></e-button>
 </div>
 <div class="github-connect" *ngIf="authorized" id="select-repo">
   <e-button text="Select Github repository"
     type="primary"
-    appLiftOn="click"
-    [liftEventData]="{appId: appId}"
-    liftEventName="ClickSelectGithubRepository"
-    appSegmentOn="click"
-    [segmentEventData]="{appId: appId}"
-    segmentEventIdentifier="ClickSelectGithubRepository"
+    appTrackOn="click"
+    [trackEventData]="{appId: appId}"
+    trackEventName="ClickSelectGithubRepository"
     (click)="selectRepository()"
     [disabled]="loading || appAttached"></e-button>
   <e-alert type={{attachRepoAlert.type}} *ngIf="attachRepoAlert.display">{{attachRepoAlert.message}}</e-alert>
