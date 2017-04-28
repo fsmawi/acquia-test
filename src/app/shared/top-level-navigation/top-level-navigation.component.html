@@ -16,12 +16,9 @@
       <li>
         <a id="cloud-nav-link" class="flex-container"
            href="https://cloud.acquia.com/app/develop"
-           appLiftOn="click"
-           [liftEventData]="{appId: ''}"
-           liftEventName="ClickNavigateToCloudDevelop"
-           appSegmentOn="click"
-           [segmentEventData]="{appId: ''}"
-           segmentEventIdentifier="ClickNavigateToCloudDevelop"
+           appTrackOn="click"
+           [trackEventData]="{appId: ''}"
+           trackEventName="ClickNavigateToCloudDevelop"
            fxLayoutAlign="start center"
            fxLayout="row">
           <e-svg-icon class="flex-item" type="sections__applications"
@@ -35,12 +32,9 @@
       <li>
         <a id="manage-nav-link" class="flex-container"
            href="https://cloud.acquia.com/app/manage"
-           appLiftOn="click"
-           [liftEventData]="{appId: ''}"
-           liftEventName="ClickNavigateToCloudManage"
-           appSegmentOn="click"
-           [segmentEventData]="{appId: ''}"
-           segmentEventIdentifier="ClickNavigateToCloudManage"
+           appTrackOn="click"
+           [trackEventData]="{appId: ''}"
+           trackEventName="ClickNavigateToCloudManage"
            fxLayoutAlign="start center"
            fxLayout="row">
           <e-svg-icon class="flex-item" type="actions__manage"
@@ -77,45 +71,33 @@
         <ul>
           <li>
             <a id="edit-pofile-link" href="https://accounts.acquia.com/account"
-               appLiftOn="click"
-               [liftEventData]="{appId: ''}"
-               liftEventName="ClickNavigateToEditProfile"
-               appSegmentOn="click"
-               [segmentEventData]="{appId: ''}"
-               segmentEventIdentifier="ClickNavigateToEditProfile">
+               appTrackOn="click"
+               [trackEventData]="{appId: ''}"
+               trackEventName="ClickNavigateToEditProfile">
               Edit profile
             </a>
           </li>
           <li>
             <a id="agreements-link" href="https://cloud.acquia.com/app/profile/agreements"
-               appLiftOn="click"
-               [liftEventData]="{appId: ''}"
-               liftEventName="ClickNavigateToAgreements"
-               appSegmentOn="click"
-               [segmentEventData]="{appId: ''}"
-               segmentEventIdentifier="ClickNavigateToAgreements">
+               appTrackOn="click"
+               [trackEventData]="{appId: ''}"
+               trackEventName="ClickNavigateToAgreements">
               Agreements
             </a>
           </li>
           <li>
             <a id="tokens-link" href="https://cloud.acquia.com/app/profile/tokens"
-               appLiftOn="click"
-               [liftEventData]="{appId: ''}"
-               liftEventName="ClickNavigateToAPITokens"
-               appSegmentOn="click"
-               [segmentEventData]="{appId: ''}"
-               segmentEventIdentifier="ClickNavigateToAPITokens">
+               appTrackOn="click"
+               [trackEventData]="{appId: ''}"
+               trackEventName="ClickNavigateToAPITokens">
               API tokens
             </a>
           </li>
           <li>
             <a id="logout-link" href="https://cloud.acquia.com/user/logout"
-               appLiftOn="click"
-               [liftEventData]="{appId: ''}"
-               liftEventName="ClickSignOut"
-               appSegmentOn="click"
-               [segmentEventData]="{appId: ''}"
-               segmentEventIdentifier="ClickSignOut">
+               appTrackOn="click"
+               [trackEventData]="{appId: ''}"
+               trackEventName="ClickSignOut">
               Sign out
             </a>
           </li>

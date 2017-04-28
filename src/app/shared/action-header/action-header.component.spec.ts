@@ -23,6 +23,7 @@ import {StartJobComponent} from '../../jobs/start-job/start-job.component';
 import {IframeLinkDirective} from '../directives/iframe-link.directive';
 import {LiftDirective} from '../directives/lift.directive';
 import {SegmentDirective} from '../directives/segment.directive';
+import {TrackDirective} from '../directives/track.directive';
 import {HelpCenterService} from '../../core/services/help-center.service';
 
 class MockOberservableMedia {
@@ -160,7 +161,8 @@ describe('ActionHeaderComponent', () => {
         StartJobComponent,
         IframeLinkDirective,
         LiftDirective,
-        SegmentDirective
+        SegmentDirective,
+        TrackDirective
       ],
       providers: [
         {provide: PipelinesService, useClass: MockPipelinesService},

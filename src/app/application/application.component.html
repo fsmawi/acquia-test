@@ -25,12 +25,9 @@
   <e-card-content>
     <h3>{{repositoryType}} repository</h3>
     <a appIframeLink="/applications/{{appId}}/info/configure" class="configure-link"
-       appSegmentOn="click"
-       [segmentEventData]="{appId: appId}"
-       segmentEventIdentifier="ClickApplicationInfoConfigure"
-       appLiftOn="click"
-       [liftEventData]="{appId: appId}"
-       liftEventName="ClickApplicationInfoConfigure">Configure</a>
+       appTrackOn="click"
+       [trackEventData]="{appId: appId}"
+       trackEventName="ClickApplicationInfoConfigure">Configure</a>
     <e-data>
       <e-data-label>URL</e-data-label>
       <e-data-value>

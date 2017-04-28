@@ -1,12 +1,9 @@
 <div id="no-jobs" class="center">
   <h2>Get started with Pipelines</h2>
   Acquia Pipelines automates building, testing, and deploying sites on Acquia Cloud <br/>
-  <a appLiftOn="click"
-     [liftEventData]="{appId: appId}"
-     liftEventName="ClickLearnMoreNoJobs"
-     appSegmentOn="click"
-     [segmentEventData]="{appId: appId}"
-     segmentEventIdentifier="ClickLearnMoreNoJobs"
+  <a appTrackOn="click"
+     [trackEventData]="{appId: appId}"
+     trackEventName="ClickLearnMoreNoJobs"
      href="https://docs.acquia.com/pipelines/" target="_blank">Learn more.</a>
   <div id="pipelines-info-container"
        class="flex-container"
@@ -44,12 +41,9 @@
       </div>
       <div>
         <a id="link-choose-source"
-           appSegmentOn="click"
-           [segmentEventData]="{appId: appId}"
-           segmentEventIdentifier="ClickChooseSourceNoJobs"
-           appLiftOn="click"
-           [liftEventData]="{appId: appId}"
-           liftEventName="ClickChooseSourceNoJobs"
+           appTrackOn="click"
+           [trackEventData]="{appId: appId}"
+           trackEventName="ClickChooseSourceNoJobs"
            appIframeLink="/application/{{appId}}">Choose source</a>
       </div>
     </e-card-content>
@@ -67,12 +61,9 @@
       </div>
       <div>
         <e-button id="start-job-no-jobs" type="primary" text="Start a Job" (click)="startJob()"
-                  appLiftOn="click"
-                  [liftEventData]="{appId: appId}"
-                  liftEventName="ClickStartJobNoJobs"
-                  appSegmentOn="click"
-                  [segmentEventData]="{appId: appId}"
-                  segmentEventIdentifier="ClickStartJobNoJobs">
+                  appTrackOn="click"
+                  [trackEventData]="{appId: appId}"
+                  trackEventName="ClickStartJobNoJobs">
         </e-button>
       </div>
     </e-card-content>
@@ -92,12 +83,9 @@
       </div>
       <div class="center">
         <a id="link-view-environments"
-           appLiftOn="click"
-           [liftEventData]="{appId: appId}"
-           liftEventName="ClickViewEnvironmentsNoJobs"
-           appSegmentOn="click"
-           [segmentEventData]="{appId: appId}"
-           segmentEventIdentifier="ClickViewEnvironmentsNoJobs"
+           appTrackOn="click"
+           [trackEventData]="{appId: appId}"
+           trackEventName="ClickViewEnvironmentsNoJobs"
            href="https://cloud.acquia.com/app/develop/applications/{{appId}}" target="_top">
           View Environments
         </a>

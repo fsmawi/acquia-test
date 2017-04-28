@@ -1,4 +1,3 @@
-
 // Define the feature level and scenario level properties here
 module.exports = {
   // feature scope
@@ -40,5 +39,5 @@ module.exports = {
   'acquia-git-icon': '#repoInfo svg',
   'acquia-git-icon-tooltip': 'Using Acquia Git',
   'start-job': 'a#start-job',
-  'start-job-button': 'e-button[segmenteventidentifier="ClickStartJobConfigAcquiaGit"]'
+  'start-job-button': 'e-button[trackeventname="ClickStartJobConfigAcquiaGit"]'
 };

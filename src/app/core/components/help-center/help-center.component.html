@@ -7,12 +7,9 @@
          href="https://insight.acquia.com/support"
          mdTooltip="Visit Acquia Help Center"
          mdTooltipPosition="left"
-         appSegmentOn="click"
-         [segmentEventData]="{appId: ''}"
-         segmentEventIdentifier="ClickHelpCenterInsightsLink"
-         appLiftOn="click"
-         [liftEventData]="{appId: ''}"
-         liftEventName="ClickHelpCenterInsightsLink">
+         appTrackOn="click"
+         [trackEventData]="{appId: ''}"
+         trackEventName="ClickHelpCenterInsightsLink">
         <div class="flex-container" fxLayout="row" fxLayoutAlign="space-between center">
           <e-svg-icon type="sections__help" class="flex-item">
           </e-svg-icon>
@@ -50,12 +47,9 @@
             <span class="title flex-item">{{helpItem.title}}</span>
             <span class="description flex-item">{{helpItem.description}}</span>
             <a class="flex-item" href="{{helpItem.externalLink}}" target="_blank"
-               appSegmentOn="click"
-               [segmentEventData]="{appId: ''}"
-               segmentEventIdentifier="{{'Click' + helpItem.id + 'Link'}}"
-               appLiftOn="click"
-               [liftEventData]="{appId: ''}"
-               liftEventName="{{'Click' + helpItem.id + 'Link'}}">
+               appTrackOn="click"
+               [trackEventData]="{appId: ''}"
+               trackEventName="{{'Click' + helpItem.id + 'Link'}}">
               <span>Learn more</span>
             </a>
           </div>
@@ -77,12 +71,9 @@
             <span class="title flex-item">{{helpItem.title}}</span>
             <span class="description flex-item">{{helpItem.description}}</span>
             <a class="flex-item" href="{{helpItem.externalLink}}" target="_blank"
-               appSegmentOn="click"
-               [segmentEventData]="{appId: ''}"
-               segmentEventIdentifier="{{'Click' + helpItem.id + 'Link'}}"
-               appLiftOn="click"
-               [liftEventData]="{appId: ''}"
-               liftEventName="{{'Click' + helpItem.id + 'Link'}}">
+               appTrackOn="click"
+               [trackEventData]="{appId: ''}"
+               trackEventName="{{'Click' + helpItem.id + 'Link'}}">
               <span>Learn more</span>
             </a>
           </div>

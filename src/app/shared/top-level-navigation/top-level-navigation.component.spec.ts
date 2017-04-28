@@ -9,6 +9,7 @@ import {LiftService} from '../../core/services/lift.service';
 import {IframeLinkDirective} from '../directives/iframe-link.directive';
 import {LiftDirective} from '../directives/lift.directive';
 import {SegmentDirective} from '../directives/segment.directive';
+import {TrackDirective} from '../directives/track.directive';
 import {ErrorService} from '../../core/services/error.service';
 import {ElementalModule} from '../../elemental/elemental.module';
 
@@ -34,7 +35,8 @@ describe('TopLevelNavigationComponent', () => {
         TopLevelNavigationComponent,
         IframeLinkDirective,
         LiftDirective,
-        SegmentDirective
+        SegmentDirective,
+        TrackDirective
       ],
       providers: [
         {provide: LiftService, useClass: MockLiftService},

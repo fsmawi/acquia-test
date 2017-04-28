@@ -18,24 +18,18 @@
                       [status]="job.status"></app-job-status>
     </td>
     <td class="center">
-      <a appSegmentOn="click"
-         [segmentEventData]="{appId: appId, job_id: job.job_id, status: job.status}"
-         segmentEventIdentifier="ClickJobListDetailLink"
-         appLiftOn="click"
-         [liftEventData]="{appId: appId}"
-         liftEventName="ClickJobListDetailLink"
+      <a appTrackOn="click"
+         [trackEventData]="{appId: appId, job_id: job.job_id, status: job.status}"
+         trackEventName="ClickJobListDetailLink"
          [appContextLink]="[{text: 'Open in new Tab', link: cloudUrl+'/'+job.job_id, target: '_blank' }]"
          appIframeLink="/applications/{{appId}}/{{job.job_id}}">{{job.job_id | slice:0:8}}</a>
     </td>
     <td class="center">
       <a *ngIf="job.metadata?.pull_request_link"
          href="{{job.metadata.pull_request_link}}" target="_blank"
-         appLiftOn="click"
-         [liftEventData]="{appId: appId}"
-         liftEventName="ClickPullRequestLinkJobList"
-         appSegmentOn="click"
-         [segmentEventData]="{appId: appId, job_id: job.job_id, status: job.status}"
-         segmentEventIdentifier="ClickPullRequestLinkJobList">
+         appTrackOn="click"
+         [trackEventData]="{appId: appId, job_id: job.job_id, status: job.status}"
+         trackEventName="ClickPullRequestLinkJobList">
         PR {{job.metadata.pull_request}}
       </a>
       <span *ngIf="!job.metadata?.pull_request_link">
