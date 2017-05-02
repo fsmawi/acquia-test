@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.31"></a>
+## [0.2.31](https://github.com/acquia/pipelines-ui/compare/v0.2.30...v0.2.31) (2017-05-02)
+
+
+### Features
+
+* **CI:** Send deployment information to bugsnag (#217) ([704a624](https://github.com/acquia/pipelines-ui/commit/704a624))
+* **UX:** Auto redirect if no bakery cookie (#218) ([f8a6c21](https://github.com/acquia/pipelines-ui/commit/f8a6c21))
+
+
+
 <a name="0.2.30"></a>
 ## [0.2.30](https://github.com/acquia/pipelines-ui/compare/v0.2.29...v0.2.30) (2017-04-27)
 
