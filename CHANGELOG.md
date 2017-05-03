@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.32"></a>
+## [0.2.32](https://github.com/acquia/pipelines-ui/compare/v0.2.31...v0.2.32) (2017-05-03)
+
+
+### Features
+
+* **encrypt-credentials.component.ts:** MS-2919 Encrypt Credentials (#216) ([b91a8fd](https://github.com/acquia/pipelines-ui/commit/b91a8fd))
+
+
+
 <a name="0.2.31"></a>
 ## [0.2.31](https://github.com/acquia/pipelines-ui/compare/v0.2.30...v0.2.31) (2017-05-02)
 
