@@ -1,5 +1,7 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {FlexLayoutModule} from '@angular/flex-layout';
+
 import {CardComponent} from './card/card.component';
 import {CardHeaderComponent} from './card-header/card-header.component';
 import {CardFooterComponent} from './card-footer/card-footer.component';
@@ -16,9 +18,11 @@ import {ClipboardComponent} from './clipboard/clipboard.component';
 import {TabsComponent} from './tabs/tabs.component';
 import {TabComponent} from './tab/tab.component';
 
+
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    FlexLayoutModule
   ],
   declarations: [
     CardComponent,

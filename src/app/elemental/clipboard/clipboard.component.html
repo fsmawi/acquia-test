@@ -1,4 +1,5 @@
-<input type="text" value="{{inputText}}" class="flex" readonly>
+<input *ngIf="htmlElement === 'input'" type="text" value="{{inputText}}" class="flex" readonly>
+<pre *ngIf="htmlElement === 'pre'" class="flex" [innerHTML]="inputText"></pre>
 <a class="ui-core__cmp__copy-text__button">
   <e-svg-icon type="actions__copy" *ngIf="!isCopied"></e-svg-icon>
   <e-svg-icon type="state__success" *ngIf="isCopied"></e-svg-icon>

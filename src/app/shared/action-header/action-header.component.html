@@ -52,8 +52,16 @@
         <a appIframeLink="/applications/{{appId}}/info"
            appTrackOn="click"
            [trackEventData]="{appId: appId}"
-           trackEventName="{{ job ? 'ClickConnectionInfoJobDetails' : 'ClickConnectionInfoJobsList' }}">
+           trackEventName="ClickConnectionInfoMoreMenu">
           View Application Info
+        </a>
+        <hr/>
+        <span>Utilities</span>
+        <a (click)="showEncryptCredentials()"
+           appTrackOn="click"
+           [trackEventData]="{appId: appId}"
+           trackEventName="ClickEncryptCredentialsMoreMenu">
+          Pipelines Variables
         </a>
       </div>
     </div>

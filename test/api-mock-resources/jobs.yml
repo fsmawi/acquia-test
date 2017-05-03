@@ -4,6 +4,10 @@ routes:
       GET:
         response:
           authenticated: true
+  /api/v1/ci/encrypt:
+        POST:
+          response:
+            "2acVLRRSitX3/fkXTI85U9V/p9tuOO8E5gXufiAz17ZYnjIC+mZgZtbU2Sqw/y1GVzi83RAq0Aqa9bBpEOgdT4e+OB09UaAv5VMvr3yesYLoPULTyMKUUHmAZxLJvh+HSWOVf+NjfGk5nPE9JDGrx+HABlBbWsgX+1vnW3X8vMum/wcIg45O34TsBKlprIEf5z+cOxS6IASlJlkiEsjt/jiUjUY/t13MlCmze5WQKTv4rk9SWk9++rCwLJmLDtGSFhT5WGDXszqMUmOfsEjWMEQCEsNeAqSaGk1sjhoB9x4uVGCmVbqXsaE9ey5D2Gm1yi9J6gxUXcvr/gB7sWhRNNWS1NwYnu0HAVmZKNByNdyQcaCiJcOCtWYgE81Z6qO3rzUqrxTtK2rAJsclNvSsYR4FCuz01onyFqtt/K6L4c3pbRl/9Lfpq8VLTA1V0cVHDKlmj38MiLijHoaSAlfk4c3CLuu+OTl9kJV8xvGBvHsS7cBLFFcrdgofNdkpiDoBR5sLXOCVEnaBq+i5Wi04PNSQrPQwUOsVO8bAMpTw6Hc1X/H/mW/CHfvyj1MvnYdj/2yfXvfL9R57srjvHBrDJEJqjhn/dV9knAR6kTiwDe3DkgnSTbkEFMltHCCtHfAVd3LY30myOf1PSa6TmlelEMcsofyomb06zseAAX2HXoerBI=SB/X38CmppSBWoxX+S3jlQJ36Y50Cj4eZB8tcb5LmDfgDhSctho6PzBXfsECbHSjlZcH/pMefw0qnOf4N6FGZR2ZuvIc/Ep/4Iei4QEa0qaj6PEZTG8K/rXt799DL+8x"
   /api/v1/ci/jobs:
     GET:
       responses:

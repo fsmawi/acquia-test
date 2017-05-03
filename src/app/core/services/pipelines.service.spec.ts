@@ -58,6 +58,17 @@ describe('PipelinesService', () => {
     });
   }));
 
+  it('should get the encrypted value', inject([PipelinesService, MockBackend], (service: PipelinesService, mockBackend: MockBackend) => {
+
+    setupConnections(mockBackend, {
+      body: 'encrypted-value'
+    });
+
+    service.getEncryptedValue('someApp', 'someDataItem').then(res => {
+      expect(res).toEqual('encrypted-value');
+    });
+  }));
+
   it('should attach a Github repository',
     inject([PipelinesService, MockBackend], (service: PipelinesService, mockBackend: MockBackend) => {
       setupConnections(mockBackend, {

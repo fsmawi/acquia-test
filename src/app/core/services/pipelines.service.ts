@@ -106,6 +106,19 @@ export class PipelinesService {
   }
 
   /**
+   * Gets the encrypted value for the dataItem
+   * @param appId
+   * @param dataItem
+   * @returns {any}
+   */
+  getEncryptedValue(appId: string, dataItem: string) {
+    return this.promisePostRequest(this.URI + `/ci/encrypt`, {
+      applications: [appId],
+      data_item: dataItem
+    });
+  }
+
+  /**
    * Get pipeline for the supplied app id
    * @param  appId
    * @param  getRepoMeta

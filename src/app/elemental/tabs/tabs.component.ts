@@ -1,4 +1,4 @@
-import {Component, ContentChildren, QueryList, AfterContentInit, EventEmitter, Output} from '@angular/core';
+import {Component, ContentChildren, QueryList, AfterContentInit, EventEmitter, Output, Input} from '@angular/core';
 
 import {TabComponent} from '../tab/tab.component';
 
@@ -21,6 +21,13 @@ export class TabsComponent implements AfterContentInit {
    */
   @Output()
   selected = new EventEmitter();
+
+  /***
+   * Holds the flag to stretch tabs to 100% of container or not
+   * @type {boolean}
+   */
+  @Input()
+  isFullWidth = false;
 
   /**
    * Builds the component

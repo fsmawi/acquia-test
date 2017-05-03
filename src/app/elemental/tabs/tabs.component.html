@@ -1,5 +1,6 @@
-<ul class="e-tabs-nav">
-  <li *ngFor="let tab of tabs" (click)="selectTab(tab)" [class.active]="tab.active">
+<ul class="e-tabs-nav flex-container" fxLayout="row" fxLayoutAlign="start center">
+  <li *ngFor="let tab of tabs" class="flex-item" fxFlex="{{isFullWidth ? 100/tabs.length + '%' : 'none'}}"
+      (click)="selectTab(tab)" [class.active]="tab.active">
     {{tab.tabTitle}}
   </li>
 </ul>
