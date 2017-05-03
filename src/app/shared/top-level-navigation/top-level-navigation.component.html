@@ -45,6 +45,22 @@
           <span class="flex-item el-iconography__label"> Manage </span>
         </a>
       </li>
+      <li>
+        <a id="help-center-nav-link" class="flex-container"
+           href="https://insight.acquia.com/support"
+           appTrackOn="click"
+           [trackEventData]="{appId: ''}"
+           trackEventName="ClickNavigateToHelpCenter"
+           fxLayoutAlign="start center"
+           fxLayout="row">
+          <e-svg-icon class="flex-item" type="sections__help"
+                      fxHide.sm="TRUE"
+                      size="medium"
+                      style="cursor:pointer">
+          </e-svg-icon>
+          <span class="flex-item el-iconography__label"> Help Center </span>
+        </a>
+      </li>
     </ul>
   </div>
 

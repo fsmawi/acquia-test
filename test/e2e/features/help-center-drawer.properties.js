@@ -1,7 +1,7 @@
 module.exports = {
   // feature scope
-  'help-center': '//span[text()="Help Center"]',
-  'help-center-title': '//app-help-center//span[text()="Help Center"]',
+  'help-center': '//span[text()="Pipelines Help"]',
+  'help-center-title': '//app-help-center//span[text()="Pipelines Help"]',
   'get-started-title': '//app-help-center//span[text()="Get started with Pipelines"]',
   'search-box': '//app-help-center//input',
   'pipelines': '//a[text()="Pipelines"]',
