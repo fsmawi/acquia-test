@@ -830,9 +830,9 @@ routes:
   /api/v1/ci/applications:
     GET:
       response:
-        repo_type: github
+        repo_type: acquia-git
         repo_name: example/repo
-        repo_url: https://github.com/raghunat/pineapple-pen.git
+        repo_url: site@svn-3.hosted.acquia-sites.com:site.git
   /api/v1/ci/pipelines/11279161-f354-4294-875c-3a2e446f81f6/direct-start:
      POST:
       response:

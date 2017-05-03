@@ -151,7 +151,7 @@ export class AuthGithubComponent implements OnInit {
    * Navigate to application page
    */
   displayApplication() {
-    this.router.navigate(['application', this.appId]);
+    this.router.navigateByUrl(`/applications/${this.appId}/info`);
   }
 
   /**
