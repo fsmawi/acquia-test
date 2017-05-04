@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.36"></a>
+## [0.2.36](https://github.com/acquia/pipelines-ui/compare/v0.2.35...v0.2.36) (2017-05-04)
+
+
+### Bug Fixes
+
+* **job-detail.component:** Fixed override ([2cdc101](https://github.com/acquia/pipelines-ui/commit/2cdc101))
+* **jobs.component.ts:** MS-2768 Redirect user to /jobs (#221) ([8f90746](https://github.com/acquia/pipelines-ui/commit/8f90746))
+
+
+
 <a name="0.2.35"></a>
 ## [0.2.35](https://github.com/acquia/pipelines-ui/compare/v0.2.34...v0.2.35) (2017-05-04)
 
