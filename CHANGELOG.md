@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.35"></a>
+## [0.2.35](https://github.com/acquia/pipelines-ui/compare/v0.2.34...v0.2.35) (2017-05-04)
+
+
+### Features
+
+* **action-header.component.ts:** MS-2967 Updated Root Breadcrumb (#222) ([5ab27e5](https://github.com/acquia/pipelines-ui/commit/5ab27e5))
+
+
+
 <a name="0.2.34"></a>
 ## [0.2.34](https://github.com/acquia/pipelines-ui/compare/v0.2.33...v0.2.34) (2017-05-04)
 
