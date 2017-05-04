@@ -14,6 +14,7 @@ import {SegmentService} from '../core/services/segment.service';
 import {StartJobComponent} from './start-job/start-job.component';
 import {BaseApplication} from '../core/classes/base-application';
 import {animations} from '../core/animations';
+import {environment} from '../../environments/environment';
 
 @Component({
   selector: 'app-jobs',
@@ -108,6 +109,12 @@ export class JobsComponent extends BaseApplication implements OnInit, OnDestroy 
       }
       this.appId = params['app'];
       this._appId = params['app'];
+
+      // store appId in session storage
+      if (!environment.standalone) {
+        sessionStorage.setItem('pipelines.standalone.application.id', this.appId);
+      }
+
       this.interval = Observable.timer(1, 10000).subscribe(() => this.getJobs());
 
       // run right away

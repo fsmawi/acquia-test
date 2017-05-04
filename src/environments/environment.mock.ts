@@ -6,6 +6,7 @@
 export const environment = {
   name: 'mock',
   production: false,
+  standalone: window.self === window.top,
   apiEndpoint: 'http://localhost:3000',
   n3Key: '', // user supplied, or from cookies
   n3Secret: '', // user supplied, or from cookies

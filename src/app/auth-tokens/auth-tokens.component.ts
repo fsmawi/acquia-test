@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
+
 import {environment} from '../../environments/environment';
 import {defaultIfEmpty} from 'rxjs/operator/defaultIfEmpty';
 import {AuthService} from '../core/services/auth.service';
@@ -52,13 +53,18 @@ export class AuthTokensComponent implements OnInit {
    */
   ngOnInit() {
     this.loading = true;
-    this.auth.isLoggedIn()
-      .then(authenticated => {
-        if (authenticated) {
-          this.loggedIn = true;
-        }
-      })
-      .then(() => this.loading = false);
+    // if not standalone, get appId from session storage if exists and redirect to /applications
+    if (!environment.standalone && sessionStorage.getItem('pipelines.standalone.application.id')) {
+      this.router.navigateByUrl(`/applications/${sessionStorage.getItem('pipelines.standalone.application.id')}`);
+    } else {
+      this.auth.isLoggedIn()
+        .then(authenticated => {
+          if (authenticated) {
+            this.loggedIn = true;
+          }
+        })
+        .then(() => this.loading = false);
+    }
   }
 
   /**

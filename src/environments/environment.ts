@@ -6,6 +6,7 @@
 export const environment = {
   name: 'dev',
   production: false,
+  standalone: window.self === window.top,
   apiEndpoint: '',
   n3Key: '', // user supplied, or from cookies
   n3Secret: '', // user supplied, or from cookies

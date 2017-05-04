@@ -1,4 +1,5 @@
 import {Component, OnInit, HostBinding} from '@angular/core';
+
 import {AmplitudeService} from './core/services/amplitude.service';
 import {LiftService} from './core/services/lift.service';
 import {BugsnagService} from './core/services/bugsnag.service';
