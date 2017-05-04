@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.37"></a>
+## [0.2.37](https://github.com/acquia/pipelines-ui/compare/v0.2.36...v0.2.37) (2017-05-04)
+
+
+### Bug Fixes
+
+* **e2e:** Fixed mock resource ([79856da](https://github.com/acquia/pipelines-ui/commit/79856da))
+* **e2e:** Fixed mock resource ([e8a97d8](https://github.com/acquia/pipelines-ui/commit/e8a97d8))
+
+
+### Features
+
+* **start-job.component:** display list of branches for selection (#207) ([d6c3b68](https://github.com/acquia/pipelines-ui/commit/d6c3b68))
+
+
+
 <a name="0.2.36"></a>
 ## [0.2.36](https://github.com/acquia/pipelines-ui/compare/v0.2.35...v0.2.36) (2017-05-04)
 
