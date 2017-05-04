@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.34"></a>
+## [0.2.34](https://github.com/acquia/pipelines-ui/compare/v0.2.33...v0.2.34) (2017-05-04)
+
+
+### Bug Fixes
+
+* **E2E:** fix e2e gitflow test (#227) ([122ec29](https://github.com/acquia/pipelines-ui/commit/122ec29)), closes [#227](https://github.com/acquia/pipelines-ui/issues/227)
+* **E2E:** fix e2e test github flow (#226) ([878f274](https://github.com/acquia/pipelines-ui/commit/878f274)), closes [#226](https://github.com/acquia/pipelines-ui/issues/226)
+* **UX:** fix bug outdated application info route (#224) ([146e4bf](https://github.com/acquia/pipelines-ui/commit/146e4bf)), closes [#224](https://github.com/acquia/pipelines-ui/issues/224)
+
+
+
 <a name="0.2.33"></a>
 ## [0.2.33](https://github.com/acquia/pipelines-ui/compare/v0.2.32...v0.2.33) (2017-05-03)
 
