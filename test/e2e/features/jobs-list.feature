@@ -89,9 +89,11 @@ Feature: Pipelines Jobs List
   Scenario: Check Start Job functionality in top menu
     When on the |*jobs-list| page
     And I click on the |*start-job| link
-    And I should see a |*how-to-start-job-dialog| with |*header-message|
-    And I enter |*branch-name| in the |*branch-input| field
-    And I click on the |*branch-suggestion| list item
+    And I should see a |*how-to-start-job-dialog| with |*header-start-job-message|
+    And I should see non empty |*branch-list| list
+    And I enter |master| in the |*branch-filter-text| field
+    Then I should see in the |*branch-list| list only items that contain "master" keyword
+    And I click on the |*master-radio| button
     And I click on the |*start| button
     Then I should see a |*flash-message| contains |*success-message|
 
@@ -103,9 +105,11 @@ Feature: Pipelines Jobs List
     And I wait 5 seconds to navigate to github connection page
     And I click on the |*configure| link
     And I click on the |*start-job-button| button
-    And I should see a |*how-to-start-job-dialog| with |*header-message|
-    And I enter |*branch-name| in the |*branch-input| field
-    And I click on the |*branch-suggestion| list item
+    And I should see a |*how-to-start-job-dialog| with |*header-start-job-message|
+    And I should see non empty |*branch-list| list
+    And I enter |master| in the |*branch-filter-text| field
+    Then I should see in the |*branch-list| list only items that contain "master" keyword
+    And I click on the |*master-radio| button
     And I click on the |*start| button
     Then I should see a |*flash-message| contains |*success-message|
 

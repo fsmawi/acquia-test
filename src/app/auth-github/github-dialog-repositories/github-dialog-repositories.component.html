@@ -9,26 +9,10 @@
       <label class="el-form-leg__item__label">
         <span>Repositories({{repositories.length}})</span>
       </label>
-      <div class="el-form-leg__item__control">
-        <div class="el-select-list__filter">
-          <input type="text" class="el-select-list__filter__input" placeholder="Filter repositories" [(ngModel)]="repoInfo">
-        </div>
-        <div class="el-select-list__options">
-          <div class="el-select-list__repeat-container md-virtual-repeat-container md-orient-vertical">
-            <div class="md-virtual-repeat-scroller">
-              <div class="md-virtual-repeat-sizer"></div>
-              <div class="md-virtual-repeat-offsetter">
-                <div class="el-select-list__option__wrapper" *ngFor="let repo of repositories | repositoryFilter:repoInfo">
-                  <div class="el-select-list__option el-select-list__option--has-input" (click)="toggleOption(repo)">
-                    <input type="radio" name="repo" [(ngModel)]="repository" [value]="repo">
-                    <span title="master">{{repo.full_name}}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+
+      <app-select-list [options]='repositories'
+                      filterPlaceholder='Filter repositories'
+                      (selected)="toggleOption($event)"></app-select-list>
     </div>
   </e-card-content>
   <e-card-footer>

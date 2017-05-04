@@ -61,6 +61,12 @@ export class GithubDialogRepositoriesComponent implements OnInit {
   getAllRepositories(page = 1) {
     this.pipelinesService.getRepositoriesByPage(page, this.appId)
       .then(result => {
+
+        result = result.map(item => {
+          item.name = item.full_name;
+          return item;
+        });
+
         this.repositories = this.repositories.concat(result);
         if (result.length < 100) {
           this.loading = false;

@@ -17,17 +17,20 @@ Feature: Pipelines Jobs List
   @JobList_StartJobWhenNoJobs
   Scenario: Able to start a job when no jobs exist
     When I click on the |*start-a-job| button
-    And I should see a |*how-to-start-job-dialog| with |*header-message|
-    And I enter |*branch-name| in the |*branch-input| field
-    And I click on the |*branch-suggestion| list item
+    And I should see a |*how-to-start-job-dialog| with |*header-start-job-message|
+    And I should see non empty |*branch-list| list
+    And I enter |master| in the |*branch-filter-text| field
+    Then I should see in the |*branch-list| list only items that contain "master" keyword
+    And I click on the |*master-radio| button
     And I click on the |*start| button
     Then I should see a |*flash-message| contains |*success-message|
 
   @JobList_ValidateStartJobContent
   Scenario: validate the content inside Start a Job dialog window
     When I click on the |*start-a-job| button
-    And I should see a |*how-to-start-job-dialog| with |*header-message|
-    Then I should see a |*type-branch-name-label| contains |*type-branch-name-label-text|
+    And I should see a |*how-to-start-job-dialog| with |*header-start-job-message|
+    And I click on the |*learn-how-to-start-job| button
+    And I should see a |*how-to-start-job-dialog| with |*header-how-to-start-job-message|
     And I should see a |*actions-to-start-a-job-header| contains |*actions-to-start-a-job-header-text|
     And I should see a |*list-of-actions-to-start-a-job| contains |*add-file-to-repository|
     And I should see a |*list-of-actions-to-start-a-job| contains |*create-branch|

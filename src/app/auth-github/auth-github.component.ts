@@ -222,6 +222,7 @@ export class AuthGithubComponent extends BaseApplication implements OnInit {
     this.n3ApiFile = environment.headers['X-ACQUIA-PIPELINES-N3-APIFILE'];
     this.route.params.subscribe((params) => {
       this.appId = params['app-id'];
+      this._appId = params['app-id'];
       this.finishUrl = environment.authRedirect + '/app/develop/applications/' + this.appId + '/pipelines/github';
 
       this.route.queryParams.subscribe((queryParams) => {
@@ -229,10 +230,11 @@ export class AuthGithubComponent extends BaseApplication implements OnInit {
           this.checkAuthorization(queryParams);
         }
       });
+
+      // Get Repo Full Name
+      this.getInfo().then(info => {
+        this.repoFullName = info.repo_name;
+      }).catch(e => this.errorHandler.apiError(e));
     });
-    // Get Repo Full Name
-    this.getInfo().then(info => {
-      this.repoFullName = info.repo_name;
-    }).catch(e => this.errorHandler.apiError(e));
   }
 }

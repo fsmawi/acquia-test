@@ -16,3 +16,13 @@
     min-width: 0%; // Fixes el-card with small devices
   }
 }
+
+/deep/ app-select-list div.el-form-leg__item {
+
+  padding-top: 0;
+
+  label.el-form-leg__item__label {
+    padding: 0;
+    margin: 0;
+  }
+}

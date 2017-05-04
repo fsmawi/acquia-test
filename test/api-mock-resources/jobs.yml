@@ -1044,6 +1044,73 @@ routes:
             link: https://github.com/acquia/repo2
             type: github
           branches: test11,test12
+  /api/v1/ci/applications/58bb63dd-57db-4d50-9a49-6b60d5921d14:
+    GET:
+      response:
+        id: 123
+        repo_name: example/repo
+        repo_type: github
+        branches:
+        - master
+        - dev
+        - staging
+        - feature/feat1
+        - feature/feat2
+        - feature/feat3
+        - feature/feat4
+        - feature/feat5
+        - hotfix/bug1
+        - hotfix/bug2
+        - hotfix/bug3
+        - hotfix/bug4
+        - hotfix/bug5
+        - hotfix/bug6
+        - hotfix/bug7
+  /api/v1/ci/github/repos:
+    GET:
+      response:
+      -
+        url: http://localhost/repo1
+        full_name: repo1
+        description: rescription repo1
+      -
+        url: http://localhost/repo2
+        full_name: repo2
+        description: rescription repo2
+      -
+        url: http://localhost/repo3
+        full_name: repo3
+        description: rescription repo3
+      -
+        url: http://localhost/repo4
+        full_name: repo4
+        description: rescription repo4
+      -
+        url: http://localhost/repo5
+        full_name: repo5
+        description: rescription repo5
+      -
+        url: http://localhost/repo6
+        full_name: repo6
+        description: rescription repo6
+      -
+        url: http://localhost/repo7
+        full_name: repo7
+        description: rescription repo7
+      -
+        url: http://localhost/repo8
+        full_name: repo8
+        description: rescription repo8
+      -
+        url: http://localhost/repo9
+        full_name: repo9
+        description: rescription repo9
+      -
+        url: http://localhost/repo10
+        full_name: repo10
+        description: rescription repo10
 redirections:
+  /api/v1/ci/github/oauth:
+    redirect_to: http://localhost:4200/auth/github/123?success=true
   /github/oauth:
     redirect_to: http://localhost:4200/auth/github/123?success=true

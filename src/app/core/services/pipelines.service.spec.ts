@@ -6,6 +6,7 @@ import {MockBackend} from '@angular/http/testing';
 
 import {PipelinesService} from './pipelines.service';
 import {Pipeline} from '../models/pipeline';
+import {Application} from '../models/application';
 
 describe('PipelinesService', () => {
   beforeEach(() => {
@@ -131,14 +132,12 @@ describe('PipelinesService', () => {
 
   it('should get branches for an application ID',
     inject([PipelinesService, MockBackend], (service: PipelinesService, mockBackend: MockBackend) => {
-      const pipeline = new Pipeline({
-        repo_data: {
-          branches: ['test11', 'test12']
-        }
+      const application = new Application({
+        branches: ['test11', 'test12']
       });
 
       setupConnections(mockBackend, {
-        body: JSON.stringify([pipeline])
+        body: JSON.stringify(application)
       });
 
       service.getBranches('someAppId').then(res => {

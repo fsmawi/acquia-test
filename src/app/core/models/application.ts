@@ -19,6 +19,12 @@ export class Application {
   repo_type: string;
 
   /**
+   * Repository branches
+   * @type {string[]}
+   */
+  branches: string[];
+
+  /**
    * Creates a Repository object
    * @param obj {any} Base object to use
    */

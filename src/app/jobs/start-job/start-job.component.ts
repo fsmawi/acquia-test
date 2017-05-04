@@ -38,11 +38,6 @@ export class StartJobComponent implements OnInit {
   branch: string;
 
   /**
-   * Branch suggestions filtered with the input provided
-   */
-  branchSuggestions: Array<string>;
-
-  /**
    * Flag to show/hide the direct start feature
    */
   isDirectStartAvailable = true;
@@ -57,6 +52,12 @@ export class StartJobComponent implements OnInit {
    * @type {boolean}
    */
   jobStarted: boolean;
+
+  /**
+   * Flag to show/hide how to start job modal
+   * @type {Boolean}
+   */
+  startJobHelp = false;
 
   /**
    * Builds the component
@@ -75,16 +76,16 @@ export class StartJobComponent implements OnInit {
   }
 
   /**
-   * Initialize component
+   * Initialize component,
+   * and get all repository branches for the current application
    */
   ngOnInit() {
-    this.branches = ['master'];
     this.pipelineService.getBranches(this.appId)
       .then(branches => {
-        if (branches.indexOf('master') > -1) {
+        if (branches.length) {
           this.branches = branches;
         } else {
-          this.branches = ['master'].concat(branches);
+          this.branches = ['master'];
         }
       })
       .catch(e => this.errorHandler.apiError(e));
@@ -93,24 +94,11 @@ export class StartJobComponent implements OnInit {
   }
 
   /**
-   * Filters the available branches by the typed input
-   */
-  filter() {
-    if (this.branch === '' || !this.branch) {
-      this.branchSuggestions = [];
-    } else {
-      this.branchSuggestions = this.branches ? this.branches.filter(branch =>
-        branch.toLowerCase().indexOf(this.branch.toLowerCase()) > -1) : [];
-    }
-  }
-
-  /**
    * Selects the branch and holds it to start
    * @param branch
    */
-  select(branch) {
+  setBranch(branch) {
     this.branch = branch;
-    this.branchSuggestions = [];
   }
 
   /**
@@ -138,5 +126,19 @@ export class StartJobComponent implements OnInit {
           }
         });
     }
+  }
+
+  /**
+   * Show how to start job modal
+   */
+  showHelp() {
+    this.startJobHelp = true;
+  }
+
+  /**
+   * Hide how to start job modal
+   */
+  hideHelp() {
+    this.startJobHelp = false;
   }
 }

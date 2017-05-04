@@ -133,4 +133,13 @@ module.exports = function () {
   this.When(/^I click on the job with jobid "([^"]*)"$/, function (jobId) {
     return jobsListPage.clickJobLinkById(jobId);
   });
+
+  this.Then(/^I should see non empty \|(.*?)\| list/, function (branchList) {
+    return jobsListPage.assertListIsNotEmpty(page.getDynamicValue(branchList));
+  });
+
+  this.Then(/^I should see in the \|(.*?)\| list only items that contain "([^"]*)" keyword$/,
+    function (branchList, filterText) {
+      return jobsListPage.assertFilteredList(page.getDynamicValue(branchList), filterText);
+  });
 };

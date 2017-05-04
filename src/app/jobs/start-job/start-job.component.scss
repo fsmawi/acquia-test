@@ -16,12 +16,6 @@
     margin-bottom: 0;
   }
 
-  #dot-loader {
-   position: relative;
-   left: px-to-relative(30px);
-   top: px-to-relative(18px);
-  }
-
   #btn-start button {
     margin-bottom: 0.0;  //fixes shrinking context help view while start button disappears
   }
@@ -77,5 +71,30 @@
         background-color: $color-neutral-2;
       }
     }
+  }
+
+  .start-job-help {
+    color: $color-neutral-9;
+    font-style: italic;
+    text-align: center;
+  }
+
+  .left-link {
+    float: left;
+    button {
+      padding-left: 0;
+      margin-left: 0;
+    }
+  }
+
+  .right-link {
+    float: right;
+  }
+
+  .el-card__footer e-progress {
+    position: relative;
+    display: block;
+    width: px-to-relative(68px);
+    height: px-to-relative(34px);
   }
 }

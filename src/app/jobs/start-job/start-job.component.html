@@ -1,37 +1,15 @@
 <e-card>
-  <e-card-header>How to start a job</e-card-header>
-  <e-card-content>
-    <e-data *ngIf="isDirectStartAvailable">
-      <e-data-label>
-        Type the branch name to start a job
-      </e-data-label>
-      <div id="branch-info" class="flex-container"
-           fxLayout="row"
-           fxLayoutAlign="start start">
-        <div id="branch-input" class="flex-item" fxFlex="85%" fxFlex.xs="75%">
-          <input type="search" size="100" [(ngModel)]="branch" (keyup)="filter()" placeholder="Branch Name" name="Branch">
-          <div id="branch-suggestions">
-            <ul *ngIf="branchSuggestions && (branchSuggestions.length > 0) && (branch !== '')">
-              <li *ngFor="let branchSuggestion of branchSuggestions" (click)="select(branchSuggestion)" [attr.item]="branchSuggestion">
-                {{branchSuggestion}}
-              </li>
-            </ul>
-          </div>
-        </div>
-        <e-button id="btn-start" text="Start" *ngIf="isDirectStartAvailable && !didJobStart"
-                  class="flex-item" fxFlex="15%" fxFlex.xs="25%"
-                  appTrackOn="click"
-                  [trackEventData]="{appId: appId, branch: branch}"
-                  trackEventName="ClickDirectStartJob"
-                  type="primary" [disabled]="!branch || branch === '' || didJobStart" (click)="start()">
-		    </e-button>
-		    <e-progress *ngIf="didJobStart" id="dot-loader" progressType="indeterminate"
-          progressVariant="dots" progressSize="small">
-        </e-progress>
-      </div>
-    </e-data>
-    <hr *ngIf="isDirectStartAvailable">
+  <e-card-header>{{startJobHelp ? 'How to start a job': 'Start a job'}}</e-card-header>
+  <e-card-content *ngIf="!startJobHelp">
+    <p class="start-job-help">Pipelines uses the acquia-pipelines.yaml file in the root of your repo to build, test, and deploy your application</p>
 
+    <app-select-list title='Select branch'
+                      [options]='branches'
+                      filterPlaceholder='Filter Branches'
+                      (selected)="setBranch($event)"></app-select-list>
+  </e-card-content>
+
+  <e-card-content *ngIf="startJobHelp">
     <p>
       {{isDirectStartAvailable ? 'The following actions will also start a job:' :
       'Completing any of the following actions will start your build job:'}}
@@ -54,6 +32,20 @@
     </p>
   </e-card-content>
   <e-card-footer>
-    <e-button text="Close" type="link" (click)="dialogRef.close()"></e-button>
+    <e-button class="left-link" text="Learn how to start jobs automatically"
+              type="link" (click)="showHelp()" *ngIf="!startJobHelp"></e-button>
+    <e-button class="left-link" text="Go back and start a job"
+              type="link" (click)="hideHelp()" *ngIf="startJobHelp"></e-button>
+    <e-button class="right-link" id="btn-start" text="Start"
+              *ngIf="isDirectStartAvailable && !didJobStart && !startJobHelp"
+              appTrackOn="click"
+              [trackEventData]="{appId: appId, branch: branch}"
+              trackEventName="ClickDirectStartJob"
+              type="primary" [disabled]="!branch || branch === '' || didJobStart" (click)="start()">
+    </e-button>
+    <e-progress class="right-link" *ngIf="isDirectStartAvailable && didJobStart && !startJobHelp"
+                id="dot-loader" progressType="indeterminate" progressVariant="dots" progressSize="small">
+    </e-progress>
+    <e-button class="right-link" text="Close" type="link" (click)="dialogRef.close()"></e-button>
   </e-card-footer>
 </e-card>

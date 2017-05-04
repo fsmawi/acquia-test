@@ -1,5 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {FormsModule} from '@angular/forms';
 import {FlexLayoutModule} from '@angular/flex-layout';
 
 import {CardComponent} from './card/card.component';
@@ -17,11 +18,14 @@ import {ProgressComponent} from './progress/progress.component';
 import {ClipboardComponent} from './clipboard/clipboard.component';
 import {TabsComponent} from './tabs/tabs.component';
 import {TabComponent} from './tab/tab.component';
+import {SelectListComponent} from './select-list/select-list.component';
+import {FilterPipe} from './select-list/filter.pipe';
 
 
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
     FlexLayoutModule
   ],
   declarations: [
@@ -39,7 +43,9 @@ import {TabComponent} from './tab/tab.component';
     ProgressComponent,
     ClipboardComponent,
     TabsComponent,
-    TabComponent
+    TabComponent,
+    SelectListComponent,
+    FilterPipe
   ],
   exports: [
     CardComponent,
@@ -56,7 +62,9 @@ import {TabComponent} from './tab/tab.component';
     ProgressComponent,
     ClipboardComponent,
     TabsComponent,
-    TabComponent
+    TabComponent,
+    SelectListComponent,
+    FilterPipe
   ],
 })
 export class ElementalModule {
