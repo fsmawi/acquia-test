@@ -966,6 +966,22 @@ routes:
         repo_type: acquia-git
         repo_name: example/repo
         repo_url: site@svn-3.hosted.acquia-sites.com:site.git
+        branches:
+          - master
+          - dev
+          - staging
+          - feature/feat1
+          - feature/feat2
+          - feature/feat3
+          - feature/feat4
+          - feature/feat5
+          - hotfix/bug1
+          - hotfix/bug2
+          - hotfix/bug3
+          - hotfix/bug4
+          - hotfix/bug5
+          - hotfix/bug6
+          - hotfix/bug7
   /api/v1/ci/pipelines/11279161-f354-4294-875c-3a2e446f81f6/direct-start:
      POST:
       response:
@@ -1044,28 +1060,6 @@ routes:
             link: https://github.com/acquia/repo2
             type: github
           branches: test11,test12
-  /api/v1/ci/applications/58bb63dd-57db-4d50-9a49-6b60d5921d14:
-    GET:
-      response:
-        id: 123
-        repo_name: example/repo
-        repo_type: github
-        branches:
-        - master
-        - dev
-        - staging
-        - feature/feat1
-        - feature/feat2
-        - feature/feat3
-        - feature/feat4
-        - feature/feat5
-        - hotfix/bug1
-        - hotfix/bug2
-        - hotfix/bug3
-        - hotfix/bug4
-        - hotfix/bug5
-        - hotfix/bug6
-        - hotfix/bug7
   /api/v1/ci/github/repos:
     GET:
       response:
