@@ -24,7 +24,7 @@
            (input)="filterSubject.next($event.target.value)">
   </div>
 
-  <e-card *ngIf="isInitialized" id="job-list">
+  <e-card *ngIf="isInitialized && pipelinesEnabled" id="job-list">
     <e-card-header>
       {{(jobs && !jobs.length) ? 'Activity' : 'Jobs'}}
       <div id="filter-info">
@@ -62,7 +62,6 @@
           <app-job-list [appId]="appId" [jobs]="filteredJobs" *ngIf="jobs.length"></app-job-list>
         </e-tab>
       </e-tabs>
-
     </e-card-content>
   </e-card>
 </div>

@@ -38,7 +38,7 @@
 
   <div id="actions" class="flex-item">
 
-    <div class="dropdown">
+    <div class="dropdown" *ngIf="showMoreMenu">
       <a id="more-links-menu" (click)="toggleMenu()"
          class="flex-container action-icon menu-title"
          fxLayoutAlign="center center"

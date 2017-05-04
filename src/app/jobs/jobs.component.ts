@@ -1,4 +1,4 @@
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Component, OnInit, OnDestroy} from '@angular/core';
 import {MdDialog, MdDialogRef} from '@angular/material';
 
@@ -87,14 +87,22 @@ export class JobsComponent extends BaseApplication implements OnInit, OnDestroy 
   filterSubject = new Subject<string>();
 
   /**
+   * Flag to check if the pipelines enabled for the app
+   * @type {boolean}
+   */
+  pipelinesEnabled = true;
+
+  /**
    * Build the component and inject services if needed
    * @param pipelines
    * @param errorHandler
+   * @param router
    * @param route
    */
   constructor(
     protected pipelines: PipelinesService,
     protected errorHandler: ErrorService,
+    private router: Router,
     private route: ActivatedRoute) {
     super(errorHandler, pipelines);
   }
@@ -251,10 +259,10 @@ export class JobsComponent extends BaseApplication implements OnInit, OnDestroy 
    */
   getJobs() {
     this.loadingJobs = true;
-
     // Get Jobs to be listed
     this.pipelines.getJobsByAppId(this.appId)
       .then(jobs => {
+        this.pipelinesEnabled = true;
         // Assign the returned jobs if the initial jobs array is empty.
         // This is to avoid the reversal of the list as
         // every new order is inserted using unshift.
@@ -274,12 +282,20 @@ export class JobsComponent extends BaseApplication implements OnInit, OnDestroy 
         }
       })
       .then(() => this.lastJob = this.jobs[0])
-      .catch(e =>
-        this.errorHandler
-          .apiError(e)
-          .reportError(e, 'FailedToGetJobs', {component: 'jobs', appId: this.appId}, 'error')
-          .showError('Homepage', '/auth/tokens')
-      )
+      .catch(e => {
+          if (e.status === 403 && e._body &&
+              e._body.includes(`Error authorizing request: site doesn't have pipelines enabled`)) {
+            // this flag is required to avoid the flicker
+            // else no-jobs component shows before the pipelines-not-enabled-component
+            this.pipelinesEnabled = false;
+            this.router.navigate(['disabled', this.appId]);
+          } else {
+            this.errorHandler
+              .apiError(e)
+              .reportError(e, 'FailedToGetJobs', {component: 'jobs', appId: this.appId}, 'error')
+              .showError('Homepage', '/auth/tokens');
+          }
+      })
       .then(() => {
           this.loadingJobs = false;
           this.filter();

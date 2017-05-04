@@ -91,6 +91,13 @@ export class ActionHeaderComponent implements OnInit {
   showHelpCenter = true;
 
   /**
+   * Flag to show more menu
+   * @type {boolean}
+   */
+  @Input()
+  showMoreMenu = true;
+
+  /**
    * Builds the component
    * @param pipelineService
    * @param errorHandler
