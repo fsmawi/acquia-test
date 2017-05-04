@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.38"></a>
+## [0.2.38](https://github.com/acquia/pipelines-ui/compare/v0.2.37...v0.2.38) (2017-05-04)
+
+
+### Features
+
+* **pipelines-not-enabled.component.ts:** MS-2973 Pipelines not enabled (#219) ([7bebb2b](https://github.com/acquia/pipelines-ui/commit/7bebb2b))
+
+
+
 <a name="0.2.37"></a>
 ## [0.2.37](https://github.com/acquia/pipelines-ui/compare/v0.2.36...v0.2.37) (2017-05-04)
 
