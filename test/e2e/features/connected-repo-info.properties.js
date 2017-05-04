@@ -19,5 +19,5 @@ module.exports = {
   'login': '#edit-submit-user-login',
   'more-links' : '#more-links-menu',
   'view-application-info': '//a[contains(text(),"View Application Info")]',
-  'pipelines': '//a[text()="Pipelines"]'
+  'pipelines': '//a[text()="example/repo"]'
 };

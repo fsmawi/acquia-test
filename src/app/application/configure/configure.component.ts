@@ -34,6 +34,11 @@ export class ConfigureComponent extends BaseApplication implements OnInit {
   vcsType = 'acquia-git';
 
   /**
+   * Repo full name
+   */
+  repoFullName: string;
+
+  /**
    * Build the component
    * @param route
    * @param errorHandler
@@ -72,6 +77,7 @@ export class ConfigureComponent extends BaseApplication implements OnInit {
     this.getInfo(force)
       .then((info: any) => {
         this.vcsType = info.repo_type;
+        this.repoFullName = info.repo_name;
       })
       .catch(e => {
         this.errorHandler.apiError(e).reportError(e, 'FailedToGetApplicationInfo',

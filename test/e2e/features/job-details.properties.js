@@ -5,10 +5,10 @@
 // Define the feature level and scenario level properties here
 module.exports = {
   // feature scope
-  'job-detail': '//a[text()="Pipelines"]',
+  'job-detail': '//a[text()="example/repo"]',
   'jobs-list-table': '//e-card[//h4/span[text()="{0}"]]//e-card-content//app-job-list',
   'jobId-link': '//app-job-summary//div/a',
-  'jobs': '//a[text()="Pipelines"]',
+  'jobs': '//a[text()="example/repo"]',
   'job-logs': 'e-card#logs',
   'progress-bar': '.el-progress__loader__dot__inner',
   'empty-logs': '//pre[@class="logs" and contains(text(),"There are no logs for this job.")]',

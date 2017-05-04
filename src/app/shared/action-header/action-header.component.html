@@ -2,37 +2,37 @@
 
   <div class="bread-crumb" [ngSwitch]="pageType">
     <h3 id="job-details-header" class="ui-core-set-head-title flex-item" *ngSwitchCase="'job'">
-      <a appIframeLink="/applications/{{appId}}">Pipelines</a>
+      <a appIframeLink="/applications/{{appId}}">{{repoName}}</a>
       <span *ngIf="job">{{job ? '> #' + (job.job_id | slice:0:8) : ''}}</span>
     </h3>
 
     <h3 id="job-details-header" class="ui-core-set-head-title flex-item" *ngSwitchCase="'config'">
-      <a appIframeLink="/applications/{{appId}}">Pipelines</a> >
+      <a appIframeLink="/applications/{{appId}}">{{repoName}}</a> >
       <a appIframeLink="/applications/{{appId}}/info"> Info</a> >
       <span> Configure</span>
     </h3>
 
     <h3 id="job-details-header" class="ui-core-set-head-title flex-item" *ngSwitchCase="'info'">
-      <a appIframeLink="/applications/{{appId}}">Pipelines</a> >
+      <a appIframeLink="/applications/{{appId}}">{{repoName}}</a> >
       <span> Info</span>
     </h3>
 
     <h3 id="job-details-header" class="ui-core-set-head-title flex-item" *ngSwitchCase="'acquia-git'">
-      <a appIframeLink="/applications/{{appId}}">Pipelines</a> >
+      <a appIframeLink="/applications/{{appId}}">{{repoName}}</a> >
       <a appIframeLink="/applications/{{appId}}/info"> Info</a> >
       <a appIframeLink="/applications/{{appId}}/info/configure"> Configure</a> >
       <span> Acquia Git</span>
     </h3>
 
     <h3 id="job-details-header" class="ui-core-set-head-title flex-item" *ngSwitchCase="'github'">
-      <a appIframeLink="/applications/{{appId}}">Pipelines</a> >
+      <a appIframeLink="/applications/{{appId}}">{{repoName}}</a> >
       <a appIframeLink="/applications/{{appId}}/info"> Info</a> >
       <a appIframeLink="/applications/{{appId}}/info/configure"> Configure</a> >
       <span> Github</span>
     </h3>
 
     <h3 id="job-details-header" class="ui-core-set-head-title flex-item" *ngSwitchDefault>
-      <a appIframeLink="/applications/{{appId}}">Pipelines</a>
+      <a appIframeLink="/applications/{{appId}}">{{repoName}}</a>
     </h3>
   </div>
 

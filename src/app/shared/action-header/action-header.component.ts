@@ -31,6 +31,12 @@ export class ActionHeaderComponent implements OnInit {
   title: string;
 
   /**
+   * Holds the name of the repo
+   */
+  @Input()
+  repoName = 'Pipelines';
+
+  /**
    * Holds the application Id
    */
   @Input()

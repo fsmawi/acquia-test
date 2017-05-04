@@ -8,13 +8,14 @@ import {ErrorService} from '../core/services/error.service';
 import {SegmentService} from '../core/services/segment.service';
 import {environment} from '../../environments/environment';
 import {GithubDialogRepositoriesComponent} from './github-dialog-repositories/github-dialog-repositories.component';
+import {BaseApplication} from '../core/classes/base-application';
 
 @Component({
   selector: 'app-auth-github',
   templateUrl: './auth-github.component.html',
   styleUrls: ['./auth-github.component.scss']
 })
-export class AuthGithubComponent implements OnInit {
+export class AuthGithubComponent extends BaseApplication implements OnInit {
 
   /**
    * ApplicationID
@@ -81,6 +82,10 @@ export class AuthGithubComponent implements OnInit {
    */
   attachRepoAlert = new Alert();
 
+  /**
+   * Holds repo full name of the repo
+   */
+  repoFullName: string;
 
   /**
    * Builds the component
@@ -94,10 +99,11 @@ export class AuthGithubComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private errorHandler: ErrorService,
-    private pipelines: PipelinesService,
+    protected errorHandler: ErrorService,
+    protected pipelines: PipelinesService,
     private segment: SegmentService,
     private dialog: MdDialog) {
+    super(errorHandler, pipelines);
   }
 
   /**
@@ -224,5 +230,9 @@ export class AuthGithubComponent implements OnInit {
         }
       });
     });
+    // Get Repo Full Name
+    this.getInfo().then(info => {
+      this.repoFullName = info.repo_name;
+    }).catch(e => this.errorHandler.apiError(e));
   }
 }

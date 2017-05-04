@@ -4,7 +4,7 @@ module.exports = {
   'help-center-title': '//app-help-center//span[text()="Pipelines Help"]',
   'get-started-title': '//app-help-center//span[text()="Get started with Pipelines"]',
   'search-box': '//app-help-center//input',
-  'pipelines': '//a[text()="Pipelines"]',
+  'pipelines': '//a[text()="example/repo"]',
   'close-help-center': '#close-help-center',
   'help-content-list': '//app-help-center//li//span[contains(@class, "flex-item")]',
   'help-item-examples-title': '//app-help-center//li//span[text()="Pipelines Examples"]',

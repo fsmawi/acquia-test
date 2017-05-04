@@ -14,6 +14,7 @@ import {WebSocketService} from '../../core/services/web-socket.service';
 import {WebSocketHandler} from '../../core/models/web-socket-handler';
 import {features} from '../../core/features';
 import {animations} from '../../core/animations';
+import {BaseApplication} from '../../core/classes/base-application';
 
 @Component({
   selector: 'app-jobs-detail',
@@ -21,7 +22,7 @@ import {animations} from '../../core/animations';
   styleUrls: ['./jobs-detail.component.scss'],
   animations: animations
 })
-export class JobsDetailComponent implements OnInit, OnDestroy {
+export class JobsDetailComponent extends BaseApplication implements OnInit, OnDestroy {
 
   /**
    * The current job
@@ -82,6 +83,11 @@ export class JobsDetailComponent implements OnInit, OnDestroy {
   socket: WebSocketHandler;
 
   /**
+   * Holds repo full name of the repo
+   */
+  repoFullName: string;
+
+  /**
    * Hold the reference for the logs div
    */
   @ViewChild('logsContainer')
@@ -98,13 +104,14 @@ export class JobsDetailComponent implements OnInit, OnDestroy {
    * @param webSocketService
    */
   constructor(
-    private pipelineService: PipelinesService,
+    protected pipelineService: PipelinesService,
     private route: ActivatedRoute,
     private ansiService: AnsiService,
-    private errorHandler: ErrorService,
+    protected errorHandler: ErrorService,
     private segment: SegmentService,
     private flash: FlashMessageService,
     private webSocketService: WebSocketService) {
+    super(errorHandler, pipelineService);
   }
 
   /**
@@ -129,6 +136,11 @@ export class JobsDetailComponent implements OnInit, OnDestroy {
         this.refresh();
       }
     );
+
+    // Get Repo Full Name
+    this.getInfo().then(info => {
+      this.repoFullName = info.repo_name;
+    }).catch(e => this.errorHandler.apiError(e));
 
     // Track page view
     this.segment.page('JobDetailView');

@@ -11,7 +11,7 @@ module.exports = {
   'app-input': '[name="AppId"]',
   'sign-in': 'button.mat-primary',
   'login': '#edit-submit-user-login',
-  'job-detail': '//a[text()="Pipelines"]',
+  'job-detail': '//a[text()="example/repo"]',
   'jobs-list': '.el-card__title',
   'jobs-list-table': '//e-card[//h4/span[contains(.,"{0}")]]//e-card-content//app-job-list',
   'jobId-link': '//app-job-summary//div/a',

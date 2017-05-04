@@ -66,7 +66,7 @@ export class JobsComponent extends BaseApplication implements OnInit, OnDestroy 
   isInitialized = false;
 
   /**
-   * Holds repo full name
+   * Holds repo full name of the app
    */
   repoFullName: string;
 
