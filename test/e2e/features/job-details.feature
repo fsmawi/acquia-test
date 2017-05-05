@@ -42,11 +42,14 @@ Feature: Pipelines Job Details
     And I click on the |*jobs| link
     Then I should see the |app-jobs| list
 
-  @JobDetail_CheckSummaryInfo @pending
+  @JobDetail_CheckSummaryInfo
   Scenario: Check the Job details are displayed
     When on the |*jobs-list| page
-    And I click on the first job id in the "Build" column from the list of jobs displayed
-    Then I should see the details of the job
+    And I click on the job with jobid "8f0c38d5"
+    Then I should see a |*job-duration| contains |*job-duration-value|
+    And I should see a |*job-trigger| contains |*job-trigger-value|
+    And I should see a |*job-branch| contains |*job-branch-value|
+    And I should see a |*job-requested-by| contains |*job-requested-by-value|
 
   @JobDetail_CheckLogs
   Scenario: Check the logs are displayed

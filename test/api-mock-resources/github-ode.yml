@@ -896,13 +896,7 @@ routes:
           - name: acquia/repo2
             link: https://github.com/acquia/repo2
             type: github
-          branches: test11,test12
-  /api/v1/ci/applications:
-     GET:
-       response:
-         repo_type: acquia-git
-         repo_name: example/repo
-         repo_url: site@svn-3.hosted.acquia-sites.com:site.git
+          branches: test11,test12 
   /api/v1/ci/github/repos:
     GET:
       response:
@@ -948,4 +942,4 @@ routes:
         description: rescription repo10
 redirections:
   /api/v1/ci/github/oauth:
-    redirect_to: https://pipelinesui<PIPELINES_DEPLOYMENT_NAME>.network.acquia-sites.com/index.html#/auth/github/123?success=true
+    redirect_to: /index.html#/auth/github/123?success=true
