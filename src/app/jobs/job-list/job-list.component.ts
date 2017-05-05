@@ -38,6 +38,11 @@ export class JobListComponent implements OnInit {
   appId: string;
 
   /**
+   * Flag to check if the app is standalone
+   */
+  isStandalone: boolean;
+
+  /**
    * Builds the component and injects services if needed
    */
   constructor(private pipelines: PipelinesService,
@@ -51,9 +56,10 @@ export class JobListComponent implements OnInit {
    * Initialize
    */
   ngOnInit() {
+    this.isStandalone = environment.standalone;
     // In the production environment, all job links should specify the cloud url,
     // which will allow multiple windows/tabs to be open
-    if (environment.production && environment.name === 'prod' && window.self !== window.top) {
+    if (environment.production && environment.name === 'prod' && !this.isStandalone) {
       this.cloudUrl = `${environment.authRedirect}/app/develop/applications/${this.appId}/pipelines/jobs`;
     } else {
       this.cloudUrl = `/applications/${this.appId}`;

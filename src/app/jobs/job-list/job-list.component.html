@@ -5,8 +5,8 @@
     <th class="center">Job</th>
     <th class="center">Branch</th>
     <th class="hidden-xs-down center">Commit</th>
-    <th class="hidden-sm-down center">Duration</th>
-    <th class="hidden-sm-down center">Completed</th>
+    <th class="center" [ngClass]="{'hidden-md-down': isStandalone, 'hidden-sm-down': !isStandalone}">Duration</th>
+    <th class="center" [ngClass]="{'hidden-md-down': isStandalone, 'hidden-sm-down': !isStandalone}">Completed</th>
     <th class="hidden-xs-down center">Actions</th>
   </tr>
   </thead>
@@ -42,10 +42,14 @@
       </a>
       {{job.metadata?.commit_link ? '' : job.metadata?.git_sha ? (job.metadata.git_sha | slice:0:8) : 'None'}}
     </td>
-    <td class="center hidden-sm-down" *ngIf="job.duration">{{job.duration | amDuration:'seconds'}}</td>
-    <td class="center hidden-sm-down" *ngIf="!job.duration">-</td>
-    <td class="center hidden-sm-down" *ngIf="job.finished_at">{{(job.finished_at | amFromUnix) | amTimeAgo }}</td>
-    <td class="center hidden-sm-down" *ngIf="!job.finished_at">-</td>
+    <td class="center" [ngClass]="{'hidden-md-down': isStandalone, 'hidden-sm-down': !isStandalone}"
+        *ngIf="job.duration">{{job.duration | amDuration:'seconds'}}</td>
+    <td class="center" [ngClass]="{'hidden-md-down': isStandalone, 'hidden-sm-down': !isStandalone}"
+        *ngIf="!job.duration">-</td>
+    <td class="center" [ngClass]="{'hidden-md-down': isStandalone, 'hidden-sm-down': !isStandalone}"
+        *ngIf="job.finished_at">{{(job.finished_at | amFromUnix) | amTimeAgo }}</td>
+    <td class="center" [ngClass]="{'hidden-md-down': isStandalone, 'hidden-sm-down': !isStandalone}"
+        *ngIf="!job.finished_at">-</td>
     <td class="center hidden-xs-down">
       <!-- TODO Refresh is not available in the API yet -->
       <!-- <button md-button *ngIf="job.isFailed" (click)="restartJob(job)"> -->

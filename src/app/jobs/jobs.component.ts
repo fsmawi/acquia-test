@@ -77,11 +77,6 @@ export class JobsComponent extends BaseApplication implements OnInit, OnDestroy 
   vcsType: string;
 
   /**
-   * Flag to toggle vcs type icon feature
-   */
-  vcsTypeIconFeature: boolean;
-
-  /**
    * Holds the subject, used to debounce
    */
   filterSubject = new Subject<string>();
@@ -112,10 +107,19 @@ export class JobsComponent extends BaseApplication implements OnInit, OnDestroy 
    */
   ngOnInit() {
     this.route.params.subscribe(params => {
+      this.loadingJobs = true;
       if (this.interval) {
         this.interval.unsubscribe();
       }
       this.appId = params['app'];
+
+      // Catch the root route loading in standalone
+      if (!this.appId) {
+        return; // the router will trigger the route change with the right parameter
+      }
+
+      this.isInitialized = false;
+      this.jobs = [];
       this._appId = params['app'];
 
       // store appId in session storage
@@ -127,8 +131,15 @@ export class JobsComponent extends BaseApplication implements OnInit, OnDestroy 
 
       // run right away
       this.getJobs();
+
+      // Get GitHub Status and VCS Info
+      this.getInfo().then(info => {
+        this.repoFullName = info.repo_name;
+        this.vcsType = info.repo_type;
+      }).catch(e => this.errorHandler.apiError(e));
     });
 
+    // Setup filter subscription
     this.filterSubject
       .debounceTime(400)
       .distinctUntilChanged()
@@ -136,12 +147,6 @@ export class JobsComponent extends BaseApplication implements OnInit, OnDestroy 
         this.filterText = filterText;
         this.filter();
       });
-
-    // Get GitHub Status and VCS Info
-    this.getInfo().then(info => {
-      this.repoFullName = info.repo_name;
-      this.vcsType = info.repo_type;
-    }).catch(e => this.errorHandler.apiError(e));
   }
 
   /**
@@ -259,9 +264,21 @@ export class JobsComponent extends BaseApplication implements OnInit, OnDestroy 
    */
   getJobs() {
     this.loadingJobs = true;
+    const appId = this.appId;
     // Get Jobs to be listed
-    this.pipelines.getJobsByAppId(this.appId)
+    this.pipelines.getJobsByAppId(appId)
       .then(jobs => {
+        // catch changes to the router, and prevent a slow request from repopulating the view:
+        if (appId !== this.appId) {
+          return;
+        }
+
+        // One time binding for tracking display initialization of card that
+        // contains job data
+        if (!this.isInitialized) {
+          this.isInitialized = true;
+        }
+
         this.pipelinesEnabled = true;
         // Assign the returned jobs if the initial jobs array is empty.
         // This is to avoid the reversal of the list as
@@ -283,27 +300,22 @@ export class JobsComponent extends BaseApplication implements OnInit, OnDestroy 
       })
       .then(() => this.lastJob = this.jobs[0])
       .catch(e => {
-          if (e.status === 403 && e._body &&
-              e._body.includes(`Error authorizing request: site doesn't have pipelines enabled`)) {
-            // this flag is required to avoid the flicker
-            // else no-jobs component shows before the pipelines-not-enabled-component
-            this.pipelinesEnabled = false;
-            this.router.navigate(['disabled', this.appId]);
-          } else {
-            this.errorHandler
-              .apiError(e)
-              .reportError(e, 'FailedToGetJobs', {component: 'jobs', appId: this.appId}, 'error')
-              .showError('Homepage', '/auth/tokens');
-          }
+        if (e.status === 403 && e._body &&
+          e._body.includes(`Error authorizing request: site doesn't have pipelines enabled`)) {
+          // this flag is required to avoid the flicker
+          // else no-jobs component shows before the pipelines-not-enabled-component
+          this.pipelinesEnabled = false;
+          this.router.navigate(['disabled', this.appId]);
+        } else {
+          this.errorHandler
+            .apiError(e)
+            .reportError(e, 'FailedToGetJobs', {component: 'jobs', appId: this.appId}, 'error')
+            .showError('Homepage', '/');
+        }
       })
       .then(() => {
           this.loadingJobs = false;
           this.filter();
-          // One time binding for tracking display initialization of card that
-          // contains job data
-          if (!this.isInitialized) {
-            this.isInitialized = true;
-          }
         }
       );
   }

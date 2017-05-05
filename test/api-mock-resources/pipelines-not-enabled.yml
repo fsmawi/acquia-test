@@ -8,6 +8,181 @@ routes:
     GET:
       response: Error authorizing request: site doesn't have pipelines enabled
       status: 403
+  /api/v1/ci/applications/list:
+    GET:
+      response:
+      -
+        uuid: fbcd8f1f-4620-4bd6-9b60-f8d9d0f74fd0
+        name: Acquia Pipelines
+        hosting: {}
+        subscription: {}
+        organization: {}
+        latest_job:
+          job_id: 8f0c38d5-68b5-4192-8439-35eb27577ddc
+          sitename: test:test
+          pipeline_id: f4dcafb9-e1c4-4ee4-8575-0a40842158a0
+          branch: master
+          commit: e36c0207827011c04c4931c292f1aad653cb7f0e
+          status: starting
+          priority: null
+          requested_by: exampleuser
+          requested_at: 1483225200
+          started_at: 1493376246
+          finished_at: 1493376249
+          duration: null
+          exit_message: test exit message
+          trigger: manual
+          metadata: {}
+      -
+        uuid: c674ff03-fcca-4f63-a235-6bfc115dd316
+        name: Pipelines
+        hosting: {}
+        subscription: {}
+        organization: {}
+      -
+        uuid: 1674ff03-fcca-4f63-a235-6bfc115dd316
+        name: git app
+        hosting: {}
+        subscription: {}
+        organization: {}
+      -
+        uuid: 2674ff03-fcca-4f63-a235-6bfc115dd316
+        name: Test
+        hosting: {}
+        subscription: {}
+        organization: {}
+        latest_job:
+          job_id: fc323ce8-004c-4763-843e-ac0583c04b25
+          sitename: test:test
+          pipeline_id: f4dcafb9-e1c4-4ee4-8575-0a40842158a0
+          branch: master
+          commit: e36c0207827011c04c4931c292f1aad653cb7f0e
+          status: warning
+          priority: null
+          requested_by: exampleuser
+          requested_at: 1483225200
+          started_at: 1483225200
+          finished_at: 1483225200
+          duration: null
+          exit_message: test exit message
+          trigger: manual
+          metadata: {}
+      -
+        uuid: 3674ff03-fcca-4f63-a235-6bfc115dd316
+        name: Pipe
+        hosting: {}
+        subscription: {}
+        organization: {}
+        latest_job:
+          job_id: f123ce8-004c-4763-843e-ac0583c04b25
+          sitename: test:test
+          pipeline_id: f4dcafb9-e1c4-4ee4-8575-0a40842158a0
+          branch: master
+          commit: e36c0207827011c04c4931c292f1aad653cb7f0e
+          status: succeeded
+          priority: null
+          requested_by: exampleuser
+          requested_at: 1483225200
+          started_at: 1483225200
+          finished_at: 1483225200
+          duration: null
+          exit_message: test exit message
+          trigger: manual
+          metadata: {}
+      -
+        uuid: 4674ff03-fcca-4f63-a235-6bfc115dd316
+        name: Pipelines UI
+        hosting: {}
+        subscription: {}
+        organization: {}
+        latest_job:
+          job_id: fc323ce8-004c-4763-843e-ac0583c04b25
+          sitename: test:test
+          pipeline_id: f4dcafb9-e1c4-4ee4-8575-0a40842158a0
+          branch: master
+          commit: e36c0207827011c04c4931c292f1aad653cb7f0e
+          status: terminating
+          priority: null
+          requested_by: exampleuser
+          requested_at: 1483225200
+          started_at: 1483225200
+          finished_at: 1483225200
+          duration: null
+          exit_message: test exit message
+          trigger: manual
+          metadata: {}
+      -
+        uuid: 5674ff03-fcca-4f63-a235-6bfc115dd316
+        name: Pipelines
+        hosting: {}
+        subscription: {}
+        organization: {}
+        latest_job:
+          job_id: fh323ce8-004c-4763-843e-ac0583c04b25
+          sitename: test:test
+          pipeline_id: f4dcafb9-e1c4-4ee4-8575-0a40842158a0
+          branch: master
+          commit: e36c0207827011c04c4931c292f1aad653cb7f0e
+          status: warning
+          priority: null
+          requested_by: exampleuser
+          requested_at: 1483225200
+          started_at: 1483225200
+          finished_at: 1483225200
+          duration: null
+          exit_message: test exit message
+          trigger: manual
+          metadata: {}
+      -
+        uuid: 6674ff03-fcca-4f63-a235-6bfc115dd316
+        name: Git
+        hosting: {}
+        subscription: {}
+        organization: {}
+      -
+        uuid: 7674ff03-fcca-4f63-a235-6bfc115dd316
+        name: Test App
+        hosting: {}
+        subscription: {}
+        organization: {}
+        latest_job:
+          job_id: 2c323ce8-004c-4763-843e-ac0583c04b25
+          sitename: test:test
+          pipeline_id: f4dcafb9-e1c4-4ee4-8575-0a40842158a0
+          branch: master
+          commit: e36c0207827011c04c4931c292f1aad653cb7f0e
+          status: warning
+          priority: null
+          requested_by: exampleuser
+          requested_at: 1483225200
+          started_at: 1483225200
+          finished_at: 1483225200
+          duration: null
+          exit_message: test exit message
+          trigger: manual
+          metadata: {}
+      -
+        uuid: 8674ff03-fcca-4f63-a235-6bfc115dd316
+        name: N3 API
+        hosting: {}
+        subscription: {}
+        organization: {}
+        latest_job:
+          job_id: 1c323ce8-004c-4763-843e-ac0583c04b25
+          sitename: test:test
+          pipeline_id: f4dcafb9-e1c4-4ee4-8575-0a40842158a0
+          branch: master
+          commit: e36c0207827011c04c4931c292f1aad653cb7f0e
+          status: succeeded
+          priority: null
+          requested_by: exampleuser
+          requested_at: 1483225200
+          started_at: 1483225200
+          finished_at: 1483225200
+          duration: null
+          exit_message: test exit message
+          trigger: manual
+          metadata: {}
   /api/v1/ci/pipelines/466b4c99-c0cb-4e3a-ad18-b8dad85e6ea4/start:
     POST:
       response: permission denied for current user

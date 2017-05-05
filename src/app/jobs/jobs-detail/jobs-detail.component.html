@@ -62,5 +62,6 @@
 </div>
 
 <e-progress *ngIf="loadingJob && (!logs || logs.length == 0) && !loadingLogs"
+            class="page-loading"
             progressType="indeterminate"
             progressVariant="dots"></e-progress>

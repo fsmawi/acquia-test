@@ -86,6 +86,18 @@ describe('JobsComponent', () => {
   let fixture: ComponentFixture<JobsComponent>;
 
   beforeEach(async(() => {
+    global['analyticsMock'] = {};
+    global['analytics'] = {
+      load: (key: string) => {
+        return true;
+      },
+      page: () => {
+        return true;
+      },
+      track: (eventName: string, eventData: Object) => {
+        return 'success';
+      }
+    };
     TestBed.configureTestingModule({
       declarations: [
         JobsComponent,
@@ -128,6 +140,7 @@ describe('JobsComponent', () => {
 
   it('should show no jobs message.', fakeAsync(inject([], () => {
     component._appId = 'app-with-out-jobs';
+    component.appId = 'app-with-out-jobs';
     component.getJobs();
     tick();
     fixture.detectChanges();
@@ -137,6 +150,7 @@ describe('JobsComponent', () => {
 
   it('should show no jobs component.', fakeAsync(inject([], () => {
     component._appId = 'app-with-out-jobs';
+    component.appId = 'app-with-out-jobs';
     component.getJobs();
     tick();
     fixture.detectChanges();

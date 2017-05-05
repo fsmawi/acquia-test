@@ -174,6 +174,17 @@ export class PipelinesService {
   }
 
   /**
+   * Get all the applications available
+   * @returns {Promise<T>}
+   */
+  getApplications() {
+    return this.promiseGetRequest(this.URI + `/ci/applications/list`, {})
+      .then(res => {
+        return res.map(r =>  new Application(r));
+      });
+  }
+
+  /**
    * Stops a job
    * @param appId
    * @param jobId
