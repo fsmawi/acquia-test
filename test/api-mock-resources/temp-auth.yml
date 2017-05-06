@@ -7,6 +7,16 @@ routes:
               authenticated: false
           - response:
               authenticated: true
+  /api/v1/ci/applications/list:
+    GET:
+      response:
+      -
+        uuid: fbcd8f1f-4620-4bd6-9b60-f8d9d0f74fd0
+        name: Acquia Pipelines
+        hosting: {}
+        subscription: {}
+        organization: {}
+        latest_job: ~
   /api/v1/ci/jobs:
     GET:
       responses:

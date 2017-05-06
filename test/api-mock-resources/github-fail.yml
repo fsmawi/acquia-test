@@ -4,6 +4,16 @@ routes:
     GET:
       response:
         authenticated: true
+  /api/v1/ci/applications/list:
+    GET:
+      response:
+      -
+        uuid: fbcd8f1f-4620-4bd6-9b60-f8d9d0f74fd0
+        name: Acquia Pipelines
+        hosting: {}
+        subscription: {}
+        organization: {}
+        latest_job: ~
   /api/v1/ci/jobs:
     GET:
       responses:
@@ -832,8 +842,8 @@ routes:
       response:
         repo_type: acquia-git
         repo_name: example/repo
-        repo_url: site@svn-3.hosted.acquia-sites.com:site.git  
-        
+        repo_url: site@svn-3.hosted.acquia-sites.com:site.git
+
   /api/v1/ci/pipelines/11279161-f354-4294-875c-3a2e446f81f6/direct-start:
      POST:
       response:
