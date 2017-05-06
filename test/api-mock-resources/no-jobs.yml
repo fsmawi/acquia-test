@@ -16,8 +16,7 @@ routes:
         latest_job: ~
   /api/v1/ci/jobs:
     GET:
-      response:
-        jobs: []
+      response: []
   /api/v1/ci/github/status:
       GET:
         response:

@@ -1,4 +1,4 @@
-@JobList
+@NoJobs
 Feature: Pipelines Jobs List
   As an Acquia Pipelines user
   If there are no jobs then I could able to start a new job
@@ -14,7 +14,7 @@ Feature: Pipelines Jobs List
     And I wait 10 seconds for logging in
     And I should see a |*get-started-header| with |*get-started-message|
 
-  @JobList_StartJobWhenNoJobs
+  @NoJobs_StartJobWhenNoJobs
   Scenario: Able to start a job when no jobs exist
     When I click on the |*start-a-job| button
     And I should see a |*how-to-start-job-dialog| with |*header-start-job-message|
@@ -25,7 +25,7 @@ Feature: Pipelines Jobs List
     And I click on the |*start| button
     Then I should see a |*flash-message| contains |*success-message|
 
-  @JobList_ValidateStartJobContent
+  @NoJobs_ValidateStartJobContent
   Scenario: validate the content inside Start a Job dialog window
     When I click on the |*start-a-job| button
     And I should see a |*how-to-start-job-dialog| with |*header-start-job-message|
@@ -41,7 +41,7 @@ Feature: Pipelines Jobs List
     And I click on the |*learn-more-about-using-git| link
     And I should see |*acquia-docs-using-git| window opened
 
-  @JobList_ValidateNoJobsContentAndLinks
+  @NoJobs_ValidateNoJobsContentAndLinks
   Scenario: validate the content links inside no-jobs page
     Then I should see a |*no-jobs-card| contains |*acquia-pipelines-description|
     And I should see a |*run-pipelines-header| with |*run-pipelines-header-text|
