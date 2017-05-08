@@ -1,11 +1,9 @@
 /**
  * Created by stephen.raghunath on 2/24/17.
  */
-
 // Define the feature level and scenario level properties here
 module.exports = {
   // feature scope
-  'job-detail': '//a[text()="example/repo"]',
   'jobs-list-table': '//e-card[//h4/span[text()="{0}"]]//e-card-content//app-job-list',
   'jobId-link': '//app-job-summary//div/a',
   'jobs': '//a[text()="example/repo"]',

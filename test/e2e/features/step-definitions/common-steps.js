@@ -182,4 +182,12 @@ module.exports = function () {
         expect(actualHTML).to.contain(page.getDynamicValue(textToFind));
       });
   });
+  this.Then(/^I should not see the \|(.*?)\|/, function (selector) {
+    boostrap(this.browser);
+    selector = page.getDynamicValue(selector);
+    return this.browser.isVisible(selector).then((isVisible) => {
+      if (isVisible)
+        throw new Error('the given selector', selector, 'should not be visible');
+    });
+  });
 };

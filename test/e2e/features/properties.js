@@ -3,6 +3,7 @@ module.exports = {
   // feature scope
   'pipelines-unauthenticated-url': '/auth/tokens',
   'mock-header': '/mock/header',
+  'mock-header-card': '#mock-api-card',
   'jobs-yml-file-name': 'jobs.yml',
   'jobs-list': '.el-card__title',
   'login': '#edit-submit-user-login',
@@ -11,6 +12,7 @@ module.exports = {
   'save': 'button.mat-primary',
   'header-value': 'input[name="headerValue"]',
   'app-id': '58bb63dd-57db-4d50-9a49-6b60d5921d14',
+  'job-detail': '//a[text()="example/repo"]',
   'app-input': '[name="AppId"]',
   'activity-tab': '[tabtitle="Activity"]',
   'more-links': '#more-links-menu',
