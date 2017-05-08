@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {StatusCodeRoutingModule} from './status-code-routing.module';
 import {StatusCodeComponent} from './status-code.component';
-import {MaterialModule} from '@angular/material';
+import {MdProgressSpinnerModule, MdTooltipModule} from '@angular/material';
 import {FlexLayoutModule} from '@angular/flex-layout';
 
 
@@ -10,7 +10,8 @@ import {FlexLayoutModule} from '@angular/flex-layout';
   imports: [
     CommonModule,
     StatusCodeRoutingModule,
-    MaterialModule.forRoot(),
+    MdProgressSpinnerModule,
+    MdTooltipModule,
     FlexLayoutModule
   ],
   declarations: [StatusCodeComponent]

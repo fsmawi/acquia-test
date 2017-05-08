@@ -5,7 +5,7 @@ import {CommonModule} from '@angular/common';
 import {DebugElement, NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {HttpModule, BaseRequestOptions, Http, ResponseOptions, Response, RequestMethod} from '@angular/http';
-import {MdDialogModule, MdDialog, OverlayContainer, MaterialModule} from '@angular/material';
+import {MdDialogModule, MdDialog, OverlayContainer, MdProgressSpinnerModule, MdTooltipModule} from '@angular/material';
 import {MockBackend} from '@angular/http/testing';
 import {RouterTestingModule} from '@angular/router/testing';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -20,7 +20,7 @@ import {RepositoryFilterPipe} from './repository-filter.pipe';
   declarations: [GithubDialogRepositoriesComponent, RepositoryFilterPipe],
   exports: [GithubDialogRepositoriesComponent],
   entryComponents: [GithubDialogRepositoriesComponent],
-  imports: [MdDialogModule.forRoot(), ElementalModule, CommonModule, FormsModule, MaterialModule],
+  imports: [MdDialogModule.forRoot(), ElementalModule, CommonModule, FormsModule, MdProgressSpinnerModule, MdTooltipModule],
 })
 class DialogTestModule {
 }

@@ -25,6 +25,18 @@ describe('PipelinesNotEnabledComponent', () => {
   let fixture: ComponentFixture<PipelinesNotEnabledComponent>;
 
   beforeEach(async(() => {
+    global['analyticsMock'] = true;
+    global['analytics'] = {
+      load: (key: string) => {
+        return true;
+      },
+      page: () => {
+        return true;
+      },
+      track: (eventName: string, eventData: Object) => {
+        return 'success';
+      }
+    };
     TestBed.configureTestingModule({
       imports: [
         MaterialModule.forRoot(),

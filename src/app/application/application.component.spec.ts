@@ -3,7 +3,6 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {async, ComponentFixture, TestBed, fakeAsync, tick, inject} from '@angular/core/testing';
 import {BaseRequestOptions, Http, ResponseOptions, Response} from '@angular/http';
 import {EventEmitter} from '@angular/core';
-import {MaterialModule} from '@angular/material';
 import {MockBackend} from '@angular/http/testing';
 import {RouterTestingModule} from '@angular/router/testing';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -104,7 +103,6 @@ describe('ApplicationComponent', () => {
         }
       ],
       imports: [
-        MaterialModule.forRoot(),
         ElementalModule,
         SharedModule,
         RouterTestingModule,

@@ -1,5 +1,4 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {MaterialModule} from '@angular/material';
 import {RouterTestingModule} from '@angular/router/testing';
 
 import {MomentModule} from 'angular2-moment';
@@ -62,7 +61,6 @@ describe('ApplicationsListComponent', () => {
         ErrorService
       ],
       imports: [
-        MaterialModule.forRoot(),
         ElementalModule,
         SharedModule,
         MomentModule,

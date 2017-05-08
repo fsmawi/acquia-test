@@ -2,7 +2,6 @@
 import {async, ComponentFixture, TestBed, inject} from '@angular/core/testing';
 import {By} from '@angular/platform-browser';
 import {DebugElement} from '@angular/core';
-import {MaterialModule} from '@angular/material';
 import {MdDialog} from '@angular/material';
 import {RouterTestingModule} from '@angular/router/testing';
 
@@ -31,7 +30,6 @@ describe('NoJobsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        MaterialModule.forRoot(),
         ElementalModule,
         RouterTestingModule,
         SharedModule

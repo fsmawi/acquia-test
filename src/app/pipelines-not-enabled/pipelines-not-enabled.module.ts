@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {MaterialModule} from '@angular/material';
 
 import {PipelinesNotEnabledRoutingModule} from './pipelines-not-enabled-routing.module';
 import {PipelinesNotEnabledComponent} from './pipelines-not-enabled.component';
@@ -12,8 +11,7 @@ import {SharedModule} from '../shared/shared.module';
     CommonModule,
     SharedModule,
     PipelinesNotEnabledRoutingModule,
-    ElementalModule,
-    MaterialModule.forRoot()
+    ElementalModule
   ],
   declarations: [PipelinesNotEnabledComponent]
 })

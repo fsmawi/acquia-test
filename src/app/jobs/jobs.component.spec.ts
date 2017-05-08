@@ -2,7 +2,6 @@
 import {async, ComponentFixture, TestBed, inject, fakeAsync, tick, discardPeriodicTasks} from '@angular/core/testing';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {DebugElement} from '@angular/core';
-import {MaterialModule} from '@angular/material';
 import {MdDialog} from '@angular/material';
 import {FormsModule} from '@angular/forms';
 import {RouterTestingModule} from '@angular/router/testing';
@@ -113,7 +112,6 @@ describe('JobsComponent', () => {
         ErrorService
       ],
       imports: [
-        MaterialModule.forRoot(),
         RouterTestingModule,
         CoreModule,
         MomentModule,

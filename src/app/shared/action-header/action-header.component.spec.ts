@@ -2,7 +2,7 @@
 import {async, ComponentFixture, TestBed, inject, fakeAsync, tick} from '@angular/core/testing';
 import {By} from '@angular/platform-browser';
 import {DebugElement} from '@angular/core';
-import {MdDialog, MaterialModule} from '@angular/material';
+import {MdDialog, MdProgressSpinnerModule, MdDialogModule, MdTooltipModule} from '@angular/material';
 import {FormsModule} from '@angular/forms';
 import {RouterTestingModule} from '@angular/router/testing';
 import {ObservableMedia} from '@angular/flex-layout';
@@ -175,7 +175,9 @@ describe('ActionHeaderComponent', () => {
         ErrorService
       ],
       imports: [
-        MaterialModule.forRoot(),
+        MdProgressSpinnerModule,
+        MdDialogModule,
+        MdTooltipModule,
         MomentModule,
         RouterTestingModule,
         ElementalModule,

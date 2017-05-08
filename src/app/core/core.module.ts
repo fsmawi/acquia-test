@@ -1,6 +1,5 @@
 import {NgModule, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {MaterialModule} from '@angular/material';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {FormsModule} from '@angular/forms';
 
@@ -36,7 +35,6 @@ import {MomentModule} from 'angular2-moment';
   imports: [
     CommonModule,
     ElementalModule,
-    MaterialModule.forRoot(),
     FormsModule,
     SharedModule,
     FlexLayoutModule,

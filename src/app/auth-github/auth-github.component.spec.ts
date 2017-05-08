@@ -3,7 +3,6 @@ import {async, ComponentFixture, TestBed, fakeAsync, tick, inject} from '@angula
 import {By} from '@angular/platform-browser';
 import {DebugElement} from '@angular/core';
 import {HttpModule, BaseRequestOptions, Http, ResponseOptions, Response} from '@angular/http';
-import {MaterialModule} from '@angular/material';
 import {MockBackend} from '@angular/http/testing';
 import {Router} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
@@ -104,7 +103,6 @@ describe('AuthGithubComponent', () => {
         }
       ],
       imports: [
-        MaterialModule.forRoot(),
         RouterTestingModule,
         ElementalModule,
         SharedModule,

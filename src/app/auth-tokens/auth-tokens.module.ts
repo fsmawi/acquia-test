@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {AuthTokensRoutingModule} from './auth-tokens-routing.module';
 import {AuthTokensComponent} from './auth-tokens.component';
-import {MaterialModule} from '@angular/material';
+import {MdProgressSpinnerModule, MdTooltipModule} from '@angular/material';
 import {FormsModule} from '@angular/forms';
 import {ElementalModule} from '../elemental/elemental.module';
 
@@ -10,7 +10,8 @@ import {ElementalModule} from '../elemental/elemental.module';
   imports: [
     CommonModule,
     AuthTokensRoutingModule,
-    MaterialModule.forRoot(),
+    MdProgressSpinnerModule,
+    MdTooltipModule,
     ElementalModule,
     FormsModule
   ],

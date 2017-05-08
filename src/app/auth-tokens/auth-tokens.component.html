@@ -1,4 +1,4 @@
-<md-card id="auth-tokens-card">
+<e-card id="auth-tokens-card">
 
   <div class="center">
     <img src="/assets/pipelines-logos/pipelines_100x100.png" alt="Acquia Pipelines Token Authentication">
@@ -29,10 +29,10 @@
   <form id="auth-token-form" (ngSubmit)="login()" #tokenForm="ngForm" *ngIf="!loading">
     <input class="full-width" placeholder="Application ID" [(ngModel)]="appId" name="AppId" type="text" required [disabled]="loading">
     <div class="center">
-      <button md-raised-button color="primary" type="submit">Sign In</button>
+      <button md-raised-button color="primary" class="mat-primary" type="submit">Sign In</button>
     </div>
   </form>
 
   <!-- Loading indicator -->
   <md-progress-spinner style="margin: 76px auto;" *ngIf="loading" mode="indeterminate"></md-progress-spinner>
-</md-card>
+</e-card>

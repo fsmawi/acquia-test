@@ -5,7 +5,6 @@ import {BaseRequestOptions, Http, ResponseOptions, Response} from '@angular/http
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {DebugElement} from '@angular/core';
 import {EventEmitter} from '@angular/core';
-import {MaterialModule} from '@angular/material';
 import {MdDialog} from '@angular/material';
 import {MockBackend} from '@angular/http/testing';
 import {RouterTestingModule} from '@angular/router/testing';
@@ -106,7 +105,6 @@ describe('AuthAcquiaComponent', () => {
         }
       ],
       imports: [
-        MaterialModule.forRoot(),
         RouterTestingModule,
         ElementalModule,
         SharedModule,

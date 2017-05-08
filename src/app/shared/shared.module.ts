@@ -1,5 +1,5 @@
 import {CommonModule} from '@angular/common';
-import {MaterialModule} from '@angular/material';
+import {MdProgressSpinnerModule, MdDialogModule, MdTooltipModule} from '@angular/material';
 import {NgModule} from '@angular/core';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {FormsModule} from '@angular/forms';
@@ -21,7 +21,9 @@ import { DragAndDropDirective } from './directives/drag-and-drop.directive';
 @NgModule({
   imports: [
     CommonModule,
-    MaterialModule.forRoot(),
+    MdProgressSpinnerModule,
+    MdTooltipModule,
+    MdDialogModule,
     ElementalModule,
     FlexLayoutModule,
     FormsModule
@@ -52,7 +54,10 @@ import { DragAndDropDirective } from './directives/drag-and-drop.directive';
     ActionHeaderComponent,
     TopLevelNavigationComponent,
     EncryptCredentialsComponent,
-    DragAndDropDirective
+    DragAndDropDirective,
+    MdProgressSpinnerModule,
+    MdTooltipModule,
+    MdDialogModule
   ],
   entryComponents: [EncryptCredentialsComponent]
 })

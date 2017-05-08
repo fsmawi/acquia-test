@@ -2,7 +2,6 @@
 import {async, ComponentFixture, TestBed, fakeAsync, tick} from '@angular/core/testing';
 import {By} from '@angular/platform-browser';
 import {DebugElement} from '@angular/core';
-import {MaterialModule} from '@angular/material';
 import {RouterModule} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
 
@@ -88,7 +87,6 @@ describe('JobListComponent', () => {
         JobListComponent
       ],
       imports: [
-        MaterialModule.forRoot(),
         SharedModule,
         RouterTestingModule,
         MomentModule,

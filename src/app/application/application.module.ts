@@ -2,7 +2,6 @@ import {CommonModule} from '@angular/common';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {FormsModule} from '@angular/forms';
 import {NgModule} from '@angular/core';
-import {MaterialModule} from '@angular/material';
 
 import {ApplicationComponent} from './application.component';
 import {ApplicationRoutingModule} from './application-routing.module';
@@ -15,7 +14,6 @@ import {JobsModule} from '../jobs/jobs.module';
   imports: [
     CommonModule,
     ApplicationRoutingModule,
-    MaterialModule.forRoot(),
     ElementalModule,
     FlexLayoutModule,
     FormsModule,

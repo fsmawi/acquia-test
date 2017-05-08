@@ -1,6 +1,5 @@
 import {CommonModule} from '@angular/common';
 import {FlexLayoutModule} from '@angular/flex-layout';
-import {MaterialModule} from '@angular/material';
 import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 
@@ -19,7 +18,6 @@ import {NoJobsComponent} from './no-jobs/no-jobs.component';
   imports: [
     CommonModule,
     JobsRoutingModule,
-    MaterialModule.forRoot(),
     FlexLayoutModule,
     MomentModule,
     SharedModule,
