@@ -58,7 +58,6 @@ Feature: Pipelines Github Flow
     And I click on the |*select-repo| button
     Then I should see a modal with non empty |*repo-list| list
     And I enter |rep| in the |*repo-filter-text| field
-    Then I should see in the |*repo-list| list only repositories that contain "rep" keyword
     And I click on the |*repo1-radio| button
     And I click on the |*continue| button
     Then I should be navigated to |*configure| page
