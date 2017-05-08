@@ -15,6 +15,7 @@ import {WebSocketHandler} from '../../core/models/web-socket-handler';
 import {features} from '../../core/features';
 import {animations} from '../../core/animations';
 import {BaseApplication} from '../../core/classes/base-application';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-jobs-detail',
@@ -123,6 +124,11 @@ export class JobsDetailComponent extends BaseApplication implements OnInit, OnDe
         this._appId = params['app'];
         this.appId = params['app'];
         this.jobId = params['id'];
+
+        // store appId in session storage
+        if (!environment.standalone) {
+          sessionStorage.setItem('pipelines.standalone.application.id', this.appId);
+        }
 
         // clear refreshJob if needed
         if (this.timer && this.sub) {

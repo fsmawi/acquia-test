@@ -147,7 +147,7 @@ export class AuthGithubComponent extends BaseApplication implements OnInit {
       .catch(e => {
         this.errorHandler.apiError(e)
           .reportError(e, 'FailedToAttachGithubReposioryToPipelines',
-          {component: 'auth-github', repository: repository.full_name, appId: this.appId}, 'error');
+            {component: 'auth-github', repository: repository.full_name, appId: this.appId}, 'error');
         this.showAttachRepoAlert('danger', e.status + ' : ' + e._body);
       })
       .then(() => this.loading = false);
@@ -223,6 +223,11 @@ export class AuthGithubComponent extends BaseApplication implements OnInit {
     this.route.params.subscribe((params) => {
       this.appId = params['app-id'];
       this._appId = params['app-id'];
+
+      // store appId in session storage
+      if (!environment.standalone) {
+        sessionStorage.setItem('pipelines.standalone.application.id', this.appId);
+      }
       this.finishUrl = environment.authRedirect + '/app/develop/applications/' + this.appId + '/pipelines/github';
 
       this.route.queryParams.subscribe((queryParams) => {
