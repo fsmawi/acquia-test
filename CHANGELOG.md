@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.41"></a>
+## [0.2.41](https://github.com/acquia/pipelines-ui/compare/v0.2.40...v0.2.41) (2017-05-09)
+
+
+### Bug Fixes
+
+* **confirmation-modal.component.scss:** MS-2990 Modal Bg overlay fixed (#233) ([5da437b](https://github.com/acquia/pipelines-ui/commit/5da437b)), closes [#233](https://github.com/acquia/pipelines-ui/issues/233)
+
+
+
 <a name="0.2.40"></a>
 ## [0.2.40](https://github.com/acquia/pipelines-ui/compare/v0.2.39...v0.2.40) (2017-05-09)
 
