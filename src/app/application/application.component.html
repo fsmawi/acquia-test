@@ -11,13 +11,13 @@
       <e-svg-icon *ngIf="vcsType === 'github'"
                   type="logos__github"
                   size="medium"
-                  mdTooltip="Using {{repositoryType}}"
-                  mdTooltipPosition="left">
+                  appTooltip="Using {{repositoryType}}"
+                  tooltipPosition="left">
       </e-svg-icon>
       <svg *ngIf="vcsType ==='acquia-git'"
            class="el-iconography__icon el-iconography__icon--is-medium"
-           mdTooltip="Using {{repositoryType}}"
-           mdTooltipPosition="left">
+           appTooltip="Using {{repositoryType}}"
+           tooltipPosition="left">
         <image height="28px" xlink:href="../assets/acquia.svg" width="28px"></image>
       </svg>
       {{repoFullName}}

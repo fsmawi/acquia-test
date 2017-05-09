@@ -19,6 +19,7 @@ import {FlashMessageService} from '../core/services/flash-message.service';
 import {ConfirmationModalService} from '../core/services/confirmation-modal.service';
 import {HelpCenterService} from '../core/services/help-center.service';
 import {ApplicationModule} from '../application/application.module';
+import {TooltipService} from '../core/services/tooltip.service';
 
 class MockHelpCenterService {
   show() {
@@ -90,6 +91,7 @@ describe('AuthGithubComponent', () => {
         MockBackend,
         BaseRequestOptions,
         SegmentService,
+        TooltipService,
         {provide: FlashMessageService, useClass: MockFlashMessage},
         {provide: HelpCenterService, useClass: MockHelpCenterService},
         {provide: ConfirmationModalService, useClass: MockConfirmationModalService},

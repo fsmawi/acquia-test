@@ -13,8 +13,8 @@
   <tbody>
   <tr *ngFor="let job of jobs">
     <td class="center">
-      <app-job-status mdTooltip="{{job.message }}"
-                      mdTooltipPosition="right"
+      <app-job-status appTooltip="{{job.message }}"
+                      tooltipPosition="right"
                       [status]="job.status"></app-job-status>
     </td>
     <td class="center">
@@ -60,17 +60,17 @@
          href="{{job.metadata.deployment_link}}" target="_blank">
         <e-svg-icon class="primary" type="alpha__globe"
                     *ngIf="job.isFinished && job.metadata && job.metadata.deployment_link"
-                    mdTooltip="Open Environment"
+                    appTooltip="Open Environment"
                     style="cursor:pointer"
-                    mdTooltipPosition="left">
+                    tooltipPosition="left">
         </e-svg-icon>
       </a>
 
       <e-svg-icon class="danger" type="actions__close--circle"
                   *ngIf="job.isUnfinished" (click)="stopJob(job)"
-                  mdTooltip="Terminate Job"
+                  appTooltip="Terminate Job"
                   style="cursor:pointer"
-                  mdTooltipPosition="left">
+                  tooltipPosition="left">
       </e-svg-icon>
     </td>
   </tr>

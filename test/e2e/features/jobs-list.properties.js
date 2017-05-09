@@ -15,7 +15,7 @@ module.exports = {
   'jobs-list': '.el-card__title',
   'jobs-list-table': '//e-card[//h4/span[contains(.,"{0}")]]//e-card-content//app-job-list',
   'jobId-link': '//app-job-summary//div/a',
-  'tooltip': 'mdTooltip',
+  'tooltip': 'appTooltip',
   'Destination-Environment-label': '//span[contains(text(),"Destination Environment")]',
   'Commit-label': '//span[contains(text(),"Commit")]',
   'Job-Duration-label': '//span[contains(text(),"Job Duration")]',

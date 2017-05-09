@@ -1,7 +1,7 @@
 /* tslint:disable:no-unused-variable */
 import {async, ComponentFixture, TestBed, inject, fakeAsync, tick} from '@angular/core/testing';
 import {By} from '@angular/platform-browser';
-import {DebugElement} from '@angular/core';
+import {DebugElement, ElementRef} from '@angular/core';
 import {MdDialog, MdProgressSpinnerModule, MdDialogModule, MdTooltipModule} from '@angular/material';
 import {FormsModule} from '@angular/forms';
 import {RouterTestingModule} from '@angular/router/testing';
@@ -25,6 +25,18 @@ import {LiftDirective} from '../directives/lift.directive';
 import {SegmentDirective} from '../directives/segment.directive';
 import {TrackDirective} from '../directives/track.directive';
 import {HelpCenterService} from '../../core/services/help-center.service';
+import {TooltipDirective} from '../directives/tooltip.directive';
+import {TooltipService} from '../../core/services/tooltip.service';
+
+class MockTooltipService {
+  show(text: string, position: string, el: ElementRef) {
+    return true;
+  }
+
+  hide() {
+    return true;
+  }
+}
 
 class MockOberservableMedia {
  isActive(screenSize: string) {
@@ -162,7 +174,8 @@ describe('ActionHeaderComponent', () => {
         IframeLinkDirective,
         LiftDirective,
         SegmentDirective,
-        TrackDirective
+        TrackDirective,
+        TooltipDirective
       ],
       providers: [
         {provide: PipelinesService, useClass: MockPipelinesService},
@@ -171,6 +184,7 @@ describe('ActionHeaderComponent', () => {
         {provide: FlashMessageService, useClass: MockFlashMessage},
         {provide: HelpCenterService, useClass: MockHelpCenterService},
         {provide: ObservableMedia, useClass: MockOberservableMedia},
+        {provide: TooltipService, useClass: MockTooltipService},
         SegmentService,
         ErrorService
       ],

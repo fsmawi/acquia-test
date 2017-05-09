@@ -29,6 +29,26 @@ export const animations = [
         transform: 'translate(45%, 0)', opacity: 0
       }))
     ])
+  ]),
+  trigger('zoomIn', [
+    state('void', style({
+      transform: 'scale(0)'
+    })),
+    state('initial', style({
+      transform: 'scale(0)'
+    })),
+    state('enter', style({
+      transform: 'scale(1)'
+    })),
+    state('leave', style({
+      transform: 'scale(0)'
+    })),
+    transition(':enter', [
+      animate('150ms cubic-bezier(0.0, 0.0, 0.2, 1)')
+    ]),
+    transition(':leave', [
+      animate('150ms cubic-bezier(0.4, 0.0, 1, 1)')
+    ]),
   ])
 
 ];

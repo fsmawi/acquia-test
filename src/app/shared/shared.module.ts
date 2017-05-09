@@ -15,8 +15,9 @@ import {LiftDirective} from './directives/lift.directive';
 import {ActionHeaderComponent} from './action-header/action-header.component';
 import {TopLevelNavigationComponent} from './top-level-navigation/top-level-navigation.component';
 import {ContextLinkDirective} from './directives/context-link.directive';
-import { EncryptCredentialsComponent } from './encrypt-credentials/encrypt-credentials.component';
-import { DragAndDropDirective } from './directives/drag-and-drop.directive';
+import {EncryptCredentialsComponent} from './encrypt-credentials/encrypt-credentials.component';
+import {DragAndDropDirective} from './directives/drag-and-drop.directive';
+import {TooltipDirective} from './directives/tooltip.directive';
 
 @NgModule({
   imports: [
@@ -40,7 +41,8 @@ import { DragAndDropDirective } from './directives/drag-and-drop.directive';
     TopLevelNavigationComponent,
     ContextLinkDirective,
     EncryptCredentialsComponent,
-    DragAndDropDirective
+    DragAndDropDirective,
+    TooltipDirective
   ],
   exports: [
     JobStatusComponent,
@@ -55,6 +57,7 @@ import { DragAndDropDirective } from './directives/drag-and-drop.directive';
     TopLevelNavigationComponent,
     EncryptCredentialsComponent,
     DragAndDropDirective,
+    TooltipDirective,
     MdProgressSpinnerModule,
     MdTooltipModule,
     MdDialogModule

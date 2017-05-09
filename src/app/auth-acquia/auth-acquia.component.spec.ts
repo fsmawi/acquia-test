@@ -21,6 +21,7 @@ import {LiftService} from '../core/services/lift.service';
 import {FlashMessageService} from '../core/services/flash-message.service';
 import {ConfirmationModalService} from '../core/services/confirmation-modal.service';
 import {HelpCenterService} from '../core/services/help-center.service';
+import {TooltipService} from '../core/services/tooltip.service';
 
 class MockHelpCenterService {
   show() {
@@ -91,6 +92,7 @@ describe('AuthAcquiaComponent', () => {
         ErrorService,
         SegmentService,
         PipelinesService,
+        TooltipService,
         {provide: LiftService, useClass: MockLiftService},
         {provide: ActivatedRoute, useClass: MockActivatedRoute},
         {provide: FlashMessageService, useClass: MockFlashMessage},

@@ -25,8 +25,8 @@
               *ngIf="job.metadata">
         <e-data-label>
           <span class="pipelines-job-summary__dotted"
-                mdTooltip="The Acquia Cloud environment to which this job will deploy code."
-                mdTooltipPosition="right">
+                appTooltip="The Acquia Cloud environment to which this job will deploy code."
+                tooltipPosition="right">
             Destination Environment
           </span>
         </e-data-label>
@@ -50,8 +50,8 @@
               *ngIf="job.metadata && job.metadata.git_sha">
         <e-data-label>
           <span class="pipelines-job-summary__dotted"
-                mdTooltip="The commit reference from your git repo."
-                mdTooltipPosition="right">
+                appTooltip="The commit reference from your git repo."
+                tooltipPosition="right">
             Commit
           </span>
         </e-data-label>
@@ -67,8 +67,8 @@
               fxFlex.xs="50%">
         <e-data-label>
           <span class="pipelines-job-summary__dotted"
-                            mdTooltip="The duration for which this job ran."
-                            mdTooltipPosition="right">
+                            appTooltip="The duration for which this job ran."
+                            tooltipPosition="right">
             Job Duration
           </span>
         </e-data-label>
@@ -80,8 +80,8 @@
               fxFlex.xs="50%">
         <e-data-label>
           <span class="pipelines-job-summary__dotted"
-                            mdTooltip="Date and time when the job started."
-                            mdTooltipPosition="right">
+                            appTooltip="Date and time when the job started."
+                            tooltipPosition="right">
             Started at
           </span>
         </e-data-label>
@@ -92,10 +92,10 @@
               fxFlex.xs="50%">
         <e-data-label>
           <span class="pipelines-job-summary__dotted"
-                            mdTooltip="The event that triggered this job. Possible triggers include:
+                            appTooltip="The event that triggered this job. Possible triggers include:
                             1) Branch commit: A new commit was made to the repository.
                             2) Pull request: A pull request was submitted or updated"
-                            mdTooltipPosition="right">
+                            tooltipPosition="right">
             Job Trigger
           </span>
         </e-data-label>
@@ -107,8 +107,8 @@
               *ngIf="job.isPullRequest && job.metadata">
         <e-data-label>
           <span class="pipelines-job-summary__dotted"
-                            mdTooltip="Link to the pull request that triggered this job."
-                            mdTooltipPosition="right">
+                            appTooltip="Link to the pull request that triggered this job."
+                            tooltipPosition="right">
             Pull request
           </span></e-data-label>
         <e-data-value id="job-pull-request-value">
@@ -130,8 +130,8 @@
               *ngIf="!job.isPullRequest">
         <e-data-label>
           <span class="pipelines-job-summary__dotted"
-                            mdTooltip="The git branch used to run this job."
-                            mdTooltipPosition="right">
+                            appTooltip="The git branch used to run this job."
+                            tooltipPosition="right">
             Branch
           </span>
         </e-data-label>
@@ -145,8 +145,8 @@
               *ngIf="job.isPullRequest">
         <e-data-label>
           <span class="pipelines-job-summary__dotted"
-                mdTooltip="The branch in which this job is created."
-                mdTooltipPosition="right">
+                appTooltip="The branch in which this job is created."
+                tooltipPosition="right">
             Source branch
           </span>
         </e-data-label>
@@ -160,8 +160,8 @@
               *ngIf="job.isPullRequest">
         <e-data-label>
           <span class="pipelines-job-summary__dotted"
-                mdTooltip="The branch in which the source branch is merging with."
-                mdTooltipPosition="right">
+                appTooltip="The branch in which the source branch is merging with."
+                tooltipPosition="right">
             Target branch
           </span>
         </e-data-label>
@@ -175,8 +175,8 @@
               *ngIf="job.requested_by">
         <e-data-label>
           <span class="pipelines-job-summary__dotted"
-                mdTooltip="The user who initiated this job."
-                mdTooltipPosition="right">
+                appTooltip="The user who initiated this job."
+                tooltipPosition="right">
             Requested by
           </span>
         </e-data-label>

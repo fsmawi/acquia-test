@@ -3,12 +3,13 @@ import {CommonModule} from '@angular/common';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {FormsModule} from '@angular/forms';
 
+import {MomentModule} from 'angular2-moment';
+
 import {AmplitudeService} from './services/amplitude.service';
 import {AnsiService} from './services/ansi.service';
 import {BugsnagService} from './services/bugsnag.service';
 import {LiftService} from './services/lift.service';
 import {SegmentService} from './services/segment.service';
-
 import {AuthGuard} from './services/auth-guard.service';
 import {AuthService} from './services/auth.service';
 import {ConfirmationModalComponent} from './components/confirmation-modal/confirmation-modal.component';
@@ -28,8 +29,9 @@ import {HelpContentCategoryFilterPipe } from './components/help-center/help-cont
 import {SharedModule} from '../shared/shared.module';
 import {ContextMenuComponent} from './components/context-menu/context-menu.component';
 import {ContextMenuService} from './services/context-menu.service';
+import {TooltipComponent} from './components/tooltip/tooltip.component';
+import {TooltipService} from './services/tooltip.service';
 import {ApplicationsListComponent} from './components/applications-list/applications-list.component';
-import {MomentModule} from 'angular2-moment';
 
 @NgModule({
   imports: [
@@ -57,7 +59,8 @@ import {MomentModule} from 'angular2-moment';
     SegmentService,
     WebSocketService,
     HelpCenterService,
-    ContextMenuService
+    ContextMenuService,
+    TooltipService
   ],
   declarations: [
     FlashMessageComponent,
@@ -65,6 +68,7 @@ import {MomentModule} from 'angular2-moment';
     HelpCenterComponent,
     HelpContentCategoryFilterPipe,
     ContextMenuComponent,
+    TooltipComponent,
     ApplicationsListComponent
   ],
   exports: [
@@ -72,6 +76,7 @@ import {MomentModule} from 'angular2-moment';
     ConfirmationModalComponent,
     HelpCenterComponent,
     ContextMenuComponent,
+    TooltipComponent,
     ApplicationsListComponent
   ],
   entryComponents: [
@@ -79,6 +84,7 @@ import {MomentModule} from 'angular2-moment';
     FlashMessageComponent,
     HelpCenterComponent,
     ContextMenuComponent,
+    TooltipComponent,
     ApplicationsListComponent
   ]
 })

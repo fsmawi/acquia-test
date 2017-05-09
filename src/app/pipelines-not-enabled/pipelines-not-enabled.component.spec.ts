@@ -13,6 +13,7 @@ import {ErrorService} from '../core/services/error.service';
 import {FlashMessageService} from '../core/services/flash-message.service';
 import {ConfirmationModalService} from '../core/services/confirmation-modal.service';
 import {HelpCenterService} from '../core/services/help-center.service';
+import {TooltipService} from '../core/services/tooltip.service';
 
 class MockLiftService {
   captureEvent(eventName: string, eventData: Object) {
@@ -48,6 +49,7 @@ describe('PipelinesNotEnabledComponent', () => {
       declarations: [ PipelinesNotEnabledComponent ],
       providers: [
         SegmentService,
+        TooltipService,
         PipelinesService,
         ErrorService,
         FlashMessageService,
