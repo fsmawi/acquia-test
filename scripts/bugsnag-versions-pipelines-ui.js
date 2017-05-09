@@ -7,7 +7,7 @@ const packageJson = require(__dirname + '/../package.json');
 request
   .post(`https://notify.bugsnag.com/deploy`)
   .send({
-    apiKey: process.env.API_KEY,
+    apiKey: process.env.PIPELINES_BUGSNAG_API_KEY,
     appVersion: packageJson.version
   })
   .end((err, res) => {
