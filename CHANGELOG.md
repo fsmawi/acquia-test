@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.39"></a>
+## [0.2.39](https://github.com/acquia/pipelines-ui/compare/v0.2.38...v0.2.39) (2017-05-09)
+
+
+### Bug Fixes
+
+* **routing:** Extended fix for reroute from auth/tokens ([dfba363](https://github.com/acquia/pipelines-ui/commit/dfba363))
+
+
+### Features
+
+* **applications-list.component.ts:** MS-2820 Applications list (#211) ([22892d7](https://github.com/acquia/pipelines-ui/commit/22892d7))
+* **tooltip.directive.ts:** MS-2965 Tooltip (#232) ([0c30a53](https://github.com/acquia/pipelines-ui/commit/0c30a53))
+
+
+### Performance Improvements
+
+* **UX:** import only necessary Material modules (#230) ([825ab54](https://github.com/acquia/pipelines-ui/commit/825ab54))
+
+
+
 <a name="0.2.38"></a>
 ## [0.2.38](https://github.com/acquia/pipelines-ui/compare/v0.2.37...v0.2.38) (2017-05-04)
 
