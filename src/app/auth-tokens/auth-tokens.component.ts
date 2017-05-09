@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
+import {Router, ActivatedRoute} from '@angular/router';
 
 import {environment} from '../../environments/environment';
 import {defaultIfEmpty} from 'rxjs/operator/defaultIfEmpty';
@@ -44,8 +44,14 @@ export class AuthTokensComponent implements OnInit {
 
   /**
    * Builds the component
+   * @param router
+   * @param route
+   * @param auth
    */
-  constructor(private router: Router, private auth: AuthService) {
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private auth: AuthService) {
   }
 
   /**
@@ -59,8 +65,25 @@ export class AuthTokensComponent implements OnInit {
     } else {
       this.auth.isLoggedIn()
         .then(authenticated => {
+          let redirectUrl = this.route.snapshot.queryParams['redirectUrl'];
+
           if (authenticated) {
             this.loggedIn = true;
+
+            if (redirectUrl) {
+              this.router.navigateByUrl(redirectUrl);
+            }
+          } else {
+
+            // Set redirect url to default path if not specified
+            if (!redirectUrl) {
+              redirectUrl = 'applications';
+            }
+
+            // Redirect to acquia account to authenticate
+            if (environment.production && environment.name === 'prod') {
+              window.location.href = `${environment.authAccountRedirect}/?site=pipelines&path=${redirectUrl}`;
+            }
           }
         })
         .then(() => this.loading = false);

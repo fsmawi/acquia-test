@@ -60,7 +60,7 @@ export class JobListComponent implements OnInit {
     // In the production environment, all job links should specify the cloud url,
     // which will allow multiple windows/tabs to be open
     if (environment.production && environment.name === 'prod' && !this.isStandalone) {
-      this.cloudUrl = `${environment.authRedirect}/app/develop/applications/${this.appId}/pipelines/jobs`;
+      this.cloudUrl = `${environment.authCloudRedirect}/app/develop/applications/${this.appId}/pipelines/jobs`;
     } else {
       this.cloudUrl = `/applications/${this.appId}`;
     }

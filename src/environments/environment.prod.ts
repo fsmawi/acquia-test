@@ -34,5 +34,6 @@ export const environment = {
   bugsnagAPIKey: '53277c40f7254811573110c3ec847eec',
   amplitudeAPIKey: '6d3691615064031e356c16691f148e34',
   segmentWriteKey: 'Acn6k4EbYaeBzUsKnBZqqs9NQlccqeoq',
-  authRedirect: 'https://cloud.acquia.com'
+  authCloudRedirect: 'https://cloud.acquia.com',
+  authAccountRedirect: 'https://accounts.acquia.com'
 };

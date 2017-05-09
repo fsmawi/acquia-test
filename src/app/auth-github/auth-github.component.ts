@@ -223,12 +223,12 @@ export class AuthGithubComponent extends BaseApplication implements OnInit {
     this.route.params.subscribe((params) => {
       this.appId = params['app-id'];
       this._appId = params['app-id'];
+      this.finishUrl = environment.authCloudRedirect + '/app/develop/applications/' + this.appId + '/pipelines/github';
 
       // store appId in session storage
       if (!environment.standalone) {
         sessionStorage.setItem('pipelines.standalone.application.id', this.appId);
       }
-      this.finishUrl = environment.authRedirect + '/app/develop/applications/' + this.appId + '/pipelines/github';
 
       this.route.queryParams.subscribe((queryParams) => {
         if (queryParams['success'] !== undefined && queryParams['success'] !== 'undefined') {

@@ -37,5 +37,6 @@ export const environment = {
   bugsnagAPIKey: '',
   amplitudeAPIKey: '',
   segmentWriteKey: '',
-  authRedirect: ''
+  authCloudRedirect: '',
+  authAccountRedirect: ''
 };
