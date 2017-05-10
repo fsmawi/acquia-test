@@ -32,9 +32,9 @@
     </p>
   </e-card-content>
   <e-card-footer>
-    <e-button class="left-link" text="Learn how to start jobs automatically"
+    <e-button class="left-link footer-link" text="Learn how to start jobs automatically"
               type="link" (click)="showHelp()" *ngIf="!startJobHelp"></e-button>
-    <e-button class="left-link" text="Go back and start a job"
+    <e-button class="left-link footer-link" text="Go back and start a job"
               type="link" (click)="hideHelp()" *ngIf="startJobHelp"></e-button>
     <e-button class="right-link" id="btn-start" text="Start"
               *ngIf="isDirectStartAvailable && !didJobStart && !startJobHelp"

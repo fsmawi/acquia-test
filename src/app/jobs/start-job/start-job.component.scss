@@ -77,6 +77,11 @@
     color: $color-neutral-9;
     font-style: italic;
     text-align: center;
+
+    @media (max-width: px-to-relative(600px))  {
+      margin: 0;
+      padding: 0;
+    }
   }
 
   .left-link {
@@ -97,4 +102,34 @@
     width: px-to-relative(68px);
     height: px-to-relative(34px);
   }
+
+  e-card-footer {
+    .footer-link {
+      button {
+        text-align: left;
+      }
+
+      @media (max-width: 360px) {
+        width: px-to-relative(90px);
+        margin-top: -0.5rem;
+      }
+
+      @media (min-width: 360px) and (max-width: 420px) {
+        width: px-to-relative(120px);
+        margin-top: -0.5rem;
+      }
+
+      @media (min-width: 420px) and (max-width: 520px) {
+        width: px-to-relative(180px);
+        margin-top: -0.5rem;
+      }
+
+      @media (min-width: 520px) and (max-width: 600px) {
+        width: px-to-relative(250px);
+        margin-top: -0.5rem;
+      }
+
+    }
+  }
+
 }
