@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.42"></a>
+## [0.2.42](https://github.com/acquia/pipelines-ui/compare/v0.2.41...v0.2.42) (2017-05-12)
+
+
+### Bug Fixes
+
+* **start-job.component.scss:** MS-2966 Mobile sizing issues (#237) ([79d46b8](https://github.com/acquia/pipelines-ui/commit/79d46b8))
+* **UX:** disabled e-button should remove also (#241) ([e2aeb47](https://github.com/acquia/pipelines-ui/commit/e2aeb47))
+
+
+
 <a name="0.2.41"></a>
 ## [0.2.41](https://github.com/acquia/pipelines-ui/compare/v0.2.40...v0.2.41) (2017-05-09)
 
