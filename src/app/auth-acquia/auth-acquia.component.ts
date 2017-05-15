@@ -108,7 +108,7 @@ export class AuthAcquiaComponent extends BaseApplication implements OnInit {
       .then(res => {
         return this.refresh()
           .then((info) => {
-            this.router.navigate(['application', this.appId]);
+            this.router.navigateByUrl(`/applications/${this.appId}/info`);
           });
       })
       .catch(e => {

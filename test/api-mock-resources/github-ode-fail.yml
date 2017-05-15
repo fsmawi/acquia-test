@@ -4,6 +4,16 @@ routes:
     GET:
       response:
         authenticated: true
+  /api/v1/ci/applications/list:
+    GET:
+      response:
+      -
+        uuid: fbcd8f1f-4620-4bd6-9b60-f8d9d0f74fd0
+        name: Acquia Pipelines
+        hosting: {}
+        subscription: {}
+        organization: {}
+        latest_job: ~
   /api/v1/ci/jobs:
     GET:
       responses:
@@ -818,6 +828,12 @@ routes:
         success: true
         deploy_key_url: 'key_url'
         webhook_url: 'webhook_url'
+  /api/v1/ci/applications:
+    GET:
+      response:
+        repo_type: acquia-git
+        repo_name: example/repo
+        repo_url: site@svn-3.hosted.acquia-sites.com:site.git
   /redirect/create:
     POST:
       response:
@@ -891,6 +907,7 @@ routes:
             link: https://github.com/acquia/repo2
             type: github
           branches: test11,test12
+
   /api/v1/ci/github/repos:
     GET:
       response:
@@ -936,4 +953,4 @@ routes:
         description: rescription repo10
 redirections:
   /api/v1/ci/github/oauth:
-    redirect_to: https://pipelinesui<PIPELINES_DEPLOYMENT_NAME>.network.acquia-sites.com/index.html#/auth/github/123?success=false&reason=a%20certain%20reason
+    redirect_to: /index.html#/auth/github/123?success=false&reason=a%20certain%20reason

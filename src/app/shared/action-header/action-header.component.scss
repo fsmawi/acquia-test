@@ -49,6 +49,21 @@
       z-index: 1;
       right: 0;
 
+      a {
+        cursor: pointer;
+      }
+
+      span {
+        margin: $rhythm-unit;
+        color: $color-neutral-9;
+        font-size: 0.875rem;
+      }
+
+      hr {
+        border: 1px solid $color-neutral-2;
+        margin: 0 0 $rhythm-unit 0;
+      }
+
       &.show {
         display: block;
       }
@@ -56,13 +71,13 @@
 
     #dropdown-links a {
       color: black;
-      padding: px-to-relative(12px) 1rem;
+      padding: px-to-relative(12px) $rhythm-unit;
       text-decoration: none;
       display: block;
     }
 
     #dropdown-links a:hover {
-      background-color: #f1f1f1
+      background-color: $color-brand-primary-1;
     }
 
     #more-links-menu {

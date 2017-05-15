@@ -1,6 +1,5 @@
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
-import {MaterialModule} from '@angular/material';
 import {NgModule} from '@angular/core';
 
 import {AuthGithubComponent} from './auth-github.component';
@@ -14,7 +13,6 @@ import {SharedModule} from '../shared/shared.module';
   imports: [
     CommonModule,
     AuthGithubRoutingModule,
-    MaterialModule.forRoot(),
     FormsModule,
     ElementalModule,
     SharedModule

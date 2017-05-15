@@ -291,6 +291,42 @@ let JobsListPage = Object.create(page, {
         .then((elems) => elems.map((e) => e.value));
     },
   },
+
+  /**
+   * @param {String} identifier of items type in the list
+   * assert that the list is not empty
+   */
+  assertListIsNotEmpty: {
+    value: function (itemList) {
+      return this.browser._exists(itemList).then(() => {
+        this.browser.elements(itemList).then((response) => {
+          expect(response.value).to.be.length.above(0);
+        });
+      });
+    },
+  },
+  /**
+   * @param {String} itemList identifier
+   * @param {String} filterText
+   * assert the filtered item list contains only items matches with filterText
+   */
+  assertFilteredList: {
+    value: function (itemList, filterText) {
+      return this.browser._exists(itemList)
+        .then(() => {
+          return this.browser.elements(itemList);
+        })
+        .then((res) => Promise.all(res.value.map((r) => this.browser.elementIdText(r.ELEMENT))))
+        .then((elems) => elems.map((e) => e.value))
+        .then((itemsValues) => {
+          for (let i in itemsValues) {
+            if (itemsValues.hasOwnProperty(i)) {
+              expect(itemsValues[i]).to.contain(filterText);
+            }
+          }
+        });
+    },
+  },
 });
 
 module.exports = JobsListPage;

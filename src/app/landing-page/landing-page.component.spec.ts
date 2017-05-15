@@ -4,7 +4,7 @@ import {By} from '@angular/platform-browser';
 import {DebugElement} from '@angular/core';
 
 import {LandingPageComponent} from './landing-page.component';
-import {MaterialModule} from '@angular/material';
+import {MdProgressSpinnerModule, MdTooltipModule} from '@angular/material';
 import {ElementalModule} from '../elemental/elemental.module';
 import {LocalStorageService} from '../core/services/local-storage.service';
 import {PipelinesService} from '../core/services/pipelines.service';
@@ -46,7 +46,7 @@ describe('LandingPageComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [LandingPageComponent],
-      imports: [ElementalModule, MaterialModule],
+      imports: [ElementalModule, MdProgressSpinnerModule, MdTooltipModule],
       providers: [LocalStorageService, ErrorService, FlashMessageService, {
         provide: Router, useClass: MockRouter
       }, {

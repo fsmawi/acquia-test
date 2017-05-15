@@ -1,15 +1,15 @@
 import {NgModule, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {MaterialModule} from '@angular/material';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {FormsModule} from '@angular/forms';
+
+import {MomentModule} from 'angular2-moment';
 
 import {AmplitudeService} from './services/amplitude.service';
 import {AnsiService} from './services/ansi.service';
 import {BugsnagService} from './services/bugsnag.service';
 import {LiftService} from './services/lift.service';
 import {SegmentService} from './services/segment.service';
-
 import {AuthGuard} from './services/auth-guard.service';
 import {AuthService} from './services/auth.service';
 import {ConfirmationModalComponent} from './components/confirmation-modal/confirmation-modal.component';
@@ -29,15 +29,18 @@ import {HelpContentCategoryFilterPipe } from './components/help-center/help-cont
 import {SharedModule} from '../shared/shared.module';
 import {ContextMenuComponent} from './components/context-menu/context-menu.component';
 import {ContextMenuService} from './services/context-menu.service';
+import {TooltipComponent} from './components/tooltip/tooltip.component';
+import {TooltipService} from './services/tooltip.service';
+import {ApplicationsListComponent} from './components/applications-list/applications-list.component';
 
 @NgModule({
   imports: [
     CommonModule,
     ElementalModule,
-    MaterialModule.forRoot(),
     FormsModule,
     SharedModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    MomentModule
   ],
   providers: [
     PipelinesService,
@@ -56,26 +59,33 @@ import {ContextMenuService} from './services/context-menu.service';
     SegmentService,
     WebSocketService,
     HelpCenterService,
-    ContextMenuService
+    ContextMenuService,
+    TooltipService
   ],
   declarations: [
     FlashMessageComponent,
     ConfirmationModalComponent,
     HelpCenterComponent,
     HelpContentCategoryFilterPipe,
-    ContextMenuComponent
+    ContextMenuComponent,
+    TooltipComponent,
+    ApplicationsListComponent
   ],
   exports: [
     FlashMessageComponent,
     ConfirmationModalComponent,
     HelpCenterComponent,
-    ContextMenuComponent
+    ContextMenuComponent,
+    TooltipComponent,
+    ApplicationsListComponent
   ],
   entryComponents: [
     ConfirmationModalComponent,
     FlashMessageComponent,
     HelpCenterComponent,
-    ContextMenuComponent
+    ContextMenuComponent,
+    TooltipComponent,
+    ApplicationsListComponent
   ]
 })
 export class CoreModule {

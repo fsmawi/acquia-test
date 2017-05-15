@@ -12,6 +12,7 @@ import {ConfirmationModalService} from '../../core/services/confirmation-modal.s
 import {SegmentService} from '../../core/services/segment.service';
 import {StartJobComponent} from '../../jobs/start-job/start-job.component';
 import {HelpCenterService} from '../../core/services/help-center.service';
+import {EncryptCredentialsComponent} from '../encrypt-credentials/encrypt-credentials.component';
 
 // Global Scope, Window
 declare const window;
@@ -28,6 +29,12 @@ export class ActionHeaderComponent implements OnInit {
    */
   @Input()
   title: string;
+
+  /**
+   * Holds the name of the repo
+   */
+  @Input()
+  repoName = 'Pipelines';
 
   /**
    * Holds the application Id
@@ -82,6 +89,13 @@ export class ActionHeaderComponent implements OnInit {
    */
   @Input()
   showHelpCenter = true;
+
+  /**
+   * Flag to show more menu
+   * @type {boolean}
+   */
+  @Input()
+  showMoreMenu = true;
 
   /**
    * Builds the component
@@ -154,6 +168,17 @@ export class ActionHeaderComponent implements OnInit {
     }
     // Track button click
     this.segment.trackEvent('ClickStartJobButton', {appId: this.appId});
+  }
+
+  /**
+   * Show the Encrypt Credentials Dialog
+   */
+  showEncryptCredentials() {
+    let dialogRef: MdDialogRef<EncryptCredentialsComponent>;
+    dialogRef = this.dialog.open(EncryptCredentialsComponent);
+    if (dialogRef) {
+      dialogRef.componentInstance.appId = this.appId;
+    }
   }
 
   /**

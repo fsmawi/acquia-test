@@ -5,7 +5,6 @@ import {DebugElement} from '@angular/core';
 import {ElementalModule} from '../../elemental/elemental.module';
 import {JobSummaryComponent} from './job-summary.component';
 import {MomentModule} from 'angular2-moment';
-import {MaterialModule} from '@angular/material';
 import {RouterTestingModule} from '@angular/router/testing';
 import {Job} from '../../core/models/job';
 import {SharedModule} from '../../shared/shared.module';
@@ -18,7 +17,6 @@ describe('JobSummaryComponent', () => {
     TestBed.configureTestingModule({
       declarations: [JobSummaryComponent],
       imports: [
-        MaterialModule.forRoot(),
         MomentModule,
         ElementalModule,
         RouterTestingModule,

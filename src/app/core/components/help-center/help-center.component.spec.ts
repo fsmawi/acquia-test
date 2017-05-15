@@ -9,6 +9,7 @@ import {SegmentDirective} from '../../../shared/directives/segment.directive';
 import {TrackDirective} from '../../../shared/directives/track.directive';
 import {ElementalModule} from '../../../elemental/elemental.module';
 import {HelpContentCategoryFilterPipe} from './help-content-category-filter.pipe';
+import {TooltipDirective} from '../../../shared/directives/tooltip.directive';
 
 class MockOberservableMedia {
   isActive(screenSize: string) {
@@ -34,7 +35,8 @@ describe('HelpCenterComponent', () => {
         LiftDirective,
         SegmentDirective,
         TrackDirective,
-        HelpContentCategoryFilterPipe
+        HelpContentCategoryFilterPipe,
+        TooltipDirective
       ],
       providers: [
         {provide: HelpCenterService, useClass: MockHelpCenterService},

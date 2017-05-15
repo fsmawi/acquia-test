@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>example</title>
+  <script>
+    function getParameterByName(name) {
+      var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+      return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+    }
+    function setiframeURL() {
+      const iframe = document.querySelector('iframe');
+      var srcURL = getParameterByName('url');
+      //sometimes url from query parameter coming upto index.html only. Hence, adding this safe check to append /mock/header
+      //otherwise we endup with unauthentication page without green tick marks
+      if (!srcURL.endsWith('index.html#/mock/header') && srcURL.endsWith('index.html')) {
+        srcURL = srcURL + "#/mock/header";
+      }
+      iframe.src = srcURL;
+    }
+  </script>
+<style>
+        body {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        header.top {
+            position: absolute;
+            width: 100%;
+            z-index: 2;
+            background-color: #fff;
+            height: 60px;
+        }
+        header.bottom {
+            position: absolute;
+            top: 60px;
+            width: 100%;
+            z-index: 2;
+            background-color: #eee;
+            height: 90px;
+        }
+        .container {
+            top: 0;
+            left: 0;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            padding-left: 215px;
+            padding-top: 150px;
+            border: 5px blue;
+            box-sizing: border-box;
+        }
+        aside {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.87);
+            width: 215px;
+        }
+        @media (max-width: 950px) {
+            aside {
+                width: 67px
+            }
+            .container {
+                padding-left: 67px;
+            }
+        }
+        iframe {
+            position: relative;
+            width: 100%;
+            height: 100%
+        }
+    </style>
+</head>
+
+<body onload="setiframeURL()">
+<aside> </aside>
+<header class="top"> </header>
+<header class="bottom"> </header>
+<div class="container">
+  <iframe id="pipelinesAppContainer" src="" allowfullscreen> </iframe>
+</div>
+</body>
+</html>

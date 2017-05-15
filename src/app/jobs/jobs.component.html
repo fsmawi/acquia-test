@@ -1,5 +1,5 @@
 <div *ngIf="isInitialized">
-  <app-action-header [appId]="appId"
+  <app-action-header [appId]="appId" [repoName]="repoFullName"
                      [showViewInfo]="true"
                      [showStartJob]="jobs?.length">
   </app-action-header>
@@ -15,16 +15,16 @@
            type="search"
            size="30"
            placeholder="Filter jobs by branch or status"
-           mdTooltip="Search by status;
+           appTooltip="Search by status;
                       Search succeeded or failed jobs typing keywords: Pass, Success, Succeeded, fail, failed, error, errored;
                       Search by branch name;
                       Search by trigger type typing keywords:  PR, or pull request, branch, pull."
-           mdTooltipPosition="below"
+           tooltipPosition="below"
            value="{{filterText}}"
            (input)="filterSubject.next($event.target.value)">
   </div>
 
-  <e-card *ngIf="isInitialized" id="job-list">
+  <e-card *ngIf="isInitialized && pipelinesEnabled" id="job-list">
     <e-card-header>
       {{(jobs && !jobs.length) ? 'Activity' : 'Jobs'}}
       <div id="filter-info">
@@ -39,13 +39,13 @@
         <e-svg-icon *ngIf="vcsType === 'github'"
                     type="logos__github"
                     size="medium"
-                    mdTooltip="Using GitHub"
-                    mdTooltipPosition="left">
+                    appTooltip="Using GitHub"
+                    tooltipPosition="left">
         </e-svg-icon>
         <svg *ngIf="vcsType ==='acquia-git'"
              class="el-iconography__icon el-iconography__icon--is-medium"
-             mdTooltip="Using Acquia Git"
-             mdTooltipPosition="left">
+             appTooltip="Using Acquia Git"
+             tooltipPosition="left">
           <image height="28px" xlink:href="../assets/acquia.svg" width="28px"></image>
         </svg>
         {{repoFullName}}
@@ -62,12 +62,12 @@
           <app-job-list [appId]="appId" [jobs]="filteredJobs" *ngIf="jobs.length"></app-job-list>
         </e-tab>
       </e-tabs>
-
     </e-card-content>
   </e-card>
 </div>
 
 <e-progress *ngIf="loadingJobs && !jobs.length && !isInitialized"
+            class="page-loading"
             progressType="indeterminate"
             progressVariant="dots">
 </e-progress>

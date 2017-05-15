@@ -106,6 +106,19 @@ export class PipelinesService {
   }
 
   /**
+   * Gets the encrypted value for the dataItem
+   * @param appId
+   * @param dataItem
+   * @returns {any}
+   */
+  getEncryptedValue(appId: string, dataItem: string) {
+    return this.promisePostRequest(this.URI + `/ci/encrypt`, {
+      applications: [appId],
+      data_item: dataItem
+    });
+  }
+
+  /**
    * Get pipeline for the supplied app id
    * @param  appId
    * @param  getRepoMeta
@@ -153,11 +166,22 @@ export class PipelinesService {
   /**
    * Get all the branches available for an appId
    * @param appId
-   * @returns {Promise<T>}
+   * @returns {Promise<Array<String>>}
    */
   getBranches(appId: string) {
-    return this.getPipelineByAppId(appId)
-      .then(p => (p.length > 0) ? p[0].repo_data ? p[0].repo_data.branches || [] : [] : []);
+    return this.promiseGetRequest(this.URI + `/ci/applications?applications=${appId}&include_branches=1`, {})
+      .then((res: any) => res.branches);
+  }
+
+  /**
+   * Get all the applications available
+   * @returns {Promise<T>}
+   */
+  getApplications() {
+    return this.promiseGetRequest(this.URI + `/ci/applications/list`, {})
+      .then(res => {
+        return res.map(r =>  new Application(r));
+      });
   }
 
   /**

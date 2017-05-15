@@ -3,6 +3,7 @@
   <app-action-header [appId]="appId"
                      [job]="job"
                      pageType="job"
+                     [repoName]="repoFullName"
                      [showViewInfo]="true"
                      [showOpenEnvironment]="job?.isFinished && job.metadata?.deployment_link"
                      [showStopJob]="job?.isUnfinished"></app-action-header>
@@ -61,5 +62,6 @@
 </div>
 
 <e-progress *ngIf="loadingJob && (!logs || logs.length == 0) && !loadingLogs"
+            class="page-loading"
             progressType="indeterminate"
             progressVariant="dots"></e-progress>

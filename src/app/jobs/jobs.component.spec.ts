@@ -2,7 +2,6 @@
 import {async, ComponentFixture, TestBed, inject, fakeAsync, tick, discardPeriodicTasks} from '@angular/core/testing';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {DebugElement} from '@angular/core';
-import {MaterialModule} from '@angular/material';
 import {MdDialog} from '@angular/material';
 import {FormsModule} from '@angular/forms';
 import {RouterTestingModule} from '@angular/router/testing';
@@ -86,6 +85,18 @@ describe('JobsComponent', () => {
   let fixture: ComponentFixture<JobsComponent>;
 
   beforeEach(async(() => {
+    global['analyticsMock'] = {};
+    global['analytics'] = {
+      load: (key: string) => {
+        return true;
+      },
+      page: () => {
+        return true;
+      },
+      track: (eventName: string, eventData: Object) => {
+        return 'success';
+      }
+    };
     TestBed.configureTestingModule({
       declarations: [
         JobsComponent,
@@ -101,7 +112,6 @@ describe('JobsComponent', () => {
         ErrorService
       ],
       imports: [
-        MaterialModule.forRoot(),
         RouterTestingModule,
         CoreModule,
         MomentModule,
@@ -128,6 +138,7 @@ describe('JobsComponent', () => {
 
   it('should show no jobs message.', fakeAsync(inject([], () => {
     component._appId = 'app-with-out-jobs';
+    component.appId = 'app-with-out-jobs';
     component.getJobs();
     tick();
     fixture.detectChanges();
@@ -137,6 +148,7 @@ describe('JobsComponent', () => {
 
   it('should show no jobs component.', fakeAsync(inject([], () => {
     component._appId = 'app-with-out-jobs';
+    component.appId = 'app-with-out-jobs';
     component.getJobs();
     tick();
     fixture.detectChanges();

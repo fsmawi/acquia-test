@@ -9,6 +9,11 @@ import {
 import {AuthService} from './auth.service';
 import {environment} from '../../../environments/environment';
 
+// Global Scope, Window
+// or mocked by scope vars in tests
+declare const window;
+declare const document;
+
 @Injectable()
 export class AuthGuard implements CanActivate, CanActivateChild {
 
@@ -31,7 +36,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     if (route.queryParams['HTTP_X_ACQUIA_PIPELINES_N3_APIFILE'] !== undefined) {
       environment.headers['X-ACQUIA-PIPELINES-N3-APIFILE'] = route.queryParams['HTTP_X_ACQUIA_PIPELINES_N3_APIFILE'];
     }
-    return this.checkLogin();
+    return this.checkLogin(state);
   }
 
   /**
@@ -48,15 +53,24 @@ export class AuthGuard implements CanActivate, CanActivateChild {
    * Checks auth at the API, and redirects if needed
    * @returns {Promise<boolean>}
    */
-  checkLogin(): Promise<boolean> {
+  checkLogin(state: RouterStateSnapshot): Promise<boolean> {
     return this.authService.isLoggedIn()
       .then(isLoggedIn => {
         if (isLoggedIn) {
           return Promise.resolve(true);
-        } else if (environment.authRedirect) {
-          window.top.location.href = environment.authRedirect;
         } else {
-          this.router.navigateByUrl(environment.authRedirect || '/auth/tokens');
+          if (environment.production && environment.name === 'prod') {
+            if (!environment.standalone) {
+              // get cloud path from referrer
+              const l = document.createElement('a');
+              l.href = document.referrer;
+              window.top.location.href = `${environment.authAccountRedirect}/?site=cloud&path=${l.pathname}`;
+            } else {
+              window.location.href = `${environment.authAccountRedirect}/?site=pipelines&path=${state.url}`;
+            }
+          } else {
+            this.router.navigateByUrl(`/auth/tokens?redirectUrl=${state.url}`);
+          }
         }
         return Promise.resolve(false);
       });

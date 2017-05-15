@@ -14,6 +14,8 @@ import {WebSocketService} from '../../core/services/web-socket.service';
 import {WebSocketHandler} from '../../core/models/web-socket-handler';
 import {features} from '../../core/features';
 import {animations} from '../../core/animations';
+import {BaseApplication} from '../../core/classes/base-application';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-jobs-detail',
@@ -21,7 +23,7 @@ import {animations} from '../../core/animations';
   styleUrls: ['./jobs-detail.component.scss'],
   animations: animations
 })
-export class JobsDetailComponent implements OnInit, OnDestroy {
+export class JobsDetailComponent extends BaseApplication implements OnInit, OnDestroy {
 
   /**
    * The current job
@@ -66,7 +68,7 @@ export class JobsDetailComponent implements OnInit, OnDestroy {
   loadingLogs = false;
 
   /**
-   * Indicates if the job needed a refresh before it was in a terminal state
+   * Indicates if the job needed a refreshJob before it was in a terminal state
    * @type {boolean}
    */
   firstLoad = true;
@@ -80,6 +82,11 @@ export class JobsDetailComponent implements OnInit, OnDestroy {
    * Holds the event stream
    */
   socket: WebSocketHandler;
+
+  /**
+   * Holds repo full name of the repo
+   */
+  repoFullName: string;
 
   /**
    * Hold the reference for the logs div
@@ -98,44 +105,56 @@ export class JobsDetailComponent implements OnInit, OnDestroy {
    * @param webSocketService
    */
   constructor(
-    private pipelineService: PipelinesService,
+    protected pipelineService: PipelinesService,
     private route: ActivatedRoute,
     private ansiService: AnsiService,
-    private errorHandler: ErrorService,
+    protected errorHandler: ErrorService,
     private segment: SegmentService,
     private flash: FlashMessageService,
     private webSocketService: WebSocketService) {
+    super(errorHandler, pipelineService);
   }
 
   /**
-   * On component initialize, start the refresh interval
+   * On component initialize, start the refreshJob interval
    */
   ngOnInit() {
     this.route.params.subscribe(
       (params: Params) => {
+        this._appId = params['app'];
         this.appId = params['app'];
         this.jobId = params['id'];
 
-        // clear refresh if needed
+        // store appId in session storage
+        if (!environment.standalone) {
+          sessionStorage.setItem('pipelines.standalone.application.id', this.appId);
+        }
+
+        // clear refreshJob if needed
         if (this.timer && this.sub) {
           this.sub.unsubscribe();
         }
 
-        // set up refresh interval
+        // set up refreshJob interval
         this.timer = Observable.timer(1, 5000);
-        this.sub = this.timer.subscribe(() => this.refresh.call(this));
+        this.sub = this.timer.subscribe(() => this.refreshJob.call(this));
 
-        // initial refresh
-        this.refresh();
+        // initial refreshJob
+        this.refreshJob();
       }
     );
+
+    // Get Repo Full Name
+    this.getInfo().then(info => {
+      this.repoFullName = info.repo_name;
+    }).catch(e => this.errorHandler.apiError(e));
 
     // Track page view
     this.segment.page('JobDetailView');
   }
 
   /**
-   * When navigating or destroying the component, stop the refresh interval
+   * When navigating or destroying the component, stop the refreshJob interval
    */
   ngOnDestroy() {
     if (this.timer) {
@@ -147,9 +166,9 @@ export class JobsDetailComponent implements OnInit, OnDestroy {
   /**
    * Load the job and available logs by polling or switch to streaming if available
    */
-  refresh() {
+  refreshJob() {
     if (this.loadingJob) {
-      return; // Already refreshing
+      return; // Already refreshJobing
     }
     this.loadingJob = true;
     this.pipelineService.getJobByJobId(this.appId, this.jobId)
@@ -181,7 +200,7 @@ export class JobsDetailComponent implements OnInit, OnDestroy {
           return this.streamLogs();
         } else if (!this.timer) {
           // If there is a timer, do nothing, if not, try again in 5
-          setTimeout(() => this.refresh(), 5000);
+          setTimeout(() => this.refreshJob(), 5000);
         }
       })
       .then(() => {
@@ -288,10 +307,10 @@ export class JobsDetailComponent implements OnInit, OnDestroy {
           }));
           break;
 
-        // When the socket closes and is done, refresh the job info
+        // When the socket closes and is done, refreshJob the job info
         case 'close':
           this.streaming = null;
-          this.refresh();
+          this.refreshJob();
           break;
 
         // If an error occurs, report, and revert to long polling

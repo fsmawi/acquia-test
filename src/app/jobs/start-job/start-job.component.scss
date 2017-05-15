@@ -16,12 +16,6 @@
     margin-bottom: 0;
   }
 
-  #dot-loader {
-   position: relative;
-   left: px-to-relative(30px);
-   top: px-to-relative(18px);
-  }
- 
   #btn-start button {
     margin-bottom: 0.0;  //fixes shrinking context help view while start button disappears
   }
@@ -78,4 +72,64 @@
       }
     }
   }
+
+  .start-job-help {
+    color: $color-neutral-9;
+    font-style: italic;
+    text-align: center;
+
+    @media (max-width: px-to-relative(600px))  {
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  .left-link {
+    float: left;
+    button {
+      padding-left: 0;
+      margin-left: 0;
+    }
+  }
+
+  .right-link {
+    float: right;
+  }
+
+  .el-card__footer e-progress {
+    position: relative;
+    display: block;
+    width: px-to-relative(68px);
+    height: px-to-relative(34px);
+  }
+
+  e-card-footer {
+    .footer-link {
+      button {
+        text-align: left;
+      }
+
+      @media (max-width: 360px) {
+        width: px-to-relative(90px);
+        margin-top: -0.5rem;
+      }
+
+      @media (min-width: 360px) and (max-width: 420px) {
+        width: px-to-relative(120px);
+        margin-top: -0.5rem;
+      }
+
+      @media (min-width: 420px) and (max-width: 520px) {
+        width: px-to-relative(180px);
+        margin-top: -0.5rem;
+      }
+
+      @media (min-width: 520px) and (max-width: 600px) {
+        width: px-to-relative(250px);
+        margin-top: -0.5rem;
+      }
+
+    }
+  }
+
 }

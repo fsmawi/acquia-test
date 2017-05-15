@@ -1,4 +1,4 @@
-@JobList
+@NoJobs
 Feature: Pipelines Jobs List
   As an Acquia Pipelines user
   If there are no jobs then I could able to start a new job
@@ -14,20 +14,23 @@ Feature: Pipelines Jobs List
     And I wait 10 seconds for logging in
     And I should see a |*get-started-header| with |*get-started-message|
 
-  @JobList_StartJobWhenNoJobs
+  @NoJobs_StartJobWhenNoJobs
   Scenario: Able to start a job when no jobs exist
     When I click on the |*start-a-job| button
-    And I should see a |*how-to-start-job-dialog| with |*header-message|
-    And I enter |*branch-name| in the |*branch-input| field
-    And I click on the |*branch-suggestion| list item
+    And I should see a |*how-to-start-job-dialog| with |*header-start-job-message|
+    And I should see non empty |*branch-list| list
+    And I enter |master| in the |*branch-filter-text| field
+    Then I should see in the |*branch-list| list only items that contain "master" keyword
+    And I click on the |*master-radio| button
     And I click on the |*start| button
     Then I should see a |*flash-message| contains |*success-message|
 
-  @JobList_ValidateStartJobContent
+  @NoJobs_ValidateStartJobContent
   Scenario: validate the content inside Start a Job dialog window
     When I click on the |*start-a-job| button
-    And I should see a |*how-to-start-job-dialog| with |*header-message|
-    Then I should see a |*type-branch-name-label| contains |*type-branch-name-label-text|
+    And I should see a |*how-to-start-job-dialog| with |*header-start-job-message|
+    And I click on the |*learn-how-to-start-job| button
+    And I should see a |*how-to-start-job-dialog| with |*header-how-to-start-job-message|
     And I should see a |*actions-to-start-a-job-header| contains |*actions-to-start-a-job-header-text|
     And I should see a |*list-of-actions-to-start-a-job| contains |*add-file-to-repository|
     And I should see a |*list-of-actions-to-start-a-job| contains |*create-branch|
@@ -38,7 +41,7 @@ Feature: Pipelines Jobs List
     And I click on the |*learn-more-about-using-git| link
     And I should see |*acquia-docs-using-git| window opened
 
-  @JobList_ValidateNoJobsContentAndLinks
+  @NoJobs_ValidateNoJobsContentAndLinks
   Scenario: validate the content links inside no-jobs page
     Then I should see a |*no-jobs-card| contains |*acquia-pipelines-description|
     And I should see a |*run-pipelines-header| with |*run-pipelines-header-text|

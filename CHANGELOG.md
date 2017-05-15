@@ -2,6 +2,143 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.42"></a>
+## [0.2.42](https://github.com/acquia/pipelines-ui/compare/v0.2.41...v0.2.42) (2017-05-12)
+
+
+### Bug Fixes
+
+* **start-job.component.scss:** MS-2966 Mobile sizing issues (#237) ([79d46b8](https://github.com/acquia/pipelines-ui/commit/79d46b8))
+* **UX:** disabled e-button should remove also (#241) ([e2aeb47](https://github.com/acquia/pipelines-ui/commit/e2aeb47))
+
+
+
+<a name="0.2.41"></a>
+## [0.2.41](https://github.com/acquia/pipelines-ui/compare/v0.2.40...v0.2.41) (2017-05-09)
+
+
+### Bug Fixes
+
+* **confirmation-modal.component.scss:** MS-2990 Modal Bg overlay fixed (#233) ([5da437b](https://github.com/acquia/pipelines-ui/commit/5da437b)), closes [#233](https://github.com/acquia/pipelines-ui/issues/233)
+
+
+
+<a name="0.2.40"></a>
+## [0.2.40](https://github.com/acquia/pipelines-ui/compare/v0.2.39...v0.2.40) (2017-05-09)
+
+
+### Features
+
+* **UX:** redirect when not authenticated (#225) ([c558b2b](https://github.com/acquia/pipelines-ui/commit/c558b2b))
+
+
+
+<a name="0.2.39"></a>
+## [0.2.39](https://github.com/acquia/pipelines-ui/compare/v0.2.38...v0.2.39) (2017-05-09)
+
+
+### Bug Fixes
+
+* **routing:** Extended fix for reroute from auth/tokens ([dfba363](https://github.com/acquia/pipelines-ui/commit/dfba363))
+
+
+### Features
+
+* **applications-list.component.ts:** MS-2820 Applications list (#211) ([22892d7](https://github.com/acquia/pipelines-ui/commit/22892d7))
+* **tooltip.directive.ts:** MS-2965 Tooltip (#232) ([0c30a53](https://github.com/acquia/pipelines-ui/commit/0c30a53))
+
+
+### Performance Improvements
+
+* **UX:** import only necessary Material modules (#230) ([825ab54](https://github.com/acquia/pipelines-ui/commit/825ab54))
+
+
+
+<a name="0.2.38"></a>
+## [0.2.38](https://github.com/acquia/pipelines-ui/compare/v0.2.37...v0.2.38) (2017-05-04)
+
+
+### Features
+
+* **pipelines-not-enabled.component.ts:** MS-2973 Pipelines not enabled (#219) ([7bebb2b](https://github.com/acquia/pipelines-ui/commit/7bebb2b))
+
+
+
+<a name="0.2.37"></a>
+## [0.2.37](https://github.com/acquia/pipelines-ui/compare/v0.2.36...v0.2.37) (2017-05-04)
+
+
+### Bug Fixes
+
+* **e2e:** Fixed mock resource ([79856da](https://github.com/acquia/pipelines-ui/commit/79856da))
+* **e2e:** Fixed mock resource ([e8a97d8](https://github.com/acquia/pipelines-ui/commit/e8a97d8))
+
+
+### Features
+
+* **start-job.component:** display list of branches for selection (#207) ([d6c3b68](https://github.com/acquia/pipelines-ui/commit/d6c3b68))
+
+
+
+<a name="0.2.36"></a>
+## [0.2.36](https://github.com/acquia/pipelines-ui/compare/v0.2.35...v0.2.36) (2017-05-04)
+
+
+### Bug Fixes
+
+* **job-detail.component:** Fixed override ([2cdc101](https://github.com/acquia/pipelines-ui/commit/2cdc101))
+* **jobs.component.ts:** MS-2768 Redirect user to /jobs (#221) ([8f90746](https://github.com/acquia/pipelines-ui/commit/8f90746))
+
+
+
+<a name="0.2.35"></a>
+## [0.2.35](https://github.com/acquia/pipelines-ui/compare/v0.2.34...v0.2.35) (2017-05-04)
+
+
+### Features
+
+* **action-header.component.ts:** MS-2967 Updated Root Breadcrumb (#222) ([5ab27e5](https://github.com/acquia/pipelines-ui/commit/5ab27e5))
+
+
+
+<a name="0.2.34"></a>
+## [0.2.34](https://github.com/acquia/pipelines-ui/compare/v0.2.33...v0.2.34) (2017-05-04)
+
+
+### Bug Fixes
+
+* **E2E:** fix e2e gitflow test (#227) ([122ec29](https://github.com/acquia/pipelines-ui/commit/122ec29)), closes [#227](https://github.com/acquia/pipelines-ui/issues/227)
+* **E2E:** fix e2e test github flow (#226) ([878f274](https://github.com/acquia/pipelines-ui/commit/878f274)), closes [#226](https://github.com/acquia/pipelines-ui/issues/226)
+* **UX:** fix bug outdated application info route (#224) ([146e4bf](https://github.com/acquia/pipelines-ui/commit/146e4bf)), closes [#224](https://github.com/acquia/pipelines-ui/issues/224)
+
+
+
+<a name="0.2.33"></a>
+## [0.2.33](https://github.com/acquia/pipelines-ui/compare/v0.2.32...v0.2.33) (2017-05-03)
+
+
+
+<a name="0.2.32"></a>
+## [0.2.32](https://github.com/acquia/pipelines-ui/compare/v0.2.31...v0.2.32) (2017-05-03)
+
+
+### Features
+
+* **encrypt-credentials.component.ts:** MS-2919 Encrypt Credentials (#216) ([b91a8fd](https://github.com/acquia/pipelines-ui/commit/b91a8fd))
+
+
+
+<a name="0.2.31"></a>
+## [0.2.31](https://github.com/acquia/pipelines-ui/compare/v0.2.30...v0.2.31) (2017-05-02)
+
+
+### Features
+
+* **CI:** Send deployment information to bugsnag (#217) ([704a624](https://github.com/acquia/pipelines-ui/commit/704a624))
+* **UX:** Auto redirect if no bakery cookie (#218) ([f8a6c21](https://github.com/acquia/pipelines-ui/commit/f8a6c21))
+
+
+
 <a name="0.2.30"></a>
 ## [0.2.30](https://github.com/acquia/pipelines-ui/compare/v0.2.29...v0.2.30) (2017-04-27)
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {environment} from '../../environments/environment';
 
@@ -25,7 +25,8 @@ export class MockApiComponent implements OnInit {
    * Build the component
    * @param router
    */
-  constructor(private router: Router) { }
+  constructor(private router: Router) {
+  }
 
   /**
    * Runs on Init
@@ -40,6 +41,6 @@ export class MockApiComponent implements OnInit {
 
     environment.headers[this.headerId] = this.headerValue;
 
-    this.router.navigateByUrl(`/`);
+    this.router.navigateByUrl(`/auth/tokens`);
   }
 }

@@ -1,7 +1,8 @@
 import {CommonModule} from '@angular/common';
-import {MaterialModule} from '@angular/material';
+import {MdProgressSpinnerModule, MdDialogModule, MdTooltipModule} from '@angular/material';
 import {NgModule} from '@angular/core';
 import {FlexLayoutModule} from '@angular/flex-layout';
+import {FormsModule} from '@angular/forms';
 
 import {ElementalModule} from '../elemental/elemental.module';
 import {IframeLinkDirective} from './directives/iframe-link.directive';
@@ -14,13 +15,19 @@ import {LiftDirective} from './directives/lift.directive';
 import {ActionHeaderComponent} from './action-header/action-header.component';
 import {TopLevelNavigationComponent} from './top-level-navigation/top-level-navigation.component';
 import {ContextLinkDirective} from './directives/context-link.directive';
+import {EncryptCredentialsComponent} from './encrypt-credentials/encrypt-credentials.component';
+import {DragAndDropDirective} from './directives/drag-and-drop.directive';
+import {TooltipDirective} from './directives/tooltip.directive';
 
 @NgModule({
   imports: [
     CommonModule,
-    MaterialModule.forRoot(),
+    MdProgressSpinnerModule,
+    MdTooltipModule,
+    MdDialogModule,
     ElementalModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    FormsModule
   ],
   declarations: [
     JobStatusComponent,
@@ -32,7 +39,10 @@ import {ContextLinkDirective} from './directives/context-link.directive';
     LiftDirective,
     ActionHeaderComponent,
     TopLevelNavigationComponent,
-    ContextLinkDirective
+    ContextLinkDirective,
+    EncryptCredentialsComponent,
+    DragAndDropDirective,
+    TooltipDirective
   ],
   exports: [
     JobStatusComponent,
@@ -44,8 +54,15 @@ import {ContextLinkDirective} from './directives/context-link.directive';
     ContextLinkDirective,
     LiftDirective,
     ActionHeaderComponent,
-    TopLevelNavigationComponent
-  ]
+    TopLevelNavigationComponent,
+    EncryptCredentialsComponent,
+    DragAndDropDirective,
+    TooltipDirective,
+    MdProgressSpinnerModule,
+    MdTooltipModule,
+    MdDialogModule
+  ],
+  entryComponents: [EncryptCredentialsComponent]
 })
 export class SharedModule {
 }

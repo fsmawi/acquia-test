@@ -1,5 +1,6 @@
 <app-action-header [appId]="appId"
                    [showViewInfo]="true"
+                   [repoName]="repoFullName"
                    pageType="github"
                    title="Configure Pipelines with GitHub">
 </app-action-header>
@@ -37,6 +38,7 @@
   <e-alert type={{attachRepoAlert.type}} *ngIf="attachRepoAlert.display">{{attachRepoAlert.message}}</e-alert>
 </div>
 <e-progress *ngIf="loading"
+            class="page-loading"
             progressType="indeterminate"
             progressVariant="dots">
 </e-progress>

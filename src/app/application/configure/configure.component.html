@@ -1,5 +1,6 @@
 <app-action-header [appId]="appId"
                    [showViewInfo]="true"
+                   [repoName]="repoFullName"
                    pageType="config"
                    title="Configure Pipelines">
 </app-action-header>
@@ -64,6 +65,7 @@
 </div>
 
 <e-progress *ngIf="appLoading"
+            class="page-loading"
             progressType="indeterminate"
             progressVariant="dots">
 </e-progress>

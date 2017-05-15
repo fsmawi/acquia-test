@@ -1,5 +1,6 @@
 <app-action-header [appId]="appId"
                    [showViewInfo]="true"
+                   [repoName]="repository"
                    pageType="acquia-git"
                    title="Configure Pipelines with Acquia Git">
 </app-action-header>
@@ -33,6 +34,7 @@
 </div>
 
 <e-progress *ngIf="appLoading || connectionLoading"
+            class="page-loading"
             progressType="indeterminate"
             progressVariant="dots">
 </e-progress>

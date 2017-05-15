@@ -105,33 +105,22 @@ describe('StartJobComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should filter the available branches by the branch name typed', () => {
-    expect(component).toBeTruthy();
-
-    component.branch = 'branch';
-    component.filter();
-    expect(component.branchSuggestions.length).toEqual(3);
-
-    component.branch = '1';
-    component.filter();
-    expect(component.branchSuggestions.length).toEqual(1);
-    expect(component.branchSuggestions[0]).toEqual('branch1');
-
-    component.branch = '';
-    component.filter();
-    expect(component.branchSuggestions.length).toEqual(0);
+  it('should hold the branch selected to start', () => {
+    component.setBranch('branch1');
+    expect(component.branch).toEqual('branch1');
   });
 
-  it('should hold the branch selected to start and clear the branch suggestions', () => {
-    expect(component).toBeTruthy();
+  it('should hide the help modal', () => {
+    component.hideHelp();
+    expect(component.startJobHelp).toEqual(false);
+  });
 
-    component.select('branch1');
-    expect(component.branch).toEqual('branch1');
-    expect(component.branchSuggestions.length).toEqual(0);
+  it('should show the help modal', () => {
+    component.showHelp();
+    expect(component.startJobHelp).toEqual(true);
   });
 
   it('should start the job and show success message', fakeAsync(inject([FlashMessageService], (flashMessage) => {
-    expect(component).toBeTruthy();
 
     component.branch = 'branch1';
     component.appId = 'appId';
@@ -142,6 +131,4 @@ describe('StartJobComponent', () => {
     tick(1000);
     expect(flashMessage.showSuccess).toHaveBeenCalledWith('Your job has started.');
   })));
-
-
 });

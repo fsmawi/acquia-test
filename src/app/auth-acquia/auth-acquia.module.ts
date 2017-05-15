@@ -1,6 +1,5 @@
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
-import {MaterialModule} from '@angular/material';
 import {NgModule} from '@angular/core';
 
 import {AuthAcquiaComponent} from './auth-acquia.component';
@@ -13,7 +12,6 @@ import {SharedModule} from '../shared/shared.module';
   imports: [
     CommonModule,
     AuthAcquiaRoutingModule,
-    MaterialModule.forRoot(),
     FormsModule,
     ElementalModule,
     JobsModule,

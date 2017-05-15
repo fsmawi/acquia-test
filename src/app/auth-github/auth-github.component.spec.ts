@@ -3,7 +3,6 @@ import {async, ComponentFixture, TestBed, fakeAsync, tick, inject} from '@angula
 import {By} from '@angular/platform-browser';
 import {DebugElement} from '@angular/core';
 import {HttpModule, BaseRequestOptions, Http, ResponseOptions, Response} from '@angular/http';
-import {MaterialModule} from '@angular/material';
 import {MockBackend} from '@angular/http/testing';
 import {Router} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
@@ -19,6 +18,8 @@ import {LiftService} from '../core/services/lift.service';
 import {FlashMessageService} from '../core/services/flash-message.service';
 import {ConfirmationModalService} from '../core/services/confirmation-modal.service';
 import {HelpCenterService} from '../core/services/help-center.service';
+import {ApplicationModule} from '../application/application.module';
+import {TooltipService} from '../core/services/tooltip.service';
 
 class MockHelpCenterService {
   show() {
@@ -52,6 +53,12 @@ class MockLiftService {
   }
 }
 
+class MockPipelinesService {
+  attachGithubRepository(repo_name: string, appId: string) {
+    return Promise.reject({status: 403, _body: 'some error.'});
+  }
+}
+
 function setupConnections(mockBackend: MockBackend, options: any) {
   mockBackend.connections.subscribe((connection) => {
     connection.mockRespond(new Response(new ResponseOptions(options)));
@@ -79,11 +86,12 @@ describe('AuthGithubComponent', () => {
     TestBed.configureTestingModule({
       declarations: [AuthGithubComponent],
       providers: [
-        PipelinesService,
+        {provide: PipelinesService, useClass: MockPipelinesService},
         ErrorService,
         MockBackend,
         BaseRequestOptions,
         SegmentService,
+        TooltipService,
         {provide: FlashMessageService, useClass: MockFlashMessage},
         {provide: HelpCenterService, useClass: MockHelpCenterService},
         {provide: ConfirmationModalService, useClass: MockConfirmationModalService},
@@ -97,10 +105,10 @@ describe('AuthGithubComponent', () => {
         }
       ],
       imports: [
-        MaterialModule.forRoot(),
         RouterTestingModule,
         ElementalModule,
-        SharedModule
+        SharedModule,
+        ApplicationModule
       ]
     })
       .compileComponents();
@@ -118,11 +126,7 @@ describe('AuthGithubComponent', () => {
   });
 
   it('should show error when faild to attach repository',
-    fakeAsync(inject([MockBackend], (mockBackend) => {
-
-      setupConnections(mockBackend, {
-        body: JSON.stringify({})
-      });
+    fakeAsync(inject([], () => {
 
       spyOn(component, 'showAttachRepoAlert');
 

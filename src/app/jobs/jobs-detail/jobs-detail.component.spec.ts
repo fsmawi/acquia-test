@@ -2,7 +2,6 @@
 import {async, ComponentFixture, TestBed, inject, fakeAsync, tick, discardPeriodicTasks} from '@angular/core/testing';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {DebugElement} from '@angular/core';
-import {MaterialModule} from '@angular/material';
 import {RouterTestingModule} from '@angular/router/testing';
 
 import {MomentModule} from 'angular2-moment';
@@ -181,7 +180,6 @@ describe('JobsDetailComponent', () => {
         JobSummaryComponent
       ],
       imports: [
-        MaterialModule.forRoot(),
         MomentModule,
         RouterTestingModule,
         ElementalModule,

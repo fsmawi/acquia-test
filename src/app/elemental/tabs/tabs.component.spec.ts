@@ -1,5 +1,6 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {EventEmitter} from '@angular/core';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
 import {TabsComponent} from './tabs.component';
 import {TabComponent} from '../tab/tab.component';
@@ -13,7 +14,8 @@ describe('TabsComponent', () => {
       declarations: [
         TabsComponent,
         TabComponent
-      ]
+      ],
+      imports: [FlexLayoutModule]
     })
     .compileComponents();
   }));

@@ -27,6 +27,13 @@ export class ClipboardComponent implements OnInit {
   isCopied = false;
 
   /**
+   * Holds the element to be shown for input text e.g: input, pre
+   * @type {string}
+   */
+  @Input()
+  htmlElement = 'input';
+
+  /**
    * Builds the component
    * @param el
    */
@@ -41,7 +48,10 @@ export class ClipboardComponent implements OnInit {
     });
     this.clipboard.on('success', () => {
       this.isCopied = true;
-      this.el.nativeElement.querySelector('input[type="text"]').select();
+      if (this.htmlElement === 'input') {
+        const querySelector = 'input[type="text"]';
+        this.el.nativeElement.querySelector(querySelector).select();
+      }
       setTimeout(() => {
         this.isCopied = false;
       }, 2000);

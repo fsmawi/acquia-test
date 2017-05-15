@@ -25,6 +25,10 @@ DirectoryIndex index.php
   # Redirect to https version
   RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
+  # RewriteCond %{HTTP_HOST} ^pipelines\.acquia\.com [NC]
+  # RewriteCond %{HTTP_COOKIE} !CHOCOLATECHIPSSL
+  # RewriteRule ^(.*)$ https://accounts.acquia.com/?site=pipelines&path=%{REQUEST_URI} [R=301,L]
+
   # Catch mock api endpoint requests
   RewriteRule ^mock/api/(.*)$ server/api/mock.php?q=$1 [QSA,NC]
 

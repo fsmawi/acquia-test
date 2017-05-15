@@ -5,12 +5,16 @@ import {AuthGuard} from '../core/services/auth-guard.service';
 import {JobsComponent} from './jobs.component';
 import {JobsDetailComponent} from './jobs-detail/jobs-detail.component';
 
-const routes: Routes = [{
-  path: '', component: JobsComponent
-}
-, {
-  path: ':id', component: JobsDetailComponent
-}];
+const routes: Routes = [
+  {
+    path: '', component: JobsComponent
+  },
+  {
+    path: ':app', component: JobsComponent
+  },
+  {
+    path: ':app/:id', component: JobsDetailComponent
+  }];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

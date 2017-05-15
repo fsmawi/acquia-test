@@ -5,7 +5,6 @@ import {BaseRequestOptions, Http, ResponseOptions, Response} from '@angular/http
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {DebugElement} from '@angular/core';
 import {EventEmitter} from '@angular/core';
-import {MaterialModule} from '@angular/material';
 import {MdDialog} from '@angular/material';
 import {MockBackend} from '@angular/http/testing';
 import {RouterTestingModule} from '@angular/router/testing';
@@ -22,6 +21,7 @@ import {LiftService} from '../core/services/lift.service';
 import {FlashMessageService} from '../core/services/flash-message.service';
 import {ConfirmationModalService} from '../core/services/confirmation-modal.service';
 import {HelpCenterService} from '../core/services/help-center.service';
+import {TooltipService} from '../core/services/tooltip.service';
 
 class MockHelpCenterService {
   show() {
@@ -92,6 +92,7 @@ describe('AuthAcquiaComponent', () => {
         ErrorService,
         SegmentService,
         PipelinesService,
+        TooltipService,
         {provide: LiftService, useClass: MockLiftService},
         {provide: ActivatedRoute, useClass: MockActivatedRoute},
         {provide: FlashMessageService, useClass: MockFlashMessage},
@@ -106,7 +107,6 @@ describe('AuthAcquiaComponent', () => {
         }
       ],
       imports: [
-        MaterialModule.forRoot(),
         RouterTestingModule,
         ElementalModule,
         SharedModule,

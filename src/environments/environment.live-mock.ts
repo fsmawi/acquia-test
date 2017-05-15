@@ -6,6 +6,7 @@
 export const environment = {
   name: 'live-mock',
   production: true,
+  standalone: window.self === window.top,
   apiEndpoint: '/mock/api',
   n3Key: '', // user supplied, or from cookies
   n3Secret: '', // user supplied, or from cookies
@@ -36,5 +37,6 @@ export const environment = {
   bugsnagAPIKey: '',
   amplitudeAPIKey: '',
   segmentWriteKey: '',
-  authRedirect: ''
+  authCloudRedirect: '',
+  authAccountRedirect: ''
 };
