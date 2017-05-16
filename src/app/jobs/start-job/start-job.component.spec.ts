@@ -53,7 +53,7 @@ class MockFlashMessage {
   exports: [StartJobComponent],
   entryComponents: [StartJobComponent],
   imports: [
-    MdDialogModule.forRoot(),
+    MdDialogModule,
     ElementalModule,
     CommonModule,
     SharedModule,
@@ -61,7 +61,8 @@ class MockFlashMessage {
     BrowserAnimationsModule
   ]
 })
-class DialogTestModule { }
+class DialogTestModule {
+}
 
 describe('StartJobComponent', () => {
   let component: StartJobComponent;
@@ -84,13 +85,13 @@ describe('StartJobComponent', () => {
       imports: [DialogTestModule, RouterTestingModule],
       providers: [
         SegmentService,
-        { provide: LiftService, useClass: MockLiftService },
-        { provide: PipelinesService, useClass: MockPipelinesService },
-        { provide: FlashMessageService, useClass: MockFlashMessage },
+        {provide: LiftService, useClass: MockLiftService},
+        {provide: PipelinesService, useClass: MockPipelinesService},
+        {provide: FlashMessageService, useClass: MockFlashMessage},
         ErrorService
       ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
