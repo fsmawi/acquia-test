@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.43"></a>
+## [0.2.43](https://github.com/acquia/pipelines-ui/compare/v0.2.42...v0.2.43) (2017-05-17)
+
+
+### Features
+
+* **UX:** remove basic auth (#244) ([b64a97c](https://github.com/acquia/pipelines-ui/commit/b64a97c))
+
+
+
 <a name="0.2.42"></a>
 ## [0.2.42](https://github.com/acquia/pipelines-ui/compare/v0.2.41...v0.2.42) (2017-05-12)
 
