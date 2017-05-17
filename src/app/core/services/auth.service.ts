@@ -41,7 +41,7 @@ export class AuthService {
     // Add cookie headers
     reqOptions.withCredentials = environment.production;
 
-    // execute
+    // execute getRequest
     return this.http.get(environment.apiEndpoint + '/api/v1/auth/bakery', reqOptions)
       .map(r => r.json())
       .toPromise()
