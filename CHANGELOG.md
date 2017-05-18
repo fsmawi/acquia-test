@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.45"></a>
+## [0.2.45](https://github.com/acquia/pipelines-ui/compare/v0.2.44...v0.2.45) (2017-05-18)
+
+
+
 <a name="0.2.44"></a>
 ## [0.2.44](https://github.com/acquia/pipelines-ui/compare/v0.2.43...v0.2.44) (2017-05-18)
 
