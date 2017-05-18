@@ -136,7 +136,7 @@ export class AuthAcquiaComponent extends BaseApplication implements OnInit {
   ngOnInit() {
     this.isConnected = false;
     this.route.params.subscribe((params) => {
-      this._appId = this.appId = params['app-id'];
+      BaseApplication._appId = this.appId = params['app-id'];
       this.getConfigurationInfo();
     });
   }

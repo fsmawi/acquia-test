@@ -120,7 +120,6 @@ export class JobsComponent extends BaseApplication implements OnInit, OnDestroy 
 
       this.isInitialized = false;
       this.jobs = [];
-      this._appId = params['app'];
 
       // store appId in session storage
       if (!environment.standalone) {
@@ -132,8 +131,14 @@ export class JobsComponent extends BaseApplication implements OnInit, OnDestroy 
       // run right away
       this.getJobs();
 
-      // Get GitHub Status and VCS Info
-      this.getInfo().then(info => {
+      // avoid doing extra api calls when we are in the same application context
+      let forceGetInfo = false;
+      if (BaseApplication._appId !== params['app']) {
+        forceGetInfo = true;
+        BaseApplication._appId = params['app'];
+      }
+
+      this.getInfo(forceGetInfo).then(info => {
         this.repoFullName = info.repo_name;
         this.vcsType = info.repo_type;
       }).catch(e => this.errorHandler.apiError(e));
