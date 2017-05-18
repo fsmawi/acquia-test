@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.44"></a>
+## [0.2.44](https://github.com/acquia/pipelines-ui/compare/v0.2.43...v0.2.44) (2017-05-18)
+
+
+### Features
+
+* **action-header.component:** Added rerun capability (#246) ([6485bce](https://github.com/acquia/pipelines-ui/commit/6485bce))
+
+
+
 <a name="0.2.43"></a>
 ## [0.2.43](https://github.com/acquia/pipelines-ui/compare/v0.2.42...v0.2.43) (2017-05-17)
 
