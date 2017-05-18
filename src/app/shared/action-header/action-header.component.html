@@ -77,6 +77,17 @@
       </e-svg-icon>
       <span class="el-iconography__label flex-item" fxHide.xs="TRUE">Start Job</span>
     </a>
+    <a id="rerun-job" class="flex-container action-icon"
+       *ngIf="showRerunJob"
+       (click)="rerunJob(job)"
+       fxLayoutAlign="center center"
+       fxLayout="column">
+      <e-svg-icon class="flex-item" type="actions__restore"
+                  appTooltip="{{ media.isActive('xs') ? 'Rerun Job' : ''}}"
+                  tooltipPosition="below">
+      </e-svg-icon>
+      <span class="el-iconography__label flex-item" fxHide.xs="TRUE">Rerun Job</span>
+    </a>
     <a id="open-environment" class="flex-container action-icon"
        *ngIf="showOpenEnvironment"
        href="{{job.metadata.deployment_link}}" target="_blank"

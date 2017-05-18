@@ -39,9 +39,9 @@ class MockTooltipService {
 }
 
 class MockOberservableMedia {
- isActive(screenSize: string) {
-      return true;
-   }
+  isActive(screenSize: string) {
+    return true;
+  }
 }
 
 class MockHelpCenterService {
@@ -233,7 +233,7 @@ describe('ActionHeaderComponent', () => {
     expect(component).toBeTruthy();
   })));
 
-  it('should open modal', inject([MdDialog], (dialog) => {
+  it('should open the start modal', inject([MdDialog], (dialog) => {
     spyOn(dialog, 'open');
     component.startJob();
     expect(dialog.open).toHaveBeenCalled();

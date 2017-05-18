@@ -125,6 +125,13 @@ export class JobsDetailComponent extends BaseApplication implements OnInit, OnDe
         this.appId = params['app'];
         this.jobId = params['id'];
 
+        // reset the page state
+        this.streaming = null;
+        this.loadingLogs = false;
+        this.loadingJob = false;
+        this.logs = null;
+        this.job = null;
+
         // store appId in session storage
         if (!environment.standalone) {
           sessionStorage.setItem('pipelines.standalone.application.id', this.appId);
