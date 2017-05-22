@@ -71,11 +71,22 @@
        (click)="startJob()"
        fxLayoutAlign="center center"
        fxLayout="column">
-      <e-svg-icon class="flex-item" type="alpha__new-app"
+      <e-svg-icon class="flex-item" type="actions__add--circle"
                   appTooltip="{{ media.isActive('xs') ? 'Start Job' : ''}}"
                   tooltipPosition="below">
       </e-svg-icon>
       <span class="el-iconography__label flex-item" fxHide.xs="TRUE">Start Job</span>
+    </a>
+    <a id="rerun-job" class="flex-container action-icon"
+       *ngIf="showRerunJob"
+       (click)="rerunJob(job)"
+       fxLayoutAlign="center center"
+       fxLayout="column">
+      <e-svg-icon class="flex-item" type="actions__restore"
+                  appTooltip="{{ media.isActive('xs') ? 'Rerun Job' : ''}}"
+                  tooltipPosition="below">
+      </e-svg-icon>
+      <span class="el-iconography__label flex-item" fxHide.xs="TRUE">Rerun Job</span>
     </a>
     <a id="open-environment" class="flex-container action-icon"
        *ngIf="showOpenEnvironment"
@@ -113,7 +124,8 @@
        fxLayout="column">
       <e-svg-icon class="flex-item" type="sections__help"
                   appTooltip="{{ media.isActive('xs') ? 'Pipelines Help' : ''}}"
-                  tooltipPosition="below">
+                  tooltipPosition="below"
+                  style="padding-top: 3px;"> <!-- Hack for bad icon size -->
       </e-svg-icon>
       <span class="el-iconography__label flex-item" fxHide.xs="TRUE">Pipelines Help</span>
     </a>

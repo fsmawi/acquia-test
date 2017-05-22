@@ -180,7 +180,7 @@ export class PipelinesService {
   getApplications() {
     return this.promiseGetRequest(this.URI + `/ci/applications/list`, {})
       .then(res => {
-        return res.map(r =>  new Application(r));
+        return res.map(r => new Application(r));
       });
   }
 
@@ -234,9 +234,12 @@ export class PipelinesService {
     // Default Options
     Object.assign(options, {
       applications: [appId],
-      branch: branch,
-      deploy_vcs_path: `pipelines-build-${branch}`
+      branch: options['branch'] || branch,
+      deploy_vcs_path: `pipelines-build-${options['branch'] || branch}`,
     });
+
+    // Update metadata as well for oauth repo types
+    Object.assign(options, options['metadata'] || {});
 
     return this.getPipelineByAppId(appId, false)
       .then(p => {

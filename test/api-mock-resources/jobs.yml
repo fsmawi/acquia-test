@@ -1161,7 +1161,7 @@ routes:
      POST:
       response:
         success: true
-        job_id: 3e09dbb5-c58e-49ee-b166-0a94c07ac85b
+        job_id: 8f0c38d5-68b5-4192-8439-35eb27577ddc
   /api/v1/ci/pipelines:
     GET:
       response:

@@ -222,7 +222,7 @@ export class AuthGithubComponent extends BaseApplication implements OnInit {
     this.n3ApiFile = environment.headers['X-ACQUIA-PIPELINES-N3-APIFILE'];
     this.route.params.subscribe((params) => {
       this.appId = params['app-id'];
-      this._appId = params['app-id'];
+      BaseApplication._appId = params['app-id'];
       this.finishUrl = environment.authCloudRedirect + '/app/develop/applications/' + this.appId + '/pipelines/github';
 
       // store appId in session storage

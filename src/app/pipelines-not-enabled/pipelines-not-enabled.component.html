@@ -4,21 +4,20 @@
   </app-action-header>
 
   <e-card class="center">
-
-    <div class="flex-container image-container" fxLayoutAlign="center center">
+   <div class="flex-container image-container" fxLayoutAlign="center center">
       <img id="pipelines-logo" class="flex-item" src="../../assets/pipelines-logos/pipelines_200x200.png">
     </div>
 
     <h2> This application doesn't have pipelines enabled. </h2>
     <span> Please create a support ticket to have Pipelines enabled titled 'Pipelines Beta Access' with the specific application and subscription listed.
-  </span>
+    </span>
     <div>
       <a href="https://insight.acquia.com/support/tickets/new"
          class="el-button"
          target="_blank"
          appTrackOn="click"
          [trackEventData]="{appId: appId}"
-         trackEventName="ClickZendeskNotEnabledLink">Go to Zendesk</a>
+         trackEventName="ClickZendeskNotEnabledLink">File a support ticket</a>
     </div>
 
   </e-card>

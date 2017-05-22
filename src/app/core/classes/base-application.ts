@@ -14,7 +14,7 @@ export class BaseApplication {
    * Application ID
    * @type {string}
    */
-  _appId: string;
+  static _appId: string;
 
   /**
    * Build the base component
@@ -43,7 +43,7 @@ export class BaseApplication {
    * Refresh application information
    */
   refresh() {
-    return this.pipelines.getApplicationInfo(this._appId)
+    return this.pipelines.getApplicationInfo(BaseApplication._appId)
       .then((data) => {
         BaseApplication.info = data;
         return Promise.resolve(BaseApplication.info);
