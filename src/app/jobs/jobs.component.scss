@@ -112,7 +112,7 @@ e-card /deep/ section {
 }
 
 .show-more {
-  border: 1px solid #dddddd;
+  border: px-to-relative(1px) solid $color-neutral-2;
   padding: $rhythm-unit;
 
   a {
