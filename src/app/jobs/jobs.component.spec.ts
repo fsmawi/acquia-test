@@ -273,4 +273,12 @@ describe('JobsComponent', () => {
     expect(component.getStatusFromFilterText('random text')).toEqual('');
   });
 
+  it('should show more jobs.', fakeAsync(inject([], () => {
+    BaseApplication._appId = 'app-with-jobs';
+    component.appId = 'app-with-jobs';
+    component.showMoreJobs();
+    tick();
+    expect(component.page).toBeTruthy(2);
+  })));
+
 });

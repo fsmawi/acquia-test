@@ -111,6 +111,21 @@ e-card /deep/ section {
 
 }
 
+.show-more {
+  border: 1px solid #dddddd;
+  padding: $rhythm-unit;
+
+  a {
+    cursor: pointer;
+  }
+
+  /deep/ e-progress {
+    .el-progress__loader__dot--is-medium {
+      position: relative;
+    }
+  }
+}
+
 #filter-info {
   display: inline-block;
 

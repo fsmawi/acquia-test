@@ -88,6 +88,25 @@ export class JobsComponent extends BaseApplication implements OnInit, OnDestroy 
   pipelinesEnabled = true;
 
   /**
+   * Flag to check if the Show More button can be shown
+   * @type {boolean}
+   */
+  showMoreJobsLink = false;
+
+  /**
+   * Flag to check if the Show More button can be shown
+   * @type {boolean}
+   */
+  showMoreJobsLoading = false;
+
+  /**
+   * Number of pages
+   * @type {number}
+   */
+  page = 1;
+
+
+  /**
    * Build the component and inject services if needed
    * @param pipelines
    * @param errorHandler
@@ -265,11 +284,14 @@ export class JobsComponent extends BaseApplication implements OnInit, OnDestroy 
   }
 
   /**
-   * Load the job list
+   * Loads the job list
+   * @param page
    */
-  getJobs() {
+  getJobs(page = 1) {
     this.loadingJobs = true;
     const appId = this.appId;
+    const jobsCount = 25;
+    const params = { page: page };
     // Get Jobs to be listed
     this.pipelines.getJobsByAppId(appId)
       .then(jobs => {
@@ -282,6 +304,14 @@ export class JobsComponent extends BaseApplication implements OnInit, OnDestroy 
         // contains job data
         if (!this.isInitialized) {
           this.isInitialized = true;
+        }
+
+        this.showMoreJobsLink = true;
+
+        if (jobs.length >= jobsCount && page === this.page) {
+          this.showMoreJobsLink = true;
+        } else {
+          this.showMoreJobsLink = false;
         }
 
         this.pipelinesEnabled = true;
@@ -297,8 +327,13 @@ export class JobsComponent extends BaseApplication implements OnInit, OnDestroy 
             if (oldJob) {
               Object.assign(oldJob, newJob);
             } else {
-              // Append/insert the new record at the top of the list.
-              this.jobs.unshift(newJob);
+              if (page === 1) {
+                // Append/insert the new record at the top of the list.
+                this.jobs.unshift(newJob);
+              } else {
+                // if clicked on show more, append the jobs
+                this.jobs.push(newJob);
+              }
             }
           });
         }
@@ -319,9 +354,19 @@ export class JobsComponent extends BaseApplication implements OnInit, OnDestroy 
         }
       })
       .then(() => {
+          this.showMoreJobsLoading = false;
           this.loadingJobs = false;
           this.filter();
         }
       );
+  }
+
+  /**
+   * Load more jobs; get the next page of jobs
+   */
+  showMoreJobs() {
+    this.showMoreJobsLoading = true;
+    this.page++;
+    this.getJobs(this.page);
   }
 }

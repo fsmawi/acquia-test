@@ -60,6 +60,14 @@
       <e-tabs *ngIf="jobs.length">
         <e-tab tabTitle="Activity">
           <app-job-list [appId]="appId" [jobs]="filteredJobs" *ngIf="jobs.length"></app-job-list>
+          <div class="center show-more" *ngIf="showMoreJobsLink" (click)="showMoreJobs()">
+            <a *ngIf="!showMoreJobsLoading">
+              Show more
+            </a>
+            <e-progress *ngIf="showMoreJobsLoading" progressType="indeterminate" progressSize="medium"
+                        progressVariant="dots">
+            </e-progress>
+          </div>
         </e-tab>
       </e-tabs>
     </e-card-content>
