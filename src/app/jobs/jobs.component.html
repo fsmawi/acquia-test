@@ -61,7 +61,11 @@
         <e-tab tabTitle="Activity">
           <app-job-list [appId]="appId" [jobs]="filteredJobs" *ngIf="jobs.length"></app-job-list>
           <div class="center show-more" *ngIf="showMoreJobsLink" (click)="showMoreJobs()">
-            <a *ngIf="!showMoreJobsLoading">
+            <a id="show-more-jobs"
+               appTrackOn="click"
+               [trackEventData]="{appId: appId}"
+               trackEventName="ClickShowMoreJobsLink"
+               *ngIf="!showMoreJobsLoading">
               Show more
             </a>
             <e-progress *ngIf="showMoreJobsLoading" progressType="indeterminate" progressSize="medium"

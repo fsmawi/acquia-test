@@ -306,8 +306,7 @@ export class JobsComponent extends BaseApplication implements OnInit, OnDestroy 
           this.isInitialized = true;
         }
 
-        this.showMoreJobsLink = true;
-
+        // Display 'Show more' link if the returned jobs length is greater than or equal to jobsCount
         if (jobs.length >= jobsCount && page === this.page) {
           this.showMoreJobsLink = true;
         } else {
