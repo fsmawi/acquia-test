@@ -88,13 +88,15 @@ export class JobsComponent extends BaseApplication implements OnInit, OnDestroy 
   pipelinesEnabled = true;
 
   /**
-   * Flag to check if the Show More button can be shown
+   * Flag to check if the Show More button can be shown;
+   * do not display when the returned jobs array length is less the default jobs count
    * @type {boolean}
    */
   showMoreJobsLink = false;
 
   /**
-   * Flag to check if the Show More button can be shown
+   * Flag to check if the loading indicator for show more jobs can be shown
+   * Enable when the API call is started i.e., show more jobs is clicked
    * @type {boolean}
    */
   showMoreJobsLoading = false;
