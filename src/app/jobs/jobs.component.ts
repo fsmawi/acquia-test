@@ -295,7 +295,7 @@ export class JobsComponent extends BaseApplication implements OnInit, OnDestroy 
     const jobsCount = 25;
     const params = { page: page };
     // Get Jobs to be listed
-    this.pipelines.getJobsByAppId(appId)
+    this.pipelines.getJobsByAppId(appId, params)
       .then(jobs => {
         // catch changes to the router, and prevent a slow request from repopulating the view:
         if (appId !== this.appId) {
