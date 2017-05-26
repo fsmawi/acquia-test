@@ -309,10 +309,12 @@ export class JobsComponent extends BaseApplication implements OnInit, OnDestroy 
         }
 
         // Display 'Show more' link if the returned jobs length is greater than or equal to jobsCount
-        if (jobs.length >= jobsCount && page === this.page) {
-          this.showMoreJobsLink = true;
-        } else {
-          this.showMoreJobsLink = false;
+        if (page === this.page) {
+          if (jobs.length >= jobsCount) {
+            this.showMoreJobsLink = true;
+          } else {
+            this.showMoreJobsLink = false;
+          }
         }
 
         this.pipelinesEnabled = true;

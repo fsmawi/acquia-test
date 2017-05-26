@@ -1009,6 +1009,409 @@ routes:
           duration: 1462297583
           exit_message: "New job "
           finished_at: 1462297582
+          job_id: 810c38d5-68b5-4192-8439-35eb27577ddc
+          output: {}
+          pipeline_id: a40ab6a5-6b30-40e7-abc7-5a7695499f44
+          requested_at: 1462297477
+          requested_by: admin@example.com
+          sitename: "enterprise-g1:sfwiptravis"
+          started_at: 0
+          status: queued
+          trigger: pull_request
+          metadata:
+            container_port_8007: "44512"
+            deployment_link: "http://pipelinesuiode83.network.acquia-sites.com"
+            deployment_name: "ode83"
+            git_sha: "a89e8e77b1abd0e3c5dc5b341abe78f8cb7ef62b"
+            log_stream_websocket: "ws://ec2-52-90-145-54.compute-1.amazonaws.com:44512"
+            merge_ref: "pull/92/merge:master"
+            pull_request: "92"
+            pull_request_link: "https://github.com/acquia/pipelines-ui/pull/92"
+            source_branch: "MS-2482--E2E-Testing-for-the-Job-Detail-Count-up"
+            target_branch: "master"
+        -
+          branch: master
+          commit: hashhash
+          duration: ~
+          exit_message: "New update"
+          finished_at: 0
+          job_id: a19aacb4-11de-44da-b2ac-a478a59f55ca
+          output: {}
+          pipeline_id: 466b4c99-c0cb-4e3a-ad18-b8dad85e6ea5
+          requested_at: 1460745743
+          requested_by: admin@example.com
+          sitename: "enterprise-g1:sfwiptravis"
+          started_at: 0
+          status: running
+        -
+          branch: MS-1170
+          commit: ~
+          duration: ~
+          exit_message: ~
+          finished_at: 0
+          job_id: 8f1c38d5-68b5-4192-8439-35eb27577ddc
+          output: {}
+          pipeline_id: 466b4c99-c0cb-4e3a-ad18-b8dad85e6ea5
+          requested_at: 1460745734
+          requested_by: admin@example.com
+          sitename: "enterprise-g1:sfwiptravis"
+          started_at: 0
+          status: queued
+        -
+          branch: basic
+          commit: ~
+          duration: ~
+          exit_message: ~
+          finished_at: 0
+          job_id: 34b16147-1344-414c-bc0e-1b9b4cf5297c
+          output: {}
+          pipeline_id: 466b4c99-c0cb-4e3a-ad18-b8dad85e6ea5
+          requested_at: 1460745718
+          requested_by: admin@example.com
+          sitename: "enterprise-g1:sfwiptravis"
+          started_at: 0
+          status: terminating
+        -
+          branch: basic
+          commit: ~
+          duration: ~
+          exit_message: ~
+          finished_at: 0
+          job_id: 34b06247-1344-414c-bc0e-1b9b4cf5297c
+          output: {}
+          pipeline_id: 466b4c99-c0cb-4e3a-ad18-b8dad85e6ea5
+          requested_at: 1460745718
+          requested_by: admin@example.com
+          sitename: "enterprise-g1:sfwiptravis"
+          started_at: 0
+          status: succeeded
+        -
+          branch: basic
+          commit: ~
+          duration: ~
+          exit_message: ~
+          finished_at: 0
+          job_id: 34b06347-1344-414c-bc0e-1b9b4cf5297c
+          output: {}
+          pipeline_id: 466b4c99-c0cb-4e3a-ad18-b8dad85e6ea5
+          requested_at: 1460745718
+          requested_by: admin@example.com
+          sitename: "enterprise-g1:sfwiptravis"
+          started_at: 0
+          status: succeeded
+        -
+          branch: basic
+          commit: ~
+          duration: ~
+          exit_message: Your job was terminated
+          finished_at: 0
+          job_id: 34b06447-1344-414c-bc0e-1b9b4cf5297c
+          output: {}
+          pipeline_id: 466b4c99-c0cb-4e3a-ad18-b8dad85e6ea5
+          requested_at: 1460745718
+          requested_by: admin@example.com
+          sitename: "enterprise-g1:sfwiptravis"
+          started_at: 0
+          status: terminated
+        -
+          branch: basic
+          commit: ~
+          duration: ~
+          exit_message: You have failed your job
+          finished_at: 0
+          job_id: 34b06547-1344-414c-bc0e-1b9b4cf5297c
+          output: {}
+          pipeline_id: 466b4c99-c0cb-4e3a-ad18-b8dad85e6ea5
+          requested_at: 1460745718
+          requested_by: admin@example.com
+          sitename: "enterprise-g1:sfwiptravis"
+          started_at: 0
+          status: failed_by_user
+        -
+          branch: basic
+          commit: ~
+          duration: ~
+          exit_message: ~
+          finished_at: 0
+          job_id: 34b06647-1344-414c-bc0e-1b9b4cf5297c
+          output: {}
+          pipeline_id: 466b4c99-c0cb-4e3a-ad18-b8dad85e6ea5
+          requested_at: 1460745718
+          requested_by: admin@example.com
+          sitename: "enterprise-g1:sfwiptravis"
+          started_at: 0
+          status: started
+        -
+          branch: basic
+          commit: ~
+          duration: ~
+          exit_message: There is a warning in your job
+          finished_at: 0
+          job_id: 34b06747-1344-414c-bc0e-1b9b4cf5297c
+          output: {}
+          pipeline_id: 466b4c99-c0cb-4e3a-ad18-b8dad85e6ea5
+          requested_at: 1460745718
+          requested_by: admin@example.com
+          sitename: "enterprise-g1:sfwiptravis"
+          started_at: 0
+          status: warning
+        -
+          branch: basic
+          commit: ~
+          duration: ~
+          exit_message: ~
+          finished_at: 0
+          job_id: 34b06847-1344-414c-bc0e-1b9b4cf5297c
+          output: {}
+          pipeline_id: 466b4c99-c0cb-4e3a-ad18-b8dad85e6ea5
+          requested_at: 1460745718
+          requested_by: admin@example.com
+          sitename: "enterprise-g1:sfwiptravis"
+          started_at: 0
+          status: paused
+        -
+          branch: basic
+          commit: ~
+          duration: ~
+          exit_message: ~
+          finished_at: 0
+          job_id: 55b06945-1344-414c-bc0e-1b9b4cf5293a
+          output: {}
+          pipeline_id: 466b4c99-c0cb-4e3a-ad18-b8dad85e6ea4
+          requested_at: 1460745718
+          requested_by: admin@example.com
+          sitename: "enterprise-g1:sfwiptravis"
+          started_at: 0
+          status: failed_by_user
+        -
+          branch: master
+          commit: ~
+          duration: 1462297583
+          exit_message: "New job "
+          finished_at: 1462297582
+          job_id: 810c38d5-68b5-4192-8439-35eb27577ddd
+          output: {}
+          pipeline_id: a40ab6a5-6b30-40e7-abc7-5a7695499f44
+          requested_at: 1462297477
+          requested_by: admin@example.com
+          sitename: "enterprise-g1:sfwiptravis"
+          started_at: 0
+          status: queued
+          trigger: pull_request
+          metadata:
+            container_port_8007: "44512"
+            deployment_link: "http://pipelinesuiode83.network.acquia-sites.com"
+            deployment_name: "ode83"
+            git_sha: "a89e8e77b1abd0e3c5dc5b341abe78f8cb7ef62b"
+            log_stream_websocket: "ws://ec2-52-90-145-54.compute-1.amazonaws.com:44512"
+            merge_ref: "pull/92/merge:master"
+            pull_request: "92"
+            pull_request_link: "https://github.com/acquia/pipelines-ui/pull/92"
+            source_branch: "MS-2482--E2E-Testing-for-the-Job-Detail-Count-up"
+            target_branch: "master"
+        -
+          branch: master
+          commit: hashhash
+          duration: ~
+          exit_message: "New update"
+          finished_at: 0
+          job_id: a19aacb4-11de-44da-b2ac-a478a59f55cb
+          output: {}
+          pipeline_id: 466b4c99-c0cb-4e3a-ad18-b8dad85e6ea5
+          requested_at: 1460745743
+          requested_by: admin@example.com
+          sitename: "enterprise-g1:sfwiptravis"
+          started_at: 0
+          status: running
+        -
+          branch: MS-1170
+          commit: ~
+          duration: ~
+          exit_message: ~
+          finished_at: 0
+          job_id: 8f1c38d5-68b5-4192-8439-35eb27577dde
+          output: {}
+          pipeline_id: 466b4c99-c0cb-4e3a-ad18-b8dad85e6ea5
+          requested_at: 1460745734
+          requested_by: admin@example.com
+          sitename: "enterprise-g1:sfwiptravis"
+          started_at: 0
+          status: queued
+        -
+          branch: basic
+          commit: ~
+          duration: ~
+          exit_message: ~
+          finished_at: 0
+          job_id: 34b16147-1344-414c-bc0e-1b9b4cf5297d
+          output: {}
+          pipeline_id: 466b4c99-c0cb-4e3a-ad18-b8dad85e6ea5
+          requested_at: 1460745718
+          requested_by: admin@example.com
+          sitename: "enterprise-g1:sfwiptravis"
+          started_at: 0
+          status: terminating
+        -
+          branch: basic
+          commit: ~
+          duration: ~
+          exit_message: ~
+          finished_at: 0
+          job_id: 34b06247-1344-414c-bc0e-1b9b4cf5297e
+          output: {}
+          pipeline_id: 466b4c99-c0cb-4e3a-ad18-b8dad85e6ea5
+          requested_at: 1460745718
+          requested_by: admin@example.com
+          sitename: "enterprise-g1:sfwiptravis"
+          started_at: 0
+          status: succeeded
+        -
+          branch: basic
+          commit: ~
+          duration: ~
+          exit_message: ~
+          finished_at: 0
+          job_id: 34b06347-1344-414c-bc0e-1b9b4cf5297f
+          output: {}
+          pipeline_id: 466b4c99-c0cb-4e3a-ad18-b8dad85e6ea5
+          requested_at: 1460745718
+          requested_by: admin@example.com
+          sitename: "enterprise-g1:sfwiptravis"
+          started_at: 0
+          status: succeeded
+        -
+          branch: basic
+          commit: ~
+          duration: ~
+          exit_message: Your job was terminated
+          finished_at: 0
+          job_id: 34b06447-1344-414c-bc0e-1b9b4cf5297j
+          output: {}
+          pipeline_id: 466b4c99-c0cb-4e3a-ad18-b8dad85e6ea5
+          requested_at: 1460745718
+          requested_by: admin@example.com
+          sitename: "enterprise-g1:sfwiptravis"
+          started_at: 0
+          status: terminated
+        -
+          branch: basic
+          commit: ~
+          duration: ~
+          exit_message: You have failed your job
+          finished_at: 0
+          job_id: 34b06547-1344-414c-bc0e-1b9b4cf5297i
+          output: {}
+          pipeline_id: 466b4c99-c0cb-4e3a-ad18-b8dad85e6ea5
+          requested_at: 1460745718
+          requested_by: admin@example.com
+          sitename: "enterprise-g1:sfwiptravis"
+          started_at: 0
+          status: failed_by_user
+        -
+          branch: basic
+          commit: ~
+          duration: ~
+          exit_message: ~
+          finished_at: 0
+          job_id: 34b06647-1344-414c-bc0e-1b9b4cf5297k
+          output: {}
+          pipeline_id: 466b4c99-c0cb-4e3a-ad18-b8dad85e6ea5
+          requested_at: 1460745718
+          requested_by: admin@example.com
+          sitename: "enterprise-g1:sfwiptravis"
+          started_at: 0
+          status: started
+        -
+          branch: basic
+          commit: ~
+          duration: ~
+          exit_message: There is a warning in your job
+          finished_at: 0
+          job_id: 34b06747-1344-414c-bc0e-1b9b4cf5297l
+          output: {}
+          pipeline_id: 466b4c99-c0cb-4e3a-ad18-b8dad85e6ea5
+          requested_at: 1460745718
+          requested_by: admin@example.com
+          sitename: "enterprise-g1:sfwiptravis"
+          started_at: 0
+          status: warning
+        -
+          branch: basic
+          commit: ~
+          duration: ~
+          exit_message: ~
+          finished_at: 0
+          job_id: 34b06847-1344-414c-bc0e-1b9b4cf5297m
+          output: {}
+          pipeline_id: 466b4c99-c0cb-4e3a-ad18-b8dad85e6ea5
+          requested_at: 1460745718
+          requested_by: admin@example.com
+          sitename: "enterprise-g1:sfwiptravis"
+          started_at: 0
+          status: paused
+        -
+          branch: basic
+          commit: ~
+          duration: ~
+          exit_message: ~
+          finished_at: 0
+          job_id: 55b06945-1344-414c-bc0e-1b9b4cf5293n
+          output: {}
+          pipeline_id: 466b4c99-c0cb-4e3a-ad18-b8dad85e6ea4
+          requested_at: 1460745718
+          requested_by: admin@example.com
+          sitename: "enterprise-g1:sfwiptravis"
+          started_at: 0
+          status: failed_by_user
+        -
+          branch: basic
+          commit: ~
+          duration: ~
+          exit_message: There is a warning in your job
+          finished_at: 0
+          job_id: 34b06747-1344-414c-bc0e-1b9b4cf5297o
+          output: {}
+          pipeline_id: 466b4c99-c0cb-4e3a-ad18-b8dad85e6ea5
+          requested_at: 1460745718
+          requested_by: admin@example.com
+          sitename: "enterprise-g1:sfwiptravis"
+          started_at: 0
+          status: warning
+        -
+          branch: basic
+          commit: ~
+          duration: ~
+          exit_message: ~
+          finished_at: 0
+          job_id: 34b06847-1344-414c-bc0e-1b9b4cf5297p
+          output: {}
+          pipeline_id: 466b4c99-c0cb-4e3a-ad18-b8dad85e6ea5
+          requested_at: 1460745718
+          requested_by: admin@example.com
+          sitename: "enterprise-g1:sfwiptravis"
+          started_at: 0
+          status: paused
+        -
+          branch: basic
+          commit: ~
+          duration: ~
+          exit_message: ~
+          finished_at: 0
+          job_id: 55b06945-1344-414c-bc0e-1b9b4cf5293q
+          output: {}
+          pipeline_id: 466b4c99-c0cb-4e3a-ad18-b8dad85e6ea4
+          requested_at: 1460745718
+          requested_by: admin@example.com
+          sitename: "enterprise-g1:sfwiptravis"
+          started_at: 0
+          status: failed_by_user
+      - response:
+        -
+          branch: master
+          commit: ~
+          duration: 1462297583
+          exit_message: "New job "
+          finished_at: 1462297582
           job_id: 810c38d5-68b5-4192-8439-35eb27577dvv
           output: {}
           pipeline_id: a40ab6a5-6b30-40e7-abc7-5a7695499f44
