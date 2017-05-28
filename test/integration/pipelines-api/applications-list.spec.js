@@ -4,7 +4,7 @@ const qs = require('querystring');
 const logAPICall = require('../log-helper').logAPICall;
 
 
-describe('Pipelines API /api/v1/ci/applications/list', function () {
+describe('Pipelines API /api/v1/ci/applications/list', function() {
   const token = process.env.N3_KEY;
   const secret = process.env.N3_SECRET;
   const endpoint = 'https://cloud.acquia.com';
@@ -30,7 +30,7 @@ describe('Pipelines API /api/v1/ci/applications/list', function () {
             expect(res.body[0].uuid).to.exist;
             expect(res.body[0].latest_job).toBeDefined;
           }
-        } catch(e) {
+        } catch (e) {
           logAPICall(res, route);
           throw e;
         }
@@ -45,13 +45,13 @@ describe('Pipelines API /api/v1/ci/applications/list', function () {
       .get(route)
       .then((res) => {
         try {
-          if (!res.ok && res.status !== 500) {
+          if (!res.ok && res.status !== 599) {
             throw res.text;
           } else {
-            expect(res.status).to.equal(500);
+            expect(res.status).to.equal(599);
             expect(res.text).to.contain('Failed to get list of applications from Acquia Cloud');
           }
-        } catch(e) {
+        } catch (e) {
           logAPICall(res, route);
           throw e;
         }
