@@ -107,7 +107,6 @@ export class JobsComponent extends BaseApplication implements OnInit, OnDestroy 
    */
   page = 1;
 
-
   /**
    * Build the component and inject services if needed
    * @param pipelines
