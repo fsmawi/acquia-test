@@ -121,9 +121,26 @@ export class JobsDetailComponent extends BaseApplication implements OnInit, OnDe
   ngOnInit() {
     this.route.params.subscribe(
       (params: Params) => {
-        this._appId = params['app'];
         this.appId = params['app'];
         this.jobId = params['id'];
+
+        // avoid doing extra api calls when we are in the same application context
+        let forceGetInfo = false;
+        if (BaseApplication._appId !== params['app']) {
+          forceGetInfo = true;
+          BaseApplication._appId = params['app'];
+        }
+        // Get Repo Full Name
+        this.getInfo(forceGetInfo).then(info => {
+          this.repoFullName = info.repo_name;
+        }).catch(e => this.errorHandler.apiError(e));
+
+        // reset the page state
+        this.streaming = null;
+        this.loadingLogs = false;
+        this.loadingJob = false;
+        this.logs = null;
+        this.job = null;
 
         // store appId in session storage
         if (!environment.standalone) {
@@ -143,11 +160,6 @@ export class JobsDetailComponent extends BaseApplication implements OnInit, OnDe
         this.refreshJob();
       }
     );
-
-    // Get Repo Full Name
-    this.getInfo().then(info => {
-      this.repoFullName = info.repo_name;
-    }).catch(e => this.errorHandler.apiError(e));
 
     // Track page view
     this.segment.page('JobDetailView');

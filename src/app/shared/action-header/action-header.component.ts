@@ -1,6 +1,7 @@
 import {Component, OnInit, Input, OnDestroy} from '@angular/core';
 import {MdDialogRef, MdDialog} from '@angular/material';
 import {ObservableMedia} from '@angular/flex-layout';
+import {Router} from '@angular/router';
 
 import {Subscription} from 'rxjs/Subscription';
 
@@ -70,6 +71,13 @@ export class ActionHeaderComponent implements OnInit {
   showStopJob = false;
 
   /**
+   * Flag to show stop job action
+   * @type {boolean}
+   */
+  @Input()
+  showRerunJob = false;
+
+  /**
    * Flag to show open environment
    * @type {boolean}
    */
@@ -106,23 +114,26 @@ export class ActionHeaderComponent implements OnInit {
    * @param confirmationModalService
    * @param helpCenterService
    * @param dialog
+   * @param router
    * @param media
    */
-  constructor(private pipelineService: PipelinesService,
-              private errorHandler: ErrorService,
-              private segment: SegmentService,
-              private flash: FlashMessageService,
-              private confirmationModalService: ConfirmationModalService,
-              private helpCenterService: HelpCenterService,
-              private dialog: MdDialog,
-              public media: ObservableMedia) {
+  constructor(
+    private pipelineService: PipelinesService,
+    private errorHandler: ErrorService,
+    private segment: SegmentService,
+    private flash: FlashMessageService,
+    private confirmationModalService: ConfirmationModalService,
+    private helpCenterService: HelpCenterService,
+    private dialog: MdDialog,
+    private router: Router,
+    public media: ObservableMedia) {
   }
 
   /**
    * Initialize
    */
   ngOnInit() {
-    window.onclick = function(event) {
+    window.onclick = function (event) {
       if (!event.target.classList.contains('menu-title')
         && !event.target.classList.contains('hover-menu')) {
         const menu = document.getElementById('dropdown-links');
@@ -168,6 +179,28 @@ export class ActionHeaderComponent implements OnInit {
     }
     // Track button click
     this.segment.trackEvent('ClickStartJobButton', {appId: this.appId});
+  }
+
+  /**
+   * Open dialog to confirm the user wants to rerun the job
+   * @param job
+   */
+  rerunJob(job: Job) {
+    this.confirmationModalService
+      .openDialog('Rerun Job', 'Are you sure you want to run this job again?', 'Yes', 'Cancel')
+      .then(result => {
+        if (result) {
+          this.pipelineService.directStartJob(this.appId, job.branch, job)
+            .then((res) => {
+              this.router.navigateByUrl(`applications/${this.appId}/${res.job_id}`);
+            })
+            .catch(e => {
+              this.flash.showError(e.status + ' : ' + e._body);
+              this.errorHandler.apiError(e)
+                .reportError(e, 'FailedToRerunJob', {component: 'job-list', appId: this.appId}, 'error');
+            });
+        }
+      });
   }
 
   /**

@@ -20,7 +20,7 @@ import {RepositoryFilterPipe} from './repository-filter.pipe';
   declarations: [GithubDialogRepositoriesComponent, RepositoryFilterPipe],
   exports: [GithubDialogRepositoriesComponent],
   entryComponents: [GithubDialogRepositoriesComponent],
-  imports: [MdDialogModule.forRoot(), ElementalModule, CommonModule, FormsModule, MdProgressSpinnerModule, MdTooltipModule],
+  imports: [MdDialogModule, ElementalModule, CommonModule, FormsModule, MdProgressSpinnerModule, MdTooltipModule],
 })
 class DialogTestModule {
 }

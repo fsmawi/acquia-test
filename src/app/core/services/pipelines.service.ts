@@ -180,7 +180,7 @@ export class PipelinesService {
   getApplications() {
     return this.promiseGetRequest(this.URI + `/ci/applications/list`, {})
       .then(res => {
-        return res.map(r =>  new Application(r));
+        return res.map(r => new Application(r));
       });
   }
 
@@ -231,12 +231,22 @@ export class PipelinesService {
    * @returns {Promise<HttpRequest>}
    */
   directStartJob(appId: string, branch: string, options = {}) {
+
     // Default Options
+    let deploy_vcs_path = `pipelines-build-${options['branch'] || branch}`;
+    // check if the original trigger is a PR
+    if (options['trigger'] && options['trigger'] === 'pull_request') {
+      deploy_vcs_path = `pipelines-build-${'pr-' + options['metadata']['pull_request'] || branch}`;
+    }
+
     Object.assign(options, {
       applications: [appId],
-      branch: branch,
-      deploy_vcs_path: `pipelines-build-${branch}`
+      branch: options['branch'] || branch,
+      deploy_vcs_path: deploy_vcs_path,
     });
+
+    // Update metadata as well for oauth repo types
+    Object.assign(options, options['metadata'] || {});
 
     return this.getPipelineByAppId(appId, false)
       .then(p => {

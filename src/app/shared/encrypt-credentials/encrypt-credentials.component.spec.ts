@@ -28,7 +28,8 @@ class MockPipelinesService {
   }
 }
 
-class DialogTestModule { }
+class DialogTestModule {
+}
 
 describe('EncryptCredentialsComponent', () => {
   let dialog: MdDialog;
@@ -56,7 +57,7 @@ describe('EncryptCredentialsComponent', () => {
         {provide: PipelinesService, useClass: MockPipelinesService}
       ],
       imports: [
-        MdDialogModule.forRoot(),
+        MdDialogModule,
         ElementalModule,
         FormsModule,
         FlexLayoutModule,
@@ -64,12 +65,12 @@ describe('EncryptCredentialsComponent', () => {
         RouterTestingModule
       ]
     })
-    .overrideModule(BrowserDynamicTestingModule, {
+      .overrideModule(BrowserDynamicTestingModule, {
         set: {
           entryComponents: [EncryptCredentialsComponent],
         },
       })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -86,7 +87,7 @@ describe('EncryptCredentialsComponent', () => {
   it('should check the tab selection', () => {
     expect(component).toBeTruthy();
 
-    const tabs = { selectedTab : { tabTile: 'Environment Variables'}};
+    const tabs = {selectedTab: {tabTile: 'Environment Variables'}};
     component.onTabSelection(tabs);
 
     expect(component.isSSHTabSelected).toBe(false);

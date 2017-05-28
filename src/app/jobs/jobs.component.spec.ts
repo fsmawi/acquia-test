@@ -20,6 +20,8 @@ import {PipelinesService} from '../core/services/pipelines.service';
 import {SharedModule} from '../shared/shared.module';
 import {NoJobsComponent} from './no-jobs/no-jobs.component';
 import {LiftService} from '../core/services/lift.service';
+import {BaseApplication} from '../core/classes/base-application';
+
 
 class MockLiftService {
   captureEvent(eventName: string, eventData: Object) {
@@ -128,7 +130,7 @@ describe('JobsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(JobsComponent);
     component = fixture.componentInstance;
-    component._appId = 'default';
+    BaseApplication._appId = 'default';
     fixture.detectChanges();
   });
 
@@ -137,7 +139,7 @@ describe('JobsComponent', () => {
   });
 
   it('should show no jobs message.', fakeAsync(inject([], () => {
-    component._appId = 'app-with-out-jobs';
+    BaseApplication._appId = 'app-with-out-jobs';
     component.appId = 'app-with-out-jobs';
     component.getJobs();
     tick();
@@ -147,7 +149,7 @@ describe('JobsComponent', () => {
   })));
 
   it('should show no jobs component.', fakeAsync(inject([], () => {
-    component._appId = 'app-with-out-jobs';
+    BaseApplication._appId = 'app-with-out-jobs';
     component.appId = 'app-with-out-jobs';
     component.getJobs();
     tick();
@@ -157,7 +159,7 @@ describe('JobsComponent', () => {
   })));
 
   it('should not show the filter input when jobs are not available', fakeAsync(inject([], () => {
-    component._appId = 'app-with-out-jobs';
+    BaseApplication._appId = 'app-with-out-jobs';
     component.getJobs();
     tick();
     fixture.detectChanges();
