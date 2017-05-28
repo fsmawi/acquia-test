@@ -3,7 +3,6 @@ module.exports = {
     // feature scope
     'cloud-pipelines-url': 'https://cloud.acquia.com/app/develop/applications/' +
     'd6a43c82-cc6e-4426-b6eb-883cbe4a99ea/pipelines',
-    'woody': 'qa.woodypride@acquia.com',
     'login': '#edit-submit-user-login',
     'connect-to-github': 'e-button[text="Connect to Github"] button',
     'select-repo': '#select-repo button.el-button.el-button--primary',
