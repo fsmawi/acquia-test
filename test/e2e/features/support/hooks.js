@@ -16,7 +16,7 @@ module.exports = function () {
     let propertiesFilePath = path.join(path.dirname(features[0].getUri()), 'properties.js');
     let iframePath = '';
     let queryParam = '';
-    if (fs.existsSync(propertiesFilePath)) {
+    if (fs.existsSync(propertiesFilePath) && process.env['PIPELINES_URL']!=undefined) {
       global.currentRun.properties = require(propertiesFilePath);
       let pipelinesurl = process.env['PIPELINES_URL'];
       //if the test is running against local application
