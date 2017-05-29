@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.48"></a>
+## [0.2.48](https://github.com/acquia/pipelines-ui/compare/v0.2.47...v0.2.48) (2017-05-29)
+
+
+### Features
+
+* **job-list.component:** Adding copy job hash into clipboard  ([9458e48](https://github.com/acquia/pipelines-ui/commit/9458e48))
+
+
+
 <a name="0.2.47"></a>
 ## [0.2.47](https://github.com/acquia/pipelines-ui/compare/v0.2.46...v0.2.47) (2017-05-28)
 
