@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.49"></a>
+## [0.2.49](https://github.com/acquia/pipelines-ui/compare/v0.2.48...v0.2.49) (2017-05-29)
+
+
+### Features
+
+* **applications-list.component.ts:** Added Applciations-List Component ([8ec326b](https://github.com/acquia/pipelines-ui/commit/8ec326b))
+* **jobs.component.ts:** Added show more link at the bottom of jobs list ([0fb23c6](https://github.com/acquia/pipelines-ui/commit/0fb23c6))
+
+
+
 <a name="0.2.48"></a>
 ## [0.2.48](https://github.com/acquia/pipelines-ui/compare/v0.2.47...v0.2.48) (2017-05-29)
 
