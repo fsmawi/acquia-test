@@ -9,7 +9,9 @@
           [liftEventData]="{appId: appId}"
           liftEventName="ClickJobListDetailLink"
           [appContextLink]="[{text: 'Open in new Tab', link: cloudUrl+'/'+job.job_id, target: '_blank' }]"
-          appIframeLink="/applications/{{appId}}/{{job.job_id}}">{{job.job_id| slice:0:8}}</a>
+          appIframeLink="/applications/{{appId}}/{{job.job_id}}"
+          appTooltip="{{job.job_id}}"
+          tooltipPosition="right">{{job.job_id| slice:0:8}}</a>
       {{isJobNavigationRequired ? ': ' : (' ' + (job.job_id | slice:0:8) + ' : ')}}
       {{job.message}}
   </div>

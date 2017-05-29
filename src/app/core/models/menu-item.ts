@@ -22,6 +22,12 @@ export class MenuItem {
   target = '_self';
 
   /**
+   * Copy to clipboard input text
+   * @type {string}
+   */
+  clipboard: string;
+
+  /**
    * Creates a Repository object
    * @param obj {any} Base object to use
    */

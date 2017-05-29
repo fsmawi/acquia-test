@@ -44,4 +44,12 @@ export class TooltipDirective {
   public onMouseLeave(): void {
     return this.tooltipService.hide();
   }
+
+  /**
+   * Handles the right click event; hides the tooltip
+   */
+  @HostListener('contextmenu', ['$event'])
+  public onRightClick(event: any): void {
+    return this.tooltipService.hide();
+  }
 }

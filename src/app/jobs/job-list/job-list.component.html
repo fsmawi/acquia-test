@@ -21,8 +21,10 @@
       <a appTrackOn="click"
          [trackEventData]="{appId: appId, job_id: job.job_id, status: job.status}"
          trackEventName="ClickJobListDetailLink"
-         [appContextLink]="[{text: 'Open in new Tab', link: cloudUrl+'/'+job.job_id, target: '_blank' }]"
-         appIframeLink="/applications/{{appId}}/{{job.job_id}}">{{job.job_id | slice:0:8}}</a>
+         [appContextLink]="[{text: 'Open in new Tab', link: cloudUrl+'/'+job.job_id, target: '_blank'},{text: 'Copy hash to clipboard', clipboard: job.job_id }]"
+         appIframeLink="/applications/{{appId}}/{{job.job_id}}"
+         appTooltip="{{job.job_id}}"
+         tooltipPosition="right">{{job.job_id | slice:0:8}}</a>
     </td>
     <td class="center">
       <a *ngIf="job.metadata?.pull_request_link"

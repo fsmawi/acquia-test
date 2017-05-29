@@ -23,7 +23,9 @@
                       appTrackOn="click"
                       [trackEventData]="{appId: application.uuid, job_id: application.latest_job.job_id, status: application.latest_job.status}"
                       trackEventName="ClickApplicationsListLastestJobLink"
-                      appIframeLink="/applications/{{application.uuid}}/{{application.latest_job.job_id}}">
+                      appIframeLink="/applications/{{application.uuid}}/{{application.latest_job.job_id}}"
+                      appTooltip="{{application.latest_job.job_id}}"
+                      tooltipPosition="right">
                 {{application.latest_job.job_id | slice:0:8}}</a>
               </span>
             </div>

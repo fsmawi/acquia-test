@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, Input } from '@angular/core';
+import { Component, OnInit, ElementRef, Input, AfterViewInit } from '@angular/core';
 import * as Clipboard from 'clipboard';
 
 @Component({
@@ -6,7 +6,7 @@ import * as Clipboard from 'clipboard';
   templateUrl: './clipboard.component.html',
   styleUrls: ['./clipboard.component.scss']
 })
-export class ClipboardComponent implements OnInit {
+export class ClipboardComponent implements AfterViewInit {
 
   /**
    * Input Text
@@ -34,6 +34,20 @@ export class ClipboardComponent implements OnInit {
   htmlElement = 'input';
 
   /**
+   * Element Label
+   * @type {string}
+   */
+  @Input()
+  label: string;
+
+  /**
+   * Component type
+   * @type {[type]}
+   */
+  @Input()
+  type = 'icon';
+
+  /**
    * Builds the component
    * @param el
    */
@@ -42,13 +56,13 @@ export class ClipboardComponent implements OnInit {
   /**
    * Initiate Component
    */
-  ngOnInit() {
+  ngAfterViewInit() {
     this.clipboard = new Clipboard(this.el.nativeElement.querySelector('a'), {
       text: () => this.inputText
     });
     this.clipboard.on('success', () => {
       this.isCopied = true;
-      if (this.htmlElement === 'input') {
+      if (this.htmlElement === 'input' && this.type === 'icon') {
         const querySelector = 'input[type="text"]';
         this.el.nativeElement.querySelector(querySelector).select();
       }

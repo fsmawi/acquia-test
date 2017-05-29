@@ -2,6 +2,7 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {ContextMenuComponent} from './context-menu.component';
 import {ContextMenuService} from '../../services/context-menu.service';
+import {ElementalModule} from '../../../elemental/elemental.module';
 
 describe('ContextMenuComponent', () => {
   let component: ContextMenuComponent;
@@ -10,7 +11,10 @@ describe('ContextMenuComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ ContextMenuComponent ],
-      providers: [ContextMenuService]
+      providers: [ContextMenuService],
+      imports: [
+        ElementalModule
+      ]
     })
     .compileComponents();
   }));
