@@ -184,7 +184,7 @@ export class Job {
       case 'succeeded':
       case 'warning':
       case 'terminated':
-      case'failed_by_user':
+      case 'failed_by_user':
       case 'failed_by_system':
         return true;
       default:

@@ -33,7 +33,7 @@
           <span class="flex-item latest-job-secondary-info" *ngIf="application.latest_job" >
            {{application.latest_job.isFinished ? 'Finished:' : 'Started:'}} {{
              application.latest_job.isFinished ? ((application.latest_job?.finished_at | amFromUnix) | amTimeAgo) :
-             ((application.latest_job?.started_at | amFromUnix) | amTimeAgo)
+             ((application.latest_job?.requested_at | amFromUnix) | amTimeAgo)
             }}
           </span>
 

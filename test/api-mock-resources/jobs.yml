@@ -22,9 +22,9 @@ routes:
           status: starting
           priority: null
           requested_by: exampleuser
-          requested_at: 1483225200
-          started_at: 1493376246
-          finished_at: 1493376249
+          requested_at: 1496098472
+          started_at: 0
+          finished_at: 0
           duration: null
           exit_message: test exit message
           trigger: manual
