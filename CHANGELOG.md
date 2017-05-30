@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.51"></a>
+## [0.2.51](https://github.com/acquia/pipelines-ui/compare/v0.2.50...v0.2.51) (2017-05-30)
+
+
+### Bug Fixes
+
+* **applications-list.component:** fix bug job created 47 years ago (#257) ([0dc10b3](https://github.com/acquia/pipelines-ui/commit/0dc10b3)), closes [#257](https://github.com/acquia/pipelines-ui/issues/257)
+
+
+
 <a name="0.2.50"></a>
 ## [0.2.50](https://github.com/acquia/pipelines-ui/compare/v0.2.49...v0.2.50) (2017-05-30)
 
