@@ -52,4 +52,12 @@ export class TooltipDirective {
   public onRightClick(event: any): void {
     return this.tooltipService.hide();
   }
+
+  /**
+   * Handles the click event; hides the tooltip.
+   */
+  @HostListener('click')
+  public onClick(event: any): void {
+    return this.tooltipService.hide();
+  }
 }

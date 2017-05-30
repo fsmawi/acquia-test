@@ -86,4 +86,10 @@ describe('TooltipDirective', () => {
     expect(directiveInstance).toBeTruthy();
     expect(directiveInstance.onRightClick()).toEqual(true);
   });
+
+  it('should handle the click event', () => {
+    expect(directiveEl).not.toBeNull();
+    expect(directiveInstance).toBeTruthy();
+    expect(directiveInstance.onClick()).toEqual(true);
+  });
 });
