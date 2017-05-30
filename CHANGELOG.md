@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.50"></a>
+## [0.2.50](https://github.com/acquia/pipelines-ui/compare/v0.2.49...v0.2.50) (2017-05-30)
+
+
+### Bug Fixes
+
+* **tooltip.directive.ts:** Remove the tooltip on 'click' event (#256) ([40c50f5](https://github.com/acquia/pipelines-ui/commit/40c50f5))
+
+
+
 <a name="0.2.49"></a>
 ## [0.2.49](https://github.com/acquia/pipelines-ui/compare/v0.2.48...v0.2.49) (2017-05-29)
 
