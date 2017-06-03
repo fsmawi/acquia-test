@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.52"></a>
+## [0.2.52](https://github.com/acquia/pipelines-ui/compare/v0.2.51...v0.2.52) (2017-06-03)
+
+
+### Bug Fixes
+
+* **action-header.component:** rename Encrypting Credentials menu link (#258) ([3768180](https://github.com/acquia/pipelines-ui/commit/3768180))
+
+
+
 <a name="0.2.51"></a>
 ## [0.2.51](https://github.com/acquia/pipelines-ui/compare/v0.2.50...v0.2.51) (2017-05-30)
 
