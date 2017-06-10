@@ -54,7 +54,7 @@
     "@types/clipboard": "^1.5.31",
     "@types/jasmine": "2.5.38",
     "@types/node": "^6.0.60",
-    "aqtest": "file:lib/aqtest-2.1.2.tgz",
+    "aqtest": "file:lib/aqtest-2.1.4.tgz",
     "async": "^2.1.5",
     "aws-sdk": "^2.39.0",
     "chai": "^3.5.0",
