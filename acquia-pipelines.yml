@@ -1,19 +1,35 @@
 version: 1.0.0
+services:
+  - mysql
 
 events:
   build:
     steps:
-        # Install most recent stable version of BLT and run BLT tests
-        - build:
-            type: script
-            script:
-              - git config --global user.name "Acquia Cloud"
-              - git config --global user.email "noreply@acquia.com"
-              - sudo /etc/init.d/mysql start
-              - mysql -u root -proot -e "CREATE DATABASE drupal" -v
-              - rm -rf blted8
-              - composer create-project acquia/blt-project:~8 blted8 --no-interaction
-              - cd blted8
-              - ./vendor/bin/blt local:setup
-              - ./vendor/bin/blt validate
-              - ./vendor/bin/blt tests
+      - setup:
+          type: script
+          script:
+            - set -x
+            - composer install
+      - install:
+          type: script
+          script:
+            - set -x
+            - mysql -u root -proot -e 'CREATE DATABASE drupal;'
+            - cd docroot
+            # Install lightning
+            - /usr/bin/env PHP_OPTIONS="-d sendmail_path=`which true`" ../bin/drush site-install lightning --yes --account-pass=admin --db-url=mysql://root:root@127.0.0.1/drupal
+            # Generate the behat config.
+            - cd ../
+            - ./bin/drupal behat:init http://127.0.0.1:8080 --merge=../docroot/profiles/contrib/lightning/tests/behat.yml
+            - ./bin/drupal behat:include ../docroot/profiles/contrib/lightning/tests/features --with-subcontexts=../docroot/profiles/contrib/lightning/tests/features/bootstrap --with-subcontexts=../docroot/profiles/contrib/lightning/src/LightningExtension/Context
+      - test:
+          type: script
+          script:
+            - set -x
+            - cd docroot
+            # Turn on PHP server, PhantomJS driver, and wait for them to turn on in the container
+            - ../bin/drush runserver --default-server=builtin 8080 &>/dev/null &
+            - ../bin/phantomjs --webdriver=4444 > /dev/null &
+            - sleep 10
+            # Run a JavaScript test in the Lightning project.
+            - ../bin/behat --stop-on-failure --config ./sites/default/files/behat.yml --tags=~javascript
