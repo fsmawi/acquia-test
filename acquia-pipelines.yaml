@@ -41,7 +41,7 @@ events:
             - 'nvm install v6.9.5'
             - 'nvm use 6.9.5'
             - 'npm install'
-            - 'alias run="node $BUILD_DIR/scripts/run.js"'
+            - 'alias run="node $SOURCE_DIR/scripts/run.js"'
             - 'run start'
       - lint:
           script:
@@ -53,9 +53,9 @@ events:
       - build:
           script:
             - 'run build "npm run pipelines:build:$PIPELINE_VCS_PATH"'
-            - '\[ $PIPELINE_VCS_PATH == "production" \] && node $BUILD_DIR/scripts/cdn.js $PIPELINES_CLOUDFRONT_PROD $PIPELINES_CLOUDFRONT_DISTRIBUTION_PROD'
-            - '\[ $PIPELINE_VCS_PATH == "staging" \] && node $BUILD_DIR/scripts/cdn.js $PIPELINES_CLOUDFRONT_STAGING $PIPELINES_CLOUDFRONT_DISTRIBUTION_STAGING'
-            - '\[ $PIPELINE_VCS_PATH == "master" \] && node $BUILD_DIR/scripts/cdn.js $PIPELINES_CLOUDFRONT_DEV $PIPELINES_CLOUDFRONT_DISTRIBUTION_DEV'
+            - '\[ $PIPELINE_VCS_PATH == "production" \] && node $SOURCE_DIR/scripts/cdn.js $PIPELINES_CLOUDFRONT_PROD $PIPELINES_CLOUDFRONT_DISTRIBUTION_PROD'
+            - '\[ $PIPELINE_VCS_PATH == "staging" \] && node $SOURCE_DIR/scripts/cdn.js $PIPELINES_CLOUDFRONT_STAGING $PIPELINES_CLOUDFRONT_DISTRIBUTION_STAGING'
+            - '\[ $PIPELINE_VCS_PATH == "master" \] && node $SOURCE_DIR/scripts/cdn.js $PIPELINES_CLOUDFRONT_DEV $PIPELINES_CLOUDFRONT_DISTRIBUTION_DEV'
       - copy_dist:
           script:
             - 'set -x'
@@ -75,11 +75,11 @@ events:
             - 'run deploy "git checkout -b $DEPLOY_VCS_PATH || git checkout $DEPLOY_VCS_PATH" $PIPELINE_DEPLOY_WORKSPACE'
             - 'run deploy "rm -rf ./docroot" $PIPELINE_DEPLOY_WORKSPACE'
             - 'run deploy "mkdir ./docroot" $PIPELINE_DEPLOY_WORKSPACE'
-            - 'run deploy "cp -r $BUILD_DIR/docroot/* ./docroot" $PIPELINE_DEPLOY_WORKSPACE'
+            - 'run deploy "cp -r $SOURCE_DIR/docroot/* ./docroot" $PIPELINE_DEPLOY_WORKSPACE'
             - 'run deploy "git add -A" $PIPELINE_DEPLOY_WORKSPACE'
             - 'run deploy "git commit -m \"Deploying $DEPLOY_VCS_PATH\"" $PIPELINE_DEPLOY_WORKSPACE'
             - 'run deploy "git push origin $DEPLOY_VCS_PATH || git push -u origin $DEPLOY_VCS_PATH" $PIPELINE_DEPLOY_WORKSPACE'
-            - 'cd $BUILD_DIR'
+            - 'cd $SOURCE_DIR'
       - launch_ode:
           script:
             - 'run launch_ode "pipelines-deploy"'
@@ -87,8 +87,8 @@ events:
     steps:
       - e2e_test:
           script:
-            - 'alias run="node $BUILD_DIR/scripts/run.js"'
-            - 'run launch_ode "node $BUILD_DIR/scripts/clear-cloud-varnish.js"'
+            - 'alias run="node $SOURCE_DIR/scripts/run.js"'
+            - 'run launch_ode "node $SOURCE_DIR/scripts/clear-cloud-varnish.js"'
             - export PIPELINES_URL=$PIPELINES_DEPLOYMENT_LINK/index.html#
             - '\[ $PIPELINE_DEPLOY_VCS_PATH == "pipelines-build-master" \] && export PIPELINES_URL=$PIPELINES_DEV_URL || echo Not master.'
             - '\[ $PIPELINE_DEPLOY_VCS_PATH == "pipelines-build-staging" \] && export PIPELINES_URL=$PIPELINES_STAGING_URL || echo Not staging.'

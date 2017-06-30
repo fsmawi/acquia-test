@@ -8,7 +8,7 @@ describe('Pipelines API /api/v1/ci/pipelines', function () {
   const secret = process.env.N3_SECRET;
   const endpoint = 'https://cloud.acquia.com';
   const route = '/api/v1/ci/pipelines';
-  this.timeout(10000);
+  this.timeout(30000);
 
   it('should return an array of pipelines objects', () => {
     const params = '?' + qs.stringify({

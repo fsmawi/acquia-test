@@ -23,7 +23,7 @@ module.exports = {
   'pipelines': '//a[text()="example/repo"]',
   'job-logs': 'e-card#logs',
   'progress-bar': '.el-progress__loader__dot__inner',
-  'empty-logs': '//pre[@class="logs" and contains(text(),"There are no logs for this job.")]',
+  'empty-logs': '//pre[contains(text(),"There are no logs for this job.")]',
   'count-up-time': '//e-data-label[div[span[contains(text(),"Duration")]]]/following-sibling::e-data-value',
   'deployment-link-value': '#job-deployment-link-value .el-data__value',
   'commit-value': '#job-commit-value .el-data__value',

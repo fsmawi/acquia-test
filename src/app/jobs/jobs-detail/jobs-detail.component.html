@@ -39,7 +39,7 @@
               <e-svg-icon *ngIf="chunk.visible" size="small" type="alpha__chevron">expanded</e-svg-icon>
               {{chunk.title}}
             </span>
-            <pre class="log__chunk__message" [innerHTML]="chunk.log | safe: 'html'" *ngIf="chunk.visible"></pre>
+            <app-log-chunk [text]="chunk.log" *ngIf="chunk.visible"></app-log-chunk>
           </div>
         </div>
       </div>

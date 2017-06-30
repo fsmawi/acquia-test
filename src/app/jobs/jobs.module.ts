@@ -13,6 +13,7 @@ import {MomentModule} from 'angular2-moment';
 import {SharedModule} from '../shared/shared.module';
 import {StartJobComponent} from './start-job/start-job.component';
 import {NoJobsComponent} from './no-jobs/no-jobs.component';
+import {LogChunkComponent} from './jobs-detail/log-chunk/log-chunk.component';
 
 @NgModule({
   imports: [
@@ -30,7 +31,8 @@ import {NoJobsComponent} from './no-jobs/no-jobs.component';
     JobListComponent,
     JobSummaryComponent,
     StartJobComponent,
-    NoJobsComponent
+    NoJobsComponent,
+    LogChunkComponent
   ],
   entryComponents: [StartJobComponent],
   exports: [StartJobComponent]

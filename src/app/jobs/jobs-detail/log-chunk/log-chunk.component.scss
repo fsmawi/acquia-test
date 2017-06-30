@@ -1,0 +1,32 @@
+@import "../../../../assets/scss/elemental-core.scss";
+
+pre {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.pagination {
+
+  text-align: center;
+  color: $color-brand-primary-7;
+  padding: px-to-relative(10px);
+  font-size: 1rem;
+
+  &::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+}
+
+.pagination-link {
+
+  display: inline-block;
+  font-weight: bold;
+  cursor: pointer;
+
+  &:hover {
+  	color: #fff;
+  }
+}
