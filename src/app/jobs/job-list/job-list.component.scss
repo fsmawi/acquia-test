@@ -23,10 +23,17 @@ table {
       td {
         vertical-align: middle;
         border: none;
+        max-width: px-to-relative(200px);
       }
     }
     tr:nth-child(odd) {
       background-color: $color-neutral-0;
     }
+  }
+}
+
+.actions-col {
+  @media (min-width: px-to-relative(800px)) and (max-width: px-to-relative(840px)) {
+    display: none;
   }
 }

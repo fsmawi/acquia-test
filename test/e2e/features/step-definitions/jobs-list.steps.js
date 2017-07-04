@@ -55,7 +55,7 @@ module.exports = function () {
   });
 
   this.Then(/^I should see the appropriate headers for the activity card$/, function () {
-    expectedActivityCardHeaders = ['Status', 'Job', 'Branch', 'Commit', 'Duration', 'Completed', 'Actions'];
+    expectedActivityCardHeaders = ['Status', 'Job', 'Branch', 'Pull Request', 'Commit', 'Duration', 'Completed', 'Actions'];
     let selector = 'section[class="el-card__body"]';
 
     boostrap(this.browser);

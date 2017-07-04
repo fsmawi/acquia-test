@@ -205,13 +205,16 @@ export class JobsComponent extends BaseApplication implements OnInit, OnDestroy 
           let filterByStatusMatch = false;
           let filterByTriggerMatch = false;
           let filterByPRNameMatch = false;
-          // Construct the PR #Nmuber string if PR Number is available
-          const pullRequest = (job.metadata && job.metadata.pull_request) ?
-            `pr ${job.metadata.pull_request.toLowerCase()}` : '';
 
-          // Case 1 : Check if a pull request matches with the text shown i.e, PR #Number
+          // Case 1 : Check if a pull request matches with the text shown i.e, PR #Number or with source branch
           if (job.isPullRequest) {
-            if (pullRequest !== '' && pullRequest.indexOf(filterTextLowerCase) > -1) {
+            // Construct the PR #Nmuber string if PR Number is available
+            const pullRequest = (job.metadata && job.metadata.pull_request) ?
+              `pr ${job.metadata.pull_request.toLowerCase()}` : '';
+            const sourceBranch = (job.metadata && job.metadata.source_branch) ?
+              job.metadata.source_branch.toLowerCase() : '';
+            if ((pullRequest !== '' && pullRequest.indexOf(filterTextLowerCase) > -1)
+              || (sourceBranch !== '' && sourceBranch.indexOf(filterTextLowerCase) > -1)) {
               filterByPRNameMatch = true;
             }
           }
@@ -231,7 +234,7 @@ export class JobsComponent extends BaseApplication implements OnInit, OnDestroy 
           }
 
           // Case 1 : Check if the input matches with any branch name or if a pull request check if it matches with
-          //          the text shown i.e, PR #Number
+          //          the text shown i.e, PR #Number or source branch
           // Case 2 : Check if the user is searching for 'success' or 'failed' jobs
           // Case 3 : Check if the user is searching for any trigger type
           return ((job.branch.toLowerCase().indexOf(filterTextLowerCase) > -1 || filterByPRNameMatch) || // Case 1
@@ -356,9 +359,12 @@ export class JobsComponent extends BaseApplication implements OnInit, OnDestroy 
         }
       })
       .then(() => {
-          this.showMoreJobsLoading = false;
           this.loadingJobs = false;
           this.filter();
+          // Fix for intermittent issue : loading indicator disappears before loading more jobs.
+          if (page === this.page) {
+            this.showMoreJobsLoading = false;
+          }
         }
       );
   }

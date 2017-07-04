@@ -5,10 +5,10 @@ module.exports = {
   // Custom browser specifications.
   browser: {
     name: 'chrome',
-    width: '1024',
+    width: '1280',
     height: '768',
   },
-  
+
     // Timeouts
   timeouts: {
     // set in milliseconds

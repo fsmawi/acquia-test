@@ -4,10 +4,11 @@
     <th class="center">Status</th>
     <th class="center">Job</th>
     <th class="center">Branch</th>
+    <th class="center" [ngClass]="{'hidden-md-down': isStandalone, 'hidden-sm-down': !isStandalone}">Pull Request</th>
     <th class="hidden-xs-down center">Commit</th>
-    <th class="center" [ngClass]="{'hidden-md-down': isStandalone, 'hidden-sm-down': !isStandalone}">Duration</th>
-    <th class="center" [ngClass]="{'hidden-md-down': isStandalone, 'hidden-sm-down': !isStandalone}">Completed</th>
-    <th class="hidden-xs-down center">Actions</th>
+    <th class="center" [ngClass]="{'hidden-lg-down': isStandalone, 'hidden-md-down': !isStandalone}">Duration</th>
+    <th class="center" [ngClass]="{'hidden-lg-down': isStandalone, 'hidden-md-down': !isStandalone}">Completed</th>
+    <th class="hidden-xs-down center" [ngClass]="{'actions-col': isStandalone}">Actions</th>
   </tr>
   </thead>
   <tbody>
@@ -27,6 +28,9 @@
          tooltipPosition="right">{{job.job_id | slice:0:8}}</a>
     </td>
     <td class="center">
+      {{job.metadata?.pull_request && job.metadata?.source_branch ? job.metadata.source_branch : (job.branch || 'None')}}
+    </td>
+    <td class="center" [ngClass]="{'hidden-md-down': isStandalone, 'hidden-sm-down': !isStandalone}">
       <a *ngIf="job.metadata?.pull_request_link"
          href="{{job.metadata.pull_request_link}}" target="_blank"
          appTrackOn="click"
@@ -35,7 +39,7 @@
         PR {{job.metadata.pull_request}}
       </a>
       <span *ngIf="!job.metadata?.pull_request_link">
-        {{job.metadata?.pull_request ? ('PR ' + job.metadata.pull_request) : (job.branch || 'None')}}
+        {{job.metadata?.pull_request ? ('PR ' + job.metadata.pull_request) : 'None'}}
       </span>
     </td>
     <td class="hidden-xs-down center">
@@ -44,20 +48,19 @@
       </a>
       {{job.metadata?.commit_link ? '' : job.metadata?.git_sha ? (job.metadata.git_sha | slice:0:8) : 'None'}}
     </td>
-    <td class="center" [ngClass]="{'hidden-md-down': isStandalone, 'hidden-sm-down': !isStandalone}"
+    <td class="center" [ngClass]="{'hidden-lg-down': isStandalone, 'hidden-md-down': !isStandalone}"
         *ngIf="job.duration">{{job.duration | amDuration:'seconds'}}</td>
-    <td class="center" [ngClass]="{'hidden-md-down': isStandalone, 'hidden-sm-down': !isStandalone}"
+    <td class="center" [ngClass]="{'hidden-lg-down': isStandalone, 'hidden-md-down': !isStandalone}"
         *ngIf="!job.duration">-</td>
-    <td class="center" [ngClass]="{'hidden-md-down': isStandalone, 'hidden-sm-down': !isStandalone}"
+    <td class="center" [ngClass]="{'hidden-lg-down': isStandalone, 'hidden-md-down': !isStandalone}"
         *ngIf="job.finished_at">{{(job.finished_at | amFromUnix) | amTimeAgo }}</td>
-    <td class="center" [ngClass]="{'hidden-md-down': isStandalone, 'hidden-sm-down': !isStandalone}"
+    <td class="center" [ngClass]="{'hidden-lg-down': isStandalone, 'hidden-md-down': !isStandalone}"
         *ngIf="!job.finished_at">-</td>
-    <td class="center hidden-xs-down">
+    <td class="center hidden-xs-down" [ngClass]="{'actions-col': isStandalone}">
       <!-- TODO Refresh is not available in the API yet -->
       <!-- <button md-button *ngIf="job.isFailed" (click)="restartJob(job)"> -->
       <!-- <md-icon color="primary">refresh</md-icon> -->
       <!-- </button> -->
-
       <a *ngIf="job.isFinished && job.metadata && job.metadata.deployment_link"
          href="{{job.metadata.deployment_link}}" target="_blank">
         <e-svg-icon class="primary" type="alpha__globe"
@@ -67,7 +70,6 @@
                     tooltipPosition="left">
         </e-svg-icon>
       </a>
-
       <e-svg-icon class="danger" type="actions__close--circle"
                   *ngIf="job.isUnfinished" (click)="stopJob(job)"
                   appTooltip="Terminate Job"
