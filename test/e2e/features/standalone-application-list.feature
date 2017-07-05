@@ -23,7 +23,7 @@ Feature: Pipelines Jobs List
     And I should navigate to the |*job-detail| page
     Then I can see an alert showing the status of the job and message
 
-  @StandaloneApplication_AppListNotVisible
+  @StandaloneApplication_AppListNotVisible @pending
   Scenario: Check the application list not visible in iframe
     Given I visit the |*PIPELINES_IFRAME_URL|
     And I wait 10 seconds for page to navigate

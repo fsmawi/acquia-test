@@ -57,6 +57,10 @@ export class LiftService {
         delete eventData[key];
       }
     });
+
+    // assign the persona property
+    Object.assign(eventData, {persona: 'Developer'});
+
     return _tcaq.push(['capture', eventName, eventData]);
   }
 }

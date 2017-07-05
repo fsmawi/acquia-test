@@ -17,7 +17,7 @@
     "mock:github": "merver test/api-mock-resources/github.yml",
     "coverage": "ng test --code-coverage --watch=false",
     "e2e:ode": "CONFIG=\"test/e2e/aqtestfile.js\" SERVICE_USERNAME=$SAUCE_SERVICE_USERNAME SERVICE_KEY=$SAUCE_SERVICE_KEY node scripts/parallel-e2e.js -- --host sauce --service-platform mac --browser chrome",
-    "e2e:parallel:local": "node scripts/parallel-e2e.js -- --host sauce --service-platform mac --browser chrome",
+    "e2e:parallel:local": "node scripts/parallel-e2e.js -- --host sauce --service-platform  mac --service-resolution 1280x768 --browser chrome",
     "e2e:acceptance": "echo TODO",
     "integration": "mocha test/integration --recursive --colors",
     "integration:acceptance": "mocha test/integration --recursive --colors",

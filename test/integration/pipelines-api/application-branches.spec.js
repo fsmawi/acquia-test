@@ -82,7 +82,7 @@ describe('Pipelines API /api/v1/ci/applications/:id?include_branches', function 
           } else {
             expect(res.status).to.equal(403);
             expect(res.text).to
-              .contain('Error authorizing request: Expected([200, 201, 202, 203, 204, 205, 206, 302]) <=> Actual(400 Bad Request)');
+              .contain('Error authorizing request: N3 auth failed');
           }
         } catch (e) {
           logAPICall(res, route, params);

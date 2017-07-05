@@ -29,7 +29,7 @@ Feature: Pipelines Jobs List
     When on the |*jobs-list| page
     Then I should see the |*activity-tab|
 
-  @JobList_CheckActivityTableHeaders
+  @JobList_CheckActivityTableHeaders @pending
   Scenario: Check that the activity card should show the appropriate headers
     When on the |*jobs-list| page
     Then I should see the appropriate headers for the activity card
