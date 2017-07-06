@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.56"></a>
+## [0.2.56](https://github.com/acquia/pipelines-ui/compare/v0.2.55...v0.2.56) (2017-07-06)
+
+
+### Bug Fixes
+
+* **pipelines.service:** Removed pipeline id when calling direct start ([6c1debc](https://github.com/acquia/pipelines-ui/commit/6c1debc))
+
+
+
 <a name="0.2.55"></a>
 ## [0.2.55](https://github.com/acquia/pipelines-ui/compare/v0.2.54...v0.2.55) (2017-07-05)
 
