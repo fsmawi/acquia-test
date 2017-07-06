@@ -560,7 +560,7 @@ routes:
           sitename: "enterprise-g1:sfwiptravis"
           started_at: 0
           status: failed_by_user
-  /api/v1/ci/pipelines/466b4c99-c0cb-4e3a-ad18-b8dad85e6ea4/start:
+  /api/v1/ci/pipelines/start:
     POST:
       response: permission denied for current user
       status: 403
@@ -1157,7 +1157,7 @@ routes:
           - hotfix/bug5
           - hotfix/bug6
           - hotfix/bug7
-  /api/v1/ci/pipelines/11279161-f354-4294-875c-3a2e446f81f6/direct-start:
+  /api/v1/ci/pipelines/direct-start:
      POST:
       response:
         success: true
@@ -1283,4 +1283,3 @@ redirections:
     redirect_to: http://localhost:4200/auth/github/123?success=true
   /github/oauth:
     redirect_to: http://localhost:4200/auth/github/123?success=true
-

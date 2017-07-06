@@ -210,17 +210,16 @@ export class PipelinesService {
   /**
    * Starts a pipelines job
    * @param appId
-   * @param pipelineId
    * @param options
    * @returns {Promise<HttpRequest>}
    */
-  startJob(appId: string, pipelineId: string, options = {}) {
+  startJob(appId: string, options = {}) {
     // Default Options
     Object.assign(options, {
       applications: [appId]
     });
 
-    return this.promisePostRequest(this.URI + `/ci/pipelines/${pipelineId}/start`, options);
+    return this.promisePostRequest(this.URI + `/ci/pipelines/start`, options);
   }
 
   /**
@@ -248,14 +247,7 @@ export class PipelinesService {
     // Update metadata as well for oauth repo types
     Object.assign(options, options['metadata'] || {});
 
-    return this.getPipelineByAppId(appId, false)
-      .then(p => {
-        if (p.length > 0) {
-          return this.promisePostRequest(this.URI + `/ci/pipelines/${p[0].pipeline_id}/direct-start`, options);
-        } else {
-          return Promise.reject(new Error('No pipelines for the given application.'));
-        }
-      });
+    return this.promisePostRequest(this.URI + `/ci/pipelines/direct-start`, options);
   }
 
   /**

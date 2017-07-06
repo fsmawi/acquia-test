@@ -1431,7 +1431,7 @@ routes:
             pull_request: "92"
             pull_request_link: "https://github.com/acquia/pipelines-ui/pull/92"
             source_branch: "MS-2482--E2E-Testing-for-the-Job-Detail-Count-up"
-  /api/v1/ci/pipelines/466b4c99-c0cb-4e3a-ad18-b8dad85e6ea4/start:
+  /api/v1/ci/pipelines/start:
     POST:
       response: permission denied for current user
       status: 403
@@ -2028,7 +2028,7 @@ routes:
           - hotfix/bug5
           - hotfix/bug6
           - hotfix/bug7
-  /api/v1/ci/pipelines/11279161-f354-4294-875c-3a2e446f81f6/direct-start:
+  /api/v1/ci/pipelines/direct-start:
      POST:
       response:
         success: true

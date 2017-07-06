@@ -74,7 +74,7 @@ export class JobListComponent implements OnInit {
    * @param job
    */
   restartJob(job: Job) {
-    this.pipelines.startJob(this.appId, job.pipeline_id, {
+    this.pipelines.startJob(this.appId, {
       commit: job.commit || undefined,
       branch: !job.commit ? job.branch : undefined
     }).then(result => {

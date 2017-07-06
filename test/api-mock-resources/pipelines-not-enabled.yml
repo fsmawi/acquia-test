@@ -183,7 +183,7 @@ routes:
           exit_message: test exit message
           trigger: manual
           metadata: {}
-  /api/v1/ci/pipelines/466b4c99-c0cb-4e3a-ad18-b8dad85e6ea4/start:
+  /api/v1/ci/pipelines/start:
     POST:
       response: permission denied for current user
       status: 403
@@ -764,7 +764,7 @@ routes:
         repo_type: acquia-git
         repo_name: example/repo
         repo_url: site@svn-3.hosted.acquia-sites.com:site.git
-  /api/v1/ci/pipelines/11279161-f354-4294-875c-3a2e446f81f6/direct-start:
+  /api/v1/ci/pipelines/direct-start:
      POST:
       response:
         success: true

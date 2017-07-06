@@ -97,7 +97,7 @@ routes:
             link: https://github.com/acquia/repo2
             type: github
           branches: test11,test12
-  /api/v1/ci/pipelines/11279161-f354-4294-875c-3a2e446f81f6/direct-start:
+  /api/v1/ci/pipelines/direct-start:
      POST:
       response:
         success: true
@@ -139,7 +139,7 @@ routes:
           - hotfix/bug5
           - hotfix/bug6
           - hotfix/bug7
-  /api/v1/ci/pipelines/11279161-f354-4294-875c-3a2e446f81f6/direct-start:
+  /api/v1/ci/pipelines/direct-start:
      POST:
       response:
         success: true
