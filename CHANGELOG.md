@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.57"></a>
+## [0.2.57](https://github.com/acquia/pipelines-ui/compare/v0.2.56...v0.2.57) (2017-07-12)
+
+
+### Features
+
+* **OauthModule:** Created user flow for bitbucket (#239) ([2638fa9](https://github.com/acquia/pipelines-ui/commit/2638fa9))
+
+
+
 <a name="0.2.56"></a>
 ## [0.2.56](https://github.com/acquia/pipelines-ui/compare/v0.2.55...v0.2.56) (2017-07-06)
 
