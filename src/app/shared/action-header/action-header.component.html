@@ -31,6 +31,13 @@
       <span> Github</span>
     </h3>
 
+    <h3 id="job-details-header" class="ui-core-set-head-title flex-item" *ngSwitchCase="'bitbucket'">
+      <a appIframeLink="/applications/{{appId}}">{{repoName}}</a> >
+      <a appIframeLink="/applications/{{appId}}/info"> Info</a> >
+      <a appIframeLink="/applications/{{appId}}/info/configure"> Configure</a> >
+      <span> Bitbucket</span>
+    </h3>
+
     <h3 id="job-details-header" class="ui-core-set-head-title flex-item" *ngSwitchDefault>
       <a appIframeLink="/applications/{{appId}}">{{repoName}}</a>
     </h3>

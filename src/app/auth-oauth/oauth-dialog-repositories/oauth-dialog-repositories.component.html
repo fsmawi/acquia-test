@@ -1,14 +1,16 @@
 <e-card>
   <e-card-header>Choose a repository to attach</e-card-header>
   <e-card-content>
-    <e-progress *ngIf="loading"
-      progressType="indeterminate"
-      progressVariant="dots"
-      progressSize="medium"></e-progress>
     <div class="el-form-leg__item">
       <label class="el-form-leg__item__label">
         <span>Repositories({{repositories.length}})</span>
       </label>
+      <e-progress class="loading-repos"
+                  *ngIf="loading"
+                  progressType="indeterminate"
+                  progressVariant="dots"
+                  progressSize="small">
+      </e-progress>
 
       <app-select-list [options]='repositories'
                       filterPlaceholder='Filter repositories'

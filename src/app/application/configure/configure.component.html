@@ -62,6 +62,30 @@
       </e-card-content>
     </e-card>
   </div>
+  <div class="flex-item"
+       fxFlex="350px"
+       fxFlex.xs="100%"
+       [ngClass]="{'current-repository' : vcsType === 'bitbucket'}">
+    <e-card>
+      <e-card-content>
+        <svg width="150" height="150">
+          <image width="150px" height="150px" xlink:href="../assets/bitbucket.svg"></image>
+        </svg>
+        <p *ngIf="vcsType === 'bitbucket'">You are currently using your Bitbucket repository</p>
+        <p *ngIf="vcsType !== 'bitbucket'">Configure Pipelines with your Bitbucket repository</p>
+        <e-button text="Start Job" type="primary"
+                  appTrackOn="click"
+                  [trackEventData]="{appId: appId}"
+                  trackEventName="ClickStartJobConfigBitbucket" (click)="startJob()"
+                  *ngIf="vcsType === 'bitbucket'"></e-button>
+        <a appIframeLink="/auth/oauth/bitbucket/{{appId}}" class="el-button el-button--link"
+           appTrackOn="click"
+           [trackEventData]="{appId: appId}"
+           trackEventName="ClickConfigureBitbucket"
+           *ngIf="vcsType !== 'bitbucket'">Configure</a>
+      </e-card-content>
+    </e-card>
+  </div>
 </div>
 
 <e-progress *ngIf="appLoading"

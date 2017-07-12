@@ -80,7 +80,7 @@ describe('PipelinesService', () => {
         })
       });
 
-      service.attachGithubRepository('repoId', 'someAppId').then(res => {
+      service.attachOauthGitRepository('repoId', 'someAppId', 'github').then(res => {
         expect(res.success).toEqual(true);
         expect(res.deploy_key_url).toEqual('key_url');
         expect(res.webhook_url).toEqual('webhook_url');
@@ -96,7 +96,7 @@ describe('PipelinesService', () => {
         })
       });
 
-      service.removeGitHubAuth('repo', 'app-id').then(res => {
+      service.removeOauthGitAuth('repo', 'app-id', 'github').then(res => {
         expect(res.status).toBe(204);
       });
     }));
@@ -143,23 +143,6 @@ describe('PipelinesService', () => {
       service.getBranches('someAppId').then(res => {
         expect(res.length).toEqual(2);
         expect(res[1]).toEqual('test12');
-      });
-    }));
-
-  it('should get the github connection status for a given application ID',
-    inject([PipelinesService, MockBackend], (service: PipelinesService, mockBackend: MockBackend) => {
-      setupConnections(mockBackend, {
-        body: {
-          someAppId: {
-            connected: true,
-            repo_url: 'someurl'
-          }
-        }
-      });
-
-      service.getGithubStatus('someAppId').then(res => {
-        expect(res.connected).toBe(true);
-        expect(res.repo_url).toBe('someurl');
       });
     }));
 

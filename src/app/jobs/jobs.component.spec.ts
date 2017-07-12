@@ -64,16 +64,6 @@ class MockPipelinesService {
     }
     return Promise.resolve(jobs);
   }
-
-  getGithubStatus(appId: string) {
-    return Promise.resolve([{
-      'undefined': {
-        repo_url: 'https://github.com/acquia/repo1.git',
-        connected: true
-      }
-    }]);
-  }
-
 }
 
 class MockMdDialog {

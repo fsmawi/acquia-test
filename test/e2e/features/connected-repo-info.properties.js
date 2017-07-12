@@ -2,7 +2,7 @@ module.exports = {
   // feature scope
   'repo-type-acquia-title' : '//h3[text()="Acquia Git repository"]',
   'repo-type-acquia-icon' : '#repoInfo svg image',
-  'repo-type-github-title' : '//h3[text()="Github repository"]',
+  'repo-type-github-title' : '//h3[text()="GitHub repository"]',
   'repo-type-github-icon' : '#repoInfo e-svg-icon',
   'repo-url' : '#repo-URL input',
   'repo-url-acquia-text' : 'site@svn-3.hosted.acquia-sites.com:site.git',

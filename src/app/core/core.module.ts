@@ -11,6 +11,7 @@ import {BugsnagService} from './services/bugsnag.service';
 import {LiftService} from './services/lift.service';
 import {SegmentService} from './services/segment.service';
 import {AuthGuard} from './services/auth-guard.service';
+import {OauthGuard} from './services/oauth-guard.service';
 import {AuthService} from './services/auth.service';
 import {ConfirmationModalComponent} from './components/confirmation-modal/confirmation-modal.component';
 import {ConfirmationModalService} from './services/confirmation-modal.service';
@@ -48,6 +49,7 @@ import {ApplicationsListComponent} from './components/applications-list/applicat
     N3Service,
     ErrorService,
     AuthGuard,
+    OauthGuard,
     AuthService,
     FlashMessageService,
     AmplitudeService,

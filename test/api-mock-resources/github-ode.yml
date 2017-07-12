@@ -837,7 +837,7 @@ routes:
           timestamp: 1456263980
           level: ERROR
           message: Problem while loading the components.
-  /api/v1/ci/github/init:
+  /api/v1/ci/webhook/github/init:
     POST:
       response:
         success: true
@@ -922,7 +922,7 @@ routes:
             link: https://github.com/acquia/repo2
             type: github
           branches: test11,test12
-  /api/v1/ci/github/repos:
+  /api/v1/ci/webhook/github/repos:
     GET:
       response:
       -
@@ -968,3 +968,5 @@ routes:
 redirections:
   /api/v1/ci/github/oauth:
     redirect_to: /index.html#/auth/github/123?success=true
+  /api/v1/ci/oauth/github:
+      redirect_to: /index.html#/auth/github/123?success=true

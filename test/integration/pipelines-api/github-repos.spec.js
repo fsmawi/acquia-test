@@ -32,7 +32,6 @@ describe('Pipelines API /api/v1/ci/github/repos', function () {
             expect(res.body).to.be.a('Array');
             expect(res.body[0]).to.be.a('Object');
             expect(res.body[0].full_name).to.exist;
-            expect(res.body[0].url).to.exist;
             expect(res.body[0].description).to.exist;
           }
         } catch(e) {

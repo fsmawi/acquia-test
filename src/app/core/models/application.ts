@@ -21,7 +21,6 @@ export class Application {
   repo_type: string;
 
   /**
-<<<<<<< HEAD
    * UUID of the application
    */
   uuid: string;

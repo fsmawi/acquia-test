@@ -36,18 +36,7 @@
          appTrackOn="click"
          [trackEventData]="{appId: appId}"
          trackEventName="ClickRepoNameApplicationInfo">
-        <e-svg-icon *ngIf="vcsType === 'github'"
-                    type="logos__github"
-                    size="medium"
-                    appTooltip="Using GitHub"
-                    tooltipPosition="left">
-        </e-svg-icon>
-        <svg *ngIf="vcsType ==='acquia-git'"
-             class="el-iconography__icon el-iconography__icon--is-medium"
-             appTooltip="Using Acquia Git"
-             tooltipPosition="left">
-          <image height="28px" xlink:href="../assets/acquia.svg" width="28px"></image>
-        </svg>
+        <app-repo-type-icon [repoType]="vcsType"></app-repo-type-icon>
         {{repoFullName}}
       </a>
     </e-card-header>

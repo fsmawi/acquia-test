@@ -2,7 +2,7 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {By} from '@angular/platform-browser';
 import {DebugElement} from '@angular/core';
-import {MdProgressSpinnerModule, MdDialogModule, MdTooltipModule} from '@angular/material';
+import {MdProgressSpinnerModule, MdDialogModule} from '@angular/material';
 import {FormsModule} from '@angular/forms';
 import {RouterTestingModule} from '@angular/router/testing';
 
@@ -21,7 +21,6 @@ describe('StatusCodeComponent', () => {
       imports: [
         MdProgressSpinnerModule,
         MdDialogModule,
-        MdTooltipModule,
         FormsModule,
         RouterTestingModule
       ],

@@ -6,9 +6,9 @@ import {ConfirmationModalService} from '../core/services/confirmation-modal.serv
 import {ErrorService} from '../core/services/error.service';
 import {features} from '../core/features';
 import {FlashMessageService} from '../core/services/flash-message.service';
-import {GithubStatus} from '../core/models/github-status';
 import {PipelinesService} from '../core/services/pipelines.service';
 import {animations} from '../core/animations';
+import {repoType} from '../core/repository-types';
 
 @Component({
   selector: 'app-application',
@@ -71,7 +71,7 @@ export class ApplicationComponent extends BaseApplication implements OnInit {
   vcsType: string;
 
   /**
-   * Repository type eg. Github, Acquia, BitBucket
+   * Repository type eg. Github, Acquia, Bitbucket
    */
   repositoryType: string;
 
@@ -120,13 +120,10 @@ export class ApplicationComponent extends BaseApplication implements OnInit {
    * Set Repository type
    */
   setRepositoryType() {
-    switch (this.vcsType) {
-      case 'github':
-        this.repositoryType = 'Github';
-        break;
-      default:
-        this.repositoryType = 'Acquia Git';
-        break;
+    if (repoType[this.vcsType]) {
+      this.repositoryType = repoType[this.vcsType].name;
+    } else {
+      this.repositoryType = 'Acquia Git';
     }
   }
 

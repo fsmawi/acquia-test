@@ -1,5 +1,5 @@
 import {CommonModule} from '@angular/common';
-import {MdProgressSpinnerModule, MdDialogModule, MdTooltipModule} from '@angular/material';
+import {MdProgressSpinnerModule, MdDialogModule} from '@angular/material';
 import {NgModule} from '@angular/core';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {FormsModule} from '@angular/forms';
@@ -18,12 +18,12 @@ import {ContextLinkDirective} from './directives/context-link.directive';
 import {EncryptCredentialsComponent} from './encrypt-credentials/encrypt-credentials.component';
 import {DragAndDropDirective} from './directives/drag-and-drop.directive';
 import {TooltipDirective} from './directives/tooltip.directive';
+import {RepoTypeIconComponent} from './repo-type-icon/repo-type-icon.component';
 
 @NgModule({
   imports: [
     CommonModule,
     MdProgressSpinnerModule,
-    MdTooltipModule,
     MdDialogModule,
     ElementalModule,
     FlexLayoutModule,
@@ -42,7 +42,8 @@ import {TooltipDirective} from './directives/tooltip.directive';
     ContextLinkDirective,
     EncryptCredentialsComponent,
     DragAndDropDirective,
-    TooltipDirective
+    TooltipDirective,
+    RepoTypeIconComponent
   ],
   exports: [
     JobStatusComponent,
@@ -59,8 +60,8 @@ import {TooltipDirective} from './directives/tooltip.directive';
     DragAndDropDirective,
     TooltipDirective,
     MdProgressSpinnerModule,
-    MdTooltipModule,
-    MdDialogModule
+    MdDialogModule,
+    RepoTypeIconComponent
   ],
   entryComponents: [EncryptCredentialsComponent]
 })

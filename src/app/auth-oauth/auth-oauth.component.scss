@@ -16,12 +16,12 @@
   }
 }
 
-.github-connect {
+.oauth-connect {
 
-  margin-bottom: 30px;
+  margin-bottom: px-to-relative(30px);
 
   span {
-    font-size: 20px;
+    font-size: px-to-relative(20px);
     font-weight: bold;
   }
 
@@ -32,8 +32,8 @@
   }
 
   /deep/ button {
-    width: 215px;
-    margin-right: 10px;
+    width: px-to-relative(218px);
+    margin-right: px-to-relative(10px);
   }
 }
 

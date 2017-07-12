@@ -954,3 +954,5 @@ routes:
 redirections:
   /api/v1/ci/github/oauth:
     redirect_to: /index.html#/auth/github/123?success=false&reason=a%20certain%20reason
+  /api/v1/ci/oauth/github:
+    redirect_to: /index.html#/auth/github/123?success=false&reason=a%20certain%20reason

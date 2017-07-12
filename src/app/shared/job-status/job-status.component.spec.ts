@@ -4,7 +4,7 @@ import {By} from '@angular/platform-browser';
 import {DebugElement} from '@angular/core';
 
 import {JobStatusComponent} from './job-status.component';
-import {MdProgressSpinnerModule, MdDialogModule, MdTooltipModule} from '@angular/material';
+import {MdProgressSpinnerModule, MdDialogModule} from '@angular/material';
 import {ElementalModule} from '../../elemental/elemental.module';
 
 describe('JobStatusComponent', () => {
@@ -14,7 +14,7 @@ describe('JobStatusComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [JobStatusComponent],
-      imports: [MdProgressSpinnerModule, MdDialogModule, MdTooltipModule, ElementalModule]
+      imports: [MdProgressSpinnerModule, MdDialogModule, ElementalModule]
     })
       .compileComponents();
   }));

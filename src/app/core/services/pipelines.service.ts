@@ -9,7 +9,6 @@ import {environment} from '../../../environments/environment';
 import {Job} from '../models/job';
 import {Pipeline} from '../models/pipeline';
 import {Repository} from '../models/repository';
-import {GithubStatus} from '../models/github-status';
 
 @Injectable()
 export class PipelinesService {
@@ -70,25 +69,27 @@ export class PipelinesService {
   }
 
   /**
-   * Attach a Github repository
+   * Attach an OauthGit repository
    * @param repositoy
    * @param application
+   * @param repoType
    */
-  attachGithubRepository(repositoy: string, application: string) {
-    return this.promisePostRequest(this.URI + `/ci/github/init`, {
+  attachOauthGitRepository(repositoy: string, application: string, repoType: string) {
+    return this.promisePostRequest(this.URI + `/ci/webhook/${repoType}/init`, {
       repo: repositoy,
       applications: [application]
     });
   }
 
   /**
-   * Removes Github Auth from the application
+   * Removes OauthGit Auth from the application
    * @param repository
    * @param application
+   * @param repoType
    * @returns {Promise<T>}
    */
-  removeGitHubAuth(repository: string, application: string) {
-    return this.promiseDeleteRequest(this.URI + `/ci/github`, {
+  removeOauthGitAuth(repository: string, application: string, repoType: string) {
+    return this.promiseDeleteRequest(this.URI + `/ci/webhook/${repoType}`, {
       repo: repository,
       applications: [application]
     });
@@ -132,17 +133,6 @@ export class PipelinesService {
   }
 
   /**
-   * Get the github status of an application
-   * @param appId
-   * @returns {Promise<GithubStatus>}
-   */
-  getGithubStatus(appId: string) {
-    return this.promiseGetRequest(this.URI + '/ci/github/status', {
-      applications: [appId]
-    }).then((r: any) => new GithubStatus(appId, r));
-  }
-
-  /**
    * Get the application information
    * @param appId
    * @returns {Promise<Application>}
@@ -157,9 +147,10 @@ export class PipelinesService {
    * Get all connected user's repositories
    * @param page
    * @param appId
+   * @param repoType
    */
-  getRepositoriesByPage(page: number, appId: string) {
-    return this.promiseGetRequest(this.URI + `/ci/github/repos?per_page=100&page=${page}&applications=${appId}`, {})
+  getRepositoriesByPage(page: number, appId: string, repoType: string) {
+    return this.promiseGetRequest(this.URI + `/ci/webhook/${repoType}/repos?per_page=100&page=${page}&applications=${appId}`, {})
       .then((res: any) => res.map(r => new Repository(r)));
   }
 

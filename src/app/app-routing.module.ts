@@ -1,6 +1,7 @@
 import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 import {AuthGuard} from './core/services/auth-guard.service';
+import {OauthGuard} from './core/services/oauth-guard.service';
 
 const routes: Routes = [
   {path: '', redirectTo: '/applications', pathMatch: 'full'},
@@ -30,14 +31,19 @@ const routes: Routes = [
   },
   {path: 'auth/tokens', loadChildren: 'app/auth-tokens/auth-tokens.module#AuthTokensModule'},
   {
-    path: 'auth/github', loadChildren: 'app/auth-github/auth-github.module#AuthGithubModule',
+    path: 'auth/acquia', loadChildren: 'app/auth-acquia/auth-acquia.module#AuthAcquiaModule',
     canActivate: [AuthGuard],
     canActivateChild: [AuthGuard]
   },
   {
-    path: 'auth/acquia', loadChildren: 'app/auth-acquia/auth-acquia.module#AuthAcquiaModule',
+    path: 'auth/oauth', loadChildren: 'app/auth-oauth/auth-oauth.module#AuthOauthModule',
     canActivate: [AuthGuard],
-    canActivateChild: [AuthGuard]
+    canActivateChild: [AuthGuard, OauthGuard]
+  },
+  {
+    path: 'auth', loadChildren: 'app/auth-oauth/auth-oauth.module#AuthOauthModule', // temporary to handle github old route
+    canActivate: [AuthGuard],
+    canActivateChild: [AuthGuard, OauthGuard]
   },
   {path: 'error', loadChildren: 'app/status-code/status-code.module#StatusCodeModule'},
   {path: '404', loadChildren: 'app/status-code/status-code.module#StatusCodeModule'},

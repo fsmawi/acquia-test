@@ -38,6 +38,12 @@
           </svg>
           <e-svg-icon *ngIf="vcsType === 'github'" class="vcs-success-icon success" type="state__success--circle"></e-svg-icon>
         </div>
+        <div class="flex-item vcs-icon" [ngClass]="{'disabled' : vcsType !== 'bitbucket'}">
+          <svg width="90" height="90">
+            <image height="100px" xlink:href="../assets/bitbucket.svg" width="100px"></image>
+          </svg>
+          <e-svg-icon *ngIf="vcsType === 'bitbucket'" class="vcs-success-icon success" type="state__success--circle"></e-svg-icon>
+        </div>
       </div>
       <div>
         <a id="link-choose-source"

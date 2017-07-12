@@ -1,6 +1,6 @@
 import {async, ComponentFixture, TestBed, inject} from '@angular/core/testing';
 import {ObservableMedia} from '@angular/flex-layout';
-import {MdProgressSpinnerModule, MdTooltipModule} from '@angular/material';
+import {MdProgressSpinnerModule} from '@angular/material';
 import {RouterTestingModule} from '@angular/router/testing';
 
 import {TopLevelNavigationComponent} from './top-level-navigation.component';
@@ -46,7 +46,6 @@ describe('TopLevelNavigationComponent', () => {
       ],
       imports: [
         MdProgressSpinnerModule,
-        MdTooltipModule,
         RouterTestingModule,
         ElementalModule
       ]

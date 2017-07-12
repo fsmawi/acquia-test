@@ -120,7 +120,7 @@ routes:
   /api/v1/ci/applications:
     GET:
       response:
-        repo_type: github
+        repo_type: bitbucket
         repo_name: example/repo
         repo_url: https://github.com/raghunat/pineapple-pen.git
         branches:

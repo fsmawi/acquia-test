@@ -7,6 +7,7 @@ import {BaseApplication} from '../core/classes/base-application';
 import {ErrorService} from '../core/services/error.service';
 import {PipelinesService} from '../core/services/pipelines.service';
 import {StartJobComponent} from '../jobs/start-job/start-job.component';
+import {repoType} from '../core/repository-types';
 
 @Component({
   selector: 'app-auth-acquia',
@@ -45,10 +46,22 @@ export class AuthAcquiaComponent extends BaseApplication implements OnInit {
   repository: string;
 
   /**
-   * Alert for github connection status
+   * Alert for git service connection status
    * @type {Alert}
    */
   connectionAlert = new Alert();
+
+  /**
+   * Repository type
+   * @type {string}
+   */
+  repoType: string;
+
+  /**
+   * Holds current Repository type Label
+   * @type {string}
+   */
+  currentTypeLabel: string;
 
   /**
    * Build the component
@@ -90,6 +103,8 @@ export class AuthAcquiaComponent extends BaseApplication implements OnInit {
       .then((info: any) => {
         this.isConnected = (info.repo_type === 'acquia-git');
         this.repository = info.repo_name;
+        this.repoType = info.repo_type;
+        this.currentTypeLabel = repoType[this.repoType].name;
       })
       .catch(e => {
         this.errorHandler.apiError(e).reportError(e, 'FailedToGetApplicationInfo',
@@ -104,7 +119,7 @@ export class AuthAcquiaComponent extends BaseApplication implements OnInit {
    */
   enableAcquiaGit() {
     this.connectionLoading = true;
-    this.pipelines.removeGitHubAuth(this.repository, this.appId)
+    this.pipelines.removeOauthGitAuth(this.repository, this.appId, this.repoType)
       .then(res => {
         return this.refresh()
           .then((info) => {
@@ -113,14 +128,14 @@ export class AuthAcquiaComponent extends BaseApplication implements OnInit {
       })
       .catch(e => {
         this.errorHandler.apiError(e)
-          .reportError(e, 'FailedRemoveGitHubAuth', {component: 'auth-acquia', appId: this.appId}, 'error');
+          .reportError(e, `FailedRemove${this.currentTypeLabel}Auth`, {component: 'auth-acquia', appId: this.appId}, 'error');
         this.showConnectionAlert('danger', e.status + ' : ' + e._body);
       })
       .then(() => this.connectionLoading = false);
   }
 
   /**
-   * Show github connection status
+   * Show git service connection status
    * @param type
    * @param message
    */

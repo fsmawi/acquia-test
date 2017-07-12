@@ -1,17 +1,17 @@
 <app-action-header [appId]="appId"
                    [showViewInfo]="true"
                    [repoName]="repoFullName"
-                   pageType="github"
-                   title="Configure Pipelines with GitHub">
+                   pageType="{{repoType}}"
+                   title="Configure Pipelines with {{typeLabel}}">
 </app-action-header>
 
 <p>Leveraging Acquia Pipelines with existing non-Acquia Git workflows allows developers to integrate testing and release
  management for deployments to be made for Acquia Cloud-hosted applications.</p>
 
-<h2>Connect with Github</h2>
-<p>Link a remote GitHub repository that contains your project’s source files, which will generate a new Pipeline build
+<h2>Connect with {{typeLabel}}</h2>
+<p>Link a remote {{typeLabel}} repository that contains your project’s source files, which will generate a new Pipeline build
  with each new commit and pull request.</p>
-<div class="github-connect" id="connect-app">
+<div class="oauth-connect" id="connect-app">
   <form id="auth-form" action="{{oauthUrl}}?applications={{appId}}" method="POST" target="_top">
     <input type="hidden" name="HTTP_X_ACQUIA_PIPELINES_N3_APIFILE" value="{{n3ApiFile}}" *ngIf="n3ApiFile !== undefined">
     <input type="hidden" name="finish_url" value="{{finishUrl}}">
@@ -19,20 +19,20 @@
     <input type="hidden" name="applications" value="{{appId}}">
   </form>
   <e-alert type={{connectionAlert.type}} *ngIf="connectionAlert.display">{{connectionAlert.message}}</e-alert>
-  <e-button text="Connect to Github"
+  <e-button text="Connect to {{typeLabel}}"
     type="primary"
     appTrackOn="click"
     [trackEventData]="{appId: appId}"
-    trackEventName="ClickConnectToGithub"
+    trackEventName="ClickConnectTo{{typeLabel}}"
     (click)="authenticate()"
     *ngIf="!authorized"></e-button>
 </div>
-<div class="github-connect" *ngIf="authorized" id="select-repo">
-  <e-button text="Select Github repository"
+<div class="oauth-connect" *ngIf="authorized" id="select-repo">
+  <e-button text="Select {{typeLabel}} repository"
     type="primary"
     appTrackOn="click"
     [trackEventData]="{appId: appId}"
-    trackEventName="ClickSelectGithubRepository"
+    trackEventName="ClickSelect{{typeLabel}}Repository"
     (click)="selectRepository()"
     [disabled]="loading || appAttached"></e-button>
   <e-alert type={{attachRepoAlert.type}} *ngIf="attachRepoAlert.display">{{attachRepoAlert.message}}</e-alert>

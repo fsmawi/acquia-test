@@ -3,19 +3,33 @@ import {ActivatedRoute, Router, Params} from '@angular/router';
 import {MdDialog, MdDialogRef} from '@angular/material';
 
 import {Alert} from '../core/models/alert';
+import {BaseApplication} from '../core/classes/base-application';
 import {PipelinesService} from '../core/services/pipelines.service';
 import {ErrorService} from '../core/services/error.service';
+import {OauthDialogRepositoriesComponent} from './oauth-dialog-repositories/oauth-dialog-repositories.component';
 import {SegmentService} from '../core/services/segment.service';
 import {environment} from '../../environments/environment';
-import {GithubDialogRepositoriesComponent} from './github-dialog-repositories/github-dialog-repositories.component';
-import {BaseApplication} from '../core/classes/base-application';
+import {repoType} from '../core/repository-types';
+import {Repository} from '../core/models/repository';
 
 @Component({
-  selector: 'app-auth-github',
-  templateUrl: './auth-github.component.html',
-  styleUrls: ['./auth-github.component.scss']
+  selector: 'app-auth-oauth',
+  templateUrl: './auth-oauth.component.html',
+  styleUrls: ['./auth-oauth.component.scss']
 })
-export class AuthGithubComponent extends BaseApplication implements OnInit {
+export class AuthOauthComponent extends BaseApplication implements OnInit {
+
+  /**
+   * Repository type
+   * @type {string}
+   */
+  repoType: string;
+
+  /**
+   * Repository type Label
+   * @type {string}
+   */
+  typeLabel: string;
 
   /**
    * ApplicationID
@@ -24,13 +38,13 @@ export class AuthGithubComponent extends BaseApplication implements OnInit {
   appId: string;
 
   /**
-   * Gihub authorized Indicator
+   * Oauth authorized Indicator
    * @type {boolean}
    */
   authorized = false;
 
   /**
-   * URL to redirect after Github authorization
+   * URL to redirect after Oauth authorization
    * @type {string}
    */
   finishUrl: string;
@@ -71,7 +85,7 @@ export class AuthGithubComponent extends BaseApplication implements OnInit {
   appAttached = false;
 
   /**
-   * Alert for github connection status
+   * Alert for oauth connection status
    * @type {Alert}
    */
   connectionAlert = new Alert();
@@ -86,6 +100,17 @@ export class AuthGithubComponent extends BaseApplication implements OnInit {
    * Holds repo full name of the repo
    */
   repoFullName: string;
+
+  /**
+   * Holds current Repository type
+   */
+  currentRepoType: string;
+
+  /**
+   * Holds current Repository type Label
+   * @type {string}
+   */
+  currentTypeLabel: string;
 
   /**
    * Builds the component
@@ -107,17 +132,18 @@ export class AuthGithubComponent extends BaseApplication implements OnInit {
   }
 
   /**
-   * Open Dialog to choose a github directory
+   * Open Dialog to choose a oauth directory
    */
   selectRepository() {
 
     if (!this.appAttached) {
-      let dialogRef: MdDialogRef<GithubDialogRepositoriesComponent>;
+      let dialogRef: MdDialogRef<OauthDialogRepositoriesComponent>;
 
-      dialogRef = this.dialog.open(GithubDialogRepositoriesComponent);
+      dialogRef = this.dialog.open(OauthDialogRepositoriesComponent);
 
-      // pass the app id and start the repo listing
+      // pass the app id and repoType
       dialogRef.componentInstance.appId = this.appId;
+      dialogRef.componentInstance.repoType = this.repoType;
 
       dialogRef.afterClosed().subscribe(result => {
         if (result !== undefined && Object.keys(result).length !== 0) {
@@ -136,18 +162,18 @@ export class AuthGithubComponent extends BaseApplication implements OnInit {
    * Attach repository to the current application
    * @param repository
    */
-  attachRepository(repository) {
+  attachRepository(repository: Repository) {
     this.loading = true;
-    this.pipelines.attachGithubRepository(repository.full_name, this.appId)
-      .then(() => this.segment.trackEvent('SuccessfulGithubConnection', {appId: this.appId}))
+    this.pipelines.attachOauthGitRepository(repository.full_name, this.appId, this.repoType)
+      .then(() => this.segment.trackEvent(`Successful${this.typeLabel}Connection`, {appId: this.appId}))
       .then((r) => {
         this.appAttached = true;
         this.displayApplication();
       })
       .catch(e => {
         this.errorHandler.apiError(e)
-          .reportError(e, 'FailedToAttachGithubReposioryToPipelines',
-            {component: 'auth-github', repository: repository.full_name, appId: this.appId}, 'error');
+          .reportError(e, `FailedToAttach${this.typeLabel}ReposioryToPipelines`,
+            {component: `auth-${this.repoType}`, repository: repository.full_name, appId: this.appId}, 'error');
         this.showAttachRepoAlert('danger', e.status + ' : ' + e._body);
       })
       .then(() => this.loading = false);
@@ -161,14 +187,35 @@ export class AuthGithubComponent extends BaseApplication implements OnInit {
   }
 
   /**
-   * Authenticate on github
+   * Authenticate
    */
   authenticate() {
     if (!this.authorized && !this.formSubmited) {
-      this.formSubmited = true;
-      const form = <HTMLFormElement>document.getElementById('auth-form');
-      form.submit();
+      if (this.currentRepoType !== 'acquia-git') {
+        this.loading = true;
+        this.pipelines.removeOauthGitAuth(this.repoFullName, this.appId, this.currentRepoType)
+          .catch(e => {
+            this.errorHandler.apiError(e)
+              .reportError(e, `FailedRemove${this.currentTypeLabel}Auth`, {component: 'auth-acquia', appId: this.appId}, 'error');
+            this.showConnectionAlert('danger', e.status + ' : ' + e._body);
+          })
+          .then(() => {
+            this.submitOauth();
+            this.loading = false;
+          });
+      } else {
+        this.submitOauth();
+      }
     }
+  }
+
+  /**
+   * Submit oauth form
+   */
+  submitOauth () {
+    this.formSubmited = true;
+    const form = <HTMLFormElement>document.getElementById('auth-form');
+    form.submit();
   }
 
   /**
@@ -177,19 +224,19 @@ export class AuthGithubComponent extends BaseApplication implements OnInit {
    */
   checkAuthorization(params: Params) {
     if (params['success'] === 'true') {
-      this.showConnectionAlert('success', 'You are successfully connected to Github.');
+      this.showConnectionAlert('success', `You are successfully connected to ${this.typeLabel}.`);
       this.authorized = true;
     } else if (params['reason'] !== undefined && params['reason'] !== '') {
       this.showConnectionAlert('danger', decodeURIComponent(params['reason']));
-      this.errorHandler.reportError(new Error(params['reason']), 'FailedToCheckGithubAuthorization',
-        {component: 'auth-github', appId: this.appId}, 'error');
+      this.errorHandler.reportError(new Error(params['reason']), `FailedToCheck${this.typeLabel}Authorization`,
+        {component: `auth-${this.repoType}`, appId: this.appId}, 'error');
     } else {
-      this.showConnectionAlert('danger', 'Sorry, we could not connect to github at this time.');
+      this.showConnectionAlert('danger', `Sorry, we could not connect to ${this.typeLabel} at this time.`);
     }
   }
 
   /**
-   * Show github connection status
+   * Show repoType connection status
    * @param type
    * @param message
    */
@@ -217,17 +264,23 @@ export class AuthGithubComponent extends BaseApplication implements OnInit {
     this.authorized = false;
     this.formSubmited = false;
     this.appAttached = false;
-    this.oauthUrl = environment.apiEndpoint + '/api/v1/ci/github/oauth';
     this.n3Endpoint = environment.headers['X-ACQUIA-PIPELINES-N3-ENDPOINT'];
     this.n3ApiFile = environment.headers['X-ACQUIA-PIPELINES-N3-APIFILE'];
     this.route.params.subscribe((params) => {
       this.appId = params['app-id'];
       BaseApplication._appId = params['app-id'];
-      this.finishUrl = environment.authCloudRedirect + '/app/develop/applications/' + this.appId + '/pipelines/github';
+      this.repoType = params['repo-type'];
+      this.typeLabel = repoType[this.repoType].name;
+      this.oauthUrl = environment.apiEndpoint + `/api/v1/ci/oauth/${this.repoType}`;
 
-      // store appId in session storage
       if (!environment.standalone) {
+        // store appId in session storage
         sessionStorage.setItem('pipelines.standalone.application.id', this.appId);
+
+        // redirect to cloud site
+        this.finishUrl = environment.authCloudRedirect + `/app/develop/applications/${this.appId}/pipelines/${this.repoType}`;
+      } else {
+        this.finishUrl = environment.URL + `/auth/oauth/${this.repoType}/${this.appId}`;
       }
 
       this.route.queryParams.subscribe((queryParams) => {
@@ -239,6 +292,8 @@ export class AuthGithubComponent extends BaseApplication implements OnInit {
       // Get Repo Full Name
       this.getInfo().then(info => {
         this.repoFullName = info.repo_name;
+        this.currentRepoType = info.repo_type;
+        this.currentTypeLabel = repoType[this.currentRepoType].name;
       }).catch(e => this.errorHandler.apiError(e));
     });
   }

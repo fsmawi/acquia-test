@@ -3,15 +3,14 @@ import {MdDialogRef} from '@angular/material';
 
 import {ErrorService} from '../../core/services/error.service';
 import {PipelinesService} from '../../core/services/pipelines.service';
-import {RepositoryFilterPipe} from './repository-filter.pipe';
-
+import {repoType} from '../../core/repository-types';
 
 @Component({
-  selector: 'app-github-dialog-repositories',
-  templateUrl: './github-dialog-repositories.component.html',
-  styleUrls: ['./github-dialog-repositories.component.scss']
+  selector: 'app-oauth-dialog-repositories',
+  templateUrl: './oauth-dialog-repositories.component.html',
+  styleUrls: ['./oauth-dialog-repositories.component.scss']
 })
-export class GithubDialogRepositoriesComponent implements OnInit {
+export class OauthDialogRepositoriesComponent implements OnInit {
 
   /**
    * Array of repositories
@@ -38,10 +37,22 @@ export class GithubDialogRepositoriesComponent implements OnInit {
   loading = false;
 
   /**
-   * App Id to send with github requests.
+   * App Id to send with oauth requests.
    */
   @Input()
   appId: string;
+
+  /**
+   * Repository type.
+   */
+  @Input()
+  repoType: string;
+
+  /**
+   * Repository type Label
+   * @type {string}
+   */
+  typeLabel: string;
 
   /**
    * Builds the component
@@ -49,17 +60,18 @@ export class GithubDialogRepositoriesComponent implements OnInit {
    * @param pipelinesService
    * @param errorHandler
    */
-  constructor(public dialogRef: MdDialogRef<GithubDialogRepositoriesComponent>,
+  constructor(public dialogRef: MdDialogRef<OauthDialogRepositoriesComponent>,
               public pipelinesService: PipelinesService,
               private errorHandler: ErrorService) {
   }
 
   /**
    * Get All repositories recursively
+   * @param {string} type
    * @param page = 1
    */
   getAllRepositories(page = 1) {
-    this.pipelinesService.getRepositoriesByPage(page, this.appId)
+    this.pipelinesService.getRepositoriesByPage(page, this.appId, this.repoType)
       .then(result => {
 
         result = result.map(item => {
@@ -77,17 +89,18 @@ export class GithubDialogRepositoriesComponent implements OnInit {
       .catch(e => {
         this.errorHandler.apiError(e);
         this.dialogRef.close(e);
-        this.errorHandler.reportError(e, 'FailedToGetGithubRepos',
-          {component: 'github-dialog-repositories', appId: this.appId}, 'error');
+        this.errorHandler.reportError(e, `FailedToGet${this.typeLabel}Repos`,
+          {component: 'oauth-dialog-repositories', appId: this.appId}, 'error');
       });
   }
 
   /**
-   * On component initialize, Get all repositories from github
+   * On component initialize, Get all repositories from oauth
    */
   ngOnInit() {
     this.loading = true;
-    if (this.appId) {
+    if (this.appId && this.repoType) {
+      this.typeLabel = repoType[this.repoType].name;
       this.start();
     }
   }

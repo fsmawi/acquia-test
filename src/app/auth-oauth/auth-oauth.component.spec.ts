@@ -1,14 +1,14 @@
 /* tslint:disable:no-unused-variable */
 import {async, ComponentFixture, TestBed, fakeAsync, tick, inject} from '@angular/core/testing';
 import {By} from '@angular/platform-browser';
-import {DebugElement} from '@angular/core';
+import {DebugElement, EventEmitter} from '@angular/core';
 import {HttpModule, BaseRequestOptions, Http, ResponseOptions, Response} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
-import {Router} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
 
 import {Alert} from '../core/models/alert';
-import {AuthGithubComponent} from './auth-github.component';
+import {AuthOauthComponent} from './auth-oauth.component';
 import {ElementalModule} from '../elemental/elemental.module';
 import {ErrorService} from '../core/services/error.service';
 import {PipelinesService} from '../core/services/pipelines.service';
@@ -20,6 +20,11 @@ import {ConfirmationModalService} from '../core/services/confirmation-modal.serv
 import {HelpCenterService} from '../core/services/help-center.service';
 import {ApplicationModule} from '../application/application.module';
 import {TooltipService} from '../core/services/tooltip.service';
+import {Repository} from '../core/models/repository';
+
+class MockActivatedRoute {
+  params = new EventEmitter<any>();
+}
 
 class MockHelpCenterService {
   show() {
@@ -54,7 +59,7 @@ class MockLiftService {
 }
 
 class MockPipelinesService {
-  attachGithubRepository(repo_name: string, appId: string) {
+  attachOauthGitRepository(repo_name: string, appId: string, type: string) {
     return Promise.reject({status: 403, _body: 'some error.'});
   }
 }
@@ -65,9 +70,9 @@ function setupConnections(mockBackend: MockBackend, options: any) {
   });
 }
 
-describe('AuthGithubComponent', () => {
-  let component: AuthGithubComponent;
-  let fixture: ComponentFixture<AuthGithubComponent>;
+describe('AuthOauthComponent', () => {
+  let component: AuthOauthComponent;
+  let fixture: ComponentFixture<AuthOauthComponent>;
   let injector: any;
 
   beforeEach(async(() => {
@@ -84,7 +89,7 @@ describe('AuthGithubComponent', () => {
       }
     };
     TestBed.configureTestingModule({
-      declarations: [AuthGithubComponent],
+      declarations: [AuthOauthComponent],
       providers: [
         {provide: PipelinesService, useClass: MockPipelinesService},
         ErrorService,
@@ -96,6 +101,7 @@ describe('AuthGithubComponent', () => {
         {provide: HelpCenterService, useClass: MockHelpCenterService},
         {provide: ConfirmationModalService, useClass: MockConfirmationModalService},
         {provide: LiftService, useClass: MockLiftService},
+        {provide: ActivatedRoute, useClass: MockActivatedRoute},
         {
           provide: Http,
           useFactory: (mockBackend, options) => {
@@ -115,39 +121,45 @@ describe('AuthGithubComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AuthGithubComponent);
+    fixture = TestBed.createComponent(AuthOauthComponent);
     component = fixture.componentInstance;
     injector = fixture.debugElement.injector;
+    component.repoType = 'github';
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create',
+    fakeAsync(inject([ActivatedRoute], (route) => {
     expect(component).toBeTruthy();
-  });
+  })));
 
   it('should show error when faild to attach repository',
-    fakeAsync(inject([], () => {
+    fakeAsync(inject([ActivatedRoute], (route) => {
 
       spyOn(component, 'showAttachRepoAlert');
 
-      component.attachRepository({});
+      const repo = new Repository({});
+      component.attachRepository(repo);
       tick();
       expect(component.showAttachRepoAlert).toHaveBeenCalled();
   })));
 
-  it('should show success when connected to github', () => {
+  it('should show success when connected to github',
+    fakeAsync(inject([ActivatedRoute], (route) => {
 
     const params = {
       success: 'true'
     };
 
     spyOn(component, 'showConnectionAlert');
+    component.typeLabel = 'GitHub';
 
     component.checkAuthorization(params);
-    expect(component.showConnectionAlert).toHaveBeenCalledWith('success', 'You are successfully connected to Github.');
-  });
+    expect(component.showConnectionAlert).toHaveBeenCalledWith('success', 'You are successfully connected to GitHub.');
+  })));
 
-  it('should show returned error when connection to github fails', () => {
+  it('should show returned error when connection to github fails',
+    fakeAsync(inject([ActivatedRoute], (route) => {
 
     const params = {
       success: 'false',
@@ -158,19 +170,21 @@ describe('AuthGithubComponent', () => {
 
     component.checkAuthorization(params);
     expect(component.showConnectionAlert).toHaveBeenCalledWith('danger', 'some reason');
-  });
+  })));
 
-  it('should show specific error when connection to github fails and no reason given', () => {
+  it('should show specific error when connection to Github fails and no reason given',
+    fakeAsync(inject([ActivatedRoute], (route) => {
 
     const params = {
       success: 'false'
     };
 
     spyOn(component, 'showConnectionAlert');
+    component.typeLabel = 'GitHub';
 
     component.checkAuthorization(params);
-    expect(component.showConnectionAlert).toHaveBeenCalledWith('danger', 'Sorry, we could not connect to github at this time.');
-  });
+    expect(component.showConnectionAlert).toHaveBeenCalledWith('danger', 'Sorry, we could not connect to GitHub at this time.');
+  })));
 
   it('should connection alerts', () => {
     component.showConnectionAlert('success', 'a message');
