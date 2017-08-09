@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.58"></a>
+## [0.2.58](https://github.com/acquia/pipelines-ui/compare/v0.2.57...v0.2.58) (2017-08-09)
+
+
+### Bug Fixes
+
+* **pipelines.service:** Added redirect on missing auth (#268) ([9f12ec5](https://github.com/acquia/pipelines-ui/commit/9f12ec5))
+
+
+
 <a name="0.2.57"></a>
 ## [0.2.57](https://github.com/acquia/pipelines-ui/compare/v0.2.56...v0.2.57) (2017-07-12)
 
