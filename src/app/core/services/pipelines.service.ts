@@ -44,7 +44,15 @@ export class PipelinesService {
     reqOptions.withCredentials = environment.production;
     return this.http.get(this.URI + '/auth/bakery', reqOptions)
       .map(r => r.json())
-      .toPromise();
+      .toPromise()
+      .catch(e => {
+        // User is not authenticated, redirect
+        if (e.authenticated === false) {
+          window.top.location.href = environment.authCloudRedirect;
+        } else {
+          throw e;
+        }
+      });
   }
 
   /**
