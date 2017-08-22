@@ -153,13 +153,19 @@ export class PipelinesService {
 
   /**
    * Get all connected user's repositories
-   * @param page
+   * @param pager
    * @param appId
    * @param repoType
    */
-  getRepositoriesByPage(page: number, appId: string, repoType: string) {
-    return this.promiseGetRequest(this.URI + `/ci/webhook/${repoType}/repos?per_page=100&page=${page}&applications=${appId}`, {})
-      .then((res: any) => res.map(r => new Repository(r)));
+  getRepositoriesByPage(pager: string, appId: string, repoType: string) {
+    if (pager !== '') {
+      pager = `&${pager}`;
+    }
+    return this.promiseGetRequest(this.URI + `/ci/webhook/${repoType}/repositories?per_page=100&applications=${appId}${pager}`, {})
+      .then((res: any) => {
+        res.values = res.values.map(r => new Repository(r));
+        return res;
+      });
   }
 
   /**

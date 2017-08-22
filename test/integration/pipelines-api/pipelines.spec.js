@@ -10,38 +10,6 @@ describe('Pipelines API /api/v1/ci/pipelines', function () {
   const route = '/api/v1/ci/pipelines';
   this.timeout(30000);
 
-  it('should return an array of pipelines objects', () => {
-    const params = '?' + qs.stringify({
-      include_repo_data: 1,
-      applications: 'fbcd8f1f-4620-4bd6-9b60-f8d9d0f74fd0',
-    });
-    return supertest(process.env.PIPELINES_API_URI)
-      .get(route + params)
-      .set('X-ACQUIA-PIPELINES-N3-ENDPOINT', endpoint)
-      .set('X-ACQUIA-PIPELINES-N3-KEY', token)
-      .set('X-ACQUIA-PIPELINES-N3-SECRET', secret)
-      .expect('Content-Type', /json/)
-      .then((res) => {
-        try {
-          if (!res.ok && res.status !== 200) {
-            throw res.text;
-          } else {
-            expect(res.status).to.equal(200);
-            expect(res.body).to.be.a('Array');
-            expect(res.body[0]).to.be.a('Object');
-            expect(res.body[0].repo_data).to.exist;
-            expect(res.body[0].repo_data.repos).to.be.a('Array');
-            expect(res.body[0].repo_data.repos[0].type).to.exist;
-            expect(res.body[0].repo_data.repos[0].link).to.exist;
-            expect(res.body[0].repo_data.repos[0].name).to.exist;
-          }
-        } catch(e) {
-          logAPICall(res, route, params);
-          throw e;
-        }
-      });
-  });
-
   it('should return an empty repos array when application not attached to a repository');
 
   it('should return 403 when site doesn\'t have pipelines enabled', () => {

@@ -2106,49 +2106,51 @@ routes:
             link: https://github.com/acquia/repo2
             type: github
           branches: test11,test12
-  /api/v1/ci/github/repos:
+  /api/v1/ci/webhook/github/repositories:
     GET:
       response:
-      -
-        url: http://localhost/repo1
-        full_name: repo1
-        description: rescription repo1
-      -
-        url: http://localhost/repo2
-        full_name: repo2
-        description: rescription repo2
-      -
-        url: http://localhost/repo3
-        full_name: repo3
-        description: rescription repo3
-      -
-        url: http://localhost/repo4
-        full_name: repo4
-        description: rescription repo4
-      -
-        url: http://localhost/repo5
-        full_name: repo5
-        description: rescription repo5
-      -
-        url: http://localhost/repo6
-        full_name: repo6
-        description: rescription repo6
-      -
-        url: http://localhost/repo7
-        full_name: repo7
-        description: rescription repo7
-      -
-        url: http://localhost/repo8
-        full_name: repo8
-        description: rescription repo8
-      -
-        url: http://localhost/repo9
-        full_name: repo9
-        description: rescription repo9
-      -
-        url: http://localhost/repo10
-        full_name: repo10
-        description: rescription repo10
+        next: page=2
+        values:
+        -
+          url: http://localhost/repo1
+          full_name: repo1
+          description: description repo1
+        -
+          url: http://localhost/repo2
+          full_name: repo2
+          description: description repo2
+        -
+          url: http://localhost/repo3
+          full_name: repo3
+          description: description repo3
+        -
+          url: http://localhost/repo4
+          full_name: repo4
+          description: description repo4
+        -
+          url: http://localhost/repo5
+          full_name: repo5
+          description: description repo5
+        -
+          url: http://localhost/repo6
+          full_name: repo6
+          description: description repo6
+        -
+          url: http://localhost/repo7
+          full_name: repo7
+          description: description repo7
+        -
+          url: http://localhost/repo8
+          full_name: repo8
+          description: description repo8
+        -
+          url: http://localhost/repo9
+          full_name: repo9
+          description: description repo9
+        -
+          url: http://localhost/repo10
+          full_name: repo10
+          description: description repo10
 redirections:
   /api/v1/ci/github/oauth:
     redirect_to: http://localhost:4200/auth/github/123?success=true

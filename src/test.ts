@@ -30,4 +30,5 @@ const context = require.context('./', true, /\.spec\.ts$/);
 // And load the modules.
 context.keys().map(context);
 // Finally, start Karma to run the tests.
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 120000;
 __karma__.start();

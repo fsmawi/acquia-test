@@ -67,23 +67,22 @@ export class OauthDialogRepositoriesComponent implements OnInit {
 
   /**
    * Get All repositories recursively
-   * @param {string} type
-   * @param page = 1
+   * @param pager
    */
-  getAllRepositories(page = 1) {
-    this.pipelinesService.getRepositoriesByPage(page, this.appId, this.repoType)
+  getAllRepositories(pager = '') {
+    this.pipelinesService.getRepositoriesByPage(pager, this.appId, this.repoType)
       .then(result => {
 
-        result = result.map(item => {
+        const repos = result.values.map(item => {
           item.name = item.full_name;
           return item;
         });
 
-        this.repositories = this.repositories.concat(result);
-        if (result.length < 100) {
+        this.repositories = this.repositories.concat(repos);
+        if (!result.next || result.next && result.next === pager) {
           this.loading = false;
         } else {
-          this.getAllRepositories(++page);
+          this.getAllRepositories(result.next);
         }
       })
       .catch(e => {

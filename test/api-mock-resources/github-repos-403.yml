@@ -901,7 +901,7 @@ routes:
             link: https://github.com/acquia/repo2
             type: github
           branches: test11,test12
-  /api/v1/ci/github/repos:
+  /api/v1/ci/webhook/github/repositories:
     GET:
       response: permission denied for current user
       status: 403
