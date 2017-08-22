@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.59"></a>
+## [0.2.59](https://github.com/acquia/pipelines-ui/compare/v0.2.58...v0.2.59) (2017-08-22)
+
+
+### Bug Fixes
+
+* **post_deploy:** disable jira version creation ([d3088cd](https://github.com/acquia/pipelines-ui/commit/d3088cd))
+
+
+
 <a name="0.2.58"></a>
 ## [0.2.58](https://github.com/acquia/pipelines-ui/compare/v0.2.57...v0.2.58) (2017-08-09)
 
