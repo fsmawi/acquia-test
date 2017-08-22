@@ -19,8 +19,7 @@ then
  git config user.name "Pipelines CD"
  git fetch --all
  git checkout master
- # node $SOURCE_DIR/scripts/jira-create-version-pipelines-ui.js
- npm version patch
+ node $SOURCE_DIR/scripts/jira-create-version-pipelines-ui.js
  git describe --exact-match --abbrev=0 | xargs git tag -d
  npm run changelog
  git push --follow-tags origin master
@@ -43,7 +42,7 @@ then
  git config user.name "Pipelines CD"
  git merge origin/staging -X theirs -m "Production release"
  git push origin production
- # node $SOURCE_DIR/scripts/jira-release-versions-pipelines-ui.js
+ node $SOURCE_DIR/scripts/jira-release-versions-pipelines-ui.js
  node $SOURCE_DIR/scripts/bugsnag-versions-pipelines-ui.js
 # node $SOURCE_DIR/scripts/jira-create-doc-ticket.js
 fi
