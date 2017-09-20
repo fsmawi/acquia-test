@@ -1,8 +1,13 @@
 version: 1.0.0
+
 events:
   build:
     steps:
-      - install:
+      - node_v7.10:
+          type: script
           script:
-            - mkdir docroot
-            - echo "Hello, Pipelines!" > docroot/index.html
+            - nvm install v7.10
+            - nvm use 7.10
+      - script1:
+          script:
+            - npm install babel-preset-latest
