@@ -11,3 +11,4 @@ events:
       - script1:
           script:
             - npm install babel-preset-latest
+            - echo "done !"
