@@ -11,4 +11,3 @@ events:
       - script1:
           script:
             - npm install babel-preset-latest
-            - pipelines-deploy
