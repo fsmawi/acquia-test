@@ -12,4 +12,4 @@ events:
       - hello:
           type: script
           script:
-            - echo $ARRAY_VAR
+            - php -r 'print_r(getenv("ARRAY_VAR"));'
