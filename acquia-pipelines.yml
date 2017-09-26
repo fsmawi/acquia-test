@@ -1,12 +1,15 @@
 version: 1.0.0
 variables:
   global:
-    ARRAY_VAR: item_1
+    ARRAY_VAR: 
+      - item_1
+      - item_2
+      - item_3
       
 events:
   build:
     steps:
-      - ENV_VAR:
-        script:
-          - echo $ARRAY_VAR
-          
+      - hello:
+          type: script
+          script:
+            - echo $ARRAY_VAR
