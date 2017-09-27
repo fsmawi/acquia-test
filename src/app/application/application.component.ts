@@ -9,6 +9,8 @@ import {FlashMessageService} from '../core/services/flash-message.service';
 import {PipelinesService} from '../core/services/pipelines.service';
 import {animations} from '../core/animations';
 import {repoType} from '../core/repository-types';
+import {SegmentService} from '../core/services/segment.service';
+import {LiftService} from '../core/services/lift.service';
 
 @Component({
   selector: 'app-application',
@@ -76,13 +78,20 @@ export class ApplicationComponent extends BaseApplication implements OnInit {
   repositoryType: string;
 
   /**
+   * Webhooks status enabled/disabled
+   */
+  webhook = 'disabled';
+
+  /**
    * Build the component
    * @param route
+   * @param router
    * @param pipelines
    * @param errorHandler
-   * @param flashMessage
-   * @param router
    * @param confirmationModalService
+   * @param flashMessage
+   * @param lift
+   * @param segment
    */
   constructor(
     private route: ActivatedRoute,
@@ -90,7 +99,9 @@ export class ApplicationComponent extends BaseApplication implements OnInit {
     protected pipelines: PipelinesService,
     protected errorHandler: ErrorService,
     private confirmationModalService: ConfirmationModalService,
-    private flashMessage: FlashMessageService) {
+    private flashMessage: FlashMessageService,
+    private lift: LiftService,
+    private segment: SegmentService) {
     super(errorHandler, pipelines);
   }
 
@@ -106,6 +117,7 @@ export class ApplicationComponent extends BaseApplication implements OnInit {
         this.vcsType = info.repo_type;
         this.gitUrl = info.repo_url;
         this.gitClone = this.gitUrl ? `git clone --branch [branch] ${this.gitUrl} [destination]` : '';
+        this.webhook = info.hasOwnProperty('webhook') ? info.webhook ? 'enabled' : 'disabled' : 'not-reachable';
         this.setRepositoryType();
       })
       .catch(e => {
@@ -149,5 +161,28 @@ export class ApplicationComponent extends BaseApplication implements OnInit {
           this.getConfigurationInfo(true);
         }
       });
+  }
+
+  /**
+   * Enables/disables the webhooks for the application
+   */
+  updateWebhooks() {
+    this.lift.captureEvent(`${this.webhook}Webhooks`, {appId: this.appId});
+    this.segment.trackEvent(`${this.webhook}Webhooks`, {appId: this.appId});
+    this.pipelines.updateWebhooks(this.appId, this.webhook === 'enabled')
+      .then(res => {
+        this.appLoading = true;
+        if (res.success) {
+          this.flashMessage.showSuccess('Update successful. Webhooks ' + this.webhook + '.');
+        } else {
+          this.flashMessage.showError('Error while updating webhooks.');
+        }
+      })
+      .catch(e => {
+        this.errorHandler.apiError(e).reportError(e, 'FailedToUpdateWebhooks',
+          {component: 'application', appId: this.appId}, 'error');
+        this.flashMessage.showError(e.status + ' : ' + e._body);
+      })
+      .then(() => this.getConfigurationInfo(true));
   }
 }

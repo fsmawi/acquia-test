@@ -6,6 +6,7 @@ import {EventEmitter} from '@angular/core';
 import {MockBackend} from '@angular/http/testing';
 import {RouterTestingModule} from '@angular/router/testing';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {FormsModule} from '@angular/forms';
 
 import {ApplicationComponent} from './application.component';
 import {ConfirmationModalService} from '../core/services/confirmation-modal.service';
@@ -107,6 +108,7 @@ describe('ApplicationComponent', () => {
       imports: [
         ElementalModule,
         SharedModule,
+        FormsModule,
         RouterTestingModule,
         BrowserAnimationsModule
       ]
@@ -138,6 +140,7 @@ describe('ApplicationComponent', () => {
       component.getConfigurationInfo();
       tick();
       fixture.detectChanges();
+      expect(component.webhook).toEqual('not-reachable');
       expect(component.gitUrl).toEqual('https://github.com/acquia/repo1.git');
       expect(component.gitClone).toEqual('git clone --branch [branch] https://github.com/acquia/repo1.git [destination]');
     })));
@@ -154,5 +157,33 @@ describe('ApplicationComponent', () => {
       component.getConfigurationInfo();
       tick();
       expect(flashMessage.showError).toHaveBeenCalledWith('500 : some error.');
+    })));
+
+  it('should update webhooks successfully',
+    fakeAsync(inject([ActivatedRoute, MockBackend], (route, mockBackend) => {
+
+      setupConnections(mockBackend, {
+        body: JSON.stringify({
+          success: true
+        })
+      });
+
+      spyOn(component, 'getInfo').and.callFake(function () {
+        return Promise.resolve({
+          repo_url: 'https://github.com/acquia/repo1.git',
+          repo_name: 'acquia/repo1',
+          repo_type: 'acquia-git',
+          webhook: true
+        });
+      });
+
+      expect(component.webhook).toEqual('disabled');
+      component.webhook = 'enabled';
+      component.updateWebhooks();
+      tick();
+      fixture.detectChanges();
+      expect(component.webhook).toEqual('enabled');
+      expect(component.gitUrl).toEqual('https://github.com/acquia/repo1.git');
+      expect(component.gitClone).toEqual('git clone --branch [branch] https://github.com/acquia/repo1.git [destination]');
     })));
 });

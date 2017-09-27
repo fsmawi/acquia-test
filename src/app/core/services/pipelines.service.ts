@@ -228,6 +228,23 @@ export class PipelinesService {
   }
 
   /**
+   * Updates webhooks for an app
+   * @param appId
+   * @param enable
+   * @param options
+   * @returns {Promise<HttpRequest>}
+   */
+  updateWebhooks(appId: string, enable = true, options = {}) {
+    // Default Options
+    Object.assign(options, {
+      applications: [appId],
+      webhook: enable
+    });
+
+    return this.promisePostRequest(this.URI + `/ci/webhook/integration`, options);
+  }
+
+  /**
    * Direct Start a pipelines job
    * @param appId
    * @param branch

@@ -59,3 +59,13 @@ md-card {
   margin-bottom: px-to-relative(5px);
   display: block;
 }
+
+#webhooks  {
+  select {
+    padding-right: 1.5rem;
+  }
+
+  span {
+    font-size: 0.875rem;
+  }
+}

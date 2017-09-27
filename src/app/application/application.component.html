@@ -24,6 +24,23 @@
         <e-clipboard id="repo-URL" inputText="{{gitUrl}}"></e-clipboard>
       </e-data-value>
     </e-data>
+    <e-data id="webhooks" *ngIf="vcsType === 'acquia-git'">
+      <e-data-label>
+        Webhooks
+        <!--
+          @todo: MS-3384 | Add learn more link
+          UI link for 'Learn more' when docs link (Webhooks for Pipelines) is available
+          <a>Learn more</a>
+        -->
+      </e-data-label>
+      <select *ngIf="webhook !== 'not-reachable'" [(ngModel)]="webhook" (change)="updateWebhooks()" disabled="{{appLoading}}">
+        <option value="enabled">Enabled</option>
+        <option value="disabled">Disabled</option>
+      </select>
+      <span *ngIf="webhook === 'not-reachable'">
+        Oops! Looks like we are unable to retrieve the webhooks information.
+      </span>
+    </e-data>
 
     <!--
       @todo: MS-2573 | Add metadata about the linked repository and rely on GitHub's

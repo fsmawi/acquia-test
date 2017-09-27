@@ -1206,6 +1206,7 @@ routes:
             repo_type: acquia-git
             repo_name: example/repo
             repo_url: site@svn-3.hosted.acquia-sites.com:site.git
+            webhook: false
             branches:
               - master
               - dev
@@ -1222,6 +1223,42 @@ routes:
               - hotfix/bug5
               - hotfix/bug6
               - hotfix/bug7
+        - response:
+            repo_type: acquia-git
+            repo_name: example/repo
+            repo_url: site@svn-3.hosted.acquia-sites.com:site.git
+            branches:
+              - master
+              - dev
+              - staging
+              - feature/feat1
+              - feature/feat2
+              - feature/feat3
+              - feature/feat4
+              - feature/feat5
+              - hotfix/bug1
+              - hotfix/bug2
+              - hotfix/bug3
+              - hotfix/bug4
+              - hotfix/bug5
+              - hotfix/bug6
+              - hotfix/bug7
+        - response:
+            repo_type: github
+            repo_name: example/repo
+            repo_url: https://github.com/aq/site.git
+            branches:
+              - master
+              - dev
+              - staging
+        - response:
+            repo_type: bitbucket
+            repo_name: example/repo
+            repo_url: https://bitbucket.com/aq/site.git
+            branches:
+              - master
+              - dev
+              - staging
   /api/v1/ci/pipelines/direct-start:
      POST:
       response:

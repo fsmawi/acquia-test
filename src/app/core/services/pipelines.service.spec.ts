@@ -101,6 +101,20 @@ describe('PipelinesService', () => {
       });
     }));
 
+  it('should update webhooks for the app',
+    inject([PipelinesService, MockBackend], (service: PipelinesService, mockBackend: MockBackend) => {
+      setupConnections(mockBackend, {
+        body: JSON.stringify({
+          status: 204,
+          success: true
+        })
+      });
+
+      service.updateWebhooks('app-id', true).then(res => {
+        expect(res.success).toBe(true);
+      });
+    }));
+
   it('should get pipelines given an application ID',
     inject([PipelinesService, MockBackend], (service: PipelinesService, mockBackend: MockBackend) => {
       const pipeline = new Pipeline({
