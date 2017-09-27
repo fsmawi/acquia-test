@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.60"></a>
+## [0.2.60](https://github.com/acquia/pipelines-ui/compare/v0.2.59...v0.2.60) (2017-09-27)
+
+
+### Bug Fixes
+
+* **post_deploy:** revert disabled jira version creation ([15f8d59](https://github.com/acquia/pipelines-ui/commit/15f8d59))
+
+
+### Features
+
+* **application.component.ts:** Created widget to enable/disable webhooks ([#272](https://github.com/acquia/pipelines-ui/issues/272)) ([35575d4](https://github.com/acquia/pipelines-ui/commit/35575d4))
+
+
+
 <a name="0.2.59"></a>
 ## [0.2.59](https://github.com/acquia/pipelines-ui/compare/v0.2.58...v0.2.59) (2017-08-22)
 
