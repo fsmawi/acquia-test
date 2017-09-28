@@ -12,4 +12,5 @@ events:
       - hello:
           type: script
           script:
+            - echo "test commit"
             - php index.php
