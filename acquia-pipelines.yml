@@ -1,16 +1,16 @@
 version: 1.0.0
 variables:
   global:
-    ARRAY_VAR: 
+    ARRAY_VAR:
       - item_1
       - item_2
       - item_3
-      
+
 events:
   build:
     steps:
       - hello:
           type: script
           script:
-            - echo "test commit"
+            - echo "test commit !"
             - php index.php
