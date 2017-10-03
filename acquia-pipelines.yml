@@ -7,4 +7,4 @@ events:
           type: script
           script:
             - echo "test commit!"
-            - sleep 120
+            - sleep 150
