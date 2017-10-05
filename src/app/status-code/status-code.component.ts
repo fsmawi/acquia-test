@@ -28,6 +28,10 @@ export class StatusCodeComponent implements OnInit {
    * Router URL to be linked with tag message
    */
   tagLink: String;
+  /**
+   * Target for the tag link to open e.g., _top, _parent, _self, _blank
+   */
+  tagTarget: String;
 
   /**
    * Build the component and inject services if needed
@@ -51,7 +55,7 @@ export class StatusCodeComponent implements OnInit {
           `Yikes! We can’t find the page you're looking for.`;
         this.tagMessage = params['tagMessage'] ? params['tagMessage'] : 'Homepage';
         this.tagLink = params['tagLink'] ? params['tagLink'] : '/auth/tokens';
-
+        this.tagTarget = params['tagTarget'] ? params['tagTarget'] : '_self';
         this.segment.page(`${this.errorCode}${this.errorTitle}View`);
       });
 
