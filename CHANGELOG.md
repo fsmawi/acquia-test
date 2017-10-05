@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.61"></a>
+## [0.2.61](https://github.com/acquia/pipelines-ui/compare/v0.2.60...v0.2.61) (2017-10-05)
+
+
+### Features
+
+* **error.service.ts:** Handle forbidden ip error for ip whitelisting ([#273](https://github.com/acquia/pipelines-ui/issues/273)) ([dad1271](https://github.com/acquia/pipelines-ui/commit/dad1271))
+
+
+
 <a name="0.2.60"></a>
 ## [0.2.60](https://github.com/acquia/pipelines-ui/compare/v0.2.59...v0.2.60) (2017-09-27)
 
