@@ -1,5 +1,8 @@
 version: 1.0.0
-
+cde-databases:
+  - test_db_1
+  - test_db_2
+  
 events:
   build:
     steps:
