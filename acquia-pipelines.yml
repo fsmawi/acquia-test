@@ -1,7 +1,6 @@
 version: 1.2.0
 cde-databases:
-  - test_db_1
-  - test_db_2
+  - db2
   
 events:
   build:
