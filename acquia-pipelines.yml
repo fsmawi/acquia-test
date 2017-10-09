@@ -1,6 +1,8 @@
 version: 1.2.0
 
-cde-databases: ~
+cde-databases:
+  - db1
+  - db2
 
 events:
   build:
