@@ -186,6 +186,17 @@ exports.bootstrap = function (browser) {
   };
 
   /**
+   * Selects the value from the list box
+   */
+  browser._selectValue = function(selector, value) {
+    return browser.selectByValue(selector, value)
+      .catch((e) => {
+        return screenshot(createTimeName('selectValue-error', ''))
+          .then(() => Promise.reject(e));
+      });
+  };
+
+  /**
    * @param {String} selector
    * Find the iframe with given selector and switch the frame
    * @return {Promise}
@@ -212,6 +223,19 @@ exports.bootstrap = function (browser) {
         return screenshot(createTimeName('getText-error', selector))
           .then(() => Promise.reject(e));
       });
+  };
+
+  /**
+   * @return {String} value of the element
+   * @param {String} selector identifier of an element
+   * get the value of an element identified by given selectors
+   */
+  browser._getValue = function (selector) {
+    return browser.getValue(selector)
+      .catch((e) => {
+        return screenshot(createTimeName('getValue-error', selector))
+          .then(() => Promise.reject(e));
+    });
   };
 
   /**

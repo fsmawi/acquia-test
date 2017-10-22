@@ -33,13 +33,12 @@
           <a>Learn more</a>
         -->
       </e-data-label>
-      <select *ngIf="webhook !== 'not-reachable'" [(ngModel)]="webhook" (change)="updateWebhooks()" disabled="{{appLoading}}">
+      <select id="webhooks-select" *ngIf="webhook !== 'not-reachable'"
+              [(ngModel)]="webhook" (change)="updateWebhooks()" disabled="{{appLoading}}">
         <option value="enabled">Enabled</option>
         <option value="disabled">Disabled</option>
       </select>
-      <span *ngIf="webhook === 'not-reachable'">
-        Oops! Looks like we are unable to retrieve the webhooks information.
-      </span>
+      <span *ngIf="webhook === 'not-reachable'">Oops! Looks like we are unable to retrieve the webhooks information.</span>
     </e-data>
 
     <!--

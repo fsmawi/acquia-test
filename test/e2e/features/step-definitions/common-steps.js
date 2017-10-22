@@ -81,6 +81,22 @@ module.exports = function () {
     return this.browser._deleteCookies();
   });
 
+  this.Then(/^I select \|(.*?)\| from \|(.*?)\|/, function (value, selector) {
+    boostrap(this.browser);
+    return this.browser._selectValue(page.getDynamicValue(selector), page.getDynamicValue(value));
+  });
+
+  this.Then(/^I should see \|(.*?)\| value in \|(.*?)\|/, function (expectedValue, selector) {
+    boostrap(this.browser);
+    return this.browser._waitUntil(page.getDynamicValue(selector), {timeout: 5000})
+      .then(() => {
+        return this.browser._getValue(page.getDynamicValue(selector));
+      })
+      .then((actualValue) => {
+        expect(page.getDynamicValue(expectedValue)).to.be.equal(actualValue);
+      });
+  });
+
   this.When(/^I should see a \|(.*?)\| with \|(.*?)\|$/, function (textElementIdentifier, expectedText) {
     return this.browser._waitUntil(page.getDynamicValue(textElementIdentifier), {timeout: 5000})
       .then(() => {

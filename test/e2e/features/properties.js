@@ -12,6 +12,8 @@ module.exports = {
   'save': 'button.mat-primary',
   'header-value': 'input[name="headerValue"]',
   'app-id': '58bb63dd-57db-4d50-9a49-6b60d5921d14',
+  'application-info-url' : '/applications/58bb63dd-57db-4d50-9a49-6b60d5921d14/info',
+  'app-name': '//a[text()="example/repo"]',
   'job-detail': '//a[text()="example/repo"]',
   'app-input': '[name="AppId"]',
   'activity-tab': '[tabtitle="Activity"]',
