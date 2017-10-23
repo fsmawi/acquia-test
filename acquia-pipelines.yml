@@ -1,7 +1,6 @@
 version: 1.2.0
 
 cde-databases:
-  - db4
   - db1
 
 events:
