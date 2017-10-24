@@ -12,7 +12,7 @@ Feature: Pipelines Jobs List
     And I wait 5 seconds for page to navigate
     And I enter |*app-id| in the |*app-input| field
     And I click on the |*sign-in| button
-    And I wait 20 seconds for page to navigate
+    And I wait 10 seconds for page to navigate
     When on the |*jobs-list| page
     Then I should see the |*applications-list|
     And I should see a |*job-summary-job-id| contains |8f0c38d5|
