@@ -3,7 +3,6 @@
 
 module.exports = function (config) {
   config.set({
-    browserNoActivityTimeout: 60000,
     basePath: '',
     frameworks: ['jasmine', '@angular/cli'],
     plugins: [
@@ -47,6 +46,9 @@ module.exports = function (config) {
         flags: ['--headless', '--disable-gpu', '--remote-debugging-port=9222']
       }
     },
-    singleRun: false
+    singleRun: false,
+    browserNoActivityTimeout: 30000,
+    browserDisconnectTolerance: 5,
+    retryLimit: 5
   });
 };

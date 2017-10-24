@@ -1,18 +1,15 @@
 /* tslint:disable:no-unused-variable */
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {async, ComponentFixture, TestBed, fakeAsync, tick, inject} from '@angular/core/testing';
 import {BaseRequestOptions, Http, ResponseOptions, Response} from '@angular/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {DebugElement} from '@angular/core';
 import {EventEmitter} from '@angular/core';
 import {MdDialog} from '@angular/material';
 import {MockBackend} from '@angular/http/testing';
 import {RouterTestingModule} from '@angular/router/testing';
 
-import {Alert} from '../core/models/alert';
 import {AuthAcquiaComponent} from './auth-acquia.component';
 import {ElementalModule} from '../elemental/elemental.module';
-import {features} from '../core/features';
 import {ErrorService} from '../core/services/error.service';
 import {SegmentService} from '../core/services/segment.service';
 import {SharedModule} from '../shared/shared.module';
