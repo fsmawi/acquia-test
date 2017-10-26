@@ -22,7 +22,7 @@ describe('Pipelines API /api/v1/ci/applications/:id?include_branches', function 
       .set('X-ACQUIA-PIPELINES-N3-SECRET', secret)
       .then((res) => {
         try {
-          if (!res.ok && res.status !== 200) {
+          if (!res.ok) {
             throw res.text;
           } else {
             expect(res.header['content-type']).to.equal('application/json');

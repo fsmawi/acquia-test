@@ -20,7 +20,7 @@ describe('Pipelines API /api/v1/ci/jobs/:jobId', function () {
       .set('X-ACQUIA-PIPELINES-N3-ENDPOINT', N3_ENDPOINT)
       .then((res) => {
         try {
-          if (!res.ok && res.status !== 200) {
+          if (!res.ok) {
             throw res.text;
           } else {
             expect(res.header['content-type']).to.equal('application/json');

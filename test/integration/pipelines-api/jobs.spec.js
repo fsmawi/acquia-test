@@ -21,7 +21,7 @@ describe('Pipelines API /api/v1/ci/jobs', function () {
       .expect('Content-Type', /json/)
       .then((res) => {
         try {
-          if (!res.ok && res.status !== 200) {
+          if (!res.ok) {
             throw res.text;
           } else {
             expect(res.status).to.equal(200);
