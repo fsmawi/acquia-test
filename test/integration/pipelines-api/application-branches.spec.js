@@ -27,11 +27,45 @@ describe('Pipelines API /api/v1/ci/applications/:id?include_branches', function 
           } else {
             expect(res.header['content-type']).to.equal('application/json');
             expect(res.status).to.equal(200);
+            expect(res.body.branches).to.be.not.null;
             expect(res.body.branches).to.be.a('Array');
             res.body.branches.forEach(b => expect(b).to.be.a('String'));
-            expect(res.body.branches).to.be.not.null;
             expect(res.body.repo_type).to.exist;
             expect(res.body.repo_name).to.exist;
+            expect(res.body.repo_url).to.exist;
+          }
+        } catch (e) {
+          logAPICall(res, route, params);
+          throw e;
+        }
+      });
+  });
+
+  it('should return webhook status', () => {
+    const params = '?' + qs.stringify({
+      applications: 'f8706b3d-913f-484b-99a8-3dd490613a68',
+      include_branches: 1,
+    });
+    return supertest(process.env.PIPELINES_API_URI)
+      .get(route + params)
+      .set('X-ACQUIA-PIPELINES-N3-ENDPOINT', endpoint)
+      .set('X-ACQUIA-PIPELINES-N3-KEY', token)
+      .set('X-ACQUIA-PIPELINES-N3-SECRET', secret)
+      .then((res) => {
+        try {
+          if (!res.ok) {
+            throw res.text;
+          } else {
+            expect(res.header['content-type']).to.equal('application/json');
+            expect(res.status).to.equal(200);
+            expect(res.body.branches).to.be.not.null;
+            expect(res.body.branches).to.be.a('Array');
+            res.body.branches.forEach(b => expect(b).to.be.a('String'));
+            expect(res.body.repo_type).to.exist;
+            expect(res.body.repo_name).to.exist;
+            expect(res.body.repo_url).to.exist;
+            expect(res.body.stage).to.exist;
+            expect(res.body.webhook).to.exist;
           }
         } catch (e) {
           logAPICall(res, route, params);

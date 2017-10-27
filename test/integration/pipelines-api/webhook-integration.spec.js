@@ -8,7 +8,7 @@ describe('Pipelines API /api/v1/ci/webhook/integration', function () {
   const secret = process.env.N3_SECRET;
   const endpoint = 'https://cloud.acquia.com';
   const route = '/api/v1/ci/webhook/integration';
-  const appId = 'd6a43c82-cc6e-4426-b6eb-883cbe4a99ea';
+  const appId = 'f8706b3d-913f-484b-99a8-3dd490613a68';
   this.timeout(10000);
 
   it('should enable acquia-git webhook', () => {
