@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.66"></a>
+## [0.2.66](https://github.com/acquia/pipelines-ui/compare/v0.2.65...v0.2.66) (2017-10-27)
+
+
+### Features
+
+* **application-branches.spec:** Integration test for applications webhook status ([#281](https://github.com/acquia/pipelines-ui/issues/281)) ([01a0137](https://github.com/acquia/pipelines-ui/commit/01a0137))
+
+
+
 <a name="0.2.65"></a>
 ## [0.2.65](https://github.com/acquia/pipelines-ui/compare/v0.2.64...v0.2.65) (2017-10-26)
 
