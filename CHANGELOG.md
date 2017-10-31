@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.67"></a>
+## [0.2.67](https://github.com/acquia/pipelines-ui/compare/v0.2.66...v0.2.67) (2017-10-31)
+
+
+### Bug Fixes
+
+* **paralle-e2e.js:** Stabilize E2E unit tests ([#285](https://github.com/acquia/pipelines-ui/issues/285)) ([b6dbfbe](https://github.com/acquia/pipelines-ui/commit/b6dbfbe))
+
+
+
 <a name="0.2.66"></a>
 ## [0.2.66](https://github.com/acquia/pipelines-ui/compare/v0.2.65...v0.2.66) (2017-10-27)
 
