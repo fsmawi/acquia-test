@@ -60,7 +60,7 @@ glob('test/e2e/features/*.feature', function (err, files) {
 
   update = setInterval(() => console.log('E2E Tests running'.gray), 60000);
 
-  let concurrency = process.env.CONCURRENCY ? parseInt(process.env.CONCURRENCY) : 16;
+  let concurrency = process.env.CONCURRENCY ? parseInt(process.env.CONCURRENCY) : 7;
 
   executeTests(tags, concurrency);
 });
