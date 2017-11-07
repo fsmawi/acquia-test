@@ -8,4 +8,13 @@ events:
           script:
             - ls -l ~/.ssh
             - cat ~/.ssh/config
-            - echo "TEST DEPLOY 2222"
+            - git ls-remote
+            - echo "TEST DEPLOY 33333"
+  post-deploy:
+    steps:
+      - e2e_test:
+          script:
+            - ls -l ~/.ssh
+            - cat ~/.ssh/config
+            - git ls-remote
+            - echo "TEST DEPLOY 44444"
