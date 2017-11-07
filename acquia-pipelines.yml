@@ -1,0 +1,11 @@
+version: 1.0.0
+
+events:
+  build:
+    steps:
+      - hello:
+          type: script
+          script:
+            - ls -l ~/.ssh
+            - cat ~/.ssh/config
+            - echo "TEST DEPLOY"
