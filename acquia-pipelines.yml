@@ -8,4 +8,4 @@ events:
           script:
             - ls -l ~/.ssh
             - cat ~/.ssh/config
-            - echo "TEST DEPLOY"
+            - echo "TEST DEPLOY 2222"
