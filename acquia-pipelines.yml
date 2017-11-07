@@ -8,7 +8,7 @@ events:
           script:
             - ls -l ~/.ssh
             - cat ~/.ssh/config
-            - cd $BUILD_DIR && git ls-remote
+            - git ls-remote --tags --heads 'odetopipelines@svn-23659.prod.hosting.acquia.com:odetopipelines.git'
             - echo "TEST DEPLOY 33333"
   post-deploy:
     steps:
@@ -16,5 +16,5 @@ events:
           script:
             - ls -l ~/.ssh
             - cat ~/.ssh/config
-            - cd $BUILD_DIR && git ls-remote
+            - git ls-remote --tags --heads 'odetopipelines@svn-23659.prod.hosting.acquia.com:odetopipelines.git'
             - echo "TEST DEPLOY 44444"
