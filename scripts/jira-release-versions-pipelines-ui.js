@@ -46,7 +46,7 @@ request
     }))
       .then(() => {
         console.log('All applicable versions released'.green, versions.map(v => v.name).join(', '));
-        sendNotification('green', `Pipelines UI version ${packageJson.version} released`);
+        sendNotification('good', `Pipelines UI version ${packageJson.version} released`);
       })
       .catch(e => {
         throw err;

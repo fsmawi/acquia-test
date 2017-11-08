@@ -1,25 +1,29 @@
 const request = require('superagent');
 'use strict';
 
-const accessToken = process.env.PIPELINES_HIPCHAT_TOKEN;
-const roomId = encodeURIComponent(process.env.PIPELINES_HIPCHAT_ROOM);
+const accessToken = process.env.PIPELINES_SLACK_TOKEN;
+const slackChannel = process.env.PIPELINES_SLACK_CHANNEL;
 
 module.exports = {
 
   /**
-   * Send sample notification to Hipchat
+   * Send sample notification to Slack
    * @param  color
    * @param  message
    * @return Promise
    */
   sendNotification: function (color, message) {
     return new Promise((resolve, reject) => {
-      let url = `https://acquia.hipchat.com/v2/room/${roomId}/notification?auth_token=${accessToken}`;
+      let url = `https://acquia.slack.com/services/hooks/jenkins-ci/${accessToken}`;
       request.post(url)
         .send({
-          color: color,
-          message_format: 'text',
-          message: message,
+          channel: slackChannel,
+          attachments: [
+            {
+              text: message,
+              color: color,
+            },
+          ],
         })
         .end((error, res) => {
           if (error) {

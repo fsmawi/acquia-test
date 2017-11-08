@@ -13,11 +13,11 @@ const command = process.argv.slice(2)[1];
 const directory = process.argv.slice(2)[2];
 
 if (!command) {
-  switch(step) {
+  switch (step) {
     case 'start':
-      return sendNotification('green', `Starting job ${jobId} for ${branch}.`);
+      return sendNotification('good', `Starting job ${jobId} for ${branch}.`);
     case 'end':
-      return sendNotification('green', `Job ${jobId} for ${branch} successful.`);
+      return sendNotification('good', `Job ${jobId} for ${branch} successful.`);
     default:
       throw 'Unknown run step';
   }
@@ -40,13 +40,13 @@ function executeCommand() {
 
     if (error) {
 
-      // send notification to hipchat
-      sendNotification('red', `Job ${jobId} for ${branch} failed.\nExecution step: ${step} \nCommand failed: ${command}\nhttps://cloud.acquia.com/app/develop/applications/${appId}/pipelines/jobs/${jobId}`)
+      // send notification to slack
+      sendNotification('danger', `Job ${jobId} for ${branch} failed.\nExecution step: ${step} \nCommand failed: ${command}\nhttps://cloud.acquia.com/app/develop/applications/${appId}/pipelines/jobs/${jobId}`)
         .then((res) => {
-          console.log('Notification sent to hipchat room');
+          console.log('Notification sent to slack channel');
         })
         .catch((err) => {
-          console.log('Failed to sent notification to hipchat room', err);
+          console.log('Failed to sent notification to slack channel', err);
         })
         .then(() => {
           // keep colors
