@@ -20,7 +20,10 @@ events:
             - git ls-remote --tags --heads 'odetopipelines@svn-23659.prod.hosting.acquia.com:odetopipelines.git'
   fail-on-build:
     steps:
-      - echo "REMOVE SSH KEYS"
+      - runonfailure:
+          type: script
+          script:
+            - echo "CHECK REMOVED SSH KEYS"
             - ls -l ~/.ssh
             - cat ~/.ssh/config
             - git ls-remote --tags --heads 'odetopipelines@svn-23659.prod.hosting.acquia.com:odetopipelines.git'
