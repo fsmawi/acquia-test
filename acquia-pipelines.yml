@@ -23,7 +23,8 @@ events:
       - runonfailure:
           type: script
           script:
-            - echo "CHECK REMOVED SSH KEYS"
+            - echo "Fail on build"
             - ls -l ~/.ssh
             - cat ~/.ssh/config
             - git ls-remote --tags --heads 'odetopipelines@svn-23659.prod.hosting.acquia.com:odetopipelines.git'
+            - echo "Fail on build"
