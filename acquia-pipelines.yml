@@ -9,7 +9,7 @@ events:
             - echo "REMOVE SSH KEYS"
             - ls -l ~/.ssh
             - cat ~/.ssh/config
-            - git ls-remote --tags --heads 'odetopipelines@svn-23659.prod.hosting.acquia.com:odetopipelines.git'
+            # - git ls-remote --tags --heads 'odetopipelines@svn-23659.prod.hosting.acquia.com:odetopipelines.git'
   post-deploy:
     steps:
       - e2e_test:
