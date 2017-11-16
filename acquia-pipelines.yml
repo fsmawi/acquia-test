@@ -7,9 +7,12 @@ events:
           script:
             - echo "CHECK IF SSH KEYS EXISTS ON BUILD EVENT"
             - ls -l ~/.ssh
-  post-deploy:
+            - git ls-remote --tags --heads 'pipelinesvalidation@svn-23659.prod.hosting.acquia.com:pipelinesvalidation.git'
+  fail-on-build:
     steps:
-      - deploy:
+      - runonfailure:
+          type: script
           script:
-            - echo "CHECK IF SSH KEYS EXISTS ON POST DEPLOY EVENT"
+            - echo "CHECK IF SSH KEYS EXISTS ON FAIL EVENT"
             - ls -l ~/.ssh
+            - git ls-remote --tags --heads 'pipelinesvalidation@svn-23659.prod.hosting.acquia.com:pipelinesvalidation.git'
