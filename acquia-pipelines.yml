@@ -1,31 +1,15 @@
-version: 1.0.0
+version: 1.2.0
 
 events:
   build:
     steps:
-      - hello:
-          type: script
+      - build:
           script:
-            - echo "REMOVE SSH KEYS"
+            - echo "CHECK IF SSH KEYS EXISTS ON BUILD EVENT"
             - ls -l ~/.ssh
-            - cat ~/.ssh/config
-            # - git ls-remote --tags --heads 'odetopipelines@svn-23659.prod.hosting.acquia.com:odetopipelines.git'
   post-deploy:
     steps:
-      - e2e_test:
+      - deploy:
           script:
-            - echo "CHECK REMOVED SSH KEYS"
+            - echo "CHECK IF SSH KEYS EXISTS ON POST DEPLOY EVENT"
             - ls -l ~/.ssh
-            - cat ~/.ssh/config
-            # - git ls-remote --tags --heads 'odetopipelines@svn-23659.prod.hosting.acquia.com:odetopipelines.git'
-  fail-on-build:
-    steps:
-      - runonfailure:
-          type: script
-          script:
-            - echo "Fail on build"
-            - ls -l ~/.ssh
-            - cat ~/.ssh/config
-            - git ls-remote --tags --heads 'odetopipelines@svn-23659.prod.hosting.acquia.com:odetopipelines.git'
-            - echo "Fail on build"
- 
