@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.69"></a>
+## [0.2.69](https://github.com/acquia/pipelines-ui/compare/v0.2.68...v0.2.69) (2017-11-17)
+
+
+### Bug Fixes
+
+* **no-jobs.component.html:** UI fix for VCS icons ([#291](https://github.com/acquia/pipelines-ui/issues/291)) ([24c5385](https://github.com/acquia/pipelines-ui/commit/24c5385))
+
+
 
 <a name="0.2.68"></a>
 ## [0.2.68](https://github.com/acquia/pipelines-ui/compare/v0.2.67...v0.2.68) (2017-11-17)
