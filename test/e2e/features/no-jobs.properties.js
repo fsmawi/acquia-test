@@ -18,7 +18,7 @@ module.exports = {
   'acquia-docs-using-git': 'https://docs.acquia.com/acquia-cloud/develop/repository/git',
   'acquia-docs-pipelines': 'https://docs.acquia.com/pipelines/',
   'acquia-pipelines-description': 'Acquia Pipelines automates building, testing, and deploying sites on Acquia Cloud',
-  'no-jobs-card': '#no-jobs',
+  'pipelines-info': '#pipelines-info',
   //run pipelines
   'run-pipelines-card': '#start-job',
   'run-pipelines-header': '#start-job h4',

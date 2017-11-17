@@ -1,6 +1,6 @@
 <div id="no-jobs" class="center">
   <h2>Get started with Pipelines</h2>
-  Acquia Pipelines automates building, testing, and deploying sites on Acquia Cloud <br/>
+  <span id="pipelines-info">Acquia Pipelines automates building, testing, and deploying sites on Acquia Cloud <br/></span>
   <a appTrackOn="click"
      [trackEventData]="{appId: appId}"
      trackEventName="ClickLearnMoreNoJobs"
@@ -14,17 +14,17 @@
          class="flex-item"
          fxFlex="0%"
          fxFlex.md="5%"
-         fxFlex.gt-md="12.5%">
+         fxFlex.gt-md="9.5%">
     </div>
     <e-card-content id="configure-source"
                     class="flex-item"
                     fxFlex="33.3%"
                     fxFlex.xs="100%"
                     fxFlex.md="30%"
-                    fxFlex.gt-md="25%"
+                    fxFlex.gt-md="27%"
                     fxFlexOrder.xs="2">
       <h4>Select Source</h4>
-      <div class="flex-container image-container" fxLayoutAlign="center center">
+      <div class="flex-container image-container" fxLayoutWrap="wrap" fxLayoutAlign="center center">
         <div class="flex-item vcs-icon" [ngClass]="{'disabled' : vcsType !== 'acquia-git'}">
           <svg width="90" height="90">
             <image height="100px" xlink:href="../assets/acquia.svg" width="100px"></image>
@@ -59,7 +59,7 @@
                     fxFlex="33.3%"
                     fxFlex.xs="100%"
                     fxFlex.md="30%"
-                    fxFlex.gt-md="25%"
+                    fxFlex.gt-md="27%"
                     fxFlexOrder.xs="1">
       <h4>Run Pipelines</h4>
       <div class="flex-container image-container" fxLayoutAlign="center center">
@@ -79,7 +79,7 @@
                     fxFlex="33.3%"
                     fxFlex.xs="100%"
                     fxFlex.md="30%"
-                    fxFlex.gt-md="25%"
+                    fxFlex.gt-md="27%"
                     fxFlexOrder.xs="3">
       <h4>Deploy Automatically</h4>
       <div class="flex-container image-container" fxLayoutAlign="center center">
@@ -101,7 +101,7 @@
          class="flex-item"
          fxFlex="0%"
          fxFlex.md="5%"
-         fxFlex.gt-md="12.5%">
+         fxFlex.gt-md="9.5%">
     </div>
   </div>
 </div>

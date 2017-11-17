@@ -43,7 +43,7 @@ Feature: Pipelines Jobs List
 
   @NoJobs_ValidateNoJobsContentAndLinks
   Scenario: validate the content links inside no-jobs page
-    Then I should see a |*no-jobs-card| contains |*acquia-pipelines-description|
+    Then I should see a |*pipelines-info| contains |*acquia-pipelines-description|
     And I should see a |*run-pipelines-header| with |*run-pipelines-header-text|
     And I should see the |*pipelines-logo|
     And I should see the |*start-a-job| button

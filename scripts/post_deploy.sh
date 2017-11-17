@@ -7,7 +7,7 @@ ssh-add ~/.ssh/write-key
 echo "latest git commit: "
 git log -1 --pretty=%B
 # Check
-if [ $1 == "master" ] && git log -1 --pretty=%B | grep -q -E "(feat\(|fix\(|refactor\()"
+if [ $1 == "pipelines-build-master" ] && git log -1 --pretty=%B | grep -q -E "(feat\(|fix\(|refactor\()"
 then
  git --version
  #workaround: do a full clone and merge master into staging
@@ -28,7 +28,7 @@ then
  git merge origin/master -X theirs -m "Staging Release"
  echo "pushing to staging"
  git push origin staging
-elif [ $1 == "staging" ]
+elif [ $1 == "pipelines-build-staging" ]
 then
  #workaround: do a full clone and merge master into staging
  cd $SOURCE_DIR/../

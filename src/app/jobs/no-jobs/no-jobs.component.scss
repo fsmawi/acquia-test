@@ -10,7 +10,7 @@
   }
 
   .image-container {
-    height: 6rem;
+    height: 9rem;
     margin-bottom: 2rem;
   }
 
@@ -60,4 +60,13 @@ h2 {
 
 a {
   cursor: pointer;
+}
+
+#no-jobs {
+  padding-top: 1rem;
+
+  span {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
 }
