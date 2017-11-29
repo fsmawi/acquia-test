@@ -10,4 +10,3 @@ events:
             - echo "test commit!"
             - echo "test commit!"
             - echo "test commit!"
-            - sleep 300
