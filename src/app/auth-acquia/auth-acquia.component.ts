@@ -8,6 +8,7 @@ import {ErrorService} from '../core/services/error.service';
 import {PipelinesService} from '../core/services/pipelines.service';
 import {StartJobComponent} from '../jobs/start-job/start-job.component';
 import {repoType} from '../core/repository-types';
+import {FlashMessageService} from '../core/services/flash-message.service';
 
 @Component({
   selector: 'app-auth-acquia',
@@ -69,6 +70,7 @@ export class AuthAcquiaComponent extends BaseApplication implements OnInit {
    * @param router
    * @param errorHandler
    * @param pipelines
+   * @param flashMessage
    * @param dialog
    */
   constructor(
@@ -76,8 +78,9 @@ export class AuthAcquiaComponent extends BaseApplication implements OnInit {
     private router: Router,
     protected errorHandler: ErrorService,
     protected pipelines: PipelinesService,
+    protected flashMessage: FlashMessageService,
     private dialog: MdDialog) {
-    super(errorHandler, pipelines);
+    super(flashMessage, errorHandler, pipelines);
   }
 
   /**

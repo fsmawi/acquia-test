@@ -268,7 +268,6 @@ export class PipelinesService {
 
     // Update metadata as well for oauth repo types
     Object.assign(options, options['metadata'] || {});
-
     return this.promisePostRequest(this.URI + `/ci/pipelines/direct-start`, options);
   }
 
@@ -311,7 +310,7 @@ export class PipelinesService {
       .catch(e => {
         if (e.status === 403 && firstTime) {
           return this.authBakery()
-            .then(() => this.promisePostRequest(url, params, false));
+            .then(() => this.promisePostRequest(url, body, params, false));
         } else {
           return Promise.reject(e);
         }
@@ -319,7 +318,7 @@ export class PipelinesService {
   }
 
   /**
-   * Helper to make deleye requests. Adds Pipeline creds if supplied.
+   * Helper to make delete requests. Adds Pipeline creds if supplied.
    * @param url
    * @param params
    * @param firstTime Flag for first time calls, allowing a retry after bakery

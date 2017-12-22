@@ -11,6 +11,7 @@ import {SegmentService} from '../core/services/segment.service';
 import {environment} from '../../environments/environment';
 import {repoType} from '../core/repository-types';
 import {Repository} from '../core/models/repository';
+import {FlashMessageService} from '../core/services/flash-message.service';
 
 @Component({
   selector: 'app-auth-oauth',
@@ -118,6 +119,7 @@ export class AuthOauthComponent extends BaseApplication implements OnInit {
    * @param router
    * @param errorHandler
    * @param pipelines
+   * @param flashMessage
    * @param segment
    * @param dialog
    */
@@ -126,9 +128,10 @@ export class AuthOauthComponent extends BaseApplication implements OnInit {
     private router: Router,
     protected errorHandler: ErrorService,
     protected pipelines: PipelinesService,
+    protected flashMessage: FlashMessageService,
     private segment: SegmentService,
     private dialog: MdDialog) {
-    super(errorHandler, pipelines);
+    super(flashMessage, errorHandler, pipelines);
   }
 
   /**

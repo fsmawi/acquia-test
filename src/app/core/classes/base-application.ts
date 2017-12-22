@@ -1,6 +1,7 @@
 import {PipelinesService} from '../services/pipelines.service';
 import {ErrorService} from '../services/error.service';
 import {Application} from '../models/application';
+import {FlashMessageService} from '../services/flash-message.service';
 
 export class BaseApplication {
 
@@ -8,7 +9,7 @@ export class BaseApplication {
    * application information
    * @type {Object}
    */
-   static info: Application;
+  static info: Application;
 
   /**
    * Application ID
@@ -18,10 +19,12 @@ export class BaseApplication {
 
   /**
    * Build the base component
-   * @param  errorHandler
-   * @param  pipelines
+   * @param flashMessage
+   * @param errorHandler
+   * @param pipelines
    */
   constructor(
+    protected flashmessage: FlashMessageService,
     protected errorHandler: ErrorService,
     protected pipelines: PipelinesService) {
   }
@@ -40,6 +43,14 @@ export class BaseApplication {
   }
 
   /**
+   * Get the static BaseApplication.info
+   * @returns {Application}
+   */
+  get staticInfo() {
+    return BaseApplication.info;
+  }
+
+  /**
    * Refresh application information
    */
   refresh() {
@@ -47,6 +58,14 @@ export class BaseApplication {
       .then((data) => {
         BaseApplication.info = data;
         return Promise.resolve(BaseApplication.info);
+      })
+      .catch(e => {
+        this.errorHandler.apiError(e);
+        if (this.errorHandler.isForbiddenPipelinesError()) {
+          this.flashmessage.showError(`You are unauthorized to execute pipelines.
+            Some of the functionality might not work as expected. Reach out to your manager or Acquia to request access.`);
+        }
+        return Promise.reject(e);
       });
   }
 }

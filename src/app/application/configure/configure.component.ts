@@ -52,7 +52,7 @@ export class ConfigureComponent extends BaseApplication implements OnInit {
     private flashMessage: FlashMessageService,
     protected pipelines: PipelinesService,
     private dialog: MdDialog) {
-    super(errorHandler, pipelines);
+    super(flashMessage, errorHandler, pipelines);
   }
 
  /**

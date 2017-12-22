@@ -102,7 +102,7 @@ export class ApplicationComponent extends BaseApplication implements OnInit {
     private flashMessage: FlashMessageService,
     private lift: LiftService,
     private segment: SegmentService) {
-    super(errorHandler, pipelines);
+    super(flashMessage, errorHandler, pipelines);
   }
 
   /**
@@ -123,7 +123,11 @@ export class ApplicationComponent extends BaseApplication implements OnInit {
       .catch(e => {
         this.errorHandler.apiError(e).reportError(e, 'FailedToGetApplicationInfo',
           {component: 'application', appId: this.appId}, 'error');
-        this.flashMessage.showError(e.status + ' : ' + e._body);
+        if (this.errorHandler.isForbiddenPipelinesError()) {
+          this.errorHandler.showError('Job list', '/applications/' + this.appId);
+        } else {
+          this.flashMessage.showError(e.status + ' : ' + e._body);
+        }
       })
       .then(() => this.appLoading = false);
   }

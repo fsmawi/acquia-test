@@ -7,7 +7,7 @@
                      [showViewInfo]="true"
                      [showOpenEnvironment]="job?.isFinished && job.metadata?.deployment_link"
                      [showStopJob]="job?.isUnfinished"
-                     [showRerunJob]="job?.isFinished"></app-action-header>
+                     [showRerunJob]="staticInfo && job?.isFinished"></app-action-header>
 
   <app-job-summary *ngIf="job && appId"
                    [isProgressBarRequired]="false"

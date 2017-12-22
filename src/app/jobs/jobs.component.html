@@ -1,7 +1,7 @@
 <div *ngIf="isInitialized">
   <app-action-header [appId]="appId" [repoName]="repoFullName"
                      [showViewInfo]="true"
-                     [showStartJob]="jobs?.length">
+                     [showStartJob]="staticInfo && jobs?.length">
   </app-action-header>
 
   <app-job-summary *ngIf="lastJob && appId"
@@ -32,6 +32,7 @@
         <a id="clear-filter" *ngIf="filterText !== ''" (click)="clearFilter()">Clear Filter</a>
       </div>
       <a id="repoInfo"
+         *ngIf="repoFullName !== ''"
          routerLink="/applications/{{appId}}/info"
          appTrackOn="click"
          [trackEventData]="{appId: appId}"

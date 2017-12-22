@@ -15,6 +15,7 @@ import {StartJobComponent} from './start-job/start-job.component';
 import {BaseApplication} from '../core/classes/base-application';
 import {animations} from '../core/animations';
 import {environment} from '../../environments/environment';
+import {FlashMessageService} from '../core/services/flash-message.service';
 
 @Component({
   selector: 'app-jobs',
@@ -69,7 +70,7 @@ export class JobsComponent extends BaseApplication implements OnInit, OnDestroy 
   /**
    * Holds repo full name of the app
    */
-  repoFullName: string;
+  repoFullName = '';
 
   /**
    * Holds vcs type
@@ -111,15 +112,17 @@ export class JobsComponent extends BaseApplication implements OnInit, OnDestroy 
    * Build the component and inject services if needed
    * @param pipelines
    * @param errorHandler
+   * @param flashMessage
    * @param router
    * @param route
    */
   constructor(
     protected pipelines: PipelinesService,
     protected errorHandler: ErrorService,
+    protected flashMessage: FlashMessageService,
     private router: Router,
     private route: ActivatedRoute) {
-    super(errorHandler, pipelines);
+    super(flashMessage, errorHandler, pipelines);
   }
 
   /**

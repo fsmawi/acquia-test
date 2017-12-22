@@ -10,6 +10,7 @@ import {Application} from '../models/application';
 import {BaseApplication} from './base-application';
 import {ErrorService} from '../services/error.service';
 import {PipelinesService} from '../services/pipelines.service';
+import {FlashMessageService} from '../services/flash-message.service';
 
 class MockPipelinesService {
   getApplicationInfo() {
@@ -28,9 +29,10 @@ class MockPipelinesService {
 })
 export class MockComponent extends BaseApplication {
   constructor(
+    protected flashMessage: FlashMessageService,
     protected errorHandler: ErrorService,
     protected pipeline: PipelinesService) {
-    super(errorHandler, pipeline);
+    super(flashMessage, errorHandler, pipeline);
   }
 }
 
@@ -45,6 +47,7 @@ describe('MockComponent', () => {
       ],
       providers: [
         ErrorService,
+        FlashMessageService,
         {provide: PipelinesService, useClass: MockPipelinesService},
         MockBackend,
         BaseRequestOptions,
@@ -78,6 +81,11 @@ describe('MockComponent', () => {
       .then((info) => {
         expect(info.repo_name).toEqual('acquia/repo1');
       });
+  });
+
+  it('should get static application info', () => {
+    expect(component.staticInfo).toBeTruthy();
+    expect(component.staticInfo.repo_name).toEqual('acquia/repo1');
   });
 
   it('should get application info from static object', () => {

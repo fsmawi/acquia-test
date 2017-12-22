@@ -86,7 +86,7 @@ export class JobsDetailComponent extends BaseApplication implements OnInit, OnDe
   /**
    * Holds repo full name of the repo
    */
-  repoFullName: string;
+  repoFullName = 'Job list';
 
   /**
    * Hold the reference for the logs div
@@ -112,7 +112,7 @@ export class JobsDetailComponent extends BaseApplication implements OnInit, OnDe
     private segment: SegmentService,
     private flash: FlashMessageService,
     private webSocketService: WebSocketService) {
-    super(errorHandler, pipelineService);
+    super(flash, errorHandler, pipelineService);
   }
 
   /**

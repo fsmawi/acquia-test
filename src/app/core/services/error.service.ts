@@ -27,7 +27,8 @@ export class ErrorService {
     '501': `Oops! Looks like we messed up. Give us a moment to fix it.`,
     '503': `Oops! Looks like we messed up. Give us a moment to fix it.`,
     'forbidden_ip': `Oops! Looks like the application is configured to restrict access to certain IP addresses.
-      If IP whitelisting is enabled, you have to use the CLI for using Pipelines.`
+      If IP whitelisting is enabled, you have to use the CLI for using Pipelines.`,
+    'forbidden_pipelines': `You are unauthorized to execute pipelines. Reach out to your manager or Acquia to request access.`
   };
 
   /**
@@ -65,23 +66,63 @@ export class ErrorService {
   }
 
   /**
+   * Checks if the error is related to Forbidden Pipelines.
+   * @returns {boolean}
+   */
+  isForbiddenPipelinesError() {
+    let errorJson = {};
+    if (this.error.status === 403 && this.error['_body'] !== undefined
+      && typeof this.error['_body'] === 'string' && this.isValidJson(this.error['_body'])) {
+      errorJson = JSON.parse(this.error['_body']);
+    } else {
+      return false;
+    }
+    return errorJson.hasOwnProperty('message') && errorJson['message'].includes('forbidden_pipelines');
+  }
+
+  /**
+   * Checks if the error is related to Forbidden IP.
+   * @returns {boolean}
+   */
+  isForbiddenIPError() {
+    return this.error.status === 403 && this.error['_body'] !== undefined &&
+      typeof this.error['_body'] === 'string' && this.error['_body'].includes('forbidden_ip');
+  }
+
+  /**
+   * Checks if the string is valid JSON
+   * @param str
+   * @returns {boolean}
+   */
+  isValidJson(str) {
+    try {
+      JSON.parse(str);
+    } catch (e) {
+      return false;
+    }
+    return true;
+  }
+
+  /**
    * Show error screen with respect to the status code
    * @param tagMessage
    * @param tagLink
    * @param tagTarget
    */
   showErrorScreen(tagMessage = '', tagLink = '', tagTarget = '_self') {
-    let forbiddenIPError = false;
     // Handle the IP whitelisting (where the Pipelines API's IP is restricted)
-    if (this.error.status === 403 && this.error['_body'] !== undefined
-      && typeof this.error['_body'] === 'string' && this.error['_body'].includes('forbidden_ip')) {
-      forbiddenIPError = true;
+    // and no permission to execute pipelines
+    const forbiddenIPError = this.isForbiddenIPError();
+    const forbiddenExecutePipelinesError = this.isForbiddenPipelinesError();
+
+    if (forbiddenIPError) {
       // Redirecting to Application Homepage (cloud) or standalone Homepage
       tagMessage = 'Homepage';
       tagTarget = '_top';
       tagLink =  environment.standalone ? '/applications/' :
         environment.authCloudRedirect + '/app/develop/' + (BaseApplication._appId ? 'applications/' + BaseApplication._appId : '');
     }
+
     this.router.navigate(
       ['/error'],
       {
@@ -90,7 +131,8 @@ export class ErrorService {
           errorTitle: this.error.statusText,
           errorMessage: (this.error.status === 403 && this.error['_body'] !== undefined) ?
             forbiddenIPError ? this.errorMessages['forbidden_ip'] : // show forbidden_ip error
-              this.error['_body'] : this.errorMessages[this.error.status],
+            forbiddenExecutePipelinesError ? this.errorMessages['forbidden_pipelines'] : // show forbidden_pipelines error
+            this.error['_body'] : this.errorMessages[this.error.status],
           tagMessage: tagMessage,
           tagLink: tagLink,
           tagTarget: tagTarget
