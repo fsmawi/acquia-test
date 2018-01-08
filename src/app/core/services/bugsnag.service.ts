@@ -21,7 +21,7 @@ export class BugsnagService {
     */
   constructor() {
 
-    if ((environment.production || envProdMock) && !BugsnagService.bootstrap) {
+     if (envProdMock || environment.production && !BugsnagService.bootstrap && window.location.hostname === 'pipelines.acquia.com') {
 
       const node = document.createElement('script');
       node.type = 'text/javascript';

@@ -156,7 +156,7 @@ export class ErrorService {
       return this;
     }
 
-    if (environment.production) {
+    if (environment.production && typeof Bugsnag !== 'undefined') {
       meta.rawError = e;
       Bugsnag.notifyException(e, name, meta, severity);
     }
