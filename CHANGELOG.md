@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.71"></a>
+## [0.2.71](https://github.com/acquia/pipelines-ui/compare/v0.2.70...v0.2.71) (2018-01-08)
+
+
+### Bug Fixes
+
+* **bugsnag.ts:** Added a host filter for bugsnag ([#297](https://github.com/acquia/pipelines-ui/issues/297)) ([a9fe87f](https://github.com/acquia/pipelines-ui/commit/a9fe87f))
+
+
+
 <a name="0.2.70"></a>
 ## [0.2.70](https://github.com/acquia/pipelines-ui/compare/v0.2.69...v0.2.70) (2017-12-28)
 
