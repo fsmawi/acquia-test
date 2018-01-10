@@ -8,4 +8,4 @@ events:
           script:
             - echo "test commit!"
             - echo "test commit!"
-            - echo "test commit! 3"
+            - echo "test commit! 4"
