@@ -8,4 +8,4 @@ events:
           script:
             - echo "test commit!"
             - echo "test commit!"
-            - echo "test PR source tttt"
+            - echo "test PR source 01"
