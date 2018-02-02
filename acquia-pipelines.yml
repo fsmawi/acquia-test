@@ -9,3 +9,4 @@ events:
             - echo "test commit!"
             - echo "test commit!"
             - echo "test commit!"
+            - bin/false
