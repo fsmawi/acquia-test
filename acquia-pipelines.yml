@@ -8,5 +8,4 @@ events:
           script:
             - echo "test commit!"
             - echo "test commit!"
-            - echo "test commit!"
             - bin/false
