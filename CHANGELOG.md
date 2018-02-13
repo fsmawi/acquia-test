@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.72"></a>
+## [0.2.72](https://github.com/acquia/pipelines-ui/compare/v0.2.71...v0.2.72) (2018-02-13)
+
+
+### Bug Fixes
+
+* **karma.conf.js:** fix bug unit test execution ([#299](https://github.com/acquia/pipelines-ui/issues/299)) ([1a1c159](https://github.com/acquia/pipelines-ui/commit/1a1c159))
+
+
+### Features
+
+* **post_deploy.sh:** send source map files to Bugsnag ([#298](https://github.com/acquia/pipelines-ui/issues/298)) ([8759146](https://github.com/acquia/pipelines-ui/commit/8759146))
+
+
+
 <a name="0.2.71"></a>
 ## [0.2.71](https://github.com/acquia/pipelines-ui/compare/v0.2.70...v0.2.71) (2018-01-08)
 
