@@ -22,9 +22,9 @@
     "e2e:acceptance": "echo TODO",
     "integration": "mocha test/integration --recursive --colors",
     "integration:acceptance": "mocha test/integration --recursive --colors",
-    "pipelines:build:master": "ng build --prod --aot --env=live-mock --output-path=/tmp/build",
-    "pipelines:build:staging": "ng build --prod --aot --env=live-mock --output-path=/tmp/build",
-    "pipelines:build:production": "ng build --prod --aot --progress --output-path=/tmp/build",
+    "pipelines:build:master": "ng build --prod --aot --sourcemaps --env=live-mock --output-path=/tmp/build",
+    "pipelines:build:staging": "ng build --prod --aot --sourcemaps --env=live-mock --output-path=/tmp/build",
+    "pipelines:build:production": "ng build --prod --aot --sourcemaps --progress --output-path=/tmp/build",
     "changelog": "npm install standard-version && standard-version --first-release"
   },
   "private": true,
@@ -59,6 +59,7 @@
     "aqtest": "file:lib/aqtest-2.1.4.tgz",
     "async": "^2.1.5",
     "aws-sdk": "^2.39.0",
+    "bugsnag-sourcemaps": "^1.0.1",
     "chai": "^3.5.0",
     "codelyzer": "~2.0.0-beta.1",
     "colors": "^1.1.2",
@@ -70,6 +71,7 @@
     "http-hmac-javascript": "github:acquia/http-hmac-javascript",
     "jasmine-core": "2.5.2",
     "jasmine-spec-reporter": "2.5.0",
+    "jira2md": "2.0.1",
     "karma": "~1.5.0",
     "karma-chrome-launcher": "^2.0.0",
     "karma-cli": "^1.0.1",
@@ -87,8 +89,7 @@
     "tslint": "^4.5.0",
     "typescript": "~2.2.0",
     "ws": "^2.2.0",
-    "xmlhttprequest": "^1.8.0",
-    "jira2md": "2.0.1"
+    "xmlhttprequest": "^1.8.0"
   },
   "config": {
     "commitizen": {
