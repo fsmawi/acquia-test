@@ -8,7 +8,7 @@
     "start": "echo PLEASE START MERVER at 3000 ie. npm run mock PATH_TO_YAML && ng serve --env=mock",
     "lint": "ng lint",
     "eslint": "eslint test/**/*.js",
-    "test": "ng test --watch=false --colors",
+    "test": "ng test --sourcemap=false --watch=false --colors",
     "build:server": "cp -r server/ dist/server && cp -r environments/vendor dist/server/vendor",
     "mock": "merver",
     "mock:websocket": "node scripts/mock-websocket.js",

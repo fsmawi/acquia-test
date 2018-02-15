@@ -4,10 +4,6 @@ const glob = require('glob');
 const upload = require('bugsnag-sourcemaps').upload;
 const path = require('path');
 const fs = require('fs');
-const URL = require('url').URL;
-
-const tmpUrl = new URL(process.env.PIPELINES_PRODUCTION_URL);
-const pipelinesUrl = `${tmpUrl.protocol}//${tmpUrl.host}`;
 
 const packageJson = require(__dirname + '/../package.json');
 
@@ -48,14 +44,16 @@ function uploadSourceMapFiles() {
     // Upload files
     files.forEach(function (file) {
       let fileMap = path.join(buildFolder, `${file}.map`);
+      let fileSource = path.join(buildFolder, `${file}`);
       if (!fs.existsSync(fileMap)) {
         console.log(`${fileMap} don't exists`);
       } else {
         upload({
           apiKey: process.env.PIPELINES_BUGSNAG_API_KEY,
           appVersion: packageJson.version,
-          minifiedUrl: `${pipelinesUrl}/${file}`,
+          minifiedUrl: `${process.env.PIPELINES_ASSET_URL}/${file}`,
           sourceMap: fileMap,
+          minifiedFile: fileSource,
           overwrite: true
         }, function(err) {
           if (err) {
@@ -68,5 +66,4 @@ function uploadSourceMapFiles() {
     });
   });
 }
-
 

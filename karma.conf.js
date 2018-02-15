@@ -14,7 +14,8 @@ module.exports = function (config) {
       require('@angular/cli/plugins/karma')
     ],
     files: [
-      {pattern: './src/test.ts', watched: false}
+      {pattern: './src/test.ts', watched: false},
+      {pattern: './node_modules/@angular/material/prebuilt-themes/indigo-pink.css'}
     ],
     preprocessors: {
       './src/test.ts': ['@angular/cli']
@@ -43,11 +44,11 @@ module.exports = function (config) {
     customLaunchers: {
       Chrome_Headless: {
         base: 'Chrome',
-        flags: ['--headless', '--disable-gpu', '--remote-debugging-port=9222', '--js-flags="--max_old_space_size=4096"']
+        flags: ['--headless', '--disable-gpu', '--remote-debugging-port=9222']
       }
     },
     singleRun: false,
-    browserNoActivityTimeout: 30000,
+    browserNoActivityTimeout: 120000,
     browserDisconnectTolerance: 10,
     retryLimit: 10
   });
