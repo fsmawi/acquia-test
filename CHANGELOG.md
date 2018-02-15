@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.73"></a>
+## [0.2.73](https://github.com/acquia/pipelines-ui/compare/v0.2.72...v0.2.73) (2018-02-15)
+
+
+### Bug Fixes
+
+* **post_deploy.sh:** fixed bug require URL node module ([#301](https://github.com/acquia/pipelines-ui/issues/301)) ([f06c802](https://github.com/acquia/pipelines-ui/commit/f06c802))
+
+
+
 <a name="0.2.72"></a>
 ## [0.2.72](https://github.com/acquia/pipelines-ui/compare/v0.2.71...v0.2.72) (2018-02-13)
 
