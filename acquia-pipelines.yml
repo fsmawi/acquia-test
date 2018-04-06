@@ -6,8 +6,7 @@ events:
       # If you have build instructions, put them here. They are not required.
       - build_site:
           script:
-            - touch docroot/index.html
-            - echo "You successfully deployed your build to an ODE" > docroot/index.html
+            - echo "You successfully deployed your build to an ODE"
 
   post-deploy:
     steps:
