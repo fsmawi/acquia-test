@@ -3,9 +3,15 @@ version: 1.0.0
 events:
   build:
     steps:
-      - hello:
-          type: script
+      # If you have build instructions, put them here. They are not required.
+      - build_site:
           script:
-            - echo "test commit!"
-            - echo "test commit!"
-            - echo "test commit! "
+            - touch docroot/index.html
+            - echo "You successfully deployed your build to an ODE" > docroot/index.html
+
+  post-deploy:
+    steps:
+      # Deploy the build artifact to a Cloud on-demand environment.
+      - deploy:
+          script:
+            - pipelines-deploy
