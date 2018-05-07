@@ -15,7 +15,7 @@ events:
       - deploy:
           script:
             - pipelines-deploy
-            - pipelines-sync-dbs
+            - pipelines-sync-dbs db1 db3
 
   # When a GitHub pull request is merged, this deletes the coresponding ODE.
   pr-merged:
