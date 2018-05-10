@@ -6,7 +6,8 @@
     <e-card *ngIf="modalOpen" class="el-card--is-dialog">
       <e-card-header>{{title}}</e-card-header>
       <e-card-content>
-        {{message}}
+        <p [innerHTML]="message">
+        </p>
       </e-card-content>
       <e-card-footer>
         <e-button text="{{secondaryActionText}}" type="link" (click)="cancelled()"></e-button>

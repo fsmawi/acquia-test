@@ -4,6 +4,12 @@ routes:
       GET:
         response:
           authenticated: true
+  /api/v1/ci/applications/cloudapi-linking-status:
+    GET:
+      response:
+        token_attached: true
+        is_token_valid: true
+        can_execute_pipelines: true
   /api/v1/ci/jobs:
     GET:
       response: Error authorizing request: site doesn't have pipelines enabled

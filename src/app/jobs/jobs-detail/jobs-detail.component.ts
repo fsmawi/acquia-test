@@ -16,6 +16,7 @@ import {features} from '../../core/features';
 import {animations} from '../../core/animations';
 import {BaseApplication} from '../../core/classes/base-application';
 import {environment} from '../../../environments/environment';
+import {ConfirmationModalService} from '../../core/services/confirmation-modal.service';
 
 @Component({
   selector: 'app-jobs-detail',
@@ -103,6 +104,7 @@ export class JobsDetailComponent extends BaseApplication implements OnInit, OnDe
    * @param segment
    * @param flash
    * @param webSocketService
+   * @param confirmationModalService
    */
   constructor(
     protected pipelineService: PipelinesService,
@@ -111,8 +113,9 @@ export class JobsDetailComponent extends BaseApplication implements OnInit, OnDe
     protected errorHandler: ErrorService,
     private segment: SegmentService,
     private flash: FlashMessageService,
-    private webSocketService: WebSocketService) {
-    super(flash, errorHandler, pipelineService);
+    private webSocketService: WebSocketService,
+    private confirmationModalService: ConfirmationModalService) {
+    super(flash, errorHandler, pipelineService, confirmationModalService);
   }
 
   /**

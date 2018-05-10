@@ -71,7 +71,6 @@ glob('test/e2e/features/*.feature', function (err, files) {
  * @param  {Number}  concurrency
  */
 function executeTests(scenarios, concurrency) {
-
   async.eachLimit(scenarios, concurrency, (tag, cb) => {
     console.log(`Starting ${tag}`.gray);
     output[tag] = {

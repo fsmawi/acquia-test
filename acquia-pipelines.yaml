@@ -39,8 +39,8 @@ events:
     steps:
       - install:
           script:
-            - 'nvm install v6.9.5'
-            - 'nvm use 6.9.5'
+            - 'nvm install v8.11.1'
+            - 'nvm use 8.11.1'
             - 'npm install'
             - 'alias run="node $SOURCE_DIR/scripts/run.js"'
             - 'run start'

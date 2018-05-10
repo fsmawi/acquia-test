@@ -11,6 +11,7 @@ import {BaseApplication} from './base-application';
 import {ErrorService} from '../services/error.service';
 import {PipelinesService} from '../services/pipelines.service';
 import {FlashMessageService} from '../services/flash-message.service';
+import {ConfirmationModalService} from '../services/confirmation-modal.service';
 
 class MockPipelinesService {
   getApplicationInfo() {
@@ -20,6 +21,40 @@ class MockPipelinesService {
               repo_name: 'acquia/repo1',
               repo_type: 'github'
             }));
+  }
+
+  getN3TokenInfo() {
+    return Promise.resolve(
+      {
+        token_attached: false,
+        is_token_valid: false,
+        can_execute_pipelines: true
+      }
+    );
+  }
+
+  setN3Credentials() {
+    return Promise.resolve(
+      {
+        success: true
+      }
+    );
+  }
+}
+
+class MockConfirmationModalService {
+  openDialog(title: string, message: string, primaryActionText: string, secondaryActionText = '') {
+    return Promise.resolve(true);
+  }
+}
+
+class MockFlashMessage {
+  showError(message: string, e: any) {
+    return true;
+  }
+
+  showSuccess(message: string, e: any) {
+    return true;
   }
 }
 
@@ -31,8 +66,9 @@ export class MockComponent extends BaseApplication {
   constructor(
     protected flashMessage: FlashMessageService,
     protected errorHandler: ErrorService,
-    protected pipeline: PipelinesService) {
-    super(flashMessage, errorHandler, pipeline);
+    protected pipeline: PipelinesService,
+    protected confirmationModalService: ConfirmationModalService) {
+    super(flashMessage, errorHandler, pipeline, confirmationModalService);
   }
 }
 
@@ -47,7 +83,8 @@ describe('MockComponent', () => {
       ],
       providers: [
         ErrorService,
-        FlashMessageService,
+        {provide: FlashMessageService, useClass: MockFlashMessage},
+        {provide: ConfirmationModalService, useClass: MockConfirmationModalService},
         {provide: PipelinesService, useClass: MockPipelinesService},
         MockBackend,
         BaseRequestOptions,
@@ -88,16 +125,33 @@ describe('MockComponent', () => {
     expect(component.staticInfo.repo_name).toEqual('acquia/repo1');
   });
 
+  it('should get static N3CredentialsAttached', () => {
+    BaseApplication.n3CredentialsAttached = true;
+    expect(component.staticN3CredentialsAttached).toBeTruthy();
+    expect(component.staticN3CredentialsAttached).toEqual(true);
+  });
+
   it('should get application info from static object', () => {
     BaseApplication.info = new Application({
       repo_name: 'acquia/repo2',
       url: '',
       type: ''
     });
+    BaseApplication.n3PopupShown = false;
 
     component.getInfo()
       .then((info) => {
         expect(info.repo_name).toEqual('acquia/repo2');
+        expect(BaseApplication.n3PopupShown).toEqual(true);
       });
   });
+
+  it('should show confirmation dialog and set the n3 credentials', () => {
+    BaseApplication.n3CredentialsAttached = false;
+    component.showN3CredentialsPopup()
+      .then((res) => {
+        expect(BaseApplication.n3CredentialsAttached).toEqual(true);
+      });
+  });
+
 });

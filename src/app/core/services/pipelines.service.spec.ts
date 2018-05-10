@@ -160,6 +160,40 @@ describe('PipelinesService', () => {
       });
     }));
 
+  it('should get the cloud API linking status',
+    inject([PipelinesService, MockBackend], (service: PipelinesService, mockBackend: MockBackend) => {
+      setupConnections(mockBackend, {
+        body: JSON.stringify({
+          status: 200,
+          is_token_valid: true,
+          token_attached: true,
+          can_execute_pipelines: true
+
+        })
+      });
+
+      service.getN3TokenInfo('app-id').then(res => {
+        expect(res.is_token_valid).toBe(true);
+        expect(res.token_attached).toBe(true);
+        expect(res.can_execute_pipelines).toBe(true);
+      });
+    }));
+
+
+  it('should set the cloud API tokens',
+    inject([PipelinesService, MockBackend], (service: PipelinesService, mockBackend: MockBackend) => {
+      setupConnections(mockBackend, {
+        body: JSON.stringify({
+          status: 200,
+          success: true
+        })
+      });
+
+      service.setN3Credentials('app-id').then(res => {
+        expect(res.success).toBe(true);
+      });
+    }));
+
   it('should get application information',
     inject([PipelinesService, MockBackend], (service, mockBackend) => {
 

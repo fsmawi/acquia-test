@@ -12,6 +12,7 @@ import {environment} from '../../environments/environment';
 import {repoType} from '../core/repository-types';
 import {Repository} from '../core/models/repository';
 import {FlashMessageService} from '../core/services/flash-message.service';
+import {ConfirmationModalService} from '../core/services/confirmation-modal.service';
 
 @Component({
   selector: 'app-auth-oauth',
@@ -122,6 +123,7 @@ export class AuthOauthComponent extends BaseApplication implements OnInit {
    * @param flashMessage
    * @param segment
    * @param dialog
+   * @param confirmationModalService
    */
   constructor(
     private route: ActivatedRoute,
@@ -130,8 +132,9 @@ export class AuthOauthComponent extends BaseApplication implements OnInit {
     protected pipelines: PipelinesService,
     protected flashMessage: FlashMessageService,
     private segment: SegmentService,
-    private dialog: MdDialog) {
-    super(flashMessage, errorHandler, pipelines);
+    private dialog: MdDialog,
+    private confirmationModalService: ConfirmationModalService) {
+    super(flashMessage, errorHandler, pipelines, confirmationModalService);
   }
 
   /**

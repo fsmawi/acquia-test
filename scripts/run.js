@@ -30,6 +30,10 @@ if (!command) {
  */
 function executeCommand() {
 
+  const intervalCmd = setInterval(() => {
+    console.log(`Running ${step} ...`);
+  }, 60000);
+
   exec(command, {
     cwd: (directory !== undefined) ? directory : path.join(__dirname, '..'),
     maxBuffer: 1024 * 1024
@@ -37,6 +41,7 @@ function executeCommand() {
 
     // keep colors
     console.log(stdout);
+    clearTimeout(intervalCmd);
 
     if (error) {
 

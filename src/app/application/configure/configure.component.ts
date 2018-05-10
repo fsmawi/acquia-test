@@ -7,6 +7,7 @@ import {ErrorService} from '../../core/services/error.service';
 import {FlashMessageService} from '../../core/services/flash-message.service';
 import {PipelinesService} from '../../core/services/pipelines.service';
 import {StartJobComponent} from '../../jobs/start-job/start-job.component';
+import {ConfirmationModalService} from '../../core/services/confirmation-modal.service';
 
 @Component({
   selector: 'app-configure',
@@ -45,14 +46,16 @@ export class ConfigureComponent extends BaseApplication implements OnInit {
    * @param flashMessage
    * @param pipelines
    * @param dialog
+   * @param confirmationModalService
    */
   constructor(
     private route: ActivatedRoute,
     protected errorHandler: ErrorService,
     private flashMessage: FlashMessageService,
     protected pipelines: PipelinesService,
-    private dialog: MdDialog) {
-    super(flashMessage, errorHandler, pipelines);
+    private dialog: MdDialog,
+    private confirmationModalService: ConfirmationModalService) {
+    super(flashMessage, errorHandler, pipelines, confirmationModalService);
   }
 
  /**

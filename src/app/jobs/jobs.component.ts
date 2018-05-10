@@ -11,11 +11,13 @@ import {ErrorService} from '../core/services/error.service';
 import {Job} from '../core/models/job';
 import {PipelinesService} from '../core/services/pipelines.service';
 import {SegmentService} from '../core/services/segment.service';
+
 import {StartJobComponent} from './start-job/start-job.component';
 import {BaseApplication} from '../core/classes/base-application';
 import {animations} from '../core/animations';
 import {environment} from '../../environments/environment';
 import {FlashMessageService} from '../core/services/flash-message.service';
+import {ConfirmationModalService} from '../core/services/confirmation-modal.service';
 
 @Component({
   selector: 'app-jobs',
@@ -115,14 +117,16 @@ export class JobsComponent extends BaseApplication implements OnInit, OnDestroy 
    * @param flashMessage
    * @param router
    * @param route
+   * @param confirmationModalService
    */
   constructor(
     protected pipelines: PipelinesService,
     protected errorHandler: ErrorService,
     protected flashMessage: FlashMessageService,
     private router: Router,
-    private route: ActivatedRoute) {
-    super(flashMessage, errorHandler, pipelines);
+    private route: ActivatedRoute,
+    private confirmationModalService: ConfirmationModalService) {
+    super(flashMessage, errorHandler, pipelines, confirmationModalService);
   }
 
   /**

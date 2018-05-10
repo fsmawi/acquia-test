@@ -102,7 +102,7 @@ export class ApplicationComponent extends BaseApplication implements OnInit {
     private flashMessage: FlashMessageService,
     private lift: LiftService,
     private segment: SegmentService) {
-    super(flashMessage, errorHandler, pipelines);
+    super(flashMessage, errorHandler, pipelines, confirmationModalService);
   }
 
   /**

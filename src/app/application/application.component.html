@@ -15,6 +15,7 @@
   <e-card-content>
     <h3>{{repositoryType}} repository</h3>
     <a appIframeLink="/applications/{{appId}}/info/configure" class="configure-link"
+       *ngIf="staticN3CredentialsAttached"
        appTrackOn="click"
        [trackEventData]="{appId: appId}"
        trackEventName="ClickApplicationInfoConfigure">Configure</a>

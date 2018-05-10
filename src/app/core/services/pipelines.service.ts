@@ -152,6 +152,32 @@ export class PipelinesService {
   }
 
   /**
+   * Get the N3 Token info for the application
+   * @param appId
+   * @returns {Promise<Application>}
+   */
+  getN3TokenInfo(appId: string) {
+    return this.promiseGetRequest(this.URI + '/ci/applications/cloudapi-linking-status', {
+      applications: [appId]
+    });
+  }
+
+  /**
+   * Sets the N3 key/secret for the application
+   * @param appId
+   * @param options
+   * @returns {Promise<HttpRequest>}
+   */
+  setN3Credentials(appId: string, options = {}) {
+    // Default Options
+    Object.assign(options, {
+      applications: [appId]
+    });
+
+    return this.promisePostRequest(this.URI + `/ci/applications/cloudapi-token`, options);
+  }
+
+  /**
    * Get all connected user's repositories
    * @param pager
    * @param appId
