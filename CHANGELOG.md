@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.74"></a>
+## [0.2.74](https://github.com/acquia/pipelines-ui/compare/v0.2.73...v0.2.74) (2018-05-10)
+
+
+### Features
+
+* **base-application.ts:** Show Confirmation Dialog before attaching N3 tokens ([#302](https://github.com/acquia/pipelines-ui/issues/302)) ([cadf799](https://github.com/acquia/pipelines-ui/commit/cadf799))
+
+
+
 <a name="0.2.73"></a>
 ## [0.2.73](https://github.com/acquia/pipelines-ui/compare/v0.2.72...v0.2.73) (2018-02-15)
 
