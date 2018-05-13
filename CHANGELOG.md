@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.75"></a>
+## [0.2.75](https://github.com/acquia/pipelines-ui/compare/v0.2.74...v0.2.75) (2018-05-13)
+
+
+### Features
+
+* **application-component:** Implemented Dbs source configuration ([#304](https://github.com/acquia/pipelines-ui/issues/304)) ([8fc33d0](https://github.com/acquia/pipelines-ui/commit/8fc33d0))
+
+
+
 <a name="0.2.74"></a>
 ## [0.2.74](https://github.com/acquia/pipelines-ui/compare/v0.2.73...v0.2.74) (2018-05-10)
 
