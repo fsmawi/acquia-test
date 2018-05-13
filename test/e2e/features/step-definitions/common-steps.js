@@ -86,6 +86,11 @@ module.exports = function () {
     return this.browser._selectValue(page.getDynamicValue(selector), page.getDynamicValue(value));
   });
 
+  this.Then(/^I select value \|(.*?)\| from \|(.*?)\|/, function (value, selector) {
+    boostrap(this.browser);
+    return this.browser._selectByVisibleText(page.getDynamicValue(selector), page.getDynamicValue(value));
+  });
+
   this.Then(/^I should see \|(.*?)\| value in \|(.*?)\|/, function (expectedValue, selector) {
     boostrap(this.browser);
     return this.browser._waitUntil(page.getDynamicValue(selector), {timeout: 5000})

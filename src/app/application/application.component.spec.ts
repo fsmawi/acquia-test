@@ -20,6 +20,7 @@ import {LiftService} from '../core/services/lift.service';
 import {BaseApplication} from '../core/classes/base-application';
 import {HelpCenterService} from '../core/services/help-center.service';
 import {TooltipService} from '../core/services/tooltip.service';
+import {Environment} from '../core/models/environment';
 
 class MockHelpCenterService {
   show() {
@@ -185,5 +186,70 @@ describe('ApplicationComponent', () => {
       expect(component.webhook).toEqual('enabled');
       expect(component.gitUrl).toEqual('https://github.com/acquia/repo1.git');
       expect(component.gitClone).toEqual('git clone --branch [branch] https://github.com/acquia/repo1.git [destination]');
+    })));
+
+  it('should update db data sync parameter successfully',
+    fakeAsync(inject([ActivatedRoute, FlashMessageService, MockBackend], (route, flashMessage, mockBackend) => {
+      setupConnections(mockBackend, {
+        body: JSON.stringify({
+          success: true
+        })
+      });
+
+      spyOn(component, 'getInfo').and.returnValues(
+        Promise.resolve({
+          repo_url: 'https://github.com/acquia/repo1.git',
+          repo_name: 'acquia/repo1',
+          repo_type: 'acquia-git',
+          db_sync_source_env: null,
+          environments: [{id: '12345', label: 'dev1'}, {id: '345678', label: 'dev2'}]
+        }),
+        Promise.resolve({
+          repo_url: 'https://github.com/acquia/repo1.git',
+          repo_name: 'acquia/repo1',
+          repo_type: 'acquia-git',
+          db_sync_source_env: '345678',
+          environments: [{id: '12345', label: 'dev1'}, {id: '345678', label: 'dev2'}]
+        })
+      );
+
+      spyOn(flashMessage, 'showSuccess');
+
+      component.getConfigurationInfo();
+      tick();
+      fixture.detectChanges();
+      expect(component.environments.length).toEqual(2);
+      expect(component.environmentDbSync).toBeUndefined();
+      component.updateDbSyncParam();
+      tick();
+      expect(component.environments.length).toEqual(2);
+      expect(component.environmentDbSync).toEqual('345678');
+      expect(flashMessage.showSuccess).toHaveBeenCalledWith('Database sync environment has been updated successfully.');
+    })));
+
+  it('should fail when update db data sync parameter',
+    fakeAsync(inject([ActivatedRoute, FlashMessageService, MockBackend], (route, flashMessage, mockBackend) => {
+      setupConnections(mockBackend, {
+        body: JSON.stringify({
+          message: 'some error',
+          error: 'some error'
+        })
+      });
+
+      spyOn(component, 'getInfo').and.returnValues(
+        Promise.resolve({
+          repo_url: 'https://github.com/acquia/repo1.git',
+          repo_name: 'acquia/repo1',
+          repo_type: 'acquia-git',
+          db_sync_source_env: null,
+          environments: [{id: '12345', label: 'dev1'}, {id: '345678', label: 'dev2'}]
+        })
+      );
+
+      spyOn(flashMessage, 'showError');
+
+      component.updateDbSyncParam();
+      tick();
+      expect(flashMessage.showError).toHaveBeenCalledWith('Error while updating DB sync Environment.');
     })));
 });

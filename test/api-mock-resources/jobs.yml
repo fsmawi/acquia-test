@@ -1206,6 +1206,16 @@ routes:
               - hotfix/bug5
               - hotfix/bug6
               - hotfix/bug7
+            db_sync_source_env: ~
+            environments:
+              - label: dev1
+                id: 11161-f354-4294-875c-3a2e446f81f6
+              - label: dev2
+                id: 22161-f354-4294-875c-3a2e446f81f6
+              - label: dev3
+                id: 33161-f354-4294-875c-3a2e446f81f6
+              - label: prod
+                id: 44161-f354-4294-875c-3a2e446f81f6
         - response:
             repo_type: acquia-git
             repo_name: example/repo
@@ -1227,26 +1237,21 @@ routes:
               - hotfix/bug5
               - hotfix/bug6
               - hotfix/bug7
+            db_sync_source_env: 33161-f354-4294-875c-3a2e446f81f6
+            environments:
+              - label: dev1
+                id: 11161-f354-4294-875c-3a2e446f81f6
+              - label: dev2
+                id: 22161-f354-4294-875c-3a2e446f81f6
+              - label: dev3
+                id: 33161-f354-4294-875c-3a2e446f81f6
+              - label: prod
+                id: 44161-f354-4294-875c-3a2e446f81f6
+  /api/v1/ci/applications/sync-db-environment:
+     POST:
+      responses:
         - response:
-            repo_type: acquia-git
-            repo_name: example/repo
-            repo_url: site@svn-3.hosted.acquia-sites.com:site.git
-            branches:
-              - master
-              - dev
-              - staging
-              - feature/feat1
-              - feature/feat2
-              - feature/feat3
-              - feature/feat4
-              - feature/feat5
-              - hotfix/bug1
-              - hotfix/bug2
-              - hotfix/bug3
-              - hotfix/bug4
-              - hotfix/bug5
-              - hotfix/bug6
-              - hotfix/bug7
+            success: true
   /api/v1/ci/pipelines/direct-start:
      POST:
       response:

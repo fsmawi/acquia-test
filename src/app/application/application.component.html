@@ -42,6 +42,17 @@
       <span *ngIf="webhook === 'not-reachable'">Oops! Looks like we are unable to retrieve the webhooks information.</span>
     </e-data>
 
+    <e-data id="sync-db-param">
+      <e-data-label>
+        DB Sync source environment
+      </e-data-label>
+      <select id="sync-db-select" *ngIf="environments?.length != 0"
+              [(ngModel)]="environmentDbSync" (change)="updateDbSyncParam()" disabled="{{appLoading}}">
+        <option *ngFor="let environment of environments" [value]="environment.id">{{environment.label}}</option>
+      </select>
+      <span *ngIf="environments?.length == 0">Oops! Looks like we are unable to retrieve the application environments.</span>
+    </e-data>
+
     <!--
       @todo: MS-2573 | Add metadata about the linked repository and rely on GitHub's
       UI instruction for cloning the connected repository

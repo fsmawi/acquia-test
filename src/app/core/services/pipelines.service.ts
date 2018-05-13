@@ -271,6 +271,23 @@ export class PipelinesService {
   }
 
   /**
+   * Updates DB data sync parameter
+   * @param appId
+   * @param environmentId
+   * @param options
+   * @returns {Promise<HttpRequest>}
+   */
+  updateDbSyncParam(appId: string, environmentId: string, options = {}) {
+    // Default Options
+    Object.assign(options, {
+      applications: [appId],
+      env_id: environmentId
+    });
+
+    return this.promisePostRequest(this.URI + `/ci/applications/sync-db-environment`, options);
+  }
+
+  /**
    * Direct Start a pipelines job
    * @param appId
    * @param branch

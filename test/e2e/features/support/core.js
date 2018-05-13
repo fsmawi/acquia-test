@@ -197,6 +197,17 @@ exports.bootstrap = function (browser) {
   };
 
   /**
+   * Selects the visible value from the list box
+   */
+  browser._selectByVisibleText = function(selector, value) {
+    return browser.selectByVisibleText(selector, value)
+      .catch((e) => {
+        return screenshot(createTimeName('selectValue-error', ''))
+          .then(() => Promise.reject(e));
+      });
+  };
+
+  /**
    * @param {String} selector
    * Find the iframe with given selector and switch the frame
    * @return {Promise}

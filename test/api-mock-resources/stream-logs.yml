@@ -26,6 +26,16 @@ routes:
           repo_type: acquia-git
           repo_name: example/repo
           repo_url: site@svn-3.hosted.acquia-sites.com:site.git
+          db_sync_source_env: ~
+          environments:
+            - label: dev1
+              id: 11161-f354-4294-875c-3a2e446f81f6
+            - label: dev2
+              id: 22161-f354-4294-875c-3a2e446f81f6
+            - label: dev3
+              id: 33161-f354-4294-875c-3a2e446f81f6
+            - label: prod
+              id: 44161-f354-4294-875c-3a2e446f81f6
   /api/v1/ci/jobs:
     GET:
       response:

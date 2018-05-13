@@ -12,6 +12,8 @@ import {repoType} from '../core/repository-types';
 import {SegmentService} from '../core/services/segment.service';
 import {LiftService} from '../core/services/lift.service';
 
+import {Environment} from '../core/models/environment';
+
 @Component({
   selector: 'app-application',
   templateUrl: './application.component.html',
@@ -83,6 +85,17 @@ export class ApplicationComponent extends BaseApplication implements OnInit {
   webhook = 'disabled';
 
   /**
+   * Environment list.
+   * @type {Environment[]}
+   */
+  environments: Environment[];
+
+  /**
+   * Db sync environment.
+   */
+  environmentDbSync: string;
+
+  /**
    * Build the component
    * @param route
    * @param router
@@ -118,6 +131,15 @@ export class ApplicationComponent extends BaseApplication implements OnInit {
         this.gitUrl = info.repo_url;
         this.gitClone = this.gitUrl ? `git clone --branch [branch] ${this.gitUrl} [destination]` : '';
         this.webhook = info.hasOwnProperty('webhook') ? info.webhook ? 'enabled' : 'disabled' : 'not-reachable';
+
+        this.environments = info.hasOwnProperty('environments') ? info.environments : [];
+        for (const env of this.environments) {
+          if (info.db_sync_source_env === env.id) {
+            this.environmentDbSync = info.db_sync_source_env;
+            break;
+          }
+        }
+
         this.setRepositoryType();
       })
       .catch(e => {
@@ -184,6 +206,27 @@ export class ApplicationComponent extends BaseApplication implements OnInit {
       })
       .catch(e => {
         this.errorHandler.apiError(e).reportError(e, 'FailedToUpdateWebhooks',
+          {component: 'application', appId: this.appId}, 'error');
+        this.flashMessage.showError(e.status + ' : ' + e._body);
+      })
+      .then(() => this.getConfigurationInfo(true));
+  }
+
+  /**
+   * Sets the DB Sync source environment parameter.
+   */
+  updateDbSyncParam() {
+    this.pipelines.updateDbSyncParam(this.appId, this.environmentDbSync)
+      .then(res => {
+        this.appLoading = true;
+        if (res.success) {
+          this.flashMessage.showSuccess('Database sync environment has been updated successfully.');
+        } else {
+          this.flashMessage.showError('Error while updating DB sync Environment.');
+        }
+      })
+      .catch(e => {
+        this.errorHandler.apiError(e).reportError(e, 'FailedToUpdateDbSyncParam',
           {component: 'application', appId: this.appId}, 'error');
         this.flashMessage.showError(e.status + ' : ' + e._body);
       })

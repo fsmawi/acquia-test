@@ -115,6 +115,20 @@ describe('PipelinesService', () => {
       });
     }));
 
+  it('should update db data sync parameter for the app',
+    inject([PipelinesService, MockBackend], (service: PipelinesService, mockBackend: MockBackend) => {
+      setupConnections(mockBackend, {
+        body: JSON.stringify({
+          status: 200,
+          success: true
+        })
+      });
+
+      service.updateDbSyncParam('app-id', 'env-id').then(res => {
+        expect(res.success).toBe(true);
+      });
+    }));
+
   it('should get pipelines given an application ID',
     inject([PipelinesService, MockBackend], (service: PipelinesService, mockBackend: MockBackend) => {
       const pipeline = new Pipeline({

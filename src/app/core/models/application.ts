@@ -1,4 +1,5 @@
 import {Job} from './job';
+import {Environment} from './environment';
 
 /**
  * Application Model
@@ -40,6 +41,17 @@ export class Application {
    * @type {string[]}
    */
   branches: string[];
+
+  /**
+   * Environment used to sync Dbs.
+   */
+  db_sync_source_env: string;
+
+  /**
+   * Environment list.
+   * @type {Environment[]}
+   */
+  environments: Environment[];
 
   /**
    * Creates a Repository object
