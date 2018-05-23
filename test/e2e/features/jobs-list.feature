@@ -85,6 +85,27 @@ Feature: Pipelines Jobs List
     Then I hover on |*acquia-git-icon|
     Then I should see |*acquia-git-icon| |*tooltip| containing |*acquia-git-icon-tooltip|
 
+
+  @JobList_CheckTooltipsTagPush
+  Scenario: Check the tooltips of the fields displayed in jobList page
+    When on the |*jobs-list| page
+    And I click on the first job id in the "Build" column from the list of jobs displayed
+    And I should navigate to the |*job-detail| page
+    Then I should see |*Job-Duration-label| |*tooltip| containing |*Job-Duration-tooltip-text|
+    Then I should see |*Started-at-label| |*tooltip| containing |*Started-at-tooltip-text|
+    Then I should see |*Job-Trigger-label| |*tooltip| containing |*Job-Trigger-tooltip-text|
+    Then I should see |*Branch-label| |*tooltip| containing |*Branch-tooltip-text|
+    Then I should see |*Requested-by-label| |*tooltip| containing |*Requested-by-tooltip-text|
+    And I click on the |*job-detail| link
+    Then I should see the |app-jobs| list
+    And I click on the first job id in the "Build" column from the list of jobs displayed
+    And I should navigate to the |*job-detail| page
+    Then I should see |*Job-Duration-label| |*tooltip| containing |*Job-Duration-tooltip-text|
+    Then I should see |*Started-at-label| |*tooltip| containing |*Started-at-tooltip-text|
+    Then I should see |*Job-Trigger-label| |*tooltip| containing |*Job-Trigger-tooltip-text|
+    Then I should see |*Tag-label| |*tooltip| containing |*Tag-tooltip-text|
+    Then I should see |*Requested-by-label| |*tooltip| containing |*Requested-by-tooltip-text|
+
   @JobList_CheckStartJob
   Scenario: Check Start Job functionality in top menu
     When on the |*jobs-list| page

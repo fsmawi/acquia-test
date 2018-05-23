@@ -218,7 +218,7 @@ export class Job {
       case 'pull_request':
         return 'Pull request';
       case 'push':
-        return 'Branch push';
+        return this.isTag ? 'Tag push' : 'Branch push';
       case 'manual':
         return 'Manual';
       default:
@@ -248,5 +248,13 @@ export class Job {
     } else {
       return false;
     }
+  }
+
+  /**
+   * Returns true if the job is triggered by a tag push.
+   * @returns {boolean}
+   */
+  get isTag() {
+    return this.metadata && this.metadata.merge_ref === 'TAG_PUSH';
   }
 }

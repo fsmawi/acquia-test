@@ -681,20 +681,38 @@ routes:
             target_branch: "master"
   /api/v1/ci/jobs/8f0c38d5-68b5-4192-8439-35eb27577ddc:
     GET:
-      response:
-        branch: MS-1170
-        commit: ~
-        duration: ~
-        exit_message: ~
-        finished_at: 1456213100
-        job_id: 8f0c38d5-68b5-4192-8439-35eb27577ddc
-        output: {}
-        pipeline_id: 466b4c99-c0cb-4e3a-ad18-b8dad85e6ea5
-        requested_at: 1460745734
-        requested_by: admin@example.com
-        sitename: "enterprise-g1:sfwiptravis"
-        started_at: 1456263980
-        status: succeeded
+      responses:
+      - response:
+          branch: MS-1170
+          commit: ~
+          duration: ~
+          exit_message: ~
+          finished_at: 1456213100
+          job_id: 8f0c38d5-68b5-4192-8439-35eb27577ddc
+          output: {}
+          pipeline_id: 466b4c99-c0cb-4e3a-ad18-b8dad85e6ea5
+          requested_at: 1460745734
+          requested_by: admin@example.com
+          sitename: "enterprise-g1:sfwiptravis"
+          started_at: 1456263980
+          status: succeeded
+      - response:
+          branch: tag
+          commit: ~
+          duration: ~
+          exit_message: ~
+          finished_at: 1456213100
+          job_id: 8f0c38d5-68b5-4192-8439-35eb27577ddc
+          output: {}
+          pipeline_id: 466b4c99-c0cb-4e3a-ad18-b8dad85e6ea5
+          requested_at: 1460745734
+          requested_by: admin@example.com
+          sitename: "enterprise-g1:sfwiptravis"
+          started_at: 1456263980
+          status: succeeded
+          trigger: tag_push
+          metadata:
+            merge_ref: TAG_PUSH
   /api/v1/ci/jobs/ad9aacb4-11de-44da-b2ac-a478a59f55ca:
     GET:
       response:

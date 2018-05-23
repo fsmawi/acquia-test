@@ -132,9 +132,16 @@
               *ngIf="!job.isPullRequest">
         <e-data-label>
           <span class="pipelines-job-summary__dotted"
-                            appTooltip="The git branch used to run this job."
-                            tooltipPosition="right">
+                   appTooltip="The git branch used to run this job."
+                   tooltipPosition="right"
+                   *ngIf="!job.isTag">
             Branch
+          </span>
+          <span class="pipelines-job-summary__dotted"
+                  appTooltip="The git tag used to run this job."
+                  tooltipPosition="right"
+                  *ngIf="job.isTag">
+            Tag
           </span>
         </e-data-label>
         <e-data-value id="job-branch-value">
