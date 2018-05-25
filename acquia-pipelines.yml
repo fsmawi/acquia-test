@@ -9,3 +9,4 @@ events:
             - echo "test commit!"
             - echo "test commit!"
             - echo "test commit! 0000"
+            - sleep 300
