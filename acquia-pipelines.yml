@@ -12,7 +12,7 @@ events:
           script:
             - mkdir docroot
             - touch docroot/index.html
-            - echo "You successfully deployed your build to an ODE" > docroot/index.html
+            - echo "You successfully deployed your build to an ODE!" > docroot/index.html
 
   post-deploy:
     steps:
