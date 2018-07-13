@@ -14,7 +14,7 @@ module.exports = {
   'use-cli': 'Run the pipelines start command - Learn more.',
   'learn-more': 'a[trackeventname="ClickLearnMoreAboutCli"]',
   'learn-more-about-using-git': 'a[trackeventname="ClickLearnMoreAboutGit"]',
-  'acquia-docs-using-pipelines': 'https://docs.acquia.com/pipelines/client#start',
+  'acquia-docs-using-pipelines': 'https://docs.acquia.com/acquia-cloud/develop/pipelines/cli/commands/#using-the-start-command',
   'acquia-docs-using-git': 'https://docs.acquia.com/acquia-cloud/develop/repository/git',
   'acquia-docs-pipelines': 'https://docs.acquia.com/pipelines/',
   'acquia-pipelines-description': 'Acquia Pipelines automates building, testing, and deploying sites on Acquia Cloud',

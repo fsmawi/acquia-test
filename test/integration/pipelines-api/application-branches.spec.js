@@ -76,7 +76,7 @@ describe('Pipelines API /api/v1/ci/applications/:id?include_branches', function 
 
   it('should return 403 when site doesn\'t have pipelines enabled', () => {
     const params = '?' + qs.stringify({
-      applications: '410025b5-326d-7a84-b1bf-40ae95fb45f5',
+      applications: '316bb4e6-d2d3-9174-65d1-cad8254da0c1',
       include_branches: 1,
     });
     return supertest(process.env.PIPELINES_API_URI)
