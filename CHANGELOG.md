@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.77"></a>
+## [0.2.77](https://github.com/acquia/pipelines-ui/compare/v0.2.76...v0.2.77) (2018-07-14)
+
+
+### Bug Fixes
+
+* **start-job.component.html:** Updated the learn more link ([#306](https://github.com/acquia/pipelines-ui/issues/306)) ([3018112](https://github.com/acquia/pipelines-ui/commit/3018112))
+
+
+
 <a name="0.2.76"></a>
 ## [0.2.76](https://github.com/acquia/pipelines-ui/compare/v0.2.75...v0.2.76) (2018-05-23)
 
