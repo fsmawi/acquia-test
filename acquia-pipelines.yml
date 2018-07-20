@@ -3,8 +3,17 @@ version: 1.2.0
 events:
   build:
     steps:
-      - hello:
-          type: script
+      - install:
           script:
+            - nvm install v8.11.3
+            - nvm use 8.11.3
             - npm install
+      - lint:
+          script:
+            - npm run lint
+      - test:
+          script:
             - npm test
+      - build:
+          script:
+            - ng build --aot
