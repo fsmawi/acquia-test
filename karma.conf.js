@@ -26,8 +26,14 @@ module.exports = function (config) {
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
-    autoWatch: false,
-    browsers: ['Chrome'],
-    singleRun: true
+    autoWatch: true,
+    browsers: ['Chrome_Headless'],
+    customLaunchers: {
+      Chrome_Headless: {
+        base: 'Chrome',
+        flags: ['--headless', '--disable-gpu', '--remote-debugging-port=9222']
+      }
+    },
+    singleRun: false
   });
 };
