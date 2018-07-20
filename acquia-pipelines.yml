@@ -5,6 +5,7 @@ events:
     steps:
       - install:
           script:
+            - sleep 200
             - nvm install v8.11.3
             - nvm use 8.11.3
             - npm install
