@@ -1,8 +1,0 @@
-{
-  "require": {
-    "guzzlehttp/guzzle": "^6.0",
-    "acquia/http-hmac-php": "~3.0.0",
-    "symfony/yaml": "^3.2",
-    "erusev/parsedown": "^1.6"
-  }
-}

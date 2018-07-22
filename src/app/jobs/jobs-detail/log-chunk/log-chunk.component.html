@@ -1,9 +1,0 @@
-<div class="pagination" *ngIf="nbPages > 1 && currentPage !== 1">
-  <span class="pagination-link" (click)="firstPage()">Jump to the beginning</span> |
-  <span class="pagination-link" (click)="prevPage()">Show previous {{linesPerPage}} lines</span>
-</div>
-<pre class="log__chunk__message" [innerHTML]="this.chunk | safe: 'html'"></pre>
-<div class="pagination" *ngIf="nbPages > 1 && currentPage !== nbPages">
-  <span class="pagination-link" (click)="lastPage()">Jump to the end</span> |
-  <span class="pagination-link" (click)="nextPage()">Show next {{linesPerPage}} lines</span>
-</div>

@@ -1,9 +1,0 @@
-<div id="context-menu" *ngIf="menuOpen" [ngStyle]="menuLocation">
-  <ul class="dropdown-menu">
-    <li *ngFor="let item of items">
-      <a href="{{item.link}}" target="{{item.target}}" *ngIf="item.link">{{item.text}}</a>
-      <e-clipboard type="text" label="{{item.text}}" inputText="{{item.clipboard}}" *ngIf="item.clipboard"></e-clipboard>
-    </li>
-  </ul>
-</div>
-
