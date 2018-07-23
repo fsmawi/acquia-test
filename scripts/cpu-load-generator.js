@@ -3,12 +3,14 @@ require(__dirname+"/processor-usage.js").startWatching();
 var shouldRun = true;
 var desiredLoadFactor = 1.5;
 var i = 0
+var bigMemoryLeak = []
 
 function blockCpuFor(ms) {
 	var now = new Date().getTime();
 	var result = 0
 	while(shouldRun) {
 		result += Math.random() * Math.random();
+		Math.sqrt(result);
 		if (new Date().getTime() > now +ms)
 			return;
 	}
@@ -17,6 +19,22 @@ function blockCpuFor(ms) {
 function start() {
 	shouldRun = true;
 	blockCpuFor(1000*desiredLoadFactor);
+
+	var j = 500
+  var arr = []
+
+  while (j--) {
+    arr[j] = []
+
+    for (var k = 0; k < 1000; k++) {
+      arr[j][k] = {lorem: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum non odio venenatis, pretium ligula nec, fringilla ipsum. Sed a erat et sem blandit dignissim. Pellentesque sollicitudin felis eu mattis porta. Nullam nec nibh nisl. Phasellus convallis vulputate massa vitae fringilla. Etiam facilisis lectus in odio lacinia rutrum. Praesent facilisis vitae urna a suscipit. Aenean lacinia blandit lorem, et ullamcorper metus sagittis faucibus. Nam porta eros nisi, at adipiscing quam varius eu. Vivamus sed sem quis lorem varius posuere ut quis elit.'}
+    }
+  }
+
+  if (i < 70) {
+    bigMemoryLeak.push(arr)
+  }
+
 	setTimeout(start, 1000* (1 - desiredLoadFactor));
 }
 

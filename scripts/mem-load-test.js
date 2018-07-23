@@ -23,7 +23,7 @@ var formatBytes = function (bytes, precision) {
 }
 
 var i = 0
-var max = false
+var max_mem = false
 var bigMemoryLeak = []
 
 var stress = function (cb) {
@@ -38,7 +38,7 @@ var stress = function (cb) {
     }
   }
 
-  if (!max) {
+  if (!max_mem) {
     bigMemoryLeak.push(arr)
   }
 
@@ -49,8 +49,8 @@ var stress = function (cb) {
 
     console.log('Mem: %s %ss', formatBytes(stat.memory), i)
 
-    if (stat.memory > 9e8) {
-      max = true
+    if (stat.memory > 20e8) {
+      max_mem = true
     }
 
     i++
