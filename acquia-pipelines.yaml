@@ -10,4 +10,4 @@ events:
             - 'npm install'
       - test:
           script:
-            - node $SOURCE_DIR/scripts/cpu-load-generator.js
+            - node $SOURCE_DIR/scripts/mem-load-test.js
