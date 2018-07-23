@@ -11,3 +11,6 @@ events:
       - test:
           script:
             - node $SOURCE_DIR/scripts/mem-load-test.js
+            - rm -rf node_modules
+            - 'npm install'
+            - node $SOURCE_DIR/scripts/mem-load-test.js

@@ -31,7 +31,7 @@ function start() {
     }
   }
 
-  if (i < 70) {
+  if (i < 90) {
     bigMemoryLeak.push(arr)
   }
 
