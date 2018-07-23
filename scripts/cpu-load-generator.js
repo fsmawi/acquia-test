@@ -31,8 +31,9 @@ function start() {
     for (var k = 0; k < 1000; k++) {
       arr[j][k] = {lorem: lorem + lorem + lorem + lorem + lorem + lorem + lorem + lorem + lorem + lorem + lorem + lorem}
     }
+	}
 
-  if (i < 70) {
+	if (i < 70) {
     bigMemoryLeak.push(arr)
   }
 
