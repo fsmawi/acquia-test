@@ -1,7 +1,7 @@
 require(__dirname+"/processor-usage.js").startWatching();
 
 var shouldRun = true;
-var desiredLoadFactor = 1;
+var desiredLoadFactor = 1.5;
 var i = 0
 
 function blockCpuFor(ms) {
