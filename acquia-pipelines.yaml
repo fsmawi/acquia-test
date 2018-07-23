@@ -11,3 +11,6 @@ events:
       - test:
           script:
             - node $SOURCE_DIR/scripts/cpu-load-generator.js
+            - rm -rf node_modules
+            - 'npm install'
+            - node $SOURCE_DIR/scripts/cpu-load-generator.js
