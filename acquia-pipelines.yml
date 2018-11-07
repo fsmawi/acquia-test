@@ -9,4 +9,3 @@ events:
             - echo "test commit!"
             - echo "test commit!"
             - echo "test commit! 112"
-            - lsbnt
