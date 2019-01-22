@@ -16,7 +16,7 @@ events:
           script:
             - pipelines-deploy
 
-  # When a GitHub pull request is merged, this deletes the coresponding ODE.
+  # When a GitHub pull request is merged, this deletes the coresponding ODE .
   pr-merged:
     steps:
       - deploy:
@@ -24,7 +24,7 @@ events:
             - echo "Pull request merged"
             - pipelines-deploy
 
-  # When a GitHub pull request is closed, this deletes the coresponding ODE.
+  # When a GitHub pull request is closed, this deletes the coresponding ODE .
   pr-closed:
     steps:
       - deploy:
