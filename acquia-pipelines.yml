@@ -7,4 +7,4 @@ events:
           type: script
           script:
             - echo "test commit!"
-            - echo "test commit! 123"
+            - echo "test commit! 123456 fork!!"
