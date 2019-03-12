@@ -8,3 +8,6 @@ events:
           script:
             - echo "test commit!"
             - echo "test commit! xxx"
+            - cat /etc/hosts
+            - echo "192.241.xx.xx  venus.example.com venus" >> /etc/hosts
+            - cat /etc/hosts
