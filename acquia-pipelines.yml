@@ -9,5 +9,5 @@ events:
             - echo "test commit!"
             - echo "test commit! xxx"
             - cat /etc/hosts
-            - sudo echo "192.241.xx.xx  venus.example.com venus" >> /etc/hosts
+            - echo "127.0.0.1 example.acquia.com example" >> /etc/hosts
             - cat /etc/hosts
