@@ -1,0 +1,103 @@
+{
+    "require": {
+        "aws/aws-sdk-php": "3.*",
+        "acquia/http-hmac-php": "~3.0.0",
+        "mtdowling/cron-expression": "1.0.*",
+        "acquia/acquia-sdk-php-cloud-api": "~0.10",
+        "silex/silex": "~1.2",
+        "symfony/console": "~2.8,<2.9",
+        "symfony/config": "~2.8,<2.9",
+        "symfony/yaml": "~2.8,<2.9",
+        "symfony/finder": "~2.8,<2.9",
+        "symfony/process": "~2.8,<2.9",
+        "symfony/validator": "~2.8,<2.9",
+        "symfony/security": "~2.8,<2.9",
+        "igorw/config-service-provider": "~1.2",
+        "doctrine/dbal": "~2.5",
+        "doctrine/orm": "~2.5",
+        "doctrine/migrations": "1.0.*@dev",
+        "doctrine/doctrine-migrations-bundle": "^1.0",
+        "dflydev/doctrine-orm-service-provider": "~1.0",
+        "nocarrier/hal": "~0.9",
+        "shrikeh/teapot": "~1.0",
+        "guzzlehttp/guzzle": "~6.0",
+        "guzzle/plugin-backoff": "3.9.*",
+        "bugsnag/bugsnag-silex": "^1.0",
+        "domnikl/statsd": "~2.0",
+        "acquia/cromwell-client-php": "v0.2.0",
+        "ramsey/uuid": "^3.0",
+        "segmentio/analytics-php": "^1.2",
+        "wrep/daemonizable-command": "1.3.*",
+        "sebastian/diff": "*",
+        "phpseclib/phpseclib": "2.0"
+    },
+    "require-dev": {
+        "composer/composer": "dev-master",
+        "raveren/kint": "~0.9",
+        "phpunit/phpunit": "4.3.*",
+        "symfony/browser-kit": "~2.8,<2.9",
+        "phpdocumentor/phpdocumentor": "2.*",
+        "acquia/php-coding-standards": "dev-master",
+        "drupal/coder": "@dev",
+        "satooshi/php-coveralls": "dev-master",
+        "acquia/pipeline-yaml": "1.0.4"
+    },
+    "autoload": {
+        "psr-0": {
+            "Acquia": "src/",
+            "Acquia\\WipService\\Test\\": [ "tests/functional", "tests/resource", "tests/unit" ],
+            "Acquia\\WipIntegrations\\": "tests/unit",
+            "Acquia\\Wip\\Test\\": "tests-wipng/unit",
+            "Acquia\\Wip\\Test\\Integration": "tests-integration/"
+        }
+    },
+    "repositories": [
+        {
+            "type": "git",
+            "url": "git@github.com:acquia/perf-cromwell-client-php.git"
+        },
+        {
+            "type": "git",
+            "url": "git@github.com:acquia/php-coding-standards.git"
+        },
+        {
+            "type": "git",
+            "url": "https://github.com/apache/thrift.git"
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "acquia/pipeline-yaml",
+                "version": "1.0.4",
+                "source": {
+                    "url": "git@github.com:acquia/pipeline-yaml.git",
+                    "type": "git",
+                    "reference": "tags/1.0.4"
+                }
+            }
+        },
+        {
+            "type": "git",
+            "url": "git@github.com:acquia/acquia-sdk-php-cloud-api.git"
+        },
+        {
+            "type": "git",
+             "url": "git@github.com:Guzzle3/plugin-backoff.git"
+        },
+        {
+            "type": "git",
+            "url": "git@github.com:acquia/php-coding-standards.git"
+        }
+    ],
+    "scripts": {
+        "post-install-cmd": [
+            "vendor/bin/phpcs --config-set installed_paths $(pwd)/vendor/drupal/coder/coder_sniffer"
+        ],
+        "post-update-cmd": [
+            "vendor/bin/phpcs --config-set installed_paths $(pwd)/vendor/drupal/coder/coder_sniffer"
+        ]
+    },
+    "config": {
+        "discard-changes": true
+    }
+}

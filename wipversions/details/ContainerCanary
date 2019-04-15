@@ -1,0 +1,150 @@
+Properties:
+----------------------------------------
+dependencyManager: protected
+stateTable: protected
+
+State table:
+----------------------------------------
+
+start {
+  *                  containerWipStart
+}
+
+# Initializes in preparation for the container to be started.
+containerWipStart [container] {
+  *                  containerWipInvoke
+  !                  containerFailed
+}
+
+# Starts the container.
+containerWipInvoke:containerWipWaitForLaunch [container] {
+  success            containerWipContainerLaunched
+  wait               containerWipInvoke wait=60 exec=false
+  spin               containerWipInvoke wait=3 exec=false
+  nowait             containerWipInvoke wait=3 exec=false
+  uninitialized      containerWipInvoke wait=30 max=3
+  no_resources       containerWipInvoke wait=300 max=12
+  fail               containerWipInvoke wait=30 max=3
+  !                  containerFailed
+}
+
+# At this point the container has been launched.
+containerWipContainerLaunched [container] {
+  *                  containerWipSetupEnvironment
+  !                  containerFailed
+}
+
+# Sets up an environment suitable for invoking SSH on the new container.
+containerWipSetupEnvironment:containerWipEnvironmentReady [container] {
+  yes                containerWipCheckSsh
+  no                 containerWipSetupEnvironment wait=10 max=5
+  !                  containerFailed
+}
+
+# Wait for the SSH daemon process to start.
+containerWipCheckSsh:checkContainerResultStatus [container] {
+  success            containerWipCheckResources
+  wait               containerWipCheckSsh wait=10 exec=false
+  *                  containerWipCheckSsh wait=30 max=3
+  no_information     containerWipCheckSsh wait=30 max=3
+  uninitialized      containerWipCheckSsh wait=10 max=30
+  terminated         containerTerminated
+  fail               containerWipCheckSsh wait=5 max=5
+
+# If this fails we have a running container that must be shut down. The failure
+# would likely be due to the SSH daemon not being started though it is also
+# possible that the container was stopped.
+  !                  containerFailed
+}
+
+# Check the container resources before starting.
+containerWipCheckResources:checkContainerResources [container] {
+  success            containerStarted
+  no_resources       containerWipCheckResources wait=300 max=12
+  fail               containerFailed
+  *                  containerFailed
+  !                  containerFailed
+}
+
+
+containerStarted {
+  *                  containerWipStop
+}
+
+containerTerminated {
+  *                  failure
+}
+
+# All failures caused by container launch and initialization and tasks
+# performed in this Wip object will end up here. Failure to release a container
+# will not invoke this state because that would form an infinite loop. Note
+# that after this state all failures must bypass this state to avoid a loop.
+containerFailed {
+  *                  containerWipStop
+  !                  containerWipStop
+}
+
+# Make sure that no failures after this point go back to the failure state
+# because that would probably set up an infinite loop.
+containerWipStop [container] {
+  *                  containerWipFinish
+  !                  containerWipFinish
+}
+
+# Determine whether the container should be released when the Wip object
+# completes. This behavior can be set using the releaseContainerUponCompletion
+# method.
+containerWipFinish:containerWipReleaseOnComplete [container] {
+  yes                containerWipRelease
+  no                 containerStopped
+  force              containerWipTerminate
+  !                  containerStopFailed
+}
+
+# Wait for the container to be stopped.
+# Note that this transition method looks specifically for SSH results because
+# this state shares its context with other states.
+containerWipRelease:checkSshStatus [container] {
+  success            containerWipWaitForRelease
+  wait               containerWipRelease wait=5 exec=false
+  # We Don't have the ability to ssh in so we force the container to terminate.
+  uninitialized      containerWipTerminate
+  *                  containerWipRelease wait=10 max=3
+  !                  containerStopFailed
+}
+
+# Wait for the container to be stopped.
+containerWipTerminate:containerWipIsReleased [container] {
+  success            containerStopped wait=30
+  nowait             containerStopped
+  wait               containerWipTerminate wait=5 exec=false
+  fail               containerWipTerminate wait=30 exec=true max=3
+  !                  containerStopFailed
+}
+
+# Waits for the ContainerDataSignal to come in, which indicates the container
+# has exited and all container signals have been received.
+containerWipWaitForRelease:containerWipDataSignalReceived [container] {
+  success            containerStopped
+  wait               containerWipWaitForRelease wait=15 max=10 exec=false
+  !                  containerStopped
+}
+
+
+failure {
+  *                  finish
+}
+
+containerStopped {
+  *                  finish
+  !                  finish
+}
+
+containerStopFailed {
+  *                  finish
+  !                  finish
+}
+
+terminate {
+  *                  failure
+}

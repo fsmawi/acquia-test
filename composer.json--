@@ -1,0 +1,81 @@
+{
+    "require": {
+        "silex/silex": "~1.2",
+        "symfony/console": "~2.8,<2.9",
+        "symfony/config": "~2.8,<2.9",
+        "symfony/yaml": "~2.8,<2.9",
+        "symfony/finder": "~2.8,<2.9",
+        "symfony/process": "~2.8,<2.9",
+        "symfony/validator": "~2.8,<2.9",
+        "symfony/security": "~2.8,<2.9",
+        "igorw/config-service-provider": "~1.2",
+        "doctrine/dbal": "~2.5",
+        "doctrine/orm": "~2.5",
+        "doctrine/migrations": "1.0.*@dev",
+        "doctrine/doctrine-migrations-bundle": "^1.0",
+        "dflydev/doctrine-orm-service-provider": "~1.0",
+        "nocarrier/hal": "~0.9",
+        "shrikeh/teapot": "~1.0",
+        "guzzlehttp/guzzle": "~6.0",
+        "bugsnag/bugsnag-silex": "^1.0",
+        "domnikl/statsd": "~2.0",
+        "acquia/wipng": "dev-MS-1266",
+        "acquia/cromwell-client-php": "v0.1.0",
+        "ramsey/uuid": "^3.0",
+        "segmentio/analytics-php": "^1.2"
+    },
+    "require-dev": {
+        "composer/composer": "dev-master",
+        "raveren/kint": "~0.9",
+        "phpunit/phpunit": "4.3.*",
+        "symfony/browser-kit": "~2.8,<2.9",
+        "phpdocumentor/phpdocumentor": "2.*",
+        "acquia/php-coding-standards": "dev-master",
+        "drupal/coder": "@dev",
+        "satooshi/php-coveralls": "dev-master",
+        "acquia/pipeline-yaml": "dev-master#469fe0c47075b7e885f551d63c08a3706867157c"
+    },
+    "autoload": {
+        "psr-0": {
+            "Acquia": "src/",
+            "Acquia\\WipService\\Test\\": "tests/resource"
+        }
+    },
+    "repositories": [
+        {
+            "type": "git",
+            "url": "git@github.com:acquia/wipng.git"
+        },
+        {
+            "type": "git",
+            "url": "git@github.com:acquia/perf-cromwell-client-php"
+        },
+        {
+            "type": "git",
+            "url": "git@github.com:acquia/php-coding-standards.git"
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "acquia/pipeline-yaml",
+                "version": "dev-master",
+                "source": {
+                    "url": "git@github.com:acquia/pipeline-yaml.git",
+                    "type": "git",
+                    "reference": "469fe0c47075b7e885f551d63c08a3706867157c"
+                }
+            }
+        }
+    ],
+    "scripts": {
+        "post-install-cmd": [
+            "vendor/bin/phpcs --config-set installed_paths $(pwd)/vendor/drupal/coder/coder_sniffer"
+        ],
+        "post-update-cmd": [
+            "vendor/bin/phpcs --config-set installed_paths $(pwd)/vendor/drupal/coder/coder_sniffer"
+        ]
+    },
+    "config": {
+        "discard-changes": true
+    }
+}

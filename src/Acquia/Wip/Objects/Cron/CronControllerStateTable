@@ -1,0 +1,30 @@
+
+start {
+  *       setCronTime
+}
+
+setCronTime {
+  *                  okToRun
+}
+
+okToRun:checkAbort {
+  success            invokeMultisiteCron
+  abort              finish
+}
+
+invokeMultisiteCron:checkWipTaskStatus {
+  success            report
+  wait               invokeMultisiteCron   wait=30 exec=false
+  uninitialized      report
+  fail               report
+}
+
+report {
+  *                  runComplete
+}
+
+# If we haven't been aborted, run again.
+runComplete:checkAbort {
+  success            setCronTime
+  abort              finish
+}

@@ -1,0 +1,19 @@
+Properties:
+----------------------------------------
+dependencyManager: protected
+stateTable: protected
+
+State table:
+----------------------------------------
+start {
+  * finish
+}
+
+failure {
+  * finish
+  ! finish
+}
+
+terminate {
+  * failure
+}

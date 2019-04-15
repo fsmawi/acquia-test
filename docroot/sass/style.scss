@@ -1,0 +1,99 @@
+$sans-serif-font-stack: 'Lucida Sans', 'Lucida Grande', Verdana, Arial, sans-serif;
+$monospace-font-stack: 'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;
+$border-color: #ccc;
+$background-color: #eee;
+$link-color: #05a;
+$reduced-font-size: 90%;
+
+*:focus {
+  outline: 0;
+}
+
+body {
+  font-family: $sans-serif-font-stack;
+  font-size: 80%;
+  padding: 0 1em;
+
+  > ul {
+    padding: 0;
+
+    > li {
+      list-style-type: none;
+      border-top: 1px solid $border-color;
+      background: $background-color;
+      margin-bottom: 1em;
+      padding: 0 1em 1em;
+    }
+  }
+}
+
+a {
+  &:link,
+  &:hover,
+  &:active,
+  &:visited {
+    text-decoration: none;
+    color: $link-color;
+  }
+}
+
+h2 {
+  margin-top: 2em;
+}
+
+h3 {
+  border-bottom: 1px solid $border-color;
+}
+
+h3.route {
+  font-family: $monospace-font-stack;
+  border: none;
+  margin-top: 0;
+
+  a {
+    display: block;
+    padding-top: 1em;
+  }
+}
+
+dl.overview {
+  dt {
+    a {
+      font-family: $monospace-font-stack;
+      font-weight: bold;
+    }
+  }
+
+  dd {
+    margin: .5em 0 1em 1em;
+    font-size: 90%;
+  }
+}
+
+dl.parameter {
+  > dt {
+    font-family: $monospace-font-stack;
+    font-weight: bold;
+  }
+
+  > dd {
+    margin-left: 2em;
+  }
+}
+
+ul.parameters {
+  padding-left: 2em;
+
+  li {
+    list-style-type: square;
+  }
+}
+
+dl.parameter-definitions {
+  font-size: $reduced-font-size;
+
+  dt {
+    float: left;
+    width: 7em;
+  }
+}

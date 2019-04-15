@@ -1,0 +1,4 @@
+config.backups:
+  maximum_age: 7 days
+  minimum_count:
+    default: 2

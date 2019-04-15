@@ -1,0 +1,86 @@
+Wip Modules
+-----------
+
+Wip modules allow the system to be extended without resorting to modifying the 
+wip-service codebase. Adding new Wip classes for domain-specific purposes is as 
+easy as creating a git repository that contains those new Wip classes along 
+with a module information file that is used for discovering the Wip classes 
+exposed by the module.
+
+A Wip module must be contained in a git repository such that the module 
+information file is in the root directory. This git repository will be used to 
+replicate the module contents onto all of the webnodes running wip-service so 
+that the newly added tasks can be executed on any of them. Adding a new module 
+requires the user have administration permission on wip-service and that the 
+git repository accept the wip-service public key to download the repository.
+
+A Wip module will have a file hierarchy that looks like this:
+
+.
+├── autoload.php
+├── module.ini
+└── src
+    └── Acquia
+        └── BuildSteps
+            ├── AbstractPipelineWip.php
+            ├── BuildSteps.php
+            └── HmacAuthMiddleware.php
+
+In this example the BuildSteps Wip class is being exposed by the Pipelines 
+module. Note that any number of Wip classes can be exposed by a single module.
+
+The 'module.ini' file indicates what is in the module. An example follows:
+
+--------------
+; This is the configuration file for the wip module.
+
+version = 0.1
+includes = 'autoload.php'
+enabled = FALSE
+
+[BuildSteps]
+class_name = 'Acquia\Pipelines\BuildSteps'
+group_name = 'BuildSteps'
+log_level = 'Info'
+priority = 'Medium'
+---------------
+
+In this example the module is exposing the 'BuildSteps' Wip object, having 
+class name 'Acquia\Pipelines\BuildSteps'. When the client will use the taskType 
+'Pipelines/BuildSteps' to start the BuildSteps task. 
+
+Note that this task type is the task name [BuildSteps] prepended by the module 
+name, which is specified when the module is added to the system. That means 
+several instances of the same module can be added to the system and the 
+differing fully-qualified task names can be used to instantiate each of them.
+
+The "group_name" field associates the Wip task with a particular group within 
+wip-service. This is used for limiting concurrent tasks to match available 
+resources. Any number of task classes can be associated with the same group, 
+indicating they share resources.
+
+The "log_level" field indicates the most detailed log messages that will be 
+kept after successful execution of the task. In this example, every log message 
+from FATAL to INFO will be kept if the task execution succeeds. If the task 
+fails, all of the log messages will be preserved.
+
+The "priority" field indicates the default priority for any BuildSteps task. 
+Generally this should be set to 'Medium".
+
+Near the top of the module information file there is a field called 'includes'. 
+This field is optional and indicates the set of files that must be included 
+before a task from this module can be instantiated. These include files make 
+their way into the wip_store table's "requires" field, which causes them to be 
+included before the Wip instance is deserialized. Generally this field will be
+set to 'autoload.php', but can be a semicolon-separated list of any files
+contained in the module.
+
+Also near the top of the module information file is the 'enabled' field, which 
+indicates whether the module should be enabled after installation is complete.
+By default, modules are enabled.
+
+During the module installation process, the module being added will be marked 
+as not ready in the wip_module table in the database. This setting prevents 
+tasks from the associated module from being instantiated, allowing the 
+installation process to complete before requests for the module's resources are 
+honored.

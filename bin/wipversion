@@ -1,0 +1,36 @@
+#!/usr/bin/env php
+<?php
+
+use Acquia\Wip\WipFactory;
+use Acquia\WipService\Console\Commands;
+use Acquia\WipService\Console\WipConsoleServiceProvider;
+
+/** @var Silex\Application $app */
+$app = require_once __DIR__ . '/../app/app.php';
+
+WipFactory::setConfigPath(sprintf('%s/config/config.factory.wipversion.cfg',
+  $app['root_dir']));
+
+// Register the console provider.
+$app->register(new WipConsoleServiceProvider(), array(
+  'console.name' => 'Wip Version Tool',
+  'console.version' => '0.0.1',
+  'console.app_directory' => $app['root_dir'],
+));
+
+$application = $app['console'];
+try {
+  $detail = new Commands\WipVersionDetailCommand();
+  $application->add($detail);
+  $hash = new Commands\WipVersionGetHashCommand();
+  $application->add($hash);
+  $diff = new Commands\WipVersionDifferenceCommand();
+  $application->add($diff);
+  $full_check = new Commands\WipVersionCheckAllCommand();
+  $application->add($full_check);
+} catch (\Exception $e) {
+  printf("Failed to launch application: %s\n", $e->getMessage());
+  exit(1);
+}
+
+$application->run();

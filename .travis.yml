@@ -1,0 +1,60 @@
+language: php
+sudo: required
+cache:
+  bundler: true
+  apt: true
+  directories:
+  - "$HOME/.composer/cache"
+php:
+  - 5.6
+services:
+addons:
+  apt:
+    packages:
+      - xdot
+before_script:
+  - sudo apt-get install php5-cli php5-sqlite
+  - 'if [ -n "$GH_TOKEN_NEW" ]; then composer config github-oauth.github.com ${GH_TOKEN_NEW}; fi;'
+  - phpenv config-add phpconfig.travis.ini
+  - mkdir ~/tmp
+  - mv /home/travis/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini ~/tmp/.
+  - mysql -e "set global wait_timeout=6000" -uroot
+  - mysql -e "set global max_allowed_packet=268435456;" -uroot
+  - mysql -e "drop database IF EXISTS silex;" -uroot
+  - mysql -e "create database silex;" -uroot
+  - composer self-update --stable
+  - composer install
+  - php vendor/bin/doctrine orm:schema-tool:update --force --dump-sql
+  - mkdir -p build/logs
+  - mkdir -p build/cov
+script:
+  - echo TRAVIS_PULL_REQUEST = ${TRAVIS_PULL_REQUEST}
+  - 'if [ "${TRAVIS_PULL_REQUEST}" != "false" ]; then mv ~/tmp/xdebug.ini /home/travis/.phpenv/versions/$(phpenv version-name)/etc/conf.d/.; fi;'
+  - 'if [ "${TRAVIS_PULL_REQUEST}" != "false" ]; then export COVERAGE_FLAG="--coverage-text"; fi;'
+  - 'if [ "${TRAVIS_PULL_REQUEST}" == "false" ]; then export EXCLUDE_GROUPS="excluded,AcquiaCloud"; fi;'
+  - echo COVERAGE_FLAG = ${COVERAGE_FLAG}
+  - echo EXCLUDE_GROUPS = ${EXCLUDE_GROUPS}
+  - bin/wipversion check-all
+  - vendor/bin/phpcs --standard=vendor/acquia/php-coding-standards/Acquia --runtime-set ignore_warnings_on_exit true --colors --ignore=vendor,config,docs,cache,*.txt,scripts/sfSitegroups.php,*.md .
+  - vendor/bin/phpunit -d memory_limit=2048M --configuration=phpunit.xml.dist --exclude-group=$EXCLUDE_GROUPS $COVERAGE_FLAG
+  - vendor/bin/phpunit --configuration=phpunit-wipng.xml --exclude-group=$EXCLUDE_GROUPS $COVERAGE_FLAG
+after_script:
+  - php vendor/bin/coveralls -v
+notifications:
+  hipchat:
+    rooms:
+      secure: m7JFn23GBnvpMy5HMBNTm4G54UnLm1OlyqqlqOW0JdrdCDgtPQyXDZMnpd9h4724MLQ7gCYPhuhoume59NYrjKY0ovmYQaQyCae8h6jtpyKnGXN89k4L10AkP/knKvdxJoBAlKuS75iPG+nYrKW4dxywd8uK8fqvrPl0zwuzuk8=
+    template:
+      - '%{repository}#%{build_number} (%{branch} - %{commit} : %{author}): %{message} (<a href="%{build_url}">Details</a>/<a href="%{compare_url}">Change view</a>)'
+    format: html
+    notify: true
+    on_success: never
+    on_failure: always
+    on_start: never
+env:
+  global:
+    - COVERAGE_FLAG=''
+    - EXCLUDE_GROUPS='excluded'
+    - AH_SITE_GROUP=travis
+    - AH_SITE_ENVIRONMENT=prod
+    - secure: ZOeWs/f8faBNyUY95+6dgDO437W2ZK0ifPUfigvOzc5dAm/1NdiBfG0w1NBdcN+8D6H9F+7GE3inMQ8P5NNngYsBhPjiEpTsOPutDUzApr187nSu5HaNNa38cMBVhgf//RUEszE3oI1DHlPjRxq8NH6vpLZicBXAJIrsgQh6JlM=

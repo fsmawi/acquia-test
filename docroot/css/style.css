@@ -1,0 +1,77 @@
+*:focus {
+  outline: 0;
+}
+
+body {
+  font-family: "Lucida Sans", "Lucida Grande", Verdana, Arial, sans-serif;
+  font-size: 80%;
+  padding: 0 1em;
+}
+body > ul {
+  padding: 0;
+}
+body > ul > li {
+  list-style-type: none;
+  border-top: 1px solid #ccc;
+  background: #eee;
+  margin-bottom: 1em;
+  padding: 0 1em 1em;
+}
+
+a:link,
+a:hover,
+a:active,
+a:visited {
+  text-decoration: none;
+  color: #05a;
+}
+
+h2 {
+  margin-top: 2em;
+}
+
+h3 {
+  border-bottom: 1px solid #ccc;
+}
+
+h3.route {
+  font-family: "Courier New", Courier, "Lucida Sans Typewriter", "Lucida Typewriter", monospace;
+  border: none;
+  margin-top: 0;
+}
+h3.route a {
+  display: block;
+  padding-top: 1em;
+}
+
+dl.overview dt a {
+  font-family: "Courier New", Courier, "Lucida Sans Typewriter", "Lucida Typewriter", monospace;
+  font-weight: bold;
+}
+dl.overview dd {
+  margin: .5em 0 1em 1em;
+  font-size: 90%;
+}
+
+dl.parameter > dt {
+  font-family: "Courier New", Courier, "Lucida Sans Typewriter", "Lucida Typewriter", monospace;
+  font-weight: bold;
+}
+dl.parameter > dd {
+  margin-left: 2em;
+}
+
+ul.parameters {
+  padding-left: 2em;
+}
+ul.parameters li {
+  list-style-type: square;
+}
+
+dl.parameter-definitions {
+  font-size: 90%;
+}
+dl.parameter-definitions dt {
+  float: left;
+  width: 7em;
+}

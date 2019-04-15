@@ -1,0 +1,43 @@
+
+start {
+  * verifyConfiguration
+}
+
+verifyConfiguration:checkConfiguration {
+  success invokeContainer
+  fail failure
+}
+
+invokeContainer:waitForContainerLaunch {
+  success initializeContainer
+  wait invokeContainer wait=30 exec=false
+  uninitialized invokeContainer wait=30 max=3
+  fail invokeContainer wait=30 max=3
+}
+
+initializeContainer:verifyContainerInitialization {
+  success waitForContainer
+  fail initializeContainer wait=30 max=3
+}
+
+waitForContainer:checkContainerStatus {
+  success killContainer
+  wait waitForContainer wait=30 exec=false
+  uninitialized failure
+  fail failure
+}
+
+failure {
+  * killContainer
+}
+
+killContainer:checkContainerIsKilled {
+  success finish
+  wait killContainer wait=30 exec=false
+  fail killContainer wait=30 exec=true max=3
+  ! alertContainerStillRunning
+}
+
+alertContainerStillRunning {
+  * finish
+}

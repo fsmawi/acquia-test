@@ -1,0 +1,16 @@
+{
+  "name": "Wip Service REST API",
+  "apiVersion": "v1",
+  "description": "Describes the characteristics of the data model exposed by the Wip Service REST API.",
+  "operations": {
+    "Ping": {
+      "httpMethod": "GET",
+      "uri": "/ping",
+      "summary": "Checks that the service is responding appropriately",
+      "controller": "\\Acquia\\WipService\\Resource\\v1\\PingResource::getAction",
+      "access": true,
+      "responseClass": "PingOutput",
+      "allowedDuringMaintenance": ["INVALID_MODE"]
+    }
+  }
+}

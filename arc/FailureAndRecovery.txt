@@ -1,0 +1,358 @@
+This document contains information about Wip system failures and
+automatic recovery.
+
+Servers can change
+------------------
+
+It is possible that a Wip webnode gets shut down during
+processing. Typically the webnode will be shut down in the process of
+regular maintenance, such as applying security patches.
+
+The problem when a webnode is shut down is three-fold:
+
+1) Any task currently in the "PROCESSING" state that is being
+processed on the webnode that was shut down will be broken, requiring
+database modifications to get it back to a running state.
+2) Any task that is broken because of such a shutdown will prevent any
+work having the same work ID from starting.
+3) The Wip task engine will continue to send work to the webnode that
+has been shut down. If the webnode was shut down temporarily for
+maintenance purposes, the server list will eventually be
+corrected. Each task that gets executed on that webnode before it
+comes back online will be broken.
+
+The Wip task server must be far more resilient to such changes. These
+problems must be detected and the configuration changed dynamically to
+prevent unnecessary task failures and to prevent a task failure from
+completely blocking new tasks.
+
+1) When a dispatch fails, the server list will be refreshed and any
+broken tasks will be corrected.
+
+2) If no servers are detected the server list will be refreshed.
+
+3) If a new webnode is brought online the server list will be refreshed.
+
+
+A 'wipctl server' command now exists that can update the server list
+based on the set of servers associated with the Wip service through
+our Hosting layer. This command will compare the servers in the
+'server_store' table against the set of servers Hosting has allocated
+and make adjustments accordingly.
+
+For example, consider the following scenario:
+
+server_store
+------------
+server A
+server B
+
+Hosting:
+------------
+server A
+server C
+
+As you can see the servers do not match. In this case, 'server B'
+will be removed from the 'server_store' table and 'server C' will be
+added. The result is that the server_store table contents match the
+Hosting server configuration exactly.
+
+Note that when adding servers to this table, the total_threads field
+in the server_store table is calculated based on the 'php_max_procs'
+field provided by the Acquia Cloud API.
+
+It is important to understand the relationship between deleting
+servers and disabling them. Servers can be disabled by setting the
+status field to '0' in the server_store table. This setting indicates
+that the server is known to the system but will not be used when
+dispatching a task to be executed. The wipctl command does not disable
+servers when they are no longer available in Acquia Hosting. They are
+removed instead. This means that an admin can disable a server and
+even if that server goes off line and comes back the server will
+continue to be disabled.
+
+If instead the system automatically disabled servers that appear to be
+unavailable, either the server could never be brought back online or
+the admin's preference to not execute tasks on that server would be
+lost.
+
+DISPATCH FAILURES
+-----------------
+Wip dispatches work for individual Wip tasks to processes on the
+available servers. There are several points where a dispatch could
+fail. This section discusses what failures are known to be possible
+and how the system reacts to these failures.
+
+First, a quick look at how the dispatch actually works.
+
+The Wip runtime is responsible for marrying tasks that are ready to
+execute with available threads and dispatching those. The dispatch
+occurs by invoking several processes via SSH:
+
+Runtime
+-> [wrapper] ssh_wrapper                 
+                  Responsible for invoking the parent exec process
+                  and signaling the result of the task execution.
+		  
+ ----> [parent] wipctl exec --id=<id> --thread-id=<tid>
+                  Holds the wip-pool-lock-execute[wipId] lock to
+                  prevent multiple processes running the task
+                  simultaneously. This process coordinates the
+                  execution of the task, its cleanup, and the
+		  release of the associated thread.
+		  
+     -----> [child] wipctl exec --id=<id> --thread-id=<tid> --child
+                  Executes the task and upon completion set the run
+		  status to either 1 (WAITING) or (COMPLETE). This
+		  is a separate process because it must acquire the
+		  wip-pool-lock-update[wipId] lock to update the
+		  task run status and save the updated Wip object.
+		  Also if the task itself encounters a fatal error,
+		  this allows the parent to handle it gracefully.
+		  
+     -----> [cleanup] wipctl exec --id=<id> --thread-id=<tid> --cleanup
+                  Uses the wip-pool-lock-update[wipId] to verify the
+		  task's run status has been moved from 2 (PROCESSING).
+		  If the run status has not been changed, this
+		  process will return a non-zero exit code, indicating
+		  to the parent process the thread should not be
+		  released. This is a separate process
+   
+The points of failure are summarized here:
+* The wrapper fails to launch
+* The parent process fails to launch
+* The parent process fails to acquire the wip-pool-lock-execute[wipId] lock
+* The child process fails to launch
+* The child process fails to acquire the wip-pool-lock-update[wipId] lock
+* The task encounters a fatal error before
+* The task encounters a fatal error after the task is saved
+* The task is running an infinite loop
+* The child process fails to update the run_status
+* The cleanup process fails to launch
+* The parent process fails to release the thread
+* The ssh_wrapper signal is never received
+
+The wrapper sends a signal in the form of a REST API call back to Wip
+upon the completion of execution of the parent process. This signal
+contains the result of the parent execution, including stdout, stderr,
+and the exit code.
+
+The system handles each of these failure modes as follows:
+
+The wrapper fails to launch
+---------------------------
+
+If the wrapper fails to launch no signal will be received, since that
+is one of the jobs of the wrapper function. This is a very rare but
+unfortunate failure that leaves the task in a dormant state for at
+least 2 minutes before the system recognizes and corrects the failure.
+
+By default, any thread that is older than 2 minutes will be checked at
+the invocation of the next 'wipctl run-daemon' command. This command
+is invoked on all Wip webnodes every 200 seconds.
+
+Checking this condition involves loading the Process object from the
+thread_store table and verifying the wrapper process is still running.
+
+If the wrapper process is not still running. the task will be moved
+into run status 1 (WAITING) and the thread will be deleted. If the
+wrapper process is still running, the thread and task are left intact.
+
+ESTIMATED RECOVERY TIME: 170 seconds on average
+
+
+The parent process fails to launch
+----------------------------------
+
+In this case the wrapper will signal the failure back to Wip. The
+thread will be in status 2 (RUNNING), and the task will have a run
+status of 2 (PROCESSING). In this case it is harmless to delete the
+thread and set the task run status back to 1 (WAITING).
+
+ESTIMATED RECOVERY TIME: Within 10 seconds
+
+
+The parent process fails to acquire the wip-pool-lock-execute[wipId] lock
+-------------------------------------------------------------------------
+
+The parent will exit with a non-zero exit code, which will be signaled
+back to Wip by the wrapper. The thread will be in status 2 (RUNNING),
+and the task will have a run status of 2 (PROCESSING). An abnormal
+dispatch transcript is detected upon receiving this signal and it will
+be determined that it is harmless to delete the thread and set the
+task run status back to 1 (WAITING).
+
+ESTIMATED RECOVERY TIME: Within 10 seconds
+
+
+The child process fails to launch
+---------------------------------
+
+The parent will exit with a non-zero exit code, which will be signaled
+back to Wip by the wrapper. The thread will be in status 2 (RUNNING),
+and the task will have a run status of 2 (PROCESSING). An abnormal
+dispatch transcript is detected upon receiving this signal and it will
+be determined that it is harmless to delete the thread and set the
+task run status back to 1 (WAITING).
+
+ESTIMATED RECOVERY TIME: Within 10 seconds
+
+
+The child process fails to acquire the wip-pool-lock-update[wipId] lock
+-----------------------------------------------------------------------
+
+The parent will exit with a non-zero exit code, which will be signaled
+back to Wip by the wrapper. The thread will be in status 2 (RUNNING),
+and the task will have a run status of 2 (PROCESSING). An abnormal
+dispatch transcript is detected upon receiving this signal and it will
+be determined that it is harmless to delete the thread and set the
+task run status back to 1 (WAITING).
+
+ESTIMATED RECOVERY TIME: Within 10 seconds
+
+
+The task encounters a fatal error before the task is saved
+---------------------------------
+
+The parent will exit with a non-zero exit code, which will be signaled
+back to Wip by the wrapper. The thread will be in status 2 (RUNNING),
+and the task will have a run status of 2 (PROCESSING). An abnormal
+dispatch transcript is detected upon receiving this signal and because
+the task may have executed but not saved, this may not be a
+recoverable error.
+
+If the value of the $acquia.wip.dispatch.abort_on_failure property is
+TRUE, the task will be failed out. This is proper behavior if it is
+imperative that the states in the state machine do not accidentally
+get executed twice. This should be the case for any task in which the
+states are not fully idempotent. In the case of Pipelines, the
+'executeBuildScript' cannot be considered idempotent since the user's
+build script may perform actions that affect the system at a global
+level. For example, creating a database table will only work once
+unless care is taken.
+
+If the value of the $acquia.wip.dispatch.abort_on_failure property is
+FALSE, the task will be reset and allowed to continue. The thread will
+be deleted and the task run status will be set back to 1 (WAITING).
+
+ESTIMATED RECOVERY TIME: Within 10 seconds
+
+
+The task encounters a fatal error after the task is saved
+---------------------------------
+
+The parent will exit with a non-zero exit code, which will be signaled
+back to Wip by the wrapper. The thread will be in status 2 (RUNNING),
+and the task will have a run status of 2 (PROCESSING). An abnormal
+dispatch transcript is detected upon receiving this signal and it will
+be determined that it is harmless to delete the thread and set the
+task run status back to 1 (WAITING).
+
+ESTIMATED RECOVERY TIME: Within 10 seconds
+
+
+The task is running an infinite loop
+------------------------------------
+
+The thread status will be 2 (RUNNING) and the task's run status will
+be 2 (PROCESSING). This is a consistent state, so nothing will happen
+for at least 2 minutes.
+
+By default, any thread that is older than 2 minutes will be checked at
+the invocation of the next 'wipctl run-daemon' command. This command
+is invoked on all Wip webnodes every 200 seconds.
+
+Checking this condition involves loading the Process object from the
+thread_store table and verifying the wrapper process is still running.
+
+If the wrapper process is still running, the system will allow it to
+continue until the time threshold set in property
+$acquia.wip.database.cleanup.fail is exceeded. By default this value
+is 300 seconds (5 minutes). Once this threshold is exceeded, the task
+will be failed out and the thread will be deleted.
+
+ESTIMATED RECOVERY TIME: 350 seconds on average
+
+
+The child process fails to update the run_status
+------------------------------------------------
+
+The parent will exit with a non-zero exit code, which will be signaled
+back to Wip by the wrapper. The thread will be in status 2 (RUNNING),
+and the task will have a run status of 2 (PROCESSING). An abnormal
+dispatch transcript is detected upon receiving this signal and it will
+be determined that it is harmless to delete the thread and set the
+task run status back to 1 (WAITING).
+
+ESTIMATED RECOVERY TIME: Within 10 seconds
+
+
+The cleanup process fails to launch
+-----------------------------------
+
+The parent will exit with a non-zero exit code, which will be signaled
+back to Wip by the wrapper. The thread will be in status 2 (RUNNING),
+and the task will likely have a run status of 1 (WAITING) because the
+task process would have changed the status before cleanup. An abnormal
+dispatch transcript is detected upon receiving this signal and it will
+be determined that it is harmless to delete the thread and the task
+run status will be set to 1 (WAITING) if necessary.
+
+ESTIMATED RECOVERY TIME: Within 10 seconds
+
+
+The parent process fails to release the thread
+----------------------------------------------
+
+The parent will exit with a non-zero exit code, which will be signaled
+back to Wip by the wrapper. The thread will be in status 2 (RUNNING),
+and the task will have a run status of 1 (WAITING). An abnormal
+dispatch transcript is detected upon receiving this signal and it will
+be determined that it is harmless to delete the thread.
+
+ESTIMATED RECOVERY TIME: Within 10 seconds
+
+
+The ssh_wrapper signal is never received
+----------------------------------------
+
+Clearly the signal is an integral component of the system being able
+to detect a dispatch problem and address it correctly. Generally the
+signal is a backup mechanism for a task execution mechanism that
+typically works without it. The signal may not be received if there
+are not enough PHP processes configured in the webserver to make it
+possible to service the API request in a timely fashion. Obviously it
+is a recommended practice to tune the webservers such that requests
+will not be denied.
+
+If there is a dispatch failure and the signal is not received, the
+cleanup will be handled as if the thread was simply left in status 2
+(RUNNING). By default, any thread that is older than 2 minutes will be
+checked at the invocation of the next 'wipctl run-daemon'
+command. This command is invoked on all Wip webnodes every 200
+seconds.
+
+Checking this condition involves loading the Process object from the
+thread_store table and verifying the wrapper process is still running.
+
+The thread with status 2 (RUNNING) is the condition in which the
+recovery mechanism is employed, so that is the case for all of the
+possible scenarios:
+
+* The task has run status 1 (WAITING)
+  - Delete the thread.
+  
+* The task has run status 2 (PROCESSING), task has not been updated
+  - If the value of the $acquia.wip.dispatch.abort_on_failure property
+    is TRUE, fail out the task and delete the thread.
+  - Otherwise delete the thread and move the task run status to 1
+    (WAITING).
+
+* The task has run status 2 (PROCESSING), task has been updated.
+  - Delete the thread and move the task run status to 1 (WAITING).
+
+# The task has run status 3 (COMPLETED).
+  - Delete the thread.
+
+ESTIMATED RECOVERY TIME: 170 seconds on average
+

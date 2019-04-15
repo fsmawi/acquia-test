@@ -1,0 +1,42 @@
+#!/usr/bin/env php
+<?php
+
+use Acquia\WipService\Console\Commands;
+use Acquia\WipService\Console\WipConsoleServiceProvider;
+
+/** @var Silex\Application $app */
+$app = require_once __DIR__ . '/../app/app.php';
+
+// Register the console provider.
+$app->register(new WipConsoleServiceProvider(), array(
+  'console.name' => 'Wip Command-line Tool',
+  'console.version' => '0.0.1',
+  'console.app_directory' => $app['root_dir'],
+));
+
+$application = $app['console'];
+try {
+  $status = new Commands\ContainerStatusCommand();
+  $application->add($status);
+  $log = new Commands\LogCommand();
+  $application->add($log);
+  $mysqlcli = new Commands\MysqlCliCommand();
+  $application->add($mysqlcli);
+  $mysqldump = new Commands\MysqlDumpCommand();
+  $application->add($mysqldump);
+  $delete_backups = new Commands\DeleteBackupCommand();
+  $application->add($delete_backups);
+  $ssh = new Commands\SshCommand();
+  $application->add($ssh);
+  $transcript = new Commands\TranscriptCommand();
+  $application->add($transcript);
+  $dispatch_check = new Commands\DispatchCheckCommand();
+  $application->add($dispatch_check);
+  $delete_records = new Commands\DeleteRecordsCommand();
+  $application->add($delete_records);
+} catch (\Exception $e) {
+  printf("Failed to launch application: %s\n", $e->getMessage());
+  exit(1);
+}
+
+$application->run();

@@ -1,0 +1,27 @@
+config.global:
+  debug: true
+  namespace: dev
+  base_url: http://localhost
+config.db:
+  driver: pdo_mysql
+  dbname: silex
+  user: admin
+  password: password
+  host: db
+  port: 3306
+config.ecs:
+  default:
+    containerDefinitions:
+    - image: acquia/wip-service:latest
+services.bugsnag:
+  api_key: insert_key_here
+  stage: dev
+config.docker:
+  system: docker-machine
+  username: docker-user
+  host: localhost
+  vm_name: default
+  workspace: /path/to/host/workspace
+  image: acquia/wip-service:latest
+  debug: false
+  mount: false

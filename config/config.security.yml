@@ -1,0 +1,19 @@
+# To generate a user account, see https://confluence.acquia.com/x/PwuVAQ
+security.users:
+  # These accounts should have a different passwords set in production.
+  af7db973-21a5-40a7-9141-d6f9ae391161:
+    - 'ROLE_ADMIN'
+    - 'FMKp5ufl4FvSmppitHWR52eD8ft09dzzd2jFK4r/hT9eG+Y0TDteDuHMtPBKJJ27Mo0niipQ5fk78SMgO/MEmA==' # aUp8goiX4De9ghE
+  9c2372db-0a09-4190-b86a-aab5f18fc6f7:
+    - 'ROLE_USER'
+    - 'CdSmT7E+9qrN2J3j5ojYfv/oEFCl0gjBVybPXj65uUVLG/pVN9wb/zYfsamVT9EnMqY7SwjN4NN2YDGX4tTB7Q==' # Zf6o1kvbNbGkhDI
+# Do not add new production users to security.client_users. This is only
+# intended for development/testing purposes and communication from the task
+# containers via the REST API.
+security.client_users:
+  ROLE_ADMIN:
+    username: af7db973-21a5-40a7-9141-d6f9ae391161
+    password: aUp8goiX4De9ghE
+  ROLE_USER:
+    username: 9c2372db-0a09-4190-b86a-aab5f18fc6f7
+    password: Zf6o1kvbNbGkhDI

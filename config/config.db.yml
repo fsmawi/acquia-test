@@ -1,0 +1,14 @@
+config.db:
+    driver: pdo_mysql
+    dbname: silex
+    user: root
+    password: ''
+    host: 127.0.0.1
+    port: 3306
+
+# If we decide to use sqlite as fallback db if we are not on AH
+#config.db:
+#    driver: pdo_sqlite
+#    path: silex.db
+#    user: root
+#    password: ''

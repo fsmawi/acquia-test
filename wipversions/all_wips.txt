@@ -1,0 +1,9 @@
+Acquia\Wip\Implementation\BasicWip
+Acquia\Wip\Implementation\ContainerWip
+; This class is used for unit tests.
+Acquia\Wip\Implementation\VersionCheckTestWip
+; @todo we should think about testing the abstract class.
+;Acquia\Wip\Objects\BuildSteps\AbstractPipelineWip
+Acquia\Wip\Modules\NativeModule\BuildSteps
+Acquia\Wip\Modules\NativeModule\Canary
+Acquia\Wip\Modules\NativeModule\ContainerCanary

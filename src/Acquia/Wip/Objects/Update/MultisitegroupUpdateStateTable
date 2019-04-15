@@ -1,0 +1,20 @@
+start {
+  * parseRelationshipDocument
+}
+
+parseRelationshipDocument:checkParseStatus {
+  success      callSitegroupUpdaters
+  fail         failure
+}
+
+# Creates a sitegroup updater for each sitegroup and waits for their completion.
+callSitegroupUpdaters:checkDocrootUpdaters {
+  create       callSitegroupUpdaters       wait=1
+  wait         callSitegroupUpdaters       wait=600 exec=false
+  success      finish
+  fail         failure
+}
+
+failure {
+  *            finish
+}

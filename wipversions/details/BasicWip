@@ -1,0 +1,42 @@
+Properties:
+----------------------------------------
+callbackWipData: private
+callbacks: private
+dependencyManager: protected
+document: private
+encryptOpenSslMethod: private static
+exitMessage: private
+groupName: private
+id: private
+includes: private
+instanceVersions: private
+iterator: private
+key: private
+logLevel: private
+metric: private
+options: private
+recordings: private
+simulation: private
+simulationMode: private
+stateTable: protected
+strategy: private
+timestamp: private
+uuid: private
+wipLog: private
+workId: private
+
+State table:
+----------------------------------------
+  # This should be replaced.
+start {
+  * finish
+}
+
+failure {
+  * finish
+  ! finish
+}
+
+terminate {
+  * failure
+}

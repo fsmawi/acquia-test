@@ -1,0 +1,1155 @@
+#!/usr/bin/env php
+<?php
+
+/**
+ * Provides an ssh command wrapper to execute commands and capture output.
+ *
+ * This script makes it far easier to perform logging on all calls that are
+ * executed by the from remote. It also makes it possible to retrieve the
+ * command exit code when the command is being called asynchronously.
+ *
+ * Usage:
+ *   ssh_wrapper <operation> [options]
+ *
+ *   Operations:
+ *     --exec [unix command] - execute the specified Unix command.
+ *     --close               - Does any required cleanup (logs, etc.)
+ *     --is-running          - Indicates whether the command is running or not.
+ *     --kill                - Kills the process.
+ *     --result              - Gets the result of the process.
+ *     --version             - Gets the version of this wrapper.
+ *     --logs                - Gets the log contents of a process.
+ *
+ *   Options:
+ *     silent       - Don't display any output.  Good for asynchronous calls.
+ *     pid          - The process id - required for checking in on asynchronous
+ *                    calls.
+ *     env          - The environment.
+ *     site         - The site.
+ *     no-logs      - Do not retain log data.
+ *     start-time   - The process start time.
+ *     data         - Serialized PHP data regarding the caller.
+ *     report       - Report back upon process completion.
+ *     encoded      - The unix command in the exec is base64 encoded.
+ *     switch-user  - Execute the command as the specified user.
+ *     temp-dir     - Sets the temporary directory where logs will be stored.
+ *
+ * Examples:
+ *   ssh_wrapper --exec "ls -l /usr" --silent
+ *   This performs an ls of the /usr directory with no output at all.
+ *
+ *   ssh_wrapper --stdout --pid <proc id>
+ *   This displays the output of the command associated with the pid.
+ *
+ *   ssh_wrapper --close --pid <proc id>
+ *   This cleans up log files associated with the pid.
+ *
+ *   ssh_wrapper --exec "ls -l /usr" --no-logs
+ *   This performs the ls, displaying the result to stdout and exits with the
+ *   same exit code as the associated ls command.  This is a good option for
+ *   synchronous use unless the error log might be important.
+ *
+ *   ssh_wrapper --is-running --pid <proc id> --start-time <unix timestamp>
+ *   Indicates whether the specified process is still running.  The start time
+ *   option is required to ensure the requested process can be identified.
+ *   The process identifiers are reused, so it would otherwise be possible
+ *   to see the wrong process and assume it is still running.
+ */
+
+/**
+ * Defines an interface for executing remote commands.
+ */
+class SshWrapper {
+
+  /**
+   * The exit code if the user from the --switch-user argument does not exist.
+   *
+   * @var int
+   */
+  const EXIT_CODE_USER_DOES_NOT_EXIST = 103;
+
+  /**
+   * The version of the ssh wrapper.
+   *
+   * @var string
+   */
+  private $version = '3';
+
+  /**
+   * The hosting site.
+   *
+   * @var string
+   */
+  private $site = NULL;
+
+  /**
+   * The hosting environment.
+   *
+   * @var string
+   */
+  private $env = NULL;
+
+  /**
+   * The process id.
+   *
+   * @var int
+   */
+  private $pid = NULL;
+
+  /**
+   * The process start time.
+   *
+   * This is used to help identify the correct process. Process ids can be
+   * reused.
+   *
+   * @var int
+   */
+  private $startTime = NULL;
+
+  /**
+   * The time when the command is executed.
+   *
+   * @var int
+   */
+  private $execTime = NULL;
+
+  /**
+   * The time when the command finished.
+   *
+   * @var int
+   */
+  private $completeTime = NULL;
+
+  /**
+   * The temporary directory in which process information will be stored.
+   *
+   * @var string
+   */
+  private $temp_dir = '/mnt/tmp';
+
+  /**
+   * The maximum length of stdout that will be returned from getResult().
+   *
+   * @var
+   */
+  private $max_stdout;
+
+  /**
+   * The maximum length of stderr that will be returned from getResult();
+   *
+   * @var
+   */
+  private $max_stderr;
+
+  /**
+   * Initializes a new SshWrapper object.
+   *
+   * @param object $options
+   *   The options argument returned from _ssh_wrapper_parse_command_line().
+   */
+  public function __construct($options) {
+    if (!empty($options->pid)) {
+      $this->pid = $options->pid;
+    }
+    if (!empty($options->env)) {
+      $this->env = $options->env;
+    }
+    if (!empty($options->site)) {
+      $this->site = $options->site;
+    }
+    if (!empty($options->start_time)) {
+      $this->startTime = $options->start_time;
+    }
+    if (!empty($options->max_stdout)) {
+      $this->max_stdout = $options->max_stdout;
+    }
+    if (!empty($options->max_stderr_len)) {
+      $this->max_stderr = $options->max_stderr;
+    }
+    if (!empty($options->temp_dir)) {
+      $this->temp_dir = $options->temp_dir;
+    }
+  }
+
+  /**
+   * Executes the specified command.
+   *
+   * @param string $command
+   *   The Unix command to be executed.
+   * @param bool $encoded_command
+   *   Optional.  If FALSE then the $command will be taken as is. If TRUE then
+   *   the $command will be assumed to contain a base64 encoded string.
+   * @param bool $log
+   *   Optional.  If FALSE, no log files will remain upon completion of
+   *   the command.  This is not appropriate for commands that are
+   *   executed asynchronously.
+   * @param bool $silent
+   *   Optional.  If TRUE, no output will be sent to stdout or stderr.
+   * @param bool $report
+   *   Optional.  If TRUE, a message will be sent back to the callback endpoint
+   *   specified in the $data variable.
+   * @param object $data
+   *   Optional.  Data relating to the caller.
+   * @param string $switch_user
+   *   Optional.  Execute the command as the specified user.
+   *
+   * @return int
+   *   The exit code.
+   */
+  public function exec($command, $encoded_command = FALSE, $log = TRUE, $silent = FALSE, $report = FALSE, $data = NULL, $switch_user = NULL) {
+    $this->pid = getmypid();
+
+    if ($encoded_command) {
+      $command = base64_decode($command);
+    }
+
+    // If the command is executed as a different user, write the command to an
+    // executable file to avoid complicated quote escaping.
+    if (NULL !== $switch_user) {
+      if (FALSE === posix_getpwnam($switch_user)) {
+        return self::EXIT_CODE_USER_DOES_NOT_EXIST;
+      }
+      $command_file_data = "#! /bin/sh\n\n$command";
+      file_put_contents($this->getCommandFilePath(), $command_file_data);
+      chmod($this->getCommandFilePath(), 0755);
+      chown($this->getCommandFilePath(), $switch_user);
+      $command = sprintf('su - %s -c %s', $switch_user, $this->getCommandFilePath());
+    }
+
+    // NOTE: You cannot append commands to this without breaking the exit code.
+    $command = sprintf('%s > %s 2> %s', $command, $this->getLogFile('out'), $this->getLogFile('err'));
+
+    $output = NULL;
+    $exit_code = NULL;
+    $this->execTime = time();
+    exec($command, $output, $exit_code);
+    $this->completeTime = time();
+
+    // Remove the command file if necessary.
+    if (file_exists($this->getCommandFilePath())) {
+      @unlink($this->getCommandFilePath());
+    }
+
+    $result = $this->generateResult($exit_code, $data);
+    if (!$log) {
+      // Do not retain log files.
+      $this->removeLogFiles();
+    }
+    elseif (FALSE !== file_put_contents($this->getLogFile('ret'), json_encode($result))) {
+      // The .ret file was successfully written.  No need for the out and err
+      // files.
+      $this->removeLogFiles(array('out', 'err'));
+    }
+
+    if ($silent !== TRUE) {
+      // The command was configured to provide output via stdout.
+      print(json_encode($result));
+    }
+
+    // Report back to the caller upon completion.
+    if ($report && $result instanceof stdClass && !empty($result->callbackUrl)) {
+      if ($this->execCallback($result)) {
+        // It is possible that the Wip object requested an asynchronous process
+        // to occur and then immediately asked for the results.  In this
+        // scenario it is possible that the callback has already been sent and
+        // the log files removed such that the query for the status of the
+        // process is no longer available.
+
+        // In order to prevent this, make sure the log files hang around for a
+        // little while after the callback has been called.  This will force the
+        // is_running call to return TRUE until some point after the callback
+        // was sent.  Further, the client must check the callbacks for any
+        // process before attempting to retrieve its status.  When the log files
+        // are removed, it will be impossible to get status from the process.
+        sleep(10);
+        // Since the signal was sent successfully, delete the logs; we do not
+        // call out separately to clean up when a result signal is received.
+        $this->removeLogFiles();
+      }
+    }
+
+    return $exit_code;
+  }
+
+  /**
+   * Makes a callback POST request to a specified callback URL.
+   *
+   * @param object $data
+   *   Data to POST to the callback URL. If a specific type of domain-specific
+   *   signal is required, then the classId should be set on this data object.
+   *
+   * @return bool
+   *   TRUE if the callback was invoked successfully; FALSE otherwise.
+   */
+  public function execCallback($data) {
+    $result = FALSE;
+    $handle = curl_init($data->callbackUrl);
+    // @TODO - any further CURL options needed?  Minimum of no check cert on dev stages, probably.
+
+    curl_setopt($handle, CURLOPT_CUSTOMREQUEST, 'POST');
+    curl_setopt($handle, CURLOPT_USERAGENT, basename(__FILE__));
+
+    // We're assuming no redirects happen from this URL: if this changes, then
+    // we need to specify that curl should follow redirects.
+
+    // @TODO - anything worth doing with the result? If so, then set this, and use
+    // the return value of curl_exec() as content.
+    curl_setopt($handle, CURLOPT_RETURNTRANSFER, TRUE);
+
+    if (!empty($data->noVerifyCert)) {
+      curl_setopt($handle, CURLOPT_SSL_VERIFYPEER, FALSE);
+      curl_setopt($handle, CURLOPT_SSL_VERIFYHOST, 0);
+    }
+    if (!empty($data->authUser) && !empty($data->authSecret)) {
+      curl_setopt($handle, CURLOPT_USERPWD, $data->authUser . ":" . $data->authSecret);
+    }
+
+    $body = json_encode($data);
+    curl_setopt($handle, CURLOPT_POSTFIELDS, $body);
+    $headers = array(
+      'Content-Type: application/json;charset=utf-8',
+      'Content-Length: ' . strlen($body),
+    );
+    curl_setopt($handle, CURLOPT_HTTPHEADER, $headers);
+
+    $count = 0;
+    $maximum_attempts = 3;
+    do {
+      $failed = FALSE;
+      $response = curl_exec($handle);
+      $error = curl_errno($handle);
+      $status = curl_getinfo($handle, CURLINFO_HTTP_CODE);
+      if ($status !== 200 || $error > 0) {
+        $failed = TRUE;
+        file_put_contents($this->getLogFile('err'), sprintf("Failed to call signal callback at %s. HTTP status: %d; Response: %s; cURL error number: %d\n", $data->callbackUrl, $status, $response, $error), FILE_APPEND);
+      }
+    } while ($failed && ++$count < $maximum_attempts);
+    curl_close($handle);
+    if (!$failed) {
+      $result = TRUE;
+    }
+    return $result;
+  }
+
+  /**
+   * Returns a result string with the process id, the stdout and stderr.
+   *
+   * @return string
+   *   The result.
+   */
+  public function getResult() {
+    return $this->getLog('ret');
+  }
+
+  /**
+   * Returns a result object with the process id, the stdout and stderr.
+   *
+   * @param object $data
+   *   The data comprising the result, including the server, pid, startTime.
+   *   Other fields will be populated by this method.
+   *
+   * @param int $exit_code
+   *   The process exit code.
+   *
+   * @return object
+   *   The result.
+   */
+  public function generateResult($exit_code, $data = NULL) {
+    if (isset($data)) {
+      if (is_array($data)) {
+        $data = (object) $data;
+      }
+    }
+    else {
+      $data = new \stdClass();
+    }
+
+    $data->pid = $this->pid;
+    if (empty($data->server)) {
+      $data->server = gethostname();
+    }
+    if (empty($data->startTime) && isset($this->startTime)) {
+      $data->startTime = $this->startTime;
+    }
+    if (!isset($data->result)) {
+      $data->result = new \stdClass();
+    }
+
+    if (!isset($data->result->stdout)) {
+      $data->result->stdout = $this->getTruncatedOutput('out');
+    }
+    if (!isset($data->result->stderr)) {
+      $data->result->stderr = $this->getTruncatedOutput('err');
+    }
+    if (!isset($data->result->exitCode)) {
+      $data->result->exitCode = intval($exit_code);
+    }
+    if (!isset($data->result->endTime)) {
+      $data->result->endTime = $this->completeTime;
+    }
+    return $data;
+  }
+
+  /**
+   * Gets the output of the specified type, truncated if configured to do so.
+   *
+   * @param string $type
+   *   Either 'out' for stdout, or 'err' for stderr.
+   *
+   * @return string
+   *   The truncated output.
+   */
+  public function getTruncatedOutput($type) {
+    $truncate_map = array(
+      'out' => $this->max_stdout,
+      'err' => $this->max_stderr,
+    );
+    if (!in_array($type, array_keys($truncate_map))) {
+      throw new \InvalidArgumentException(sprintf('The type parameter must be one of "%s".', implode(', ', array_keys($truncate_map))));
+    }
+    $result = '';
+    try {
+      $result = $this->getLog($type);
+    }
+    catch (\Exception $e) {
+
+    }
+    if (!empty($result)) {
+      $result = "\n" . $result;
+    }
+    $result = $this->truncateOutput($result, $truncate_map[$type]);
+    return $result;
+  }
+
+  /**
+   * Indicates whether the process is still running.
+   *
+   * @return bool
+   *   TRUE if the process is still running; FALSE if the process is not
+   *   still running; NULL if it could not be determined.
+   *
+   * @throws Exception
+   *   If the process id or start time have not been provided.
+   */
+  public function isRunning() {
+    try {
+      $this->getResult();
+      return FALSE;
+    }
+    catch (Exception $e) {
+      // The log file has not been written or contains invalid data.
+    }
+
+    if (NULL === $this->pid) {
+      throw new Exception('The process id must be specified.');
+    }
+    if (NULL === $this->startTime) {
+      throw new Exception('The process start time must be specified.');
+    }
+
+    // Use the pid to determine if the process is still running.
+    try {
+      $command = sprintf('ps cp %s -opid,ppid,etime,comm', escapeshellarg($this->pid));
+      $proc_data = array();
+      exec($command, $proc_data, $ret);
+    }
+    catch (Exception $e) {
+      // The command to get process data failed.
+      return NULL;
+    }
+
+    // Parse the ps output.
+    $now = time();
+    $header_read = FALSE;
+    foreach ($proc_data as $line) {
+      $line = trim($line);
+      if (empty($line)) {
+        continue;
+      }
+      if (!$header_read) {
+        try {
+          $this->parseProcessHeader($line);
+          $header_read = TRUE;
+        }
+        catch (Exception $e) {
+          // The ps command failed to provide output that we understand.
+          return NULL;
+        }
+      }
+      else {
+        try {
+          $proc = $this->parseProcessInfo($line, $now);
+
+          // Add a tolerance of 15 seconds as $proc->startTime is time() plus
+          // The elapsed seconds reported by the process, which would always
+          // round downward, even toward the end of a second, allowing possible
+          // discrepancies between the reported elapsed seconds and the call to
+          // time().
+          if ($proc->pid == $this->pid && abs($proc->startTime - $this->startTime) < 15) {
+            return TRUE;
+          }
+        }
+        catch (Exception $e) {
+          // The ps command failed to provide output that we understand.
+          return NULL;
+        }
+      }
+    }
+    if ($header_read) {
+      return FALSE;
+    }
+    else {
+      // We didn't get a header even.  This could happen if we got an empty
+      // string back.  An incomplete response does not indicate the process
+      // terminated.
+      return NULL;
+    }
+  }
+
+  /**
+   * Kills the process, if it is still running.
+   *
+   * @throws Exception
+   */
+  public function kill() {
+    if (NULL === $this->pid) {
+      throw new Exception('Cannot kill the process - the pid must be specified.');
+    }
+
+    // Make sure it is running or you could end up killing the wrong process.
+    // The isRunning method verifies with the start time also.
+    if ($this->isRunning()) {
+      $command = sprintf('kill %s', escapeshellarg($this->pid));
+      $output = array();
+      exec($command, $output, $ret);
+    }
+  }
+
+  /**
+   * Returns the version string.
+   *
+   * @return string
+   *   The version.
+   */
+  public function getVersion() {
+    return $this->version;
+  }
+
+  /**
+   * Returns the log contents for the specified log.
+   *
+   * @param string $type
+   *   The type of log to display.  Options are
+   *   - 'out' for stdout,
+   *   - 'err' for stderr,
+   *   - 'ret' for the return code.
+   *
+   * @return string
+   *   The log contents.
+   *
+   * @throws Exception
+   *   If the specified log does not exist for the associated process.
+   */
+  public function getLog($type) {
+    if (!in_array($type, array('out', 'err', 'ret'))) {
+      throw new Exception(sprintf('Log type "%s" is not expected.', $type));
+    }
+    $log_file = $this->getLogFile($type);
+    if (file_exists($log_file)) {
+      $contents = file_get_contents($log_file);
+      if ($type === 'out' || $type === 'err') {
+        $contents = $this->formatOutput($contents);
+      }
+      return $contents;
+    }
+    throw new Exception(sprintf('Log file %s does not exist.', $log_file));
+  }
+
+  /**
+   * Formats the stdout before we print it.
+   *
+   * Most notably, this will take backspace characters into account and process
+   * them accordingly.
+   *
+   * @param string $output
+   *   The stdout to format.
+   *
+   * @return string
+   *   The formatted output.
+   */
+  public function formatOutput($output) {
+    // Make sure the output appears to have backspaces. A single '\b' character
+    // is common, for example "\bash".
+    $output = preg_replace_callback(
+      '/((\\\b){2,})/',
+      array($this, 'replaceBackspaceCharacters'),
+      $output
+    );
+
+    if (FALSE === mb_strpos($output, chr(8))) {
+      return $output;
+    }
+
+    $pointer = 0;
+    $stripped = [];
+    $exploded = str_split($output);
+    $output_length = count($exploded);
+    for ($i = 0; $i < $output_length; $i++) {
+      if (ord($exploded[$i]) != 8) {
+        $stripped[$pointer] = $exploded[$i];
+        if ($i < $output_length - 1) {
+          $pointer++;
+        }
+      } elseif ($pointer > 0) {
+        $pointer--;
+      }
+    }
+
+    $stripped = implode('', $stripped);
+    return trim($stripped, ' ');
+  }
+
+  /**
+   * Callback that replaces \b with actual backspace characters.
+   *
+   * @param string[] $matches
+   *   The matches from a regex.
+   *
+   * @return string
+   *   The backspace characters.
+   */
+  function replaceBackspaceCharacters($matches) {
+    return str_repeat(chr(8), strlen($matches[1]) / 2);
+  }
+
+  /**
+   * Removes all log files for the associated process.
+   *
+   * @param string[] $file_types
+   *   Optional. The file types for which the log files should be deleted.  Can
+   *   include 'out', 'err', and 'ret'.  If not specified, all log files will
+   *   be deleted.
+   */
+  public function removeLogFiles($file_types = array('out', 'err', 'ret')) {
+    if (in_array('out', $file_types)) {
+      @unlink($this->getLogFile('out'));
+    }
+    if (in_array('err', $file_types)) {
+      @unlink($this->getLogFile('err'));
+    }
+    if (in_array('ret', $file_types)) {
+      @unlink($this->getLogFile('ret'));
+    }
+  }
+
+  /**
+   * Returns the log directory.
+   *
+   * @return string
+   *   The log directory.
+   */
+  private function getLogDir() {
+    return $this->getTempDir('logs', 0770);
+  }
+
+  /**
+   * Returns the exec directory path.
+   *
+   * @return string
+   *   The exec directory.
+   */
+  private function getExecDir() {
+    return $this->getTempDir('exec', 0775);
+  }
+
+  /**
+   * Returns the directory path in the temp directory.
+   *
+   * @param string $name
+   *   The directory inside of the temp location.
+   * @param int $mode
+   *   Optional. The octal file mode, e.g. 0777.
+   *
+   * @return string
+   *   The exec directory.
+   *
+   * @throws Exception
+   *   If the directory does not exist and cannot be created.
+   */
+  private function getTempDir($name, $mode = 0775) {
+    $path = sprintf('%s/%s.%s/%s', $this->temp_dir, $this->site, $this->env, $name);
+    if (!file_exists($path)) {
+      $result = mkdir($path, $mode, TRUE);
+      if ($result != TRUE) {
+        throw new Exception(sprintf('Failed to create log directory %s', $path));
+      }
+    }
+    return $path;
+  }
+
+  /**
+   * Returns the path to the command file.
+   *
+   * @return string
+   *   The command file.
+   */
+  private function getCommandFilePath() {
+    return sprintf('%s/%s.su_command', $this->getExecDir(), $this->pid);
+  }
+
+  /**
+   * Gets the path to the specified log file.
+   *
+   * @param string $type
+   *   The type of log file.  'out' for stdout; 'err' for stderr; 'ret' for the
+   *   return value.
+   *
+   * @return string
+   *   The log file path.
+   *
+   * @throws Exception
+   *   If an unexpected type was provided or if the log path does not exist and
+   *   cannot be created.
+   */
+  private function getLogFile($type = 'out') {
+    if (!in_array($type, array('out', 'err', 'ret'))) {
+      throw new Exception('$type must be one of "out", "err", or "ret"');
+    }
+    $path = sprintf('%s/%s.%s', $this->getLogDir(), $this->pid, $type);
+
+    return $path;
+  }
+
+  /**
+   * Parses the header information from a Unix 'ps' call.
+   *
+   * @param string $ps_line
+   *   The first line of output from the ps call.
+   *
+   * @throws Exception
+   *   If the format of the specified line of output does not match the expected
+   *   header.
+   */
+  private function parseProcessHeader($ps_line) {
+    // Linux format:
+    // PID  PPID     ELAPSED COMMAND
+    // 32451     1       46:51 php
+
+    // Mac format:
+    // PID  PPID ELAPSED COMM
+    // 2050  2049   00:35 -bash
+    $matches = array();
+    if (1 !== preg_match('/^\s*(PID)\s+(PPID)\s+(ELAPSED)\s(COMM|COMMAND)\s*$/', $ps_line, $matches)) {
+      throw new Exception(sprintf('Badly formed header from ps: %s', $ps_line));
+    }
+  }
+
+  /**
+   * Parses a single line of ps information and returns an object that matches.
+   *
+   * @param string $ps_line
+   *   A single line of output from the ps command.
+   * @param int $now
+   *   The current time.
+   *
+   * @return stdClass
+   *   An object with fields containing the data from the ps information.
+   *
+   * @throws Exception
+   *   If the line cannot be parsed as ps data.
+   */
+  private function parseProcessInfo($ps_line, $now) {
+    $result = NULL;
+    $matches = array();
+    if (1 === preg_match('/^\s*([0-9]+)\s+([0-9]+)\s+([^\s]+)\s(.+)$/', $ps_line, $matches)) {
+      $result = new stdClass();
+      $result->pid = $matches[1];
+      $result->ppid = $matches[2];
+      $result->etime = $matches[3];
+      $result->comm = $matches[4];
+
+      $elapsed_seconds = $this->convertTimeStringToElapsedSeconds($result->etime);
+      $result->etimes = $elapsed_seconds;
+      $result->startTime = $now - $result->etimes;
+    }
+    else {
+      throw new Exception(sprintf('Bad ps output.  Should be from "ps -cU <user>' .
+       ' -opid,ppid,etime,comm".  Line is %s', $ps_line));
+    }
+    return $result;
+  }
+
+  /**
+   * Calculate the elapsed seconds given a time string from ps.
+   *
+   * The ps command will indicate elapsed time as a string.  This method parses
+   * that string and converts it to the number of elapsed seconds.
+   *
+   * @param string $time_string
+   *   The time string from invoking the ps command.
+   *
+   * @return int
+   *   The elapsed seconds.
+   */
+  private function convertTimeStringToElapsedSeconds($time_string) {
+    // This works by creating an array that contains all of the time components
+    // in reverse (seconds, minutes, hours, days).  This is done because not all
+    // of the time components will be present. We can then calculate the elapsed
+    // time from the time components provided using the following conversion.
+    $time_converter = array(
+      1,            // seconds
+      60,           // minutes
+      60 * 60,      // hours
+      24 * 60 * 60, // days
+    );
+
+    // Break each number out of the time string.
+    $time = array();
+    $token = strtok($time_string, '-: ');
+    while ($token !== FALSE) {
+      $time[] = intval($token);
+      $token = strtok('-: ');
+    }
+    $time = array_reverse($time);
+
+    // Convert the time components to elapsed seconds.
+    $elapsed_seconds = 0;
+    for ($i = 0; $i < count($time) && $i < count($time_converter); $i++) {
+      $elapsed_seconds += ($time[$i] * $time_converter[$i]);
+    }
+    return $elapsed_seconds;
+  }
+
+  /**
+   *  Truncates output such that it does not exceed the specified length.
+   *
+   * @param string $string
+   *   The string to truncate.
+   * @param int $max_length
+   *   The maximum desired string length.
+   *
+   * @return string
+   *   If the specified string is larger than the maximum length, the truncated
+   *   string will be returned.  Otherwise the original string is returned.
+   */
+  private function truncateOutput($string, $max_length) {
+    $string = trim($string);
+    if ($max_length > 0 && !empty($string) && is_string($string) && strlen($string) > $max_length) {
+      $first_half = ceil($max_length / 2);
+      $last_half = $max_length - $first_half;
+
+      // We need to be cautious to break on multi-byte character boundaries. So
+      // we prefer to use the mbstring functions if available.
+      if (extension_loaded('mbstring')) {
+        $encoding = mb_detect_encoding($string);
+        $length = mb_strlen($string, $encoding);
+        $first = mb_substr($string, 0, $first_half, $encoding);
+        $last = mb_substr($string, -$last_half, $length, $encoding);
+      }
+      else {
+        $first = substr($string, 0, $first_half);
+        $last = substr($string, -$last_half);
+      }
+      $string = sprintf('%s...%s', $first, $last);
+    }
+    return $string;
+  }
+
+}
+
+/**
+ * This is the main entry point of the script.
+ *
+ * This function dispatches control to an appropriate function d on the command
+ * line options.
+ */
+function ssh_wrapper_main() {
+  $options = _ssh_wrapper_parse_command_line();
+
+  switch ($options->operation) {
+    case 'close':
+      _ssh_wrapper_close($options);
+      break;
+
+    case 'exec':
+      _ssh_wrapper_exec($options);
+      break;
+
+    case 'is-running':
+      _ssh_wrapper_is_running($options);
+      break;
+
+    case 'kill':
+      _ssh_wrapper_kill($options);
+      break;
+
+    case 'result':
+      _ssh_wrapper_result($options);
+      break;
+
+    case 'version':
+      _ssh_wrapper_version($options);
+      break;
+
+    case 'logs':
+      _ssh_wrapper_logs($options);
+      break;
+
+    default:
+      printf("Unknown command %s\n", $options->command);
+  }
+}
+
+/**
+ * Parses the command line, returning an object that provides the options.
+ *
+ * @return object
+ *   An object that contains all options that were specified on the command
+ *   line.
+ *
+ * @throws Exception
+ *   If an illegal option was provided.
+ */
+function _ssh_wrapper_parse_command_line() {
+  $long_options  = array(
+    // Operations:
+    'exec:',          // Execute a command.
+    'close',          // Free resources associated with this command.
+    'is-running',     // Indicate whether the process is still running.
+    'kill',           // Kill the process if it is still running.
+    'result',         // Get the result from the process.
+    'version',        // Return the version string.
+    'logs',           // Fetch the log contents
+
+    // Options:
+    'env:',           // Environment.
+    'no-logs',        // Don't log stdout, stderr, or the return code.
+    'pid:',           // The process id.
+    'site:',          // Site.
+    'silent',         // Redirect stdout and stderr.
+    'start-time:',    // The process start time.
+    'max-output:',    // The maximum length of output (both stdout and stderr).
+    'max-stdout:',    // The maximum length of stdout.
+    'max-stderr:',    // The maximum length of stderr.
+    'data:',          // Serialized PHP regarding the caller.
+    'report',         // Report back to the caller upon completion.
+    'encoded',        // The unix command in exec is base64 encoded.
+    'temp-dir:',      // Set the temporary directory where logs will be stored.
+    'switch-user:',   // Execute as the specified user.
+  );
+  $options = getopt('', $long_options);
+  $result = new stdClass();
+  $result->silent = FALSE;
+  $result->log = TRUE;
+  $result->report = FALSE;
+  $result->encoded_command = FALSE;
+  $result->switch_user = NULL;
+  $result->data = new stdClass();
+  $result->max_stdout = $result->max_stderr = 0;
+
+  foreach ($options as $name => $value) {
+    switch ($name) {
+      // Operations that require no argument.
+      case 'close':
+      case 'is-running':
+      case 'kill':
+      case 'result':
+      case 'version':
+      case 'logs':
+        $result->operation = $name;
+        break;
+
+      case 'exec':
+        $result->operation = $name;
+        $result->command = $value;
+        break;
+
+      case 'env':
+        $result->env = $value;
+        break;
+
+      case 'max-output':
+        $result->max_stdout = intval($value);
+        $result->max_stderr = intval($value);
+        break;
+
+      case 'max-stdout':
+        $result->max_stdout = intval($value);
+        break;
+
+      case 'max-stderr':
+        $result->max_stderr = intval($value);
+        break;
+
+      case 'no-logs':
+        $result->log = FALSE;
+        break;
+
+      case 'pid':
+        $result->pid = $value;
+        break;
+
+      case 'silent':
+        $result->silent = TRUE;
+        break;
+
+      case 'site':
+        $result->site = $value;
+        break;
+
+      case 'start-time':
+        $result->start_time = $value;
+        break;
+
+      case 'data':
+        // Check to see if the data field has been encoded.
+        $decoded_data = base64_decode($value);
+        if ($decoded_data !== FALSE) {
+          $value = $decoded_data;
+        }
+        $result->data = unserialize($value);
+        break;
+
+      case 'report':
+        $result->report = TRUE;
+        break;
+
+      case 'encoded':
+        $result->encoded_command = TRUE;
+        break;
+
+      case 'switch-user':
+        $result->switch_user = $value;
+        break;
+
+      case 'temp-dir':
+        $result->temp_dir = $value;
+        break;
+
+      default:
+        throw new Exception("Option $name not available");
+    }
+  }
+  if (empty($result->operation)) {
+    throw new Exception("Missing operation (--exec, --close, --exit-code, etc).");
+  }
+  return $result;
+}
+
+/**
+ * Closes the process.
+ *
+ * All resources associated with the process will be released as a result
+ * of calling this function.
+ *
+ * @param object $options
+ *   The options object returned from _ssh_wrapper_parse_command_line().
+ */
+function _ssh_wrapper_close($options) {
+  $wrapper = new SshWrapper($options);
+  $wrapper->removeLogFiles();
+}
+
+/**
+ * Invokes the specified command.
+ *
+ * This function exits with the same exit code as the command that is being
+ * executed.
+ *
+ * @param object $options
+ *   The options argument returned from _ssh_wrapper_parse_command_line().
+ */
+function _ssh_wrapper_exec($options) {
+  $wrapper = new SshWrapper($options);
+  $exit_code = $wrapper->exec($options->command, $options->encoded_command, $options->log, $options->silent, $options->report, $options->data, $options->switch_user);
+  exit($exit_code);
+}
+
+/**
+ * Determines if the associated process is still running.
+ *
+ * Outputs a string to stdout that indicates whether the process is running.
+ * 'yes' indicates it is running; 'no' means it has completed.
+ *
+ * If the process has completed, the exit code of this script will match that
+ * of the completed process.
+ *
+ * @param object $options
+ *   The options argument returned from _ssh_wrapper_parse_command_line().
+ */
+function _ssh_wrapper_is_running($options) {
+  $wrapper = new SshWrapper($options);
+  $still_running = $wrapper->isRunning();
+  if ($still_running !== FALSE) {
+    print('yes');
+  }
+  else {
+    print('no');
+    try {
+      $result = json_decode($wrapper->getResult());
+      exit($result->result->exitCode);
+    }
+    catch (Exception $e) {
+    }
+  }
+}
+
+/**
+ * Kills the associated process if it is still running.
+ *
+ * @param object $options
+ *   The options argument returned from _ssh_wrapper_parse_command_line().
+ */
+function _ssh_wrapper_kill($options) {
+  $wrapper = new SshWrapper($options);
+  $wrapper->kill();
+  $wrapper->removeLogFiles();
+}
+
+/**
+ * Returns the result from the process.
+ *
+ * @param object $options
+ *   The options argument returned from _ssh_wrapper_parse_command_line().
+ */
+function _ssh_wrapper_result($options) {
+  $wrapper = new SshWrapper($options);
+  $result = $wrapper->getResult();
+  $result_object = json_decode($result);
+  $wrapper->removeLogFiles();
+  print($result);
+  exit($result_object->result->exitCode);
+}
+
+/**
+ * Returns the version string.
+ *
+ * @param object $options
+ *   The options argument returned from _ssh_wrapper_parse_command_line().
+ */
+function _ssh_wrapper_version($options) {
+  $wrapper = new SshWrapper($options);
+  print($wrapper->getVersion());
+  exit(0);
+}
+
+/**
+ * Returns the log messages from the process.
+ *
+ * If the process is still running or has been killed this is the only way to
+ * retrieve the contents of the log files.
+ *
+ * @param object $options
+ *   The options argument returned from _ssh_wrapper_parse_command_line().
+ */
+function _ssh_wrapper_logs($options) {
+  $wrapper = new SshWrapper($options);
+  file_put_contents('php://stdout', $wrapper->getTruncatedOutput('out'));
+  file_put_contents('php://stderr', $wrapper->getTruncatedOutput('err'));
+  exit(0);
+}
+
+global $unit_test_ssh_wrapper;
+if (!$unit_test_ssh_wrapper) {
+  ssh_wrapper_main();
+}

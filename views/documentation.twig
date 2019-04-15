@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+  <link href="/css/style.css" rel="stylesheet"/>
+</html>
+<body>
+  <h1>Wip Service REST API</h1>
+  <dl>
+    <dt>Version:</dt>
+    <dd>{{ version }}</dd>
+  </dl>
+  <h2>API overview</h2>
+  {% for group in groups %}
+    <h3>{{ group.title }}</h3>
+    <dl class="overview">
+      {% for route in group.routes %}
+          {% include('route-summary.twig') %}
+      {% endfor %}
+    </dl>
+  {% endfor %}
+  <h2>Resources</h2>
+  {% for group in groups %}
+    <ul>
+      {% for route in group.routes %}
+        <li>
+          {% include('route.twig') %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% endfor %}
+</body>

@@ -1,0 +1,6 @@
+Acquia\Wip\Implementation\BasicWip: The fingerprint hash values match.
+Acquia\Wip\Implementation\ContainerWip: The fingerprint hash values match.
+Acquia\Wip\Implementation\VersionCheckTestWip: The fingerprint hash values match.
+Acquia\Wip\Modules\NativeModule\BuildSteps: The fingerprint hash values match.
+Acquia\Wip\Modules\NativeModule\Canary: The fingerprint hash values match.
+Acquia\Wip\Modules\NativeModule\ContainerCanary: The fingerprint hash values match.

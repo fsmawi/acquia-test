@@ -1,0 +1,14 @@
+config.orm_options:
+  group_retention:
+    Buildsteps: 1 seconds
+    Canary: 4 seconds
+  system_log_retention: 1 seconds
+  orm.proxies_dir: src/Acquia/WipIntegrations/DoctrineORM/Proxies
+  orm.proxies_namespace: Acquia\WipIntegrations\DoctrineORM\Proxies
+  orm.auto_generate_proxies: 0
+  orm.em.options:
+    mappings:
+      -
+        type: annotation
+        namespace: Acquia\WipIntegrations\DoctrineORM\Entities
+        path: src/Acquia/WipIntegrations/DoctrineORM/Entities

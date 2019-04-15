@@ -1,0 +1,4 @@
+name: Wipng migrations
+migrations_namespace: Acquia\WipIntegrations\DoctrineORM\WipngMigrations
+table_name: wipng_versions
+migrations_directory: src/Acquia/WipIntegrations/DoctrineORM/Migrations/

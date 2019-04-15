@@ -1,0 +1,324 @@
+Properties:
+----------------------------------------
+applicationPrivateKey: private
+buildVcsPath: private
+dependencyManager: protected
+deployRequiresWrapper: private
+deployVcsPath: private
+deployVcsUri: private
+deployWrapperFilename: private
+environment: private
+gitKeys: private
+local: private
+privateKeyName: private
+secureAsymmetricPrivateKey: private
+secureUserEnvironmentVariables: private
+sourceRequiresWrapper: private
+sourceVcsUri: private
+sourceWrapperFilename: private
+sshKeyId: private
+sshKeyName: private
+stateTable: protected
+
+State table:
+----------------------------------------
+
+start:checkDeployPathType {
+  branch             containerWipStart
+  uninitialized      containerWipStart
+  tag                deployPathIsTag
+}
+
+deployPathIsTag {
+  *                  finish
+}
+
+# Initializes in preparation for the container to be started.
+containerWipStart [container] {
+  *                  containerWipInvoke
+  !                  failure
+}
+
+# Starts the container.
+containerWipInvoke:containerWipWaitForLaunch [container] {
+  success            containerWipContainerLaunched
+  wait               containerWipInvoke wait=60 exec=false
+  spin               containerWipInvoke wait=3 exec=false
+  nowait             containerWipInvoke wait=3 exec=false
+  uninitialized      containerWipInvoke wait=30 max=3
+  no_resources       containerWipInvoke wait=300 max=12
+  fail               containerWipInvoke wait=30 max=3
+  !                  failure
+}
+
+# At this point the container has been launched.
+containerWipContainerLaunched [container] {
+  *                  containerWipSetupEnvironment
+  !                  failure
+}
+
+# Sets up an environment suitable for invoking SSH on the new container.
+containerWipSetupEnvironment:containerWipEnvironmentReady [container] {
+  yes                containerWipCheckSsh
+  no                 containerWipSetupEnvironment wait=10 max=5
+  !                  failure
+}
+
+# Wait for the SSH daemon process to start.
+containerWipCheckSsh:checkContainerResultStatus [container] {
+  success            containerWipCheckResources
+  wait               containerWipCheckSsh wait=10 exec=false
+  *                  containerWipCheckSsh wait=30 max=3
+  no_information     containerWipCheckSsh wait=30 max=3
+  uninitialized      containerWipCheckSsh wait=10 max=30
+  terminated         containerTerminated
+  fail               containerWipCheckSsh wait=5 max=5
+
+# If this fails we have a running container that must be shut down. The failure
+# would likely be due to the SSH daemon not being started though it is also
+# possible that the container was stopped.
+  !                  failure
+}
+
+# Check the container resources before starting.
+containerWipCheckResources:checkContainerResources [container] {
+  success            ensureBuildUser
+  no_resources       containerWipCheckResources wait=300 max=12
+  fail               failure
+  *                  failure
+  !                  failure
+}
+
+
+# Verifies the build user has been established in the container.
+ensureBuildUser:checkContainerResultStatus {
+  success            ensureVcsUri
+  wait               ensureBuildUser wait=10 exec=false
+  uninitialized      ensureBuildUser wait=10 max=3
+  no_information     ensureBuildUser wait=30 max=3
+  fail               systemFailure
+  terminated         containerTerminated
+
+  # Unexpected transition.
+  *                  ensureBuildUser wait=10 max=3
+  !                  systemFailure
+}
+
+# Verifies the source and deploy VCS URIs have been set. If they are missing an
+# attempt will be made to figure them out using the Acquia Cloud API.
+ensureVcsUri:verifyVcsUri [acquiaCloudApi] {
+  success            establishWorkspaceSshKey
+  fail               ensureVcsUri wait=30 max=3
+  !                  systemFailure
+}
+
+# Establishes the workspace keys for both the source and deploy git
+# repositories. Usually this involves copying the keys that were provided by
+# the caller. If the necessary keys were not provided, this method will create
+# a new SSH key and add it to the necessary hosting site groups using the
+# Acquia Cloud API.
+establishWorkspaceSshKey:checkContainerResultStatus [acquiaCloudApi] {
+  success            extractSshKeyId
+  wait               establishWorkspaceSshKey wait=10 exec=false
+  uninitialized      establishWorkspaceSshKey wait=10 max=3
+  no_information     establishWorkspaceSshKey wait=30 max=3
+  fail               establishWorkspaceSshKey wait=30 max=3
+  terminated         containerTerminated
+
+  # Unexpected transition.
+  *                  establishWorkspaceSshKey wait=30 max=3
+  !                  systemFailure
+}
+
+# Gets the Acquia Cloud SSH key ID from the Acquia Cloud call. This will be
+# used during cleanup to delete the temporary key(s). Note that it is safe to
+# call this method even if the keys were provided by the caller and no Acquia
+# Cloud API call was performed.
+extractSshKeyId [acquiaCloudApi] {
+  *                  createGitWrapper
+}
+
+# Creates all necessary git wrapper scripts for accessing remote git
+# repositories. It is necessary to use the appropriate git wrapper script when
+# working with a git repository because it ensures the correct SSH key is used.
+createGitWrapper:checkContainerResultStatus {
+  success            writeUserEnvironmentVars
+  wait               createGitWrapper wait=10 exec=false
+  uninitialized      createGitWrapper wait=10 max=3
+  no_information     createGitWrapper wait=30 max=3
+  fail               createGitWrapper wait=10 max=3
+  terminated         containerTerminated
+
+  # Unexpected transition.
+  *                  createGitWrapper wait=10 max=3
+  !                  systemFailure
+}
+
+# Writes user environment vars into the container.
+writeUserEnvironmentVars:checkContainerResultStatus [user] {
+  success            reportPipelinesMetaData
+  wait               writeUserEnvironmentVars wait=30 exec=false
+  uninitialized      writeUserEnvironmentVars wait=10 max=3
+  no_information     writeUserEnvironmentVars wait=30 max=3
+  fail               writeUserEnvironmentVars wait=10 max=3
+  terminated         containerTerminated
+
+  # Unexpected transition.
+  *                  writeUserEnvironmentVars wait=10 max=3
+  !                  systemFailure
+}
+
+# Reports job metadata back to the pipeline-api.
+reportPipelinesMetaData {
+  *                  exportBuildFileAsJson
+}
+
+# Uses the pipeline tool to export the build script so that the
+# encrypted elements can be decoded.
+# TODO merge build and export logic.
+exportBuildFileAsJson:checkContainerResultStatus [user] {
+  success            executeBuildScript
+  wait               exportBuildFileAsJson wait=30 exec=false
+  uninitialized      exportBuildFileAsJson wait=10 max=3
+  no_information     exportBuildFileAsJson wait=30 max=3
+  no_progress        exportBuildFileAsJson wait=30 max=3
+  fail               jsonExportFailed
+  terminated         containerTerminated
+
+  # Unexpected transition.
+  *                  exportBuildFileAsJson wait=10 max=3
+  !                  systemFailure
+}
+
+# Set the exit message and code.
+jsonExportFailed [user] {
+  *                  failure
+}
+
+# Takes a workspace directory, a build directory path, and the yaml document and
+# builds into the build directory.
+executeBuildScript:checkContainerResultStatus [user] {
+  success            logBuildSuccessMessage
+  wait               executeBuildScript wait=30 exec=false
+  fail               logBuildFailureMessage
+  uninitialized      executeBuildScript wait=10 max=3
+  no_information     executeBuildScript wait=30 exec=false max=3
+  no_progress        noBuildProgress wait=10
+  terminated         containerTerminated
+
+  # Unexpected transition.
+  *                  executeBuildScript wait=10 exec=false max=3
+
+  # Indicate a system failure because normal build failures will be handled
+  # through other transitions. Because we don't retry the failed build, the
+  # only reason the maximum transition count would be exceeded is because of
+  # too many retries of getting the build started.
+  !                  systemFailure
+}
+
+# If no build progress was detected, allow the build to continue for a while
+# before failing the build.
+noBuildProgress:checkBuildProgress [user] {
+  *                  executeBuildScript wait=10 exec=false
+  no_progress        noBuildProgress wait=60 exec=false
+
+  # Indicates the build has executed too long with no output.
+  no_progress_fail   noBuildProgressFailure
+}
+
+logBuildSuccessMessage:commitInExecutor {
+  *          success
+}
+
+# Set the exit message and code.
+logBuildFailureMessage {
+  *                  failure
+}
+
+# Force-fails the build process.
+noBuildProgressFailure [user] {
+  *                  failure
+}
+
+success {
+  *                  releaseWorkspaceSshKey
+}
+
+containerTerminated {
+  *                  failure
+}
+
+systemFailure {
+  *                  failure
+}
+
+terminate {
+  *                  failure
+}
+
+failure {
+  *                  releaseWorkspaceSshKey
+  !                  releaseWorkspaceSshKey
+}
+
+releaseWorkspaceSshKey [acquiaCloudApi] {
+  *                  containerWipStop
+  !                  containerWipStop
+}
+
+# Make sure that no failures after this point go back to the failure state
+# because that would probably set up an infinite loop.
+containerWipStop [container] {
+  *                  containerWipFinish
+  !                  containerWipFinish
+}
+
+# Determine whether the container should be released when the Wip object
+# completes. This behavior can be set using the releaseContainerUponCompletion
+# method.
+containerWipFinish:containerWipReleaseOnComplete [container] {
+  yes                containerWipRelease
+  no                 containerStopped
+  force              containerWipTerminate
+  !                  containerStopFailed
+}
+
+# Wait for the container to be stopped.
+# Note that this transition method looks specifically for SSH results because
+# this state shares its context with other states.
+containerWipRelease:checkSshStatus [container] {
+  success            containerWipWaitForRelease
+  wait               containerWipRelease wait=5 exec=false
+  # We Don't have the ability to ssh in so we force the container to terminate.
+  uninitialized      containerWipTerminate
+  *                  containerWipRelease wait=10 max=3
+  !                  containerStopFailed
+}
+
+# Wait for the container to be stopped.
+containerWipTerminate:containerWipIsReleased [container] {
+  success            containerStopped wait=30
+  nowait             containerStopped
+  wait               containerWipTerminate wait=5 exec=false
+  fail               containerWipTerminate wait=30 exec=true max=3
+  !                  containerStopFailed
+}
+
+# Waits for the ContainerDataSignal to come in, which indicates the container
+# has exited and all container signals have been received.
+containerWipWaitForRelease:containerWipDataSignalReceived [container] {
+  success            containerStopped
+  wait               containerWipWaitForRelease wait=15 max=10 exec=false
+  !                  containerStopped
+}
+
+
+containerStopped {
+  *                  finish
+  !                  finish
+}
+
+containerStopFailed {
+  *                  finish
+  !                  finish
+}

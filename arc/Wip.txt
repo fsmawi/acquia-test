@@ -1,0 +1,307 @@
+Wip classes
+-----------
+
+The wip-service is essentially a task manager in which each workload
+is represented by a configured instance of a Wip class.
+
+A Wip class is broken down into two separate pieces: the state table
+and the state and transition implementations.
+
+The state table is a configuration of a finite state machine,
+consisting of states and transition values.
+
+The implementations are a set of methods representing each state and
+transition method defined in the state table. As the system moves a
+Wip instance through its finite state machine, these methods are
+called to perform the actual work and then verify that element of work
+was performed successfully. The values returned from the transition
+methods are used as edges in the finite state machine to determine
+which state should be visited next.
+
+Together, the states and transition values are used to create highly
+robust workloads that easily survive temporary service outages,
+network glitches, and other anomalies that would make a simple script
+unreliable.
+
+Further, much of the work performed by most Wip instances is
+asynchronous. Consider cloning a workspace, for example. It is unclear
+how long that should take. In simple tests it occurs within seconds,
+but when a customer uses it, it will depend on the performance of the
+container, the size of their workspace, the performance of their git
+repository server, the speed and quality of the network between their
+container and the git repository source, the speed of the filesystem,
+and other factors. How long should this take?  When should we consider
+this a failure?
+
+Cloning a git repository is a good example of an operation that should
+be performed asynchronously. In fact virtually any operation that
+could take more than a couple of seconds should be done asynchronously
+if possible. This allows the wip-service to work on another task
+during the asynchronous operation, improving the throughput of the
+entire system.
+
+Obviously polling is undesirable because it places unnecessary load
+on both the wip-service and the system that is being polled just to
+figure out if the work has completed. The duration between these polls
+will of course be adjusted so it doesn't burden either system
+excessively but that causes another problem - the workload will take
+longer.
+
+Consider the case in which a workspace clone takes 2 seconds and we
+have a poll interval of 30 seconds. That is 28 seconds of the workload
+sitting idle while it could be working on its next state.
+
+The wip-service has an easy-to-use signaling system that effectively
+wakes the Wip object once the asynchronous work has completed. That
+way a longer poll duration can be used, effectively making the poll a
+'fail-safe', just in case the signal was not received.
+
+Additionally, the Wip API makes it easy to ssh into docker containers
+and Acquia Hosting webnodes, launch docker containers, work with the
+Acquia Cloud API, perform filesystem and git operations on remote
+machines, and manage Wip objects.
+
+
+Writing Wip classes
+-------------------
+
+The creation of Wip classes is fairly straightforward. There are tools
+that will help you along the way.
+
+Write the state table
+---------------------
+
+The most difficult part of writing a Wip class is to break the work
+into chunks that will be represented as states in the finite state
+machine. With a bit of practice this breakdown becomes obvious and
+natural.
+
+Here is the simplest possible state table, which will be used to log
+'Hello, world!' and exit. This state table should be written to a
+file, such as 'HelloWorld.st'. This filename will be used later to
+generate the source code.
+
+----
+# This state will log the message 'Hello, world!'.
+hello {
+  *         finish
+  !         failure
+}
+
+# This state will only be called if an uncaught error occurs.
+failure {
+  *         finish
+}
+----
+
+This example is comprised of two state methods ('hello' and
+'failure'). While no transition methods are actually defined in this
+state table, a transition method is always invoked to get a transition
+value that will move control from the current state to the next
+state. If no transition method is defined in the state table, the
+'emptyTransition' will be used, which always returns an empty string
+('') as the transition value. The wildcard transition value '*' is
+always used when no transition method is defined because the empty
+string transition cannot de explicitly represented in the state table.
+
+The state tables get significantly more complex as more Wip features
+are employed to make a robust and efficient workload. These features
+will be explored later in the document.
+
+Generate the Wip class source code
+----------------------------------
+
+Generating the boiler plate for the new Wip class is simple. From the
+top of the wip-service workspace, use the 'validateWip' script, which
+validates the state table, looks for common errors, generates source
+code, and can optionally generate an image representing the state
+table so the states and transitions can be inspected in a more natural
+manner.
+
+Execute the following:
+$scripts/validateWip --table /tmp/HelloWorld.st
+
+================================= STATE TABLE ==================================
+# This state will log the message 'Hello, world!'.
+
+hello {
+
+  *         finish
+
+  !         failure
+
+}
+
+
+
+# This state will only be called if an uncaught error occurs.
+
+failure {
+
+  *         finish
+
+}
+
+
+
+================================= SOURCE CODE ==================================
+<?php
+
+/**
+ * Contains the MyWipClass class.
+ */
+
+use Acquia\Wip\Implementation\BasicWip;
+use Acquia\Wip\WipContextInterface;
+
+/**
+ * TODO: Fill in description
+ */
+class MyWipClass extends BasicWip {
+
+  /**
+   * The state table that will be executed by this Wip object.
+   */
+  protected $stateTable = <<<EOT
+# This state will log the message 'Hello, world!'.
+
+hello {
+
+  *         finish
+
+  !         failure
+
+}
+
+
+
+# This state will only be called if an uncaught error occurs.
+
+failure {
+
+  *         finish
+
+}
+
+
+EOT;
+
+  /**
+   * TODO: Fill in the method description.
+   *
+   * @param WipContextInterface $wip_context
+   *   The WipContextInterface is the interface through which a Wip object
+   *   interacts with its runtime environment and provides a means of sharing
+   *   data between a state method and a transition method.
+   */
+  public function hello(WipContextInterface $wip_context) {
+
+  }
+
+  /**
+   * The default failure state in the FSM.
+   *
+   * @param WipContextInterface $wip_context
+   *   The WipContextInterface is the interface through which a Wip object
+   *   interacts with its runtime environment and provides a means of sharing
+   *   data between a state method and a transition method.
+   *
+   * @param \Exception $exception
+   *   The exception that caused the failure (assuming the failure was caused
+   *   by an exception.
+   *
+   * @throws \Exception
+   */
+  public function failure(WipContextInterface $wip_context, \Exception $exception = NULL) {
+
+  }
+
+  
+
+}
+
+=========== NO ERRORS FOUND, BUT WIP OBJECT WAS NOT USED TO VALIDATE ===========
+
+The generated code can be copied into a file and modified to fit into
+your workspace. Generally a namespace will be added and the classname
+will be modified. Additionally the comments should be updated.
+
+At that point the Wip class can technically be added to the system,
+but it doesn't do anything yet.
+
+This Wip class is quite simple and the guts of it can be completed by
+removing the 'failure' method and adding the following line to the
+'hello' method:
+
+$this->log(WipLogLevel::ALERT, 'Hello, world!', TRUE);
+
+The failure method can be removed because there is a suitable one in
+the BasicWip superclass and this Wip class requires no special failure
+handling.
+
+Once this modification is done and the Wip class has a namespace, see
+the 'Module.txt' document for creating a Wip module for your class and
+adding an instance to the wip-service.
+
+Other
+-----
+
+Detecting no progress
+---------------------
+
+In some potentially long-running asynchronous operations it is
+desireable to know whether progress is being made. For example, very
+rarely during a git clone operation the connection is established with
+the remote repository but the files are not transferred. This can
+potentially cause the Wip instance to hang as it polls this
+asynchronous clone process verifying that it is still working.
+
+Progress can often be detected by measuring the size of the stdout and
+stderr associated with the asynchronous process. This mechanism can be
+used to detect an error condition in which no apparent progress is
+being made.  This state table snippet shows how this is represented:
+
+---
+# Shallow clone the source workspace. Upon completion the workspace should have
+# the correct tag or branch checked out.
+cloneSourceWorkspace:checkContainerResultStatus [user] {
+  success            verifyCheckout
+  wait               cloneSourceWorkspace wait=30 exec=false
+  uninitialized      cloneSourceWorkspace wait=10 max=3
+  fail               cloneSourceWorkspace wait=30 max=3
+  terminated         containerTerminated
+  no_progress        cloneSourceWorkspace wait=30 max=3
+
+  # Unexpected transition.
+  *                  cloneSourceWorkspace wait=30 max=3
+  !                  cloneSourceWorkspaceFailed
+}
+---
+
+The 'no_progress' transition value provides the option of special
+processing when this condition is detected. The 'no_progress'
+transition value is not available for all services - only the SSH
+service for now. This capability must be enabled in the WipContext
+associated with the cloneSourceWorkspace state method:
+
+---
+public function cloneSourceWorkspace(WipContextInterface $wip_context) {
+  $wip_context->setReportOnNoProgress(TRUE);
+  ...
+---
+
+With this setting in place, each time the process is polled, if it is
+determined to still be running, a check will be performed to verify
+there is still output from the process. Keep in mind this only works
+for processes that actually have output, so be sure that your poll
+interval is sufficiently long to allow progress to be made and that
+your process is generating output during its operation.
+
+Terminating tasks
+---------------------
+When a terminate request is received, the task is flagged is_terminating in the database.
+The task is then picked up by the wip process as per any other task. Whenever a task is added
+to the database with the priority of 0 (critical) we set is_priority to TRUE. The order in which
+jobs are process is as follows: priority tasks flagged for termination, priority tasks not flagged
+for termination, all other tasks flagged for termination in priority order, all non-priority jobs
+in priority order.

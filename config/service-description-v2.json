@@ -1,0 +1,943 @@
+{
+  "name": "Wip Service REST API",
+  "apiVersion": "v2",
+  "description": "Describes the characteristics of the data model exposed by the Wip Service REST API.",
+  "operations": {
+    "DocumentationV2": {
+      "httpMethod": "GET",
+      "uri": "/v2",
+      "summary": "Documentation for the REST API",
+      "controller": "\\Acquia\\WipService\\Resource\\v1\\DocumentationResource::getAction",
+      "access": [
+        "ROLE_ADMIN"
+      ],
+      "hidden": true
+    },
+    "PingV2": {
+      "httpMethod": "GET",
+      "uri": "/v2/ping",
+      "summary": "Checks that the service is responding appropriately",
+      "group": "Status",
+      "controller": "\\Acquia\\WipService\\Resource\\v2\\PingResource::getAction",
+      "access": true,
+      "responseClass": "PingOutput"
+    },
+    "GetConnectionStatusV2": {
+      "httpMethod": "GET",
+      "uri": "/v2/connection-status",
+      "summary": "Gets the status of the wip service",
+      "group": "Status",
+      "controller": "\\Acquia\\WipService\\Resource\\v2\\ConnectionStatusResource::getAction",
+      "access": true,
+      "allowedDuringMaintenance": ["full"],
+      "responseClass": "StatusOutput"
+    },
+    "GetBuildstepsPublicKeyV2": {
+      "httpMethod": "GET",
+      "uri": "/v2/build-steps/public-key",
+      "summary": "Gets the public key to use for Build Steps encryption",
+      "group": "Build Steps",
+      "controller": "\\Acquia\\WipService\\Resource\\v1\\BuildStepsResource::getPublicKeyAction",
+      "access": true,
+      "responseClass": "BuildStepsPublicKeyGetOutput"
+    },
+    "PostEncryptV2": {
+      "httpMethod": "POST",
+      "uri": "/v1/encrypt",
+      "summary": "Encrypts the specified value",
+      "group": "Encryption",
+      "controller": "\\Acquia\\WipService\\Resource\\v1\\EncryptionResource::postEncryptAction",
+      "access": true,
+      "parameters": {
+        "group-id": {
+          "location": "json",
+          "type": "string",
+          "required": true,
+          "description": "The group identifier"
+        },
+        "data-item": {
+          "location": "json",
+          "type": "string",
+          "required": true,
+          "description": "The value to be encrypted"
+        }
+      },
+      "responseClass": "EncryptedValueOutput"
+    },
+    "PostTaskV2": {
+      "httpMethod": "POST",
+      "uri": "/v2/tasks",
+      "summary": "Adds a task",
+      "group": "Tasks",
+      "controller": "\\Acquia\\WipService\\Resource\\v1\\TaskResource::postAction",
+      "access": true,
+      "responseClass": "TasksPostOutput",
+      "allowedDuringMaintenance": ["full"],
+      "parameters": {
+        "options": {
+          "location": "json",
+          "type": "object",
+          "required": true,
+          "description": "Arbitrary options required for configuring the task"
+        }
+      }
+    },
+    "PostLogsV2": {
+      "httpMethod": "POST",
+      "uri": "/v2/logs",
+      "summary": "Adds batches of log messages",
+      "group": "Logs",
+      "controller": "\\Acquia\\WipService\\Resource\\v1\\LogCollectionResource::postAction",
+      "access": [
+        "ROLE_ADMIN"
+      ],
+      "responseClass": "LogsPostOutput",
+      "parameters": {
+        "messages": {
+          "location": "json",
+          "type": "array",
+          "required": true,
+          "description": "An array of log message objects"
+        }
+      }
+    },
+    "PostCronV2": {
+      "httpMethod": "POST",
+      "uri": "/v2/cron",
+      "summary": "Adds a cron task",
+      "group": "Cron",
+      "controller": "\\Acquia\\WipService\\Resource\\v1\\CronResource::postAction",
+      "access": true,
+      "responseClass": "CronPostOutput",
+      "parameters": {
+        "interval": {
+          "location": "query",
+          "type": "string",
+          "required": true,
+          "description": "A cron interval, expressed in cron format"
+        },
+        "label": {
+          "location": "query",
+          "type": "string",
+          "description": "The label describing the cron job"
+        },
+        "command": {
+          "location": "query",
+          "type": "string",
+          "description": "The command to execute"
+        },
+        "processes": {
+          "location": "query",
+          "type": "numeric",
+          "description": "The percent of cron processes to use for this cron job"
+        }
+      }
+    },
+    "PutCronV2": {
+      "httpMethod": "PUT",
+      "uri": "/v2/cron/{id}",
+      "summary": "Modifies a cron task",
+      "group": "Cron",
+      "controller": "\\Acquia\\WipService\\Resource\\v1\\CronResource::putAction",
+      "access": true,
+      "parameters": {
+        "id": {
+          "location": "url",
+          "type": "integer",
+          "required": true,
+          "description": "The ID of the cron task to modify"
+        },
+        "interval": {
+          "location": "query",
+          "type": "string",
+          "required": true,
+          "description": "A cron interval, expressed in cron format"
+        },
+        "label": {
+          "location": "query",
+          "type": "string",
+          "description": "The label describing the cron job"
+        },
+        "command": {
+          "location": "query",
+          "type": "string",
+          "description": "The command to execute"
+        },
+        "processes": {
+          "location": "query",
+          "type": "numeric",
+          "description": "The percent of cron processes to use for this cron job"
+        }
+      }
+    },
+    "PostSignalV2": {
+      "httpMethod": "POST",
+      "uri": "/v2/signal/{id}",
+      "summary": "Sends a signal",
+      "group": "Tasks",
+      "controller": "\\Acquia\\WipService\\Resource\\v1\\SignalResource::postAction",
+      "access": [
+        "ROLE_ADMIN"
+      ],
+      "allowedDuringMaintenance": ["full"],
+      "responseClass": "SignalOutput",
+      "parameters": {
+        "id": {
+          "location": "url",
+          "type": "integer",
+          "required": true,
+          "description": "The UUID representing the signal"
+        }
+      },
+      "additionalParameters": {
+        "location": "json"
+      }
+    },
+    "GetSerializedObjectV2": {
+      "httpMethod": "GET",
+      "uri": "/v2/serialized-object/{id}",
+      "summary": "Gets a serialized Wip object",
+      "group": "Tasks",
+      "controller": "\\Acquia\\WipService\\Resource\\v1\\SerializedObjectResource::getAction",
+      "access": [
+        "ROLE_ADMIN"
+      ],
+      "responseClass": "SerializedObjectOutput",
+      "parameters": {
+        "id": {
+          "location": "url",
+          "type": "integer",
+          "required": true,
+          "description": "The ID of the Wip object"
+        }
+      }
+    },
+    "GetLogsV2": {
+      "httpMethod": "GET",
+      "uri": "/v2/logs",
+      "summary": "Lists log messages",
+      "group": "Logs",
+      "controller": "\\Acquia\\WipService\\Resource\\v1\\LogCollectionResource::getAction",
+      "access": true,
+      "responseClass": "CollectionOutput",
+      "parameters": {
+        "object-id": {
+          "location": "query",
+          "type": "integer",
+          "description": "Filter by associated WIP object ID"
+        },
+        "user-readable": {
+          "location": "query",
+          "type": "boolean",
+          "description": "Filter by user-readable flag",
+          "filters": [
+            "intval"
+          ]
+        },
+        "limit": {
+          "location": "query",
+          "type": "integer",
+          "description": "Limit the number of returned results"
+        },
+        "page": {
+          "location": "query",
+          "type": "integer",
+          "description": "Allows paging through long collections"
+        },
+        "order": {
+          "location": "query",
+          "type": "string",
+          "description": "The sort order of the returned results"
+        },
+        "minimum-level": {
+          "location": "query",
+          "type": "integer",
+          "description": "Filter log messages below the specified minimum"
+        },
+        "maximum-level": {
+          "location": "query",
+          "type": "integer",
+          "description": "Filter log messages above the specified maximum"
+        },
+        "uuid": {
+          "location": "query",
+          "type": "string",
+          "description": "The UUID of the user associated with the log messages"
+        }
+      }
+    },
+    "GetTasksV2": {
+      "httpMethod": "GET",
+      "uri": "/v2/tasks",
+      "summary": "Lists tasks in the pool",
+      "group": "Tasks",
+      "controller": "\\Acquia\\WipService\\Resource\\v1\\TaskCollectionResource::getAction",
+      "access": true,
+      "responseClass": "CollectionOutput",
+      "parameters": {
+        "limit": {
+          "location": "query",
+          "type": "integer",
+          "description": "Limit the number of returned results"
+        },
+        "page": {
+          "location": "query",
+          "type": "integer",
+          "description": "Allows paging through long collections"
+        },
+        "order": {
+          "location": "query",
+          "type": "string",
+          "description": "The sort order of the returned results"
+        },
+        "status": {
+          "location": "query",
+          "type": "integer",
+          "description": "Filter tasks by run status"
+        },
+        "parent": {
+          "location": "query",
+          "type": "integer",
+          "description": "Filter tasks by parent"
+        },
+        "group_name": {
+          "location": "query",
+          "type": "string",
+          "description": "Filter tasks by group name"
+        },
+        "paused": {
+          "location": "query",
+          "type": "boolean",
+          "description": "Filter tasks by paused status",
+          "filters": [
+            "intval"
+          ]
+        },
+        "priority": {
+          "location": "query",
+          "type": "integer",
+          "description": "Filter tasks by priority"
+        },
+        "uuid": {
+          "location": "query",
+          "type": "string",
+          "description": "Filter tasks by user UUID"
+        },
+        "client_job_id": {
+          "location": "query",
+          "type": "string",
+          "description": "Filter tasks by client job ID"
+        }
+      }
+    },
+    "GetTasksInProcessingV2": {
+      "httpMethod": "GET",
+      "uri": "/v2/tasks/in_processing",
+      "summary": "Fetch tasks that are in the PROCESSING state",
+      "group": "Tasks",
+      "controller": "\\Acquia\\WipService\\Resource\\v1\\TaskCollectionResource::getInProcessingAction",
+      "access": [
+        "ROLE_ADMIN"
+      ],
+      "allowedDuringMaintenance": ["full"],
+      "responseClass": "TaskSummaryOutput"
+    },
+    "GetTaskV2": {
+      "httpMethod": "GET",
+      "uri": "/v2/tasks/{id}",
+      "summary": "Fetch an individual task from the pool",
+      "group": "Tasks",
+      "controller": "\\Acquia\\WipService\\Resource\\v1\\TaskResource::getAction",
+      "access": true,
+      "responseClass": "TaskOutput",
+      "parameters": {
+        "id": {
+          "location": "uri",
+          "type": "integer",
+          "required": true,
+          "description": "The ID of the task to fetch"
+        }
+      }
+    },
+    "PauseTaskV2": {
+      "httpMethod": "PUT",
+      "uri": "/v2/tasks/{id}/pause",
+      "summary": "Pause an individual task",
+      "group": "Tasks",
+      "controller": "\\Acquia\\WipService\\Resource\\v1\\TaskResource::pauseAction",
+      "access": [
+        "ROLE_ADMIN"
+      ],
+      "parameters": {
+        "id": {
+          "location": "url",
+          "type": "integer",
+          "required": true,
+          "description": "The ID of the task to pause"
+        }
+      }
+    },
+    "ResumeTaskV2": {
+      "httpMethod": "DELETE",
+      "uri": "/v2/tasks/{id}/pause",
+      "summary": "Resume an individual task",
+      "group": "Tasks",
+      "controller": "\\Acquia\\WipService\\Resource\\v1\\TaskResource::resumeAction",
+      "access": [
+        "ROLE_ADMIN"
+      ],
+      "parameters": {
+        "id": {
+          "location": "url",
+          "type": "integer",
+          "required": true,
+          "description": "The ID of the task to resume"
+        }
+      }
+    },
+    "PauseTasksV2": {
+      "httpMethod": "PUT",
+      "uri": "/v2/tasks/pause",
+      "summary": "Pause a group of tasks",
+      "group": "Tasks",
+      "controller": "\\Acquia\\WipService\\Resource\\v1\\TaskCollectionResource::pauseAction",
+      "access": [
+        "ROLE_ADMIN"
+      ],
+      "parameters": {
+        "group_name": {
+          "location": "query",
+          "type": "string",
+          "required": true,
+          "description": "The group name of tasks to pause"
+        },
+        "type": {
+          "location": "query",
+          "type": "string",
+          "required": false,
+          "description": "The type of pause, either \"hard\" or \"soft\". Defaults to \"hard\""
+        }
+      }
+    },
+    "ResumeTasksV2": {
+      "httpMethod": "DELETE",
+      "uri": "/v2/tasks/pause",
+      "summary": "Resume a group of tasks",
+      "group": "Tasks",
+      "controller": "\\Acquia\\WipService\\Resource\\v1\\TaskCollectionResource::resumeAction",
+      "access": [
+        "ROLE_ADMIN"
+      ],
+      "parameters": {
+        "group_name": {
+          "location": "query",
+          "type": "string",
+          "required": true,
+          "description": "The group name of tasks to resume"
+        }
+      }
+    },
+    "TerminateTaskV2": {
+      "httpMethod": "PUT",
+      "uri": "/v1/tasks/{id}/terminate",
+      "summary": "Terminate a task",
+      "group": "Tasks",
+      "controller": "\\Acquia\\WipService\\Resource\\v1\\TaskResource::terminateAction",
+      "access": true,
+      "parameters": {
+        "id": {
+          "location": "url",
+          "type": "integer",
+          "required": true,
+          "description": "The ID of the task to terminate"
+        }
+      }
+    },
+    "GetTaskSummaryV2": {
+      "httpMethod": "GET",
+      "uri": "/v2/task-summary",
+      "summary": "Fetch a summary of all tasks by status",
+      "group": "Tasks",
+      "controller": "\\Acquia\\WipService\\Resource\\v1\\TaskCollectionResource::getTaskSummary",
+      "access": [
+        "ROLE_ADMIN"
+      ],
+      "responseClass": "TaskSummaryOutput"
+    },
+    "GetStateV2": {
+      "httpMethod": "GET",
+      "uri": "/v2/state/{name}",
+      "summary": "Get a state",
+      "group": "State",
+      "controller": "\\Acquia\\WipService\\Resource\\v1\\StateResource::getAction",
+      "access": true,
+      "allowedDuringMaintenance": ["full"],
+      "parameters": {
+        "name": {
+          "location": "url",
+          "type": "string",
+          "required": true,
+          "description": "The name of the state"
+        }
+      },
+      "responseClass": "StateOutput"
+    },
+    "PutStateV2": {
+      "httpMethod": "PUT",
+      "uri": "/v2/state/{name}",
+      "summary": "Modify a state",
+      "group": "State",
+      "controller": "\\Acquia\\WipService\\Resource\\v1\\StateResource::putAction",
+      "access": [
+        "ROLE_ADMIN"
+      ],
+      "allowedDuringMaintenance": ["full"],
+      "parameters": {
+        "name": {
+          "location": "url",
+          "type": "string",
+          "required": true,
+          "description": "The name of the state"
+        },
+        "value": {
+          "location": "json",
+          "type": "any",
+          "required": true,
+          "description": "The value of the state to set"
+        }
+      },
+      "additionalParameters": {
+        "location": "json"
+      }
+    },
+    "DeleteStateV2": {
+      "httpMethod": "DELETE",
+      "uri": "/v2/state/{name}",
+      "summary": "Delete a state",
+      "group": "State",
+      "controller": "\\Acquia\\WipService\\Resource\\v1\\StateResource::deleteAction",
+      "access": [
+        "ROLE_ADMIN"
+      ],
+      "allowedDuringMaintenance": ["full"],
+      "parameters": {
+        "name": {
+          "location": "url",
+          "type": "string",
+          "required": true,
+          "description": "The name of the state"
+        }
+      }
+    },
+    "GetTranscriptV2": {
+      "httpMethod": "GET",
+      "uri": "/v2/tasks/{id}/transcript",
+      "summary": "Fetch an individual transcript",
+      "group": "Simulation",
+      "controller": "\\Acquia\\WipService\\Resource\\v1\\SimulationResource::getTranscriptAction",
+      "access": [
+        "ROLE_ADMIN"
+      ],
+      "responseClass": "TranscriptOutput",
+      "parameters": {
+        "id": {
+          "location": "uri",
+          "type": "integer",
+          "required": true,
+          "description": "The ID of the task to get the transcript for"
+        }
+      }
+    },
+    "GetSimulationScriptV2": {
+      "httpMethod": "GET",
+      "uri": "/v2/tasks/{id}/simulation-script",
+      "summary": "Fetch an individual simulation script",
+      "group": "Simulation",
+      "controller": "\\Acquia\\WipService\\Resource\\v1\\SimulationResource::getSimulationScriptAction",
+      "access": [
+        "ROLE_ADMIN"
+      ],
+      "responseClass": "SimulationScriptOutput",
+      "parameters": {
+        "id": {
+          "location": "uri",
+          "type": "integer",
+          "required": true,
+          "description": "The ID of the task to get the simulation script for"
+        }
+      }
+    },
+    "DbBackupV2": {
+      "httpMethod": "POST",
+      "uri": "/v2/dbbackup",
+      "summary": "Backs up database",
+      "group": "Status",
+      "controller": "\\Acquia\\WipService\\Resource\\v1\\DbResource::backupAction",
+      "access": [
+        "ROLE_ADMIN"
+      ],
+      "responseClass": "BackUpOutput",
+      "allowedDuringMaintenance": ["full"]
+    },
+    "AddModuleV2": {
+      "httpMethod": "POST",
+      "uri": "/v2/modules",
+      "summary": "Adds a Wip module",
+      "group": "Modules",
+      "controller": "\\Acquia\\WipService\\Resource\\v1\\ModuleResource::postAction",
+      "access": [
+        "ROLE_ADMIN"
+      ],
+      "responseClass": "AddModuleOutput",
+      "parameters": {
+        "name": {
+          "location": "json",
+          "type": "string",
+          "required": true,
+          "description": "The name of the moodule"
+        },
+        "vcs-uri": {
+          "location": "json",
+          "type": "string",
+          "required": true,
+          "description": "The VCS URI of the module"
+        },
+        "commit-tag": {
+          "location": "json",
+          "type": "string",
+          "required": true,
+          "description": "The VCS tag to check out for the module"
+        },
+        "enabled": {
+          "location": "json",
+          "type": "bool",
+          "required": false,
+          "description": "Whether the module should be enabled",
+          "filters": [
+            "intval"
+          ]
+        }
+      }
+    }
+  },
+  "models": {
+    "PingOutput": {
+      "type": "object",
+      "properties": {
+        "server_time": {
+          "location": "json",
+          "type": "integer"
+        },
+        "api_version": {
+          "location": "json",
+          "type": "string"
+        },
+        "latest": {
+          "location": "json",
+          "type": "boolean"
+        },
+        "_links": {
+          "location": "json",
+          "type": "object"
+        }
+      }
+    },
+    "BackUpOutput": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "location": "json",
+          "type": "string"
+        },
+        "_links": {
+          "location": "json",
+          "type": "object"
+        }
+      }
+    },
+    "BuildStepsPublicKeyGetOutput": {
+      "type": "object",
+      "properties": {
+        "public_key": {
+          "location": "json",
+          "type": "string"
+        },
+        "_links": {
+          "location": "json",
+          "type": "object"
+        }
+      }
+    },
+    "TasksPostOutput": {
+      "type": "object",
+      "properties": {
+        "task_id": {
+          "location": "json",
+          "type": "integer"
+        },
+        "_links": {
+          "location": "json",
+          "type": "object"
+        }
+      }
+    },
+    "LogsPostOutput": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "location": "json",
+          "type": "boolean"
+        },
+        "message": {
+          "location": "json",
+          "type": "string"
+        },
+        "logged_ids": {
+          "location": "json",
+          "type": "array"
+        }
+      }
+    },
+    "CronPostOutput": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "location": "json",
+          "type": "array"
+        },
+        "_links": {
+          "location": "json",
+          "type": "object"
+        }
+      }
+    },
+    "SignalOutput": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "location": "json",
+          "type": "integer"
+        },
+        "_links": {
+          "location": "json",
+          "type": "object"
+        }
+      }
+    },
+    "SerializedObjectOutput": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "location": "json",
+          "type": "integer"
+        },
+        "task": {
+          "location": "json",
+          "type": "string"
+        }
+      }
+
+    },
+    "TaskOutput": {
+      "type": "object",
+      "properties": {
+        "claimed_time": {
+          "location": "json",
+          "type": "integer"
+        },
+        "class": {
+          "location": "json",
+          "type": "integer"
+        },
+        "completed_time": {
+          "location": "json",
+          "type": "integer"
+        },
+        "created_time": {
+          "location": "json",
+          "type": "integer"
+        },
+        "delegated": {
+          "location": "json",
+          "type": "boolean"
+        },
+        "exit_message": {
+          "location": "json",
+          "type": "string"
+        },
+        "exit_status": {
+          "location": "json",
+          "type": "integer"
+        },
+        "group_name": {
+          "location": "json",
+          "type": "string"
+        },
+        "id": {
+          "location": "json",
+          "type": "integer"
+        },
+        "lease_time": {
+          "location": "json",
+          "type": "integer"
+        },
+        "name": {
+          "location": "json",
+          "type": "string"
+        },
+        "parent": {
+          "location": "json",
+          "type": "integer"
+        },
+        "paused": {
+          "location": "json",
+          "type": "boolean"
+        },
+        "priority": {
+          "location": "json",
+          "type": "integer"
+        },
+        "resource_id": {
+          "location": "json",
+          "type": "string"
+        },
+        "start_time": {
+          "location": "json",
+          "type": "integer"
+        },
+        "status": {
+          "location": "json",
+          "type": "integer"
+        },
+        "timeout": {
+          "location": "json",
+          "type": "integer"
+        },
+        "uuid": {
+          "location": "json",
+          "type": "string"
+        },
+        "wake_time": {
+          "location": "json",
+          "type": "integer"
+        },
+        "_links": {
+          "location": "json",
+          "type": "object"
+        }
+      }
+    },
+    "CollectionOutput": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "location": "json",
+          "type": "string"
+        },
+        "_embedded": {
+          "location": "json",
+          "type": "object"
+        },
+        "_links": {
+          "location": "json",
+          "type": "object"
+        }
+      }
+    },
+    "TaskSummaryOutput": {
+      "type": "object",
+      "properties": {
+        "counts": {
+          "location": "json",
+          "type": "object"
+        },
+        "_links": {
+          "location": "json",
+          "type": "object"
+        }
+      }
+    },
+    "StateOutput": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "location": "json",
+          "type": "string"
+        },
+        "value": {
+          "location": "json",
+          "type": "integer"
+        },
+        "tasks_in_progress": {
+          "location": "json",
+          "type": "array"
+        }
+      }
+    },
+    "TranscriptOutput": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "location": "json",
+          "type": "integer"
+        },
+        "transcripts": {
+          "location": "json",
+          "type": "object"
+        }
+      }
+    },
+    "SimulationScriptOutput": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "location": "json",
+          "type": "integer"
+        },
+        "simulation_scripts": {
+          "location": "json",
+          "type": "object"
+        }
+      }
+    },
+    "StatusOutput": {
+      "type": "object",
+      "properties": {
+        "wip": {
+          "location": "json",
+          "type": "object"
+        },
+        "system": {
+          "location": "json",
+          "type": "object"
+        }
+      }
+    },
+    "AddModuleOutput": {
+      "type": "object",
+      "properties": {
+        "successful": {
+          "location": "json",
+          "type": "boolean"
+        },
+        "_links": {
+          "location": "json",
+          "type": "object"
+        }
+      }
+    },
+    "EncryptedValueOutput": {
+      "type": "object",
+      "properties": {
+        "encrypted_value": {
+          "location": "json",
+          "type": "string"
+        },
+        "_links": {
+          "location": "json",
+          "type": "object"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,69 @@
+#!/usr/bin/env php
+<?php
+use Acquia\WipService\Console\Commands\AddModuleCommand;
+use Acquia\WipService\Console\Commands\PauseCommand;
+use Acquia\WipService\Console\Commands\ResumeCommand;
+use Acquia\WipService\Console\Commands\ServerCommand;
+use Acquia\WipService\Console\Commands\ThreadPoolCommand;
+use Acquia\WipService\Console\Commands\ThreadPoolDaemonCommand;
+use Acquia\WipService\Console\Commands\ThreadPoolMonitorCommand;
+use Acquia\WipService\Console\Commands\WipCommand;
+use Acquia\WipService\Console\Commands\WipExecCommand;
+use Acquia\WipService\Console\Commands\WipDeleteEcsClusterCommand;
+use Acquia\WipService\Console\Commands\WipRecoverCommand;
+use Acquia\WipService\Console\Commands\WipSaveEcsClusterCommand;
+use Acquia\WipService\Console\Commands\WipSetEcsClusterCommand;
+use Acquia\WipService\Console\Commands\WipSetMaintenanceCommand;
+use Acquia\WipService\Console\Commands\WipTerminateCommand;
+use Acquia\WipService\Console\WipConsoleServiceProvider;
+
+set_time_limit(0);
+
+/** @var Silex\Application $app */
+$app = require_once __DIR__ . '/../app/app.php';
+
+// Register the console provider.
+$app->register(new WipConsoleServiceProvider(), array(
+  'console.name' => 'Wip Daemon',
+  'console.version' => '0.0.1',
+  'console.app_directory' => $app['root_dir'],
+));
+
+$application = $app['console'];
+try {
+  $thread_pool = new ThreadPoolCommand();
+  $application->add($thread_pool);
+  $daemon = new ThreadPoolDaemonCommand();
+  $application->add($daemon);
+  $monitor = new ThreadPoolMonitorCommand();
+  $application->add($monitor);
+  $wip = new WipCommand();
+  $application->add($wip);
+  $wip_terminator = new WipTerminateCommand();
+  $application->add($wip_terminator);
+  $exec = new WipExecCommand();
+  $application->add($exec);
+  $pause = new PauseCommand();
+  $application->add($pause);
+  $resume = new ResumeCommand();
+  $application->add($resume);
+  $add_module = new AddModuleCommand();
+  $application->add($add_module);
+  $server = new ServerCommand();
+  $application->add($server);
+  $recover = new WipRecoverCommand();
+  $application->add($recover);
+  $maintenance = new WipSetMaintenanceCommand();
+  $application->add($maintenance);
+  $save_cluster = new WipSaveEcsClusterCommand();
+  $application->add($save_cluster);
+  $delete_cluster = new WipDeleteEcsClusterCommand();
+  $application->add($delete_cluster);
+  $set_cluster = new WipSetEcsClusterCommand();
+  $application->add($set_cluster);
+} catch (\Exception $e) {
+  printf("Failed to launch application: %s\n%s\n", $e->getMessage(), $e->getTraceAsString());
+  exit(1);
+}
+
+$application->run();

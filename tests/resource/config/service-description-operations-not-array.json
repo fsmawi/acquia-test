@@ -1,0 +1,6 @@
+{
+  "name": "Wip Service REST API",
+  "apiVersion": "v1",
+  "description": "Describes the characteristics of the data model exposed by the Wip Service REST API.",
+  "operations": "not array"
+}

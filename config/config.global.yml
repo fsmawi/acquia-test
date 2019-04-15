@@ -1,0 +1,18 @@
+config.global:
+  debug: false
+  tls_require: true
+  lock_prefix: acquia.wip.service
+  lockname.threadpool: threadpool
+  lockname.threadpooldaemon: threadpooldaemon
+  pidfile.threadpooldaemon: /tmp/threadpooldaemon.pid
+  pidfile.threadpool: /tmp/threadpool.pid
+  log.threadpooldaemon: /tmp/threadpool.log
+  threadpooldaemon.runtime: 500
+  threadpooldaemon.timeout: 450
+  threadpool.timeout: 300
+  trusted-proxies: []
+  base_url: ''
+  # Override this namespace for each deployment in
+  # /mnt/files/<sitegroup>.<env>/nobackup/config/config.global.yml
+  # Do not modify this value.
+  namespace: master

@@ -1,0 +1,21 @@
+services.bugsnag:
+  api_key: unknown
+  stage: ~
+  notify_stages:
+    - prod
+    - test
+    - dev
+services.metrics:
+  api_key: unknown
+  namespace: test
+  host: localhost
+  port: 8125
+  enabled: false
+  batching: false
+services.cromwell:
+  host: localhost
+  product: wip-service
+  port: 9090
+services.segment:
+  sandbox: true
+  project_key: unknown

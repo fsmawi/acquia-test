@@ -1,0 +1,2 @@
+config.global:
+  threadpool.timeout: 2

@@ -1,0 +1,33 @@
+config.ecs:
+  default:
+    family: ""
+    volumes:
+      - name: pipelines_config
+        host:
+          sourcePath: /ecs/pipelines_config
+    containerDefinitions:
+    - name: ""
+      image: "acquia/wip-service:latest"
+      memory: 4096
+      # This is cpu shares, a full cpu is 1024. As containers get started each
+      # container will require the share specified here. If more cpu shares are
+      # available than requested the container cam use the full cpu but will
+      # throttle back as more containers launch. The setting of 0 does not
+      # reduce the number of available shares on a machine. However if for
+      # example if we set the shares to 227 we will have 18 containers on a
+      # machine with 4 cpus. This brings us a little below maximum containers in
+      # terms of allowed memory which allows 23 given that in total we have 30682
+      # available. This will provide for some headroom to increase memory per
+      # process in the future.
+      cpu: 0
+      portMappings:
+      - containerPort: 22
+      - containerPort: 8007
+      mountPoints:
+        - sourceVolume: pipelines_config
+          containerPath: /etc/pipelines_config
+          readOnly: true
+  overrides:
+    WIP_Acquia_Wip_Objects_BuildSteps_BuildSteps:
+      containerDefinitions:
+      - memory: 1621

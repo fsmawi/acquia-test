@@ -1,0 +1,2 @@
+config.containers:
+  host_directory: ~/.wip-service

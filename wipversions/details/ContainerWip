@@ -1,0 +1,29 @@
+Properties:
+----------------------------------------
+containerEnvironment: private
+containerLaunched: private
+containerSignalReceived: private
+dependencyManager: protected
+maxDisk: private
+maxTime: private
+releaseContainer: private
+stateTable: protected
+terminateContainer: private
+waitForTerminate: private
+waitingForResources: private
+
+State table:
+----------------------------------------
+  # This should be replaced.
+start {
+  * finish
+}
+
+failure {
+  * finish
+  ! finish
+}
+
+terminate {
+  * failure
+}

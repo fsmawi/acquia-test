@@ -1,0 +1,43 @@
+web:
+  build: apache
+  container_name: dev-docker_web
+  volumes:
+    - ../:/var/www/html
+    - ../profiler_output/:/tmp/profiler_output
+  links:
+    - db
+  ports:
+    - "8081:80"
+    - "8080:8080"
+  environment:
+    - AWS_ACCESS_KEY_ID
+    - AWS_SECRET_ACCESS_KEY
+    - AWS_ECS_CLUSTER
+    - AWS_EC2_REGION
+    - WIP_SERVICE_BASE_URL
+    - WIP_SERVICE_NAMESPACE
+    - DEV_DOCKER_IMAGE
+    - DEV_DOCKER_HOST
+    - DEV_DOCKER_USER
+    - DEV_DOCKER_VM_NAME
+    - DEV_DOCKER_WORKSPACE
+    - DEV_DOCKER_CONTAINER_SERVICE
+    - DEV_DOCKER_SYSTEM
+    - DEV_DOCKER_DB_PERSIST
+    - DEV_DOCKER_MOUNT
+    - DEV_DOCKER_PROFILE_PHP
+    - DEV_DOCKER_XDEBUG
+    - ACQUIA_CLOUD_SITEGROUP
+    - ACQUIA_CLOUD_ENVIRONMENT
+    - ACQUIA_CLOUD_ENDPOINT
+    - ACQUIA_CLOUD_USER
+    - ACQUIA_CLOUD_PASSWORD
+    - ACQUIA_CLOUD_REALM
+    - BUGSNAG_API_KEY
+    - BUGSNAG_STAGE
+    - COMPOSER_GITHUB_TOKEN
+db:
+  image: tutum/mysql:5.6
+  environment:
+    - MYSQL_PASS=password
+    - ON_CREATE_DB=silex

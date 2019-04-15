@@ -1,0 +1,18 @@
+start {
+  *               waitForTask
+}
+
+waitForTask:checkAcquiaCloudTaskStatus {
+  success         signalSuccess
+  wait            waitForTask wait=30 exec=false
+  uninitialized   failure
+  fail            failure
+}
+
+signalSuccess {
+  *               finish
+}
+
+failure {
+  *               finish
+}

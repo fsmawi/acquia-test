@@ -1,0 +1,8 @@
+.DS_Store
+.git
+.idea
+tests
+test
+docs
+phpunit
+phpdocumentor

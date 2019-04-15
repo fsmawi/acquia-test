@@ -1,0 +1,90 @@
+Wip Locking
+-----------
+
+This is a change for a fake release to test bugsnag functionality.
+
+There are multiple processes that update a row in the wip_pool table
+at various times during the execution of a task. Locking is required
+to ensure that updates are not blindly overwritten by subsequent
+writes.
+
+This document reveals how the locking is applied within the Wip
+service.
+
+
+Lock: threadpool.daemon
+-----------------------
+
+This lock is acquired by 'wipctl run-daemon' and prevents multiple
+webnodes from invoking 'wipctl process-tasks' processes
+simultaneously. Only one thread pool daemon process can act at a time,
+and if a webnode crashes or the thread pool daemon process terminates
+unexpectedly, another will take over immediately.
+
+It is imperative that this process does not attempt to acquire another
+lock, as that will release any other locks (fixed in mysql 5.7.5).
+
+
+Lock: threadpool.process
+------------------------
+
+This lock is acquired by 'wipctl process-tasks' and prevents multiple
+such processes from managing the task backlog simultaneously. This
+process is responsible for identifying the next set of tasks to
+execute and dispatching those tasks on avaialble threads.
+
+This process is the actual engine of Wip.
+
+The single process that holds this lock will acquire other locks
+temporarily. This results in the threadpool.process lock being
+released in mysql versions < 5.7.5. Upon releasing the temporary
+locks, the threadpool.process lock will be re-acquired.
+
+
+Lock: wip-pool-lock-execute[wipId]
+----------------------------------
+
+This lock is acquired by a single parent 'wipctl exec' command, which
+is responsible for managing a child process that moves a specific task
+from the existing state to the next state, and possibly subsequent
+states until there is an asynchronous call. The owner of this lock has
+the sole right to execute the task at any given point in time.
+
+The WipExecCommand parent process grabs this lock and holds it until
+the child process has completed. Note that the child process is
+responsible for actually processing the task and the parent process
+monitors the child and verifies the child task has moved out of the
+'PROCESSING' state upon completion.
+
+By holding this lock until the task processing has completed, the
+parent process can guarantee that no other such process will compete,
+avoiding a 'last one wins' scenario when saving the task back to the
+wip_store table.
+
+Further, the parent process frees the associated thread at the
+conclusion of execution. This causes the ThreadPool (responsible for
+associating a thread with a task and dispatcing it) to allow the task
+to be invoked to make more progress again.
+
+
+Lock: wip-pool-lock-update[wipId]
+--------------------------
+
+This lock is acquired by any process that needs to update the task's
+row in the wip_pool table. This lock is meant to be held for a very
+brief period of time and guarantees that simultaneous writes cannot
+occur. These writes may occur at any time on any of the active
+webnodes.
+
+Some of these updates will be the result of processing the task and
+updating its status. Others will be the result of signals being
+received, causing the wake time of the associated task to be updated.
+
+This lock guarantees such read/write activities are atomic so data is
+not lost or corrupted by multiple threads writing to the same row.
+
+When using this lock it is important to read the current task data,
+integrating whatever changes are necessary and writing it back while
+the lock is in place. It is also imperative that this lock is held for
+only a brief period of time because such a lock could cause requests
+to time out.

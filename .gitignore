@@ -1,0 +1,8 @@
+.idea
+/vendor
+/build
+/coverage
+silex.db
+wip.sql3
+.sass-cache
+profiler_output

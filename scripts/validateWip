@@ -1,0 +1,506 @@
+#!/usr/bin/php
+<?php
+
+namespace Acquia\Wip\scripts;
+
+use Acquia\Wip\Implementation\BasicWip;
+use Acquia\Wip\Iterators\BasicIterator\DotVisualization;
+use Acquia\Wip\Iterators\BasicIterator\ReportGenerator;
+use Acquia\Wip\Iterators\BasicIterator\SimulationScriptInterpreter;
+use Acquia\Wip\Iterators\BasicIterator\StateMachineValidator;
+use Acquia\Wip\Iterators\BasicIterator\StateTableIterator;
+use Acquia\Wip\Iterators\BasicIterator\StateTableParser;
+use Acquia\Wip\RecordingInterface;
+use Acquia\Wip\WipInterface;
+
+/**
+ * Responsible for parsing command line options and generating a report.
+ */
+class ValidateWip {
+
+  /**
+   * Creates a new instance of ValidateWip with the specified options.
+   *
+   * @param string[] $argv
+   *   Command line options, generally from the global $argv variable.
+   * @param int $argc
+   *   The number of command line options, generally from the global $argc
+   *   variable.
+   */
+  public function __construct($argv, $argc) {
+    $options = $this->getOptions($argv, $argc);
+    if (!empty($options->stateTable) || !empty($options->wipObject)) {
+      if (!empty($options->stateTable)) {
+        $state_table = $options->stateTable;
+      } elseif (!empty($options->wipObject)) {
+        $state_table = $options->wipObject->getStateTable();
+      }
+      if (!empty($options->simulation)) {
+        $exit_code = $this->runSimulation($state_table, $options);
+      } elseif ($options->testRandom === TRUE) {
+        $exit_code = $this->runRandom($options);
+      } else {
+        $exit_code = $this->generateReport($options, $report);
+        print ($report);
+      }
+    } else {
+      print $this->getHelpMessage($argv[0]);
+      exit(1);
+    }
+
+    if ($exit_code === 0 && !empty($options->graph)) {
+      $this->generateGraph($options);
+    }
+    exit($exit_code);
+  }
+
+  /**
+   * Gets the recording from the specified iterator.
+   *
+   * @param StateTableIterator $iterator
+   *   The iterator.
+   *
+   * @return RecordingInterface|null
+   *   The recording.
+   */
+  private function getRecording(StateTableIterator $iterator) {
+    $result = NULL;
+    $recordings = $iterator->getRecordings();
+    if (is_array($recordings)) {
+      $result = reset($recordings);
+    }
+    return $result;
+  }
+
+  /**
+   * Interprets the options.
+   *
+   * @param string[] $argv
+   *   Command line options, generally from the global $argv variable.
+   * @param int $argc
+   *   The number of command line options, generally from the global $argc
+   *   variable.
+   *
+   * @return object
+   *   The digested options.
+   */
+  private function getOptions($argv, $argc) {
+    $result = new \stdClass();
+    $result->simulation = NULL;
+    $result->testRandom = FALSE;
+    $result->maxTransitions = 100;
+    for ($i = 1; $i < $argc; $i++) {
+      $option_name = $argv[$i];
+      switch ($option_name) {
+        case '--help':
+          print ($this->getHelpMessage($argv[0]));
+          exit;
+
+        case '--table':
+          if ($argc > $i + 1) {
+            $filename = $argv[++$i];
+            $result->stateTable = $this->readFile($filename);
+          } else {
+            throw new \InvalidArgumentException('The --table option requires a filename as an argument.');
+          }
+          if (!empty($result->wipObject)) {
+            if (method_exists($result->wipObject, 'setStateTable')) {
+              $result->wipObject->setStateTable($result->stateTable);
+            } else {
+              throw new \InvalidArgumentException(
+                'Cannot set the state table for class %s.',
+                get_class($result->wipObject)
+              );
+            }
+          }
+          break;
+
+        case '--class':
+          if ($argc > $i + 1) {
+            $classname = $argv[++$i];
+            if (!class_exists($classname)) {
+              throw new \InvalidArgumentException(sprintf('Class %s not found.', $classname));
+            }
+            $required_interface = 'Acquia\Wip\WipInterface';
+            if (!class_implements($classname, $required_interface)) {
+              throw new \InvalidArgumentException(
+                sprintf(
+                  'Class %s does not implement %s',
+                  $classname,
+                  $required_interface
+                )
+              );
+            }
+            $result->wipObject = new $classname();
+            if (!empty($result->stateTable)) {
+              if (method_exists($result->wipObject, 'setStateTable')) {
+                $result->wipObject->setStateTable($result->stateTable);
+              } else {
+                throw new \InvalidArgumentException('Cannot set the state table for class %s.', $classname);
+              }
+            }
+          } else {
+            throw new \InvalidArgumentException(
+              'The --class option requires a fully-qualified classname as an argument.'
+            );
+          }
+          break;
+
+        case '--graph':
+          if ($argc > $i + 1) {
+            $result->graph = $argv[++$i];
+          } else {
+            throw new \InvalidArgumentException('The --graph argument requires a filename.');
+          }
+          break;
+
+        case '--simulation':
+          if ($argc > $i + 1) {
+            $result->simulation = $this->readFile($argv[++$i]);
+          } else {
+            throw new \InvalidArgumentException('The --simulation requires a filename.');
+          }
+          break;
+
+        case '--random':
+          $result->testRandom = TRUE;
+          $result->randomIterations = 1;
+          if ($argc > $i + 1 && is_numeric($argv[$i + 1])) {
+            $result->randomIterations = max(1, intval($argv[++$i]));
+          }
+          break;
+
+        case '--max-transitions':
+          if ($argc > $i + 1 && is_numeric($argv[$i + 1])) {
+            $max_transitions = intval($argv[++$i]);
+            if ($max_transitions < 1) {
+              printf("The --max-transitions must be at least 1.");
+              exit(1);
+            }
+            $result->maxTransitions = max(1, $max_transitions);
+          } else {
+            printf("The --max-transitions option requires the maximum number of transitions be specified.\n");
+            exit(1);
+          }
+          break;
+
+        case '--expected':
+          if ($argc > $i + 1) {
+            $filename = $argv[++$i];
+            if (!file_exists($filename)) {
+              // @todo
+            } else {
+              $result->expected = file_get_contents($filename);
+            }
+          } else {
+            throw new \InvalidArgumentException('The --expected option requires a filename.');
+          }
+          break;
+
+        default:
+          throw new \InvalidArgumentException(sprintf('Unexpected option %s.', $option_name));
+      }
+    }
+    return $result;
+  }
+
+  /**
+   * Runs in simulation mode.
+   *
+   * @param string $state_table
+   *   The given state table.
+   * @param object $options
+   *   The command-line arguments.
+   *
+   * @return int
+   *   The exit code.
+   */
+  private function runSimulation($state_table, $options) {
+    $wip = new BasicWip();
+    $wip->setStateTable($state_table);
+    $iterator = new StateTableIterator();
+    $iterator->initialize($wip);
+    $iterator->compileStateTable();
+    $simulation = new SimulationScriptInterpreter($options->simulation);
+    $wip->setSimulationMode(StateTableIterator::SIMULATION_SCRIPT, $simulation);
+    $recording = $this->getRecording($iterator);
+    $successful = $this->run(
+      $iterator,
+      $recording->getTransitionCount(),
+      $options
+    );
+    $exit_code = 0;
+    if (!$successful) {
+      printf("Failed to complete the simulation.\n");
+      $exit_code = 1;
+    }
+    if (!empty($options->expected)) {
+      printf("Checking expected value...\n");
+      $diff = $recording->diff($options->expected);
+      if (empty($diff)) {
+        printf("The transcript matches the expected value.\n");
+      } else {
+        printf("ERROR: The transcript does not match the expected value:\n%s\n", $diff);
+        printf("transcript:\n%s\n", $recording->getTranscript());
+        $exit_code = 1;
+      }
+    } else {
+      printf("transcript:\n%s\n", $recording->getTranscript());
+    }
+    return $exit_code;
+  }
+
+  /**
+   * Runs in random mode.
+   *
+   * @param object $options
+   *   The command-line arguments.
+   *
+   * @return int
+   *   The exit code.
+   */
+  private function runRandom($options) {
+    $exit_code = 0;
+    printf("Running a randomized state table test for %d iterations...\n", $options->randomIterations);
+    $failure = FALSE;
+    for ($i = 0; $i < $options->randomIterations; $i++) {
+      if ($options->randomIterations > 1) {
+        printf("Test #%d...", $i + 1);
+      }
+
+      if (!empty($options->wipObject)) {
+        $wip = $options->wipObject;
+      } else {
+        $wip = new BasicWip();
+        $wip->setStateTable($options->stateTable);
+      }
+      $iterator = new StateTableIterator();
+      $iterator->initialize($wip);
+      $iterator->compileStateTable();
+      if ($wip instanceof WipInterface) {
+        $recording = $this->getRecording($iterator);
+        $wip->setSimulationMode(StateTableIterator::SIMULATION_RANDOM);
+        $this->run($iterator, $recording->getTransitionCount(), $options);
+        printf(" %d transitions.\n", $recording->getTransitionCount());
+        if ('finish' !== $iterator->getCurrentState()) {
+          // Running multiple tests, failed to reach the finish state. This
+          // could mean that the test hit an infinite loop or that there is
+          // simply a problem with the state table.
+          printf("Failed to complete execution for test #%d.\n", $i + 1);
+          $failure = TRUE;
+          break;
+        }
+      }
+    }
+    $print_execution_data = $options->randomIterations === 1;
+    if (!$failure) {
+      printf("Successfully executed %d random tests.\n", $options->randomIterations);
+    } else {
+      printf("A failure was encountered during the execution of %d random tests.\n", $options->randomIterations);
+      $print_execution_data = TRUE;
+    }
+
+    if ($print_execution_data) {
+      $recording = $this->getRecording($iterator);
+      printf("transcript:\n%s\n", $recording->getTranscript());
+      printf("simulation script:\n%s\n", $recording->getSimulationScript());
+    }
+    return $exit_code;
+  }
+
+  /**
+   * Runs the simulation/random simulation.
+   *
+   * @param StateTableIterator $iterator
+   *   The iterator.
+   * @param int $transition_count
+   *   The number of transitions.
+   * @param object $options
+   *   The options.
+   *
+   * @return bool
+   *   Whether the run succeeded.
+   */
+  private function run(
+    StateTableIterator $iterator,
+    $transition_count,
+    $options
+  ) {
+    while (TRUE && ($transition_count <= $options->maxTransitions)) {
+      $iterator->moveToNextState();
+      $transition_count++;
+      if ('finish' === $iterator->getCurrentState()) {
+        return TRUE;
+      }
+    }
+    return FALSE;
+  }
+
+  /**
+   * Reads the specified file.
+   *
+   * Supports stdin also.
+   *
+   * @param string $filename
+   *   The filename.  Use '-' for stdin.
+   *
+   * @return string
+   *   The file contents.
+   *
+   * @throws \RuntimeException
+   *   If the specified file does not exist or the user has no read permission.
+   */
+  public function readFile($filename) {
+    $result = NULL;
+    if ($filename === '-') {
+      // Use stdin.
+      $handle = fopen('php://stdin', 'r');
+    } else {
+      // Normal file.
+      if (!file_exists($filename)) {
+        throw new \RuntimeException(sprintf('The file "%s" does not exist.', $filename));
+      }
+      if (!is_readable($filename)) {
+        throw new \RuntimeException(sprintf('No permission to read file "%s".', $filename));
+      }
+      $handle = fopen($filename, 'r');
+    }
+    $result = '';
+    while (FALSE !== ($line = fgets($handle))) {
+      $result .= $line . "\n";
+    }
+    fclose($handle);
+
+    return $result;
+  }
+
+  /**
+   * Generates a state table report.
+   *
+   * @param object $options
+   *   The digested options.
+   * @param string $report
+   *   The resulting report text.
+   *
+   * @return int
+   *   The exit code.
+   */
+  private function generateReport(&$options, &$report) {
+    $wip_obj = NULL;
+    $state_table = '';
+    if (!empty($options->wipObject)) {
+      $wip_obj = $options->wipObject;
+      if ($wip_obj instanceof WipInterface) {
+        $state_table = $wip_obj->getStateTable();
+      }
+    } elseif (!empty($options->stateTable)) {
+      $state_table = $options->stateTable;
+    }
+    $options->stateTable = $state_table;
+    $parser = new StateTableParser($state_table);
+    $state_machine = $parser->parse();
+    $validator = new StateMachineValidator();
+    $validation_result = $validator->validate($state_machine, $state_table, $wip_obj);
+    $report_generator = new ReportGenerator($validation_result);
+    $report = $report_generator->generate();
+    $exit_code = 0;
+    if ($validation_result->hasFailures()) {
+      $exit_code = 1;
+    }
+    return $exit_code;
+  }
+
+  /**
+   * Generates a state table graph.
+   *
+   * The graph will be written to the file {$options->graph}.
+   *
+   * @param object $options
+   *   The digested options.
+   */
+  private function generateGraph($options) {
+    $title = 'State table';
+    if (!empty($options->wipObject)) {
+      $class_name = get_class($options->wipObject);
+      $class_name_components = explode("\\", $class_name);
+      $title = array_pop($class_name_components);
+    }
+    $visualization = new DotVisualization($title);
+    $visualization->setStateTable($options->stateTable);
+    $visualization->visualize($options->graph);
+  }
+
+  /**
+   * Returns a help message.
+   *
+   * @param string $executable
+   *   The executable used to invoke this class.
+   *
+   * @return string
+   *   The help message.
+   */
+  public function getHelpMessage($executable) {
+    return <<<EOT
+Usage:
+$executable [options] source
+
+Description:
+Runs either a static or dynamic analysis of a Wip object's state table. By
+default a static analysis is performed, which provides a summary of any issues
+found and the breakdown of all '*' transitions used in the state table.
+
+The source parameter indicates where to retrieve the state table.  This can be a
+FILE or the fully qualified class name of a Wip object. If '-' is used, the
+state table will be read from stdin.
+
+Options:
+  --graph [FILE] - Render a graph of the state table into the specified file.
+    The image format is PNG. The graph will only be generated if the full static
+    analysis is being performed.
+
+  --simulation [FILE] - Runs a simulation against the state table. The static
+    analysis performed for a simulation is minimal with no output of that
+    analysis. The FILE can be a file path or if '-' is specified the simulation
+    will be read from stdin. The transcript from the simulation will be written
+    to stdout.
+
+  --random [COUNT] - Runs a random simulation against the state table. The
+    static analysis performed for a simulation is minimal with no output of that
+    analysis. If specified, the COUNT indicates the number of random runs that
+    should be performed during the simulation. As soon as a simulation fails,
+    the failing simulation will be written to stdout and the test will be
+    concluded.
+
+    By default only a single simulation will be executed, and a repeatable
+    simulation will be written to stdout. If multiple simulations are run, only
+    the simulation of a failed execution will be written to stdout.
+
+  --max-transitions [COUNT] - Only used with the --simulation and -random
+    simulation modes. This option limits any individual simulation to the
+    specified number of transitions. When doing multiple random simulations,
+    this value limits a single simulation, not the entire set.
+
+  --expected [FILE] - Only used with the --simulation option. The FILE should
+    contain the transcript of a successful execution using the specified
+    simulation.
+
+    If the actual transcript matches the expected transcript, nothing is written
+    to stdout and the command will exit with an exit code of 0.
+
+    If the actual transcript does not match the expected transcript, the
+    difference between expected and actual will be written to stderr and the
+    command will exit with an exit code of 1.
+
+EOT;
+
+  }
+}
+
+// Only invoke the report automatically if this file was invoked on the command
+// line.
+global $argv, $argc;
+if (strpos($argv[0], basename(__FILE__)) !== FALSE) {
+  include_once 'vendor/autoload.php';
+  $wip_factory = \Acquia\Wip\WipFactory::setConfigPath('tests-wipng/unit/Acquia/Wip/Test/factory.cfg');
+  new ValidateWip($argv, $argc);
+}
