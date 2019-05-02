@@ -35,5 +35,5 @@ events:
     steps:
       - deploy:
           script:
-            - echo "Pull request closed"
+            - echo "Pull request closed "
             - pipelines-deploy
