@@ -8,3 +8,4 @@ events:
           script:
             - echo "test commit!"
             - echo "test commit!!!!!"
+            - nvm --version
