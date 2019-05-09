@@ -1,4 +1,6 @@
 version: 1.2.0
+services:
+  - mysql
 
 events:
   build:
