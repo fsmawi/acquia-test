@@ -1,4 +1,7 @@
 version: 1.2.0
+variables:
+  global:
+    PIPELINES_DEPLOY_DEBUG: true
 
 events:
   build:
