@@ -6,7 +6,7 @@ variables:
 events:
   build:
     steps:
-      # If you have build instructions, put them here. They are not required.
+      # If you have build instructions, put them here. They are not required fork.
       - build_site:
           script:
             - touch docroot/index.html
