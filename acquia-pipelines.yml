@@ -14,6 +14,7 @@ events:
       # Deploy the build artifact to a Cloud on-demand environment.
       - deploy:
           script:
+          - echo "Post deploy"
 
   # When a GitHub pull request is merged, this deletes the coresponding.
   pr-merged:
