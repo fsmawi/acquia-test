@@ -22,7 +22,6 @@ events:
       - deploy:
           script:
             - echo "Pull request merged"
-            - pipelines-deploy
 
   # When a GitHub pull request is closed, this deletes the coresponding ODE.
   pr-closed:
@@ -30,4 +29,3 @@ events:
       - deploy:
           script:
             - echo "Pull request closed"
-            - pipelines-deploy
