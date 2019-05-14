@@ -15,6 +15,7 @@ events:
       - deploy:
           script:
           - echo "Post deploy"
+          - pipelines-deploy
 
   # When a GitHub pull request is merged, this deletes the coresponding.
   pr-merged:
