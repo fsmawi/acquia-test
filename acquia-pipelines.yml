@@ -1,7 +1,7 @@
 version: 1.0.0
 variables:
   global:
-    PIPELINE_DEPLOY_VCS_PATH: custom-deploy-path
+    PIPELINE_DEPLOY_VCS_PATH: custom-build-path
     
 events:
   build:
