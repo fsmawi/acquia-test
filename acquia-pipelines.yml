@@ -10,6 +10,7 @@ events:
     steps:
       - script1:
           script:
+            - echo "test"
             - php -m
             - php -i
             - sudo /etc/init.d/memcached status
