@@ -1,11 +1,16 @@
-version: 1.0.0
+version: 1.3.0
+
+services:
+  - memcached
+  - php:
+      version: 7.2
 
 events:
   build:
     steps:
-      - hello:
-          type: script
+      - script1:
           script:
-            - echo "test commit!"
-            - echo "test commit!!!!!"
-            - nvm --version
+            - php -m
+            - php -i
+            - sudo /etc/init.d/memcached status
+            - memcstat --servers=localhost
