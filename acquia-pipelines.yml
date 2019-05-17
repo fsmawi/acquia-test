@@ -6,7 +6,7 @@ cde-databases:
 events:
   build:
     steps:
-      # If you have build instructions, put them here. They are not required !.
+      # If you have build instructions, put them here. They are not required !!!.
       - build_site:
           script:
             - mkdir docroot
