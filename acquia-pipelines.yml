@@ -1,10 +1,10 @@
 version: 1.0.0
 
+services:
+  - mysql
+
 events:
   build:
     steps:
-      - hello:
-          type: script
-          script:
-            - echo "test commit!"
-            - echo "test commit!!!!"
+      - script1:
+          script: mysql -v
