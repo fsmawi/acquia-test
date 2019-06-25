@@ -7,4 +7,4 @@ events:
   build:
     steps:
       - script1:
-          script: mysql -v
+          script: echo $(mysql --version)
