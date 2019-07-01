@@ -1,5 +1,10 @@
-version: 1.0.0
+version: 1.1.0
 
+services:
+  - mysql
+  - php:
+      version: 7.3
+      
 events:
   build:
     steps:
@@ -8,3 +13,4 @@ events:
           script:
             - echo "test commit!"
             - echo "test commit!!!!"
+            - php -v
