@@ -2,6 +2,7 @@ version: 1.2.0
 cde-databases:
   - db1
   - db2
+  - db3
 
 events:
   build:
@@ -19,7 +20,7 @@ events:
       - deploy:
           script:
             - pipelines-deploy
-            - pipelines-sync-dbs db1 db2
+            - pipelines-sync-dbs db3
 
   # When a GitHub pull request is merged, this deletes the coresponding ODE.
   pr-merged:
