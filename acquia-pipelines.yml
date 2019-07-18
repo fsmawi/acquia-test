@@ -1,5 +1,6 @@
 version: 1.2.0    
 cde-databases:
+  - odetopipelines
   - db1
   - db2
   - db3
