@@ -13,5 +13,5 @@ events:
           script:
             - echo "test commit!"
             - echo "test commit!!!!"
-            - sleep 100
+            - echo "test commit!!!!"
             - php -v
