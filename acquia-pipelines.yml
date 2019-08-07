@@ -12,6 +12,10 @@ events:
           type: script
           script:
             - echo "test commit!"
+            - sleep 100
             - echo "test commit!!!!"
+            - sleep 100
             - echo "test commit!!!!"
-            - php -v
+            - sleep 100
+            - echo "test commit!!!!"
+
