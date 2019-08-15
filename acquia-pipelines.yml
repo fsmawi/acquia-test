@@ -14,4 +14,3 @@ events:
             - echo "test commit!"
             - echo "test commit!!!!"
             - echo "test commit!!!!"
-            - php -v
