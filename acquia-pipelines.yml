@@ -13,4 +13,4 @@ events:
           script:
             - echo "test commit!"
             - echo "test commit!!!!"
-            - echo "test commit!!!!"
+            - echo "test commit!!!"
