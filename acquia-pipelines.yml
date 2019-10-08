@@ -14,5 +14,5 @@ events:
       # Deploy the build artifact to a Cloud on-demand environment.
       - deploy:
           script:
-          - echo "Post deploy"
+          - echo "Post deploy !"
           - pipelines-deploy
