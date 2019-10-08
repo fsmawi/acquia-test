@@ -15,4 +15,4 @@ events:
       - deploy:
           script:
           - echo "Post deploy"
-          - pipelines-deploy || echo "pipelines-deploy failed"
+          - pipelines-deploy
